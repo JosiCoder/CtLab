@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Builds a Ct-Lab-based component. Intended to be source-invoked by that component's build script.
+# That invoking script is expected to provide a "solution" variable.
+
+configPar="release"
+cleanall=0
+
+if [ $# -ne 0 ]; then
+    configPar="$1"
+fi
+
+case "$configPar" in
+    release)
+        configuration="Release"
+		;;
+    debug)
+        configuration="Debug"
+		;;
+    cleanall)
+        configuration="cleaning only"
+        cleanall=1
+		;;
+    *)
+        echo "Usage: $(basename "$0") { [release] | debug | cleanall }"
+        exit 1
+		;;
+esac
+
+echo "================================================================================"
+echo "Processing $solution ($configuration)..."
+
+if [ $cleanall -ne 0 ]; then
+    xbuild /target:Clean /property:Configuration="Release" "$solution"
+    xbuild /target:Clean /property:Configuration="Debug" "$solution"
+else
+    echo "--------------------------------------------------------------------------------"
+    echo "Cleaning..."
+    xbuild /target:Clean /property:Configuration="$configuration" "$solution"
+    echo "--------------------------------------------------------------------------------"
+    echo "Building..."
+    xbuild /target:Build /property:Configuration="$configuration" "$solution"
+    echo "--------------------------------------------------------------------------------"
+fi
+
+echo "$solution finished"
+echo "================================================================================"

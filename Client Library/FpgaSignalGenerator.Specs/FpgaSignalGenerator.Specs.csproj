@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A978A2FD-9EF3-4AB1-B192-C52B526D83F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CtLab.FpgaSignalGenerator.Specs</RootNamespace>
+    <AssemblyName>CtLab.FpgaSignalGenerator.Specs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Utilities\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Utilities\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ExpectedObjects">
+      <HintPath>..\packages\ExpectedObjects.1.2.3\lib\net40\ExpectedObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Should">
+      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="SpecsFor">
+      <HintPath>..\packages\SpecsFor.5.0.0\lib\net40\SpecsFor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration Writers\AmplitudePhaseWriterSpecs.cs" />
+    <Compile Include="Configuration Writers\OutputSourceWriterSpecs.cs" />
+    <Compile Include="Configuration Writers\UniversalCounterConfigurationWriterSpecs.cs" />
+    <Compile Include="Configuration Writers\WaveformWriterSpecs.cs" />
+    <Compile Include="Features\DdsGeneratorSpecs.cs" />
+    <Compile Include="Features\UniversalCounterSpecs.cs" />
+    <Compile Include="Message Readers\UniversalCounterStatusReaderSpecs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FpgaLabDeviceSpecs.cs" />
+    <Compile Include="Utilities\AmplitudeModulationInformerSpecs.cs" />
+    <Compile Include="Utilities\FrequencyModulationInformerSpecs.cs" />
+    <Compile Include="Configuration Writers\SubchannelReaderSpecs.cs" />
+    <Compile Include="Configuration Writers\SubchannelWriterSpecs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
+      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
+      <Name>CommandsAndMessages.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubchannelAccess.Base\SubchannelAccess.Base.csproj">
+      <Project>{25D49FF1-65DF-4738-9608-9B84BAC9952B}</Project>
+      <Name>SubchannelAccess.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Device.Base\Device.Base.csproj">
+      <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
+      <Name>Device.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Device.Interfaces\Device.Interfaces.csproj">
+      <Project>{614F9E52-C2DC-4DB1-A558-4119DF389547}</Project>
+      <Name>Device.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommandsAndMessages.Standard\CommandsAndMessages.Standard.csproj">
+      <Project>{057DA3C3-69A0-44E9-910B-33FCFC282058}</Project>
+      <Name>CommandsAndMessages.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FpgaSignalGenerator.Interfaces\FpgaSignalGenerator.Interfaces.csproj">
+      <Project>{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}</Project>
+      <Name>FpgaSignalGenerator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FpgaSignalGenerator.Standard\FpgaSignalGenerator.Standard.csproj">
+      <Project>{06238F54-9C00-4F05-96EF-DF96C3CB14F0}</Project>
+      <Name>FpgaSignalGenerator.Standard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
