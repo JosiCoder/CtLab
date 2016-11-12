@@ -15,12 +15,14 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
+
 namespace CtLab.FpgaSignalGenerator.Interfaces
 {
     /// <summary>
     /// Provides facilities to communicate with a signal generator.
     /// </summary>
-    public interface ISignalGenerator
+    public interface ISignalGenerator : IDisposable
     {
         /// <summary>
         /// Gets all the DDS generators.

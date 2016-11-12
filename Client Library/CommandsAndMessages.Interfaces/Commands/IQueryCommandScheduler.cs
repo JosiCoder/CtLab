@@ -18,8 +18,8 @@
 namespace CtLab.CommandsAndMessages.Interfaces
 {
     /// <summary>
-    /// Provides facilities schedule query commands contained in a query command dictionary,
-    /// i.e. to send them periodically.
+    /// Provides facilities to schedule query commands contained in a query command
+    /// dictionary, i.e. to send them periodically.
     /// </summary>
     public interface IQueryCommandScheduler
     {

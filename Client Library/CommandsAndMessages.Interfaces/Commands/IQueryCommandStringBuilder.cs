@@ -18,8 +18,8 @@
 namespace CtLab.CommandsAndMessages.Interfaces
 {
     /// <summary>
-    /// Provides facilities to build strings from set commands that can be be sent to c't Lab
-    /// devices.
+    /// Provides facilities to build strings from set commands that can be be sent
+    /// to c't Lab devices.
     /// </summary>
     public interface IQueryCommandStringBuilder
     {

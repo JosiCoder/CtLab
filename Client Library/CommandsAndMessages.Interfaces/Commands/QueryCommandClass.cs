@@ -18,8 +18,8 @@
 namespace CtLab.CommandsAndMessages.Interfaces
 {
     /// <summary>
-    /// Represents query commands that can be sent to a c't Lab device e.g. to retrieve values
-    /// or settings.
+    /// Represents query commands that can be sent to a c't Lab device e.g. to
+    /// retrieve values or settings.
     /// </summary>
     public class QueryCommandClass : CommandClass
     {

@@ -63,11 +63,19 @@ namespace CtLab.Device.Base
         }
 
         /// <summary>
-        /// Detaches the c't Lab device from the command dictionaries and messages namespace CtFpga.s,
-        /// i.e. removes all commands and unregisters all messages that belong to the
-        /// specified device from these namespace CtFpga.s.
+        /// Releases all resource used by this instance.
         /// </summary>
-        public void Detach()
+        public void Dispose()
+        {
+            Detach();
+        }
+
+        /// <summary>
+        /// Detaches the c't Lab device from the command dictionaries and messages caches,
+        /// i.e. removes all commands and unregisters all messages that belong to the
+        /// specified device from these caches.
+        /// </summary>
+        private void Detach()
         {
             _setCommandClassDictionary.RemoveCommandsForChannel(Channel);
             _queryCommandClassDictionary.RemoveCommandsForChannel(Channel);

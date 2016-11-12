@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -15,14 +15,21 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
+using CtLab.FpgaSignalGenerator.Interfaces;
 
-namespace CtLab.Device.Interfaces
+namespace CtLab.Environment
 {
     /// <summary>
-    /// Represents a single c't Lab device.
+    /// Provides facilities to create the devices of the appliance.
     /// </summary>
-    public interface IDevice : IDisposable
+    public interface IDeviceFactory
     {
+        /// <summary>
+        /// Creates an FPGA-based signal generator.
+        /// </summary>
+        /// <param name="channel">
+        /// The number of the channel assigned to the FPGA module.
+        /// </param>
+        ISignalGenerator CreateSignalGenerator(byte channel);
     }
 }

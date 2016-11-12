@@ -30,11 +30,15 @@ namespace CtLab.EnvironmentIntegration
         /// </summary>
         public ApplianceRegistry()
         {
-            // === Lab devices ===
+            // === Lab appliances and devices ===
 
             For<Appliance>()
                 .Singleton()
                 .Use<Appliance>();
+
+            For<IDeviceFactory>()
+                .Singleton()
+                .Use<DeviceFactory>();
         }
     }
 }

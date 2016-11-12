@@ -20,7 +20,6 @@ using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.Device.Base;
 using CtLab.FpgaSignalGenerator.Interfaces;
-using CtLab.FpgaSignalGenerator.Standard;
 
 namespace CtLab.Environment
 {
@@ -29,10 +28,9 @@ namespace CtLab.Environment
     /// </summary>
     public class Appliance : ApplianceBase, IDisposable
     {
-        private const byte _signalGeneratorDefaultChannel = 0;
-
         private readonly IConnection _connection;
-        private SignalGenerator _signalGenerator;
+        private readonly IDeviceFactory _deviceFactory;
+        private ISignalGenerator _signalGenerator;
 
         /// <summary>
         /// Gets the connection used by this instance.
@@ -62,14 +60,16 @@ namespace CtLab.Environment
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="connection">The connection used by this instance.</param>
-        /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
+        /// <param name="setCommandClassDictionary">The command clasSignalGenerators dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
+        /// <param name="deviceFactory">The factory used to create the devices of the appliance.</param>
         public Appliance(IConnection connection, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache receivedMessagesCache)
+            IMessageCache receivedMessagesCache, IDeviceFactory deviceFactory)
             : base(setCommandClassDictionary, queryCommandScheduler, receivedMessagesCache)
         {
             _connection = connection;
+            _deviceFactory = deviceFactory;
         }
 
         /// <summary>
@@ -98,11 +98,9 @@ namespace CtLab.Environment
             lock (schedulerSyncRoot)
             {
                 if (_signalGenerator != null)
-                    _signalGenerator.Detach();
+                    _signalGenerator.Dispose();
 
-                _signalGenerator = new SignalGenerator(channel,
-                    SetCommandClassDictionary, QueryCommandScheduler.CommandClassDictionary,
-                    ReceivedMessagesCache);
+                _signalGenerator = _deviceFactory.CreateSignalGenerator(channel);
 
                 // Initialize the device.
                 _signalGenerator.Reset();
