@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Utilities;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.SubchannelAccess;
 using CtLab.FpgaSignalGenerator.Interfaces;
@@ -211,11 +212,12 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// </remarks>
         private void RawValueContainerMessageUpdated(object sender, EventArgs e)
         {
-            lock (_anyEventRegistrationLock)
-            {
-                if (_valueChanged != null)
-                    _valueChanged(this, new ValueChangedEventArgs(Value));
-            }
+            _valueChanged.Raise(this, new ValueChangedEventArgs(Value));
+//            lock (_anyEventRegistrationLock)
+//            {
+//                if (_valueChanged != null)
+//                    _valueChanged(this, new ValueChangedEventArgs(Value));
+//            }
         }
 
         /// <summary>
@@ -226,11 +228,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// </remarks>
         private void StatusContainerMessageUpdated(object sender, EventArgs e)
         {
-            lock (_anyEventRegistrationLock)
-            {
-                if (_inputSignalActiveChanged != null)
-                    _inputSignalActiveChanged(this, new InputSignalActiveChangedEventArgs(InputSignalActive));
-            }
+            _inputSignalActiveChanged.Raise(this, new InputSignalActiveChangedEventArgs(InputSignalActive));
         }
     }
 }

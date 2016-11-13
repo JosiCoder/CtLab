@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Utilities;
 using CtLab.Connection.Interfaces;
 
 namespace CtLab.Connection.Serial
@@ -46,7 +47,7 @@ namespace CtLab.Connection.Serial
             {
                 lock (_anyEventRegistrationLock)
                 {
-                    _connection.StringReceived += DataReceived;
+                    _connection.StringReceived += StringReceivedFromConnection;
                     _stringReceived += value;
                 }
             }
@@ -55,7 +56,7 @@ namespace CtLab.Connection.Serial
                 lock (_anyEventRegistrationLock)
                 {
                     _stringReceived -= value;
-                    _connection.StringReceived -= DataReceived;
+                    _connection.StringReceived -= StringReceivedFromConnection;
                 }
             }
         }
@@ -66,13 +67,9 @@ namespace CtLab.Connection.Serial
         /// <remarks>
         /// Usually this will be called on the thread activated for the receive operation.
         /// </remarks>
-        private void DataReceived(object sender, StringReceivedEventArgs e)
+        private void StringReceivedFromConnection(object sender, StringReceivedEventArgs e)
         {
-            lock (_anyEventRegistrationLock)
-            {
-                if (_stringReceived != null)
-                    _stringReceived(this, e);
-            }
+            _stringReceived.Raise(this, e);
         }
     }
 }

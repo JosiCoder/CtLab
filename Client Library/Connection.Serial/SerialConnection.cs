@@ -20,6 +20,7 @@ using System.IO.Ports;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CtLab.Utilities;
 using CtLab.Connection.Interfaces;
 
 namespace CtLab.Connection.Serial
@@ -131,7 +132,7 @@ namespace CtLab.Connection.Serial
             {
                 // Read an entire line and forward it to objects listening to this connection.
                 var receivedString = _serialPort.ReadLine();
-                RaiseStringReceived(receivedString);
+                _stringReceived.Raise(this, new StringReceivedEventArgs(receivedString));
             }
             catch { }
         }
@@ -166,7 +167,7 @@ namespace CtLab.Connection.Serial
                     var stringRead = stringBuilder.ToString();
                     if (stringRead.EndsWith(lineTermination))
                     {
-                        RaiseStringReceived(stringRead.Substring(0, stringRead.Length - lineTermination.Length));
+                        _stringReceived.Raise(this, new StringReceivedEventArgs(stringRead.Substring(0, stringRead.Length - lineTermination.Length)));
                         stringBuilder.Clear();
                     }
                 }
@@ -174,19 +175,6 @@ namespace CtLab.Connection.Serial
                 {
                     ; // continue reading...
                 }
-            }
-        }
-
-        /// <summary>
-        /// Raises a StringReceived event.
-        /// </summary>
-        /// <param name="receivedString">The string to raise the event for.</param>
-        private void RaiseStringReceived(string receivedString)
-        {
-            lock (_anyEventRegistrationLock)
-            {
-                if (_stringReceived != null)
-                    _stringReceived(this, new StringReceivedEventArgs(receivedString));
             }
         }
 
