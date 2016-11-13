@@ -24,12 +24,12 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 namespace CtLab.Environment
 {
     /// <summary>
-    /// Provides the c´t Lab devices of the appliance currently used.
+    /// Provides the appliance currently used.
     /// </summary>
     public class Appliance : ApplianceBase, IDisposable
     {
-        private readonly IConnection _connection;
         private readonly IDeviceFactory _deviceFactory;
+        private readonly IConnection _connection;
         private ISignalGenerator _signalGenerator;
 
         /// <summary>
@@ -59,17 +59,17 @@ namespace CtLab.Environment
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
+        /// <param name="deviceFactory">The factory used to create the devices of the appliance.</param>
         /// <param name="connection">The connection used by this instance.</param>
         /// <param name="setCommandClassDictionary">The command clasSignalGenerators dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        /// <param name="deviceFactory">The factory used to create the devices of the appliance.</param>
-        public Appliance(IConnection connection, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache receivedMessagesCache, IDeviceFactory deviceFactory)
+        public Appliance(IDeviceFactory deviceFactory, IConnection connection, ISetCommandClassDictionary setCommandClassDictionary,
+            IQueryCommandScheduler queryCommandScheduler, IMessageCache receivedMessagesCache)
             : base(setCommandClassDictionary, queryCommandScheduler, receivedMessagesCache)
         {
-            _connection = connection;
             _deviceFactory = deviceFactory;
+            _connection = connection;
         }
 
         /// <summary>
@@ -110,6 +110,9 @@ namespace CtLab.Environment
 
         public void Dispose()
         {
+            if (_signalGenerator != null)
+                _signalGenerator.Dispose();
+
             if (_connection != null)
                 _connection.Dispose();
         }
