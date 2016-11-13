@@ -46,10 +46,6 @@
       <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
       <Name>CommandsAndMessages.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Device.Interfaces\Device.Interfaces.csproj">
-      <Project>{614F9E52-C2DC-4DB1-A558-4119DF389547}</Project>
-      <Name>Device.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>

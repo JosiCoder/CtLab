@@ -50,10 +50,6 @@
       <Project>{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}</Project>
       <Name>FpgaSignalGenerator.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Device.Interfaces\Device.Interfaces.csproj">
-      <Project>{614F9E52-C2DC-4DB1-A558-4119DF389547}</Project>
-      <Name>Device.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Connection.Interfaces\Connection.Interfaces.csproj">
       <Project>{43AC2096-9932-4D3B-9F41-8586F71421C8}</Project>
       <Name>Connection.Interfaces</Name>

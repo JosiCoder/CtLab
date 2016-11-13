@@ -15,15 +15,15 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.Device.Interfaces;
 
 namespace CtLab.Device.Base
 {
     /// <summary>
     /// Provides the base functionality for c't Lab devices.
     /// </summary>
-    public abstract class DeviceBase : IDevice
+    public abstract class DeviceBase : IDisposable
     {
         /// <summary>
         /// Gets the command namespace CtFpga. used to send the set commands.
