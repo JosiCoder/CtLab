@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Utilities;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.CommandsAndMessages.Standard
@@ -65,10 +66,7 @@ namespace CtLab.CommandsAndMessages.Standard
             if (!message.Equals(_message))
             {
                 _message = message;
-                if (MessageUpdated != null)
-                {
-                    MessageUpdated(this, EventArgs.Empty);
-                }
+                MessageUpdated.Raise(this, EventArgs.Empty);
             }
         }
     }

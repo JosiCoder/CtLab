@@ -134,7 +134,7 @@ namespace CtLab.Connection.Serial
                 var receivedString = _serialPort.ReadLine();
                 _stringReceived.Raise(this, new StringReceivedEventArgs(receivedString));
             }
-            catch { }
+            catch {}
         }
 
         private static bool IsNonWindows

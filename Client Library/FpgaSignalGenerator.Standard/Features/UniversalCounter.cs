@@ -213,11 +213,6 @@ namespace CtLab.FpgaSignalGenerator.Standard
         private void RawValueContainerMessageUpdated(object sender, EventArgs e)
         {
             _valueChanged.Raise(this, new ValueChangedEventArgs(Value));
-//            lock (_anyEventRegistrationLock)
-//            {
-//                if (_valueChanged != null)
-//                    _valueChanged(this, new ValueChangedEventArgs(Value));
-//            }
         }
 
         /// <summary>

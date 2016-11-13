@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Utilities;
 using CtLab.Connection.Interfaces;
 
 namespace CtLab.Connection.Dummy
@@ -40,9 +41,7 @@ namespace CtLab.Connection.Dummy
         public void InjectReceivedString(string receivedString)
         {
             Console.WriteLine("String injected into dummy string receiver: {0}", receivedString);
-
-            if (StringReceived != null)
-                StringReceived(this, new StringReceivedEventArgs(receivedString));
+            StringReceived.Raise(this, new StringReceivedEventArgs(receivedString));
         }
     }
 }

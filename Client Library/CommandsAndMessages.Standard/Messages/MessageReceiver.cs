@@ -41,14 +41,15 @@ namespace CtLab.CommandsAndMessages.Standard
             stringReceiver.StringReceived +=
                 (sender, e) =>
                 {
-                    if (MessageReceived != null)
+                    var msgRecvd = MessageReceived;
+                    if (msgRecvd != null)
                         // There are subscribers listening for received messages.
                     {
                         // Parse the received string to get one or more messages.
                         foreach (var message in messageParser.Parse(e.ReceivedString))
                         {
-                            // InjectReceivedString an event for each message.
-                            MessageReceived(sender, new MessageReceivedEventArgs(message));
+                            // Raises an event for each message.
+                            msgRecvd(sender, new MessageReceivedEventArgs(message));
                         }
                     }
                 };
