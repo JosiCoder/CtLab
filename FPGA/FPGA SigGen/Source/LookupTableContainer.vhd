@@ -96,7 +96,10 @@ begin
                 (
                     sin
                     (
-                        real(i) * (MATH_PI/2.0) / real(lookup_length)
+                        -- Each item reflects the center of the interval,
+                        -- not the beginning. Doing so, we can use the table
+                        -- for all quarters in a completely symmetric way.
+                        (real(i) + 0.5) * (MATH_PI/2.0) / real(lookup_length)
                     )
                     * ((real(2**sample_width)/2.0)-1.0)
                 ),
