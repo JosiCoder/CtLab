@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/Frequency Counter and Generator/Main/SignalGenerator_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="functiongenerator_declarations" />
+            <top_module name="globals" />
+            <top_module name="math_real" />
+            <top_module name="numeric_std" />
+            <top_module name="signalgenerator_tester" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/signalgenerator_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/signalgenerator_tester/config" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">config</obj_property>
+      <obj_property name="ObjectShortName">config</obj_property>
+   </wvobject>
+   <wvobject fp_name="/signalgenerator_tester/phase_increment" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">phase_increment[7:0]</obj_property>
+      <obj_property name="ObjectShortName">phase_increment[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/signalgenerator_tester/level" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">level[3:0]</obj_property>
+      <obj_property name="ObjectShortName">level[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/signalgenerator_tester/phase_switch_in_progress" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">phase_switch_in_progress</obj_property>
+      <obj_property name="ObjectShortName">phase_switch_in_progress</obj_property>
+   </wvobject>
+   <wvobject fp_name="/signalgenerator_tester/phase" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">phase[7:0]</obj_property>
+      <obj_property name="ObjectShortName">phase[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/signalgenerator_tester/sample" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sample[3:0]</obj_property>
+      <obj_property name="ObjectShortName">sample[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>

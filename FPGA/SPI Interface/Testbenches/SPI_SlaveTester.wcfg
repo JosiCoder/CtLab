@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/SPI Interface/Main/SPI_Slave_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="globals" />
+            <top_module name="numeric_std" />
+            <top_module name="spi_slave_tester" />
+            <top_module name="std_logic_1164" />
+            <top_module name="testtools" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/spi_slave_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/sclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sclk</obj_property>
+      <obj_property name="ObjectShortName">sclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/ss_address" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ss_address</obj_property>
+      <obj_property name="ObjectShortName">ss_address</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/ss_data" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ss_data</obj_property>
+      <obj_property name="ObjectShortName">ss_data</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/uut/transmit_data_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">transmit_data_x[3:0]</obj_property>
+      <obj_property name="ObjectShortName">transmit_data_x[3:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <wvobject fp_name="/spi_slave_tester/uut/transmit_data_x[3]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">transmit_data_x[3]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_slave_tester/uut/transmit_data_x[2]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">transmit_data_x[2]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_slave_tester/uut/transmit_data_x[1]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">transmit_data_x[1]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_slave_tester/uut/transmit_data_x[0]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">transmit_data_x[0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/mosi" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mosi</obj_property>
+      <obj_property name="ObjectShortName">mosi</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/miso" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">miso</obj_property>
+      <obj_property name="ObjectShortName">miso</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/received_data_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">received_data_x[3:0]</obj_property>
+      <obj_property name="ObjectShortName">received_data_x[3:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <wvobject fp_name="/spi_slave_tester/received_data_x[3]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">received_data_x[3]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_slave_tester/received_data_x[2]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">received_data_x[2]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_slave_tester/received_data_x[1]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">received_data_x[1]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_slave_tester/received_data_x[0]" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">received_data_x[0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/deserialized_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">deserialized_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">deserialized_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slave_tester/ready_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ready_x[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ready_x[3:0]</obj_property>
+   </wvobject>
+</wave_config>

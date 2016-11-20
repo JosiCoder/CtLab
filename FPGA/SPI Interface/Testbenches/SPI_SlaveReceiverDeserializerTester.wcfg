@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/SPI Interface/Main/SPI_SlaveReceiverDeserializer_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="spi_slavereceiverdeserializer_tester" />
+            <top_module name="std_logic_1164" />
+            <top_module name="testtools" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/spi_slavereceiverdeserializer_tester/sclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sclk</obj_property>
+      <obj_property name="ObjectShortName">sclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavereceiverdeserializer_tester/mosi" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mosi</obj_property>
+      <obj_property name="ObjectShortName">mosi</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavereceiverdeserializer_tester/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider74" type="divider">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+</wave_config>

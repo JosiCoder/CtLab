@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/Frequency Counter and Generator/Main/UniversalCounter_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="globals" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="universalcounter_tester" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/universalcounter_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/update_output" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">update_output</obj_property>
+      <obj_property name="ObjectShortName">update_output</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/external_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">external_signal</obj_property>
+      <obj_property name="ObjectShortName">external_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/value_assumed_as_stable" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">value_assumed_as_stable</obj_property>
+      <obj_property name="ObjectShortName">value_assumed_as_stable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/value" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">value[3:0]</obj_property>
+      <obj_property name="ObjectShortName">value[3:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/overflow" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">overflow</obj_property>
+      <obj_property name="ObjectShortName">overflow</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider84" type="divider">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/uut/external_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">external_signal</obj_property>
+      <obj_property name="ObjectShortName">external_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/uut/internal_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">internal_signal</obj_property>
+      <obj_property name="ObjectShortName">internal_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/uut/pulse_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pulse_signal</obj_property>
+      <obj_property name="ObjectShortName">pulse_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/uut/gate_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">gate_signal</obj_property>
+      <obj_property name="ObjectShortName">gate_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/uut/toggled_gate_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">toggled_gate_signal</obj_property>
+      <obj_property name="ObjectShortName">toggled_gate_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/universalcounter_tester/uut/toggled_gate_detected" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">toggled_gate_detected</obj_property>
+      <obj_property name="ObjectShortName">toggled_gate_detected</obj_property>
+   </wvobject>
+</wave_config>

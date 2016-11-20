@@ -1,0 +1,45 @@
+#-------------------------------------------------------------------------------
+# Copyright (C) 2016 Josi Coder
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3 of the License, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+#---------------------------------------------------------------------------------
+
+DEFAULT IOSTANDARD = LVCMOS33;
+
+# ========== ct-Lab Standards ==========
+
+# System Clock
+NET "SYSCLK" LOC = "P55";
+NET "SYSCLK" TNM_NET = "SYSCLK_NET";
+TIMESPEC "TS_SYSCLK_NET" = PERIOD "SYSCLK_NET" 50 MHz HIGH 50 %;
+
+# SPI Interface
+NET "SSREG" LOC = "P68"; # Address register write
+NET "SSDAT" LOC = "P69"; # Data register R/W
+NET "SCLK" LOC = "P70"; # SPI clock
+#NET "INT" LOC = "P74"; # Interrupt of frequency counter
+NET "MISO" LOC = "P73"; # Data output of SPI interface
+NET "MOSI" LOC = "P63"; # Data input of SPI interface
+NET "SSREG" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "SSDAT" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "SCLK" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "SCLK" TNM_NET = "SCLK_NET";
+TIMESPEC "TS_SCLK_NET" = PERIOD "SCLK_NET" 10 MHz HIGH 50 %;
+ 
+# Miscellaneous
+NET "Test_LED"  LOC = "P44"  ; 
+
+# Additional Timing Constraints
+TIMESPEC "TS_IGNORE_SCLK_TO_SYSCLK" = FROM "SCLK_NET" TO "SYSCLK_NET" TIG;
+TIMESPEC "TS_IGNORE_SYSCLK_TO_SCLK" = FROM "SYSCLK_NET" TO "SCLK_NET" TIG;

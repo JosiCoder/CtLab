@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/Frequency Counter and Generator/Main/FunctionGenerator_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="functiongenerator_declarations" />
+            <top_module name="functiongenerator_tester" />
+            <top_module name="globals" />
+            <top_module name="math_real" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/functiongenerator_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+      <obj_property name="label">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/functiongenerator_tester/config" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">config</obj_property>
+      <obj_property name="ObjectShortName">config</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/functiongenerator_tester/phase" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">phase[31:0]</obj_property>
+      <obj_property name="ObjectShortName">phase[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/functiongenerator_tester/sample" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sample[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sample[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider138" type="divider">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/functiongenerator_tester/uut/lookup_sample" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">lookup_sample[15:0]</obj_property>
+      <obj_property name="ObjectShortName">lookup_sample[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/functiongenerator_tester/uut/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/functiongenerator_tester/uut/state.sample" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">.sample</obj_property>
+         <obj_property name="ObjectShortName">state.sample</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

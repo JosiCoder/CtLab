@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/DDS Function Generator/Main/DACController_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="daccontroller_tester" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/daccontroller_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/daccontroller_tester/channel_0_value" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">channel_0_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_0_value[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/daccontroller_tester/channel_1_value" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">channel_1_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_1_value[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/daccontroller_tester/dac_channel_select" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dac_channel_select</obj_property>
+      <obj_property name="ObjectShortName">dac_channel_select</obj_property>
+   </wvobject>
+   <wvobject fp_name="/daccontroller_tester/dac_write" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dac_write</obj_property>
+      <obj_property name="ObjectShortName">dac_write</obj_property>
+   </wvobject>
+   <wvobject fp_name="/daccontroller_tester/dac_value" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dac_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dac_value[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

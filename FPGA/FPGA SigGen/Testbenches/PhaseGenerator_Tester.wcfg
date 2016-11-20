@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/FPGA SigGen/Main/PhaseGenerator_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="phasegenerator_tester" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/phasegenerator_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/phasegenerator_tester/frequency_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">frequency_signal</obj_property>
+      <obj_property name="ObjectShortName">frequency_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/phasegenerator_tester/reset_phase" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset_phase</obj_property>
+      <obj_property name="ObjectShortName">reset_phase</obj_property>
+   </wvobject>
+   <wvobject fp_name="/phasegenerator_tester/phase" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">phase[31:0]</obj_property>
+      <obj_property name="ObjectShortName">phase[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

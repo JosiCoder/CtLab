@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/Frequency Counter and Generator/Main/SynchronizedGatedCounter_Tester_isim_beh1.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="globals" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="synchronizedgatedcounter_tester" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/update_output" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">update_output</obj_property>
+      <obj_property name="ObjectShortName">update_output</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/toggled_gate_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">toggled_gate_signal</obj_property>
+      <obj_property name="ObjectShortName">toggled_gate_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/pulse_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pulse_signal</obj_property>
+      <obj_property name="ObjectShortName">pulse_signal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/counter_value" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">counter_value[3:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_value[3:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/overflow" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">overflow</obj_property>
+      <obj_property name="ObjectShortName">overflow</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/toggled_gate_detected" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">toggled_gate_detected</obj_property>
+      <obj_property name="ObjectShortName">toggled_gate_detected</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider76" type="divider">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/uut/gate_edge" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">gate_edge</obj_property>
+      <obj_property name="ObjectShortName">gate_edge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/uut/output_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">output_state</obj_property>
+      <obj_property name="ObjectShortName">output_state</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <wvobject fp_name="/synchronizedgatedcounter_tester/uut/output_state.value" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">.value</obj_property>
+         <obj_property name="ObjectShortName">output_state.value</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/synchronizedgatedcounter_tester/uut/output_state.overflow" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">.overflow</obj_property>
+         <obj_property name="ObjectShortName">output_state.overflow</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/synchronizedgatedcounter_tester/uut/next_output_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">next_output_state</obj_property>
+      <obj_property name="ObjectShortName">next_output_state</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <wvobject fp_name="/synchronizedgatedcounter_tester/uut/next_output_state.value" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">.value</obj_property>
+         <obj_property name="ObjectShortName">next_output_state.value</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/synchronizedgatedcounter_tester/uut/next_output_state.overflow" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">.overflow</obj_property>
+         <obj_property name="ObjectShortName">next_output_state.overflow</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

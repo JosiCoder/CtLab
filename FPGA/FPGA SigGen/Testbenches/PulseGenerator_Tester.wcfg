@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/Frequency Counter and Generator/Main/PulseGenerator_Tester_isim_beh1.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="pulsegenerator_tester" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/pulsegenerator_tester/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pulsegenerator_tester/pulse_signal" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pulse_signal</obj_property>
+      <obj_property name="ObjectShortName">pulse_signal</obj_property>
+   </wvobject>
+</wave_config>

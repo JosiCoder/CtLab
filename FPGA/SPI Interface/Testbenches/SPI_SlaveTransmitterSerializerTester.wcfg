@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/media/sf_FPGA/SPI Interface/Main/SPI_SlaveTransmitterSerializer_Tester_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="spi_slavetransmitterserializer_tester" />
+            <top_module name="std_logic_1164" />
+            <top_module name="testtools" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/sclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sclk</obj_property>
+      <obj_property name="ObjectShortName">sclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/ss" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ss</obj_property>
+      <obj_property name="ObjectShortName">ss</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/miso" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">miso</obj_property>
+      <obj_property name="ObjectShortName">miso</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/received_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">received_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">received_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider140" type="divider">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/uut/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_slavetransmitterserializer_tester/uut/next_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">next_state</obj_property>
+      <obj_property name="ObjectShortName">next_state</obj_property>
+   </wvobject>
+</wave_config>

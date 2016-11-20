@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<project xmlns="http://www.xilinx.com/XMLSchema" xmlns:xil_pn="http://www.xilinx.com/XMLSchema">
+
+  <header>
+    <!-- ISE source project file created by Project Navigator.             -->
+    <!--                                                                   -->
+    <!-- This file contains project source information including a list of -->
+    <!-- project source files, project and process properties.  This file, -->
+    <!-- along with the project source files, is sufficient to open and    -->
+    <!-- implement in ISE Project Navigator.                               -->
+    <!--                                                                   -->
+    <!-- Copyright (c) 1995-2009 Xilinx, Inc.  All rights reserved. -->
+  </header>
+
+  <version xil_pn:ise_version="11.1" xil_pn:schema_version="2"/>
+
+  <files>
+    <file xil_pn:name="../Testbenches/TestTools.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Source/Constraints.ucf" xil_pn:type="FILE_UCF">
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_SlaveReceiverDeserializer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Testbenches/SPI_SlaveReceiverTester.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_SlaveReceiver.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Source/Globals.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Source/Main.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_SlaveAddressDecoder.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Testbenches/SPI_SlaveReceiverDeserializerTester.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Testbenches/SPI_SlaveAddressDecoderTester.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Testbenches/SPI_SlaveTester.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_Slave.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../../Common/Source/Synchronizer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="Common"/>
+    </file>
+    <file xil_pn:name="../Testbenches/SPI_SlaveTransmitterSerializerTester.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_SlaveTransmitterSerializer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_SlaveTransmitter.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Testbenches/SPI_SlaveTransmitterTester.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Source/SPI_SlaveDataBuffer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+  </files>
+
+  <properties>
+    <property xil_pn:name="Auto Implementation Top" xil_pn:value="false"/>
+    <property xil_pn:name="Constraints Entry" xil_pn:value="Constraints Editor"/>
+    <property xil_pn:name="Device" xil_pn:value="xc3s400"/>
+    <property xil_pn:name="Device Family" xil_pn:value="Spartan3"/>
+    <property xil_pn:name="Fitter Report Format" xil_pn:value="HTML"/>
+    <property xil_pn:name="Implementation Top" xil_pn:value="Architecture|Main|stdarch"/>
+    <property xil_pn:name="Implementation Top Instance Path" xil_pn:value="/Main"/>
+    <property xil_pn:name="PROP_BehavioralSimTop" xil_pn:value="Architecture|SPI_SlaveTransmitter_Tester|stdarch"/>
+    <property xil_pn:name="PROP_DesignName" xil_pn:value="Common"/>
+    <property xil_pn:name="Package" xil_pn:value="tq144"/>
+    <property xil_pn:name="Preferred Language" xil_pn:value="VHDL"/>
+    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="Architecture|SPI_SlaveTransmitter_Tester|stdarch"/>
+    <property xil_pn:name="Simulator" xil_pn:value="ISim (VHDL/Verilog)"/>
+    <property xil_pn:name="Speed Grade" xil_pn:value="-4"/>
+    <property xil_pn:name="Synthesis Tool" xil_pn:value="XST (VHDL/Verilog)"/>
+    <property xil_pn:name="Target UCF File Name" xil_pn:value="../Source/Common.ucf"/>
+    <property xil_pn:name="Top-Level Source Type" xil_pn:value="Schematic"/>
+    <property xil_pn:name="Verbose Property Persistence" xil_pn:value="false"/>
+  </properties>
+
+  <bindings>
+    <binding xil_pn:location="/Main" xil_pn:name="../Source/Constraints.ucf"/>
+  </bindings>
+
+  <libraries>
+    <library xil_pn:name="Common"/>
+  </libraries>
+
+  <partitions>
+    <partition xil_pn:name="/Main"/>
+  </partitions>
+
+</project>

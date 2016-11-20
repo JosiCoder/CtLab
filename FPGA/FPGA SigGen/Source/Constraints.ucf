@@ -1,0 +1,89 @@
+#-------------------------------------------------------------------------------
+# Copyright (C) 2016 Josi Coder
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3 of the License, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+#---------------------------------------------------------------------------------
+
+DEFAULT IOSTANDARD = LVCMOS33;
+
+# ========== ct-Lab Standards ==========
+
+# System Clock
+NET "SYSCLK" LOC = "P55";
+NET "SYSCLK" TNM_NET = "SYSCLK_NET";
+TIMESPEC "TS_SYSCLK_NET" = PERIOD "SYSCLK_NET" 50 MHz HIGH 50 %;
+
+# SPI Interface
+NET "SSREG" LOC = "P68"; # Address register write
+NET "SSDAT" LOC = "P69"; # Data register R/W
+NET "SCLK" LOC = "P70"; # SPI clock
+#NET "INT" LOC = "P74"; # Interrupt of frequency counter
+NET "MISO" LOC = "P73"; # Data output of SPI interface
+NET "MOSI" LOC = "P63"; # Data input of SPI interface
+NET "SSREG" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "SSDAT" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "SCLK" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "SCLK" TNM_NET = "SCLK_NET";
+TIMESPEC "TS_SCLK_NET" = PERIOD "SCLK_NET" 10 MHz HIGH 50 %;
+ 
+# Miscellaneous
+NET "Test_LED"  LOC = "P44"  ; 
+
+# Additional Timing Constraints
+#TIMESPEC "TS_IGNORE_SCLK_TO_SYSCLK" = FROM "SCLK_NET" TO "SYSCLK_NET" TIG;
+#TIMESPEC "TS_IGNORE_SYSCLK_TO_SCLK" = FROM "SYSCLK_NET" TO "SCLK_NET" TIG;
+
+
+# ========== DACRAM Board ==========
+# SRAM
+NET "RAM_WE_N"  LOC = "P108";
+NET "RAM_OE_N"  LOC = "P104";
+
+# D/A Converter
+NET "DAC_CLK"  LOC = "P103";
+NET "DAC_CHANNEL_SELECT"  LOC = "P105";
+NET "DAC_WRITE_N"  LOC = "P102";
+NET "DAC_VALUE<0>"  LOC = "P125"; # LSB 16 bit converter
+NET "DAC_VALUE<1>"  LOC = "P124"; 
+NET "DAC_VALUE<2>"  LOC = "P128"; # LSB 14 bit converter AD9754
+NET "DAC_VALUE<3>"  LOC = "P127"; 
+NET "DAC_VALUE<4>"  LOC = "P130"; # LSB bit converter AD5447 or AD9752
+NET "DAC_VALUE<5>"  LOC = "P129"; 
+NET "DAC_VALUE<6>"  LOC = "P132"; 
+NET "DAC_VALUE<7>"  LOC = "P131"; 
+NET "DAC_VALUE<8>"  LOC = "P141"; 
+NET "DAC_VALUE<9>"  LOC = "P140"; 
+NET "DAC_VALUE<10>"  LOC = "P6"; 
+NET "DAC_VALUE<11>"  LOC = "P5"; 
+NET "DAC_VALUE<12>"  LOC = "P8"; 
+NET "DAC_VALUE<13>"  LOC = "P7"; 
+NET "DAC_VALUE<14>"  LOC = "P11"; 
+NET "DAC_VALUE<15>"  LOC = "P10"; # MSB
+
+# ========== Application-Specific ==========
+
+# Universal Counter
+NET "CNTR_IN" LOC = "P100" | CLOCK_DEDICATED_ROUTE = FALSE; # FN100
+NET "CNTR_IN" TNM_NET = "CNTR_IN_NET";
+TIMESPEC "TS_CNTR_IN_NET" = PERIOD "CNTR_IN_NET" 100 MHz HIGH 50 %;
+#TIMESPEC "TS_IGNORE_CNTR_IN_TO_SYSCLK" = FROM "CNTR_IN_NET" TO "SYSCLK_NET" TIG;
+#TIMESPEC "TS_IGNORE_SYSCLK_TO_CNTR_IN" = FROM "SYSCLK_NET" TO "CNTR_IN_NET" TIG;
+
+# Frequency & Pulse Generators
+NET "DDS_SYNC_OUT<0>" LOC = "P99" | SLEW=FAST | DRIVE = 24;
+NET "DDS_SYNC_OUT<1>" LOC = "P98" | SLEW=FAST | DRIVE = 24;
+NET "DDS_SYNC_OUT<2>" LOC = "P113" | SLEW=FAST | DRIVE = 24;
+NET "DDS_SYNC_OUT<3>" LOC = "P112" | SLEW=FAST | DRIVE = 24;
+NET "PULSE_OUT" LOC = "P97" | SLEW=FAST | DRIVE = 24;
+#NET "RESET" LOC = "P77" | PULLDOWN; # F_AUX
