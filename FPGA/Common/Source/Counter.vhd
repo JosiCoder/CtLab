@@ -32,7 +32,7 @@ entity Counter is
         -- The system clock.
         clk: in std_logic;
         -- The synchronous clear.
-		clear: in std_logic;
+        clear: in std_logic;
         -- The counter enable.
         ce: in std_logic; 
         -- The counter´s value.

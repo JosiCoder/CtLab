@@ -76,15 +76,15 @@ begin
     )
     port map
     (
-		clk => sysclk, 
-		sclk => sclk, 
-		ss_address => ssreg, 
-		ss_data => ssdat,
+        clk => sysclk, 
+        sclk => sclk, 
+        ss_address => ssreg, 
+        ss_data => ssdat,
         transmit_data_x => transmit_data_x,
-		mosi => mosi,
-		miso => miso_int,
-		received_data_x => received_data_x,
-		ready_x => ready_x
+        mosi => mosi,
+        miso => miso_int,
+        received_data_x => received_data_x,
+        ready_x => ready_x
     );
 
 

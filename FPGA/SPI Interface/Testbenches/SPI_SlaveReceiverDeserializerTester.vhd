@@ -54,9 +54,9 @@ begin
     )
     port map
     (
-		sclk => sclk, 
-		mosi => mosi, 
-		data => data
+        sclk => sclk, 
+        mosi => mosi, 
+        data => data
     );
     
 

@@ -232,10 +232,10 @@ begin
     clock_manager: entity work.ClockManager
     port map
     (
-		clk => sysclk,
-		clk_50mhz => clk_50mhz,
-		clk_100mhz => clk_100mhz
-	);
+        clk => sysclk,
+        clk_50mhz => clk_50mhz,
+        clk_100mhz => clk_100mhz
+    );
 
 
     -- The slave of the SPI interface.
@@ -247,52 +247,52 @@ begin
     )
     port map
     (
-		clk => clk_50mhz, 
-		sclk => sclk, 
-		ss_address => ssreg, 
-		ss_data => ssdat,
+        clk => clk_50mhz, 
+        sclk => sclk, 
+        ss_address => ssreg, 
+        ss_data => ssdat,
         transmit_data_x => transmit_data_x,
-		mosi => mosi,
-		miso => miso_int,
-		received_data_x => received_data_x,
-		ready_x => ready_x
+        mosi => mosi,
+        miso => miso_int,
+        received_data_x => received_data_x,
+        ready_x => ready_x
     );
 
 
     -- The universal counter for frequency and period measurements.
-	universal_counter: entity work.UniversalCounter
+    universal_counter: entity work.UniversalCounter
     port map
     (
-		clk => clk_50mhz,
-		update_output => update_universal_counter_output,
-		external_signal => universal_counter_input,
-		measure_period => universal_counter_config(4),
-		clk_division_mode => universal_counter_config(3 downto 0),
-		value => universal_counter_value,
-		overflow => universal_counter_state(1),
-		ready => universal_counter_state(0)
-	);
+        clk => clk_50mhz,
+        update_output => update_universal_counter_output,
+        external_signal => universal_counter_input,
+        measure_period => universal_counter_config(4),
+        clk_division_mode => universal_counter_config(3 downto 0),
+        value => universal_counter_value,
+        overflow => universal_counter_state(1),
+        ready => universal_counter_state(0)
+    );
 
 
     -- The pulse generator producing a rectangular signal with specific pulse
     -- and pause durations.
-	pulse_generator: entity work.PulseGenerator
+    pulse_generator: entity work.PulseGenerator
     generic map
     (
         counter_width => pulse_generator_counter_width
     )
     port map
     (
-		clk => clk_100mhz,
-		high_duration => pulse_generator_high_duration,
-		low_duration => pulse_generator_low_duration,
-		pulse_signal => pulse_int
-	);
+        clk => clk_100mhz,
+        high_duration => pulse_generator_high_duration,
+        low_duration => pulse_generator_low_duration,
+        pulse_signal => pulse_int
+    );
 
 
     -- The modulated DDS signal generator producing multiple signals with
     -- miscellaneous waveforms.
-	dds_generator: entity work.ModulatedGenerator
+    dds_generator: entity work.ModulatedGenerator
     generic map
     (
         number_of_generators => number_of_dds_generators,
@@ -303,14 +303,14 @@ begin
     )
     port map
     (
-		clk => clk_100mhz,
+        clk => clk_100mhz,
         configs => dds_generator_configs,
-		phase_increments => dds_generator_phase_increments,
-		phase_shifts => dds_generator_phase_shifts,
+        phase_increments => dds_generator_phase_increments,
+        phase_shifts => dds_generator_phase_shifts,
         levels => dds_generator_levels,
         phases => dds_generator_phases,
         samples => dds_generator_samples
-	);
+    );
     
 
     -- The DAC controller used to pass the signals to be D/A-converted to the DACs.
@@ -322,8 +322,8 @@ begin
     port map
     (
         clk => clk_100mhz,
-		channel_0_value => dac_channel_values(0),
-		channel_1_value => dac_channel_values(1),
+        channel_0_value => dac_channel_values(0),
+        channel_1_value => dac_channel_values(1),
         dac_channel_select => dac_channel_select_int,
         dac_write => dac_write_int,
         dac_value => prepared_dac_value

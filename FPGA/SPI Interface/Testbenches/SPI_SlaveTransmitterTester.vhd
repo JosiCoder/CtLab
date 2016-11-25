@@ -93,12 +93,12 @@ begin
     port map
     (
         clk => clk, 
-		buffer_enable => ss,
-		sclk => sclk, 
-		ss => ss,
+        buffer_enable => ss,
+        sclk => sclk, 
+        ss => ss,
         address => address,
-		data_x => data_x,
-		miso => miso
+        data_x => data_x,
+        miso => miso
     );
     
 

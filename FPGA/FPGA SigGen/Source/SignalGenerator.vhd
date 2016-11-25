@@ -139,18 +139,18 @@ begin
 
     -- The phase generator controlled by a phase accumulator. Generates cyclic
     -- phase values used for DDS signal generation.
-	phase_generator: entity work.PhaseGenerator
+    phase_generator: entity work.PhaseGenerator
     generic map
     (
         phase_width => phase_width
     )
     port map
     (
-		clk => clk,
-		phase_increment => phase_increment,
+        clk => clk,
+        phase_increment => phase_increment,
         reset_phase => reset_phase,
-		phase => phase_int
-	);
+        phase => phase_int
+    );
 
     -- The function generator producing miscellaneous waveforms using cyclic phase
     -- values.

@@ -52,9 +52,9 @@ begin
     )
     port map
     (
-		buffer_enable => buffer_enable, 
-		address => address, 
-		buffer_enable_x => buffer_enable_x
+        buffer_enable => buffer_enable, 
+        address => address, 
+        buffer_enable_x => buffer_enable_x
     );
     
 

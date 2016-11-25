@@ -34,15 +34,15 @@ entity DACController is
         -- The system clock.
         clk: in std_logic;
         -- The value for DAC channel 0.
-		channel_0_value : in signed(data_width-1 downto 0);
+        channel_0_value : in signed(data_width-1 downto 0);
         -- The value for DAC channel 1.
-		channel_1_value : in signed(data_width-1 downto 0);
+        channel_1_value : in signed(data_width-1 downto 0);
         -- The DAC´s channel selection signal.
         dac_channel_select: out std_logic;
         -- The DAC´s write signal.
         dac_write: out std_logic;
         -- The currently selected DAC value with an offset added.
-		dac_value : out unsigned(data_width-1 downto 0)
+        dac_value : out unsigned(data_width-1 downto 0)
     );
 end entity;
 
@@ -73,7 +73,7 @@ begin
     -- Next state logic.
     --------------------------------------------------------------------------------
     next_state_logic: process(state, channel_0_value, channel_1_value) is
-		variable next_dac_value: signed(data_width-1 downto 0);
+        variable next_dac_value: signed(data_width-1 downto 0);
     begin
     
         -- Defaults.
@@ -96,7 +96,7 @@ begin
             next_dac_value(data_width-1) := not next_dac_value(data_width-1);
             next_state.dac_value <= unsigned(next_dac_value);
 
-		end if;
+        end if;
 
         -- Toggle the write signal.
         next_state.dac_write <= not state.dac_write;

@@ -86,15 +86,15 @@ begin
     )
     port map
     (
-		clk => clk,
+        clk => clk,
         config => config,
-		phase_increment => phase_increment,
-		phase_shift => phase_shift,
+        phase_increment => phase_increment,
+        phase_shift => phase_shift,
         level => level,
         reset_phase => '0',
         phase => phase,
         sample => sample
-	);
+    );
 
 
     --------------------------------------------------------------------------------

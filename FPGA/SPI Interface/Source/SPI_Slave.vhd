@@ -98,14 +98,14 @@ begin
     )
     port map
     (
-		clk => clk, 
-		buffer_enable => buffer_enable,
-		sclk => sclk, 
-		ss_address => ss_address, 
-		address => address, 
-		mosi => mosi, 
-		data_x => received_data_x,
-		ready_x => ready_x
+        clk => clk, 
+        buffer_enable => buffer_enable,
+        sclk => sclk, 
+        ss_address => ss_address, 
+        address => address, 
+        mosi => mosi, 
+        data_x => received_data_x,
+        ready_x => ready_x
     );
 
 
@@ -117,13 +117,13 @@ begin
     )
     port map
     (
-		clk => clk, 
-		buffer_enable => buffer_enable,
-		sclk => sclk, 
-		ss => ss_data, 
-		address => address,
-		data_x => transmit_data_x,
-		miso => miso
+        clk => clk, 
+        buffer_enable => buffer_enable,
+        sclk => sclk, 
+        ss => ss_data, 
+        address => address,
+        data_x => transmit_data_x,
+        miso => miso
     );
 
 end architecture;

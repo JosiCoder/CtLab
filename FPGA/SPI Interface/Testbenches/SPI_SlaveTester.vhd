@@ -175,15 +175,15 @@ begin
     )
     port map
     (
-		clk => clk, 
-		sclk => sclk, 
-		ss_address => ss_address, 
-		ss_data => ss_data,
+        clk => clk, 
+        sclk => sclk, 
+        ss_address => ss_address, 
+        ss_data => ss_data,
         transmit_data_x => transmit_data_x,
-		mosi => mosi,
-		miso => miso,
-		received_data_x => received_data_x,
-		ready_x => ready_x
+        mosi => mosi,
+        miso => miso,
+        received_data_x => received_data_x,
+        ready_x => ready_x
     );
 
 

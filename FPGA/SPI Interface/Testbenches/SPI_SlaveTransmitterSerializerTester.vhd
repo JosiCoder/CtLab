@@ -75,10 +75,10 @@ begin
     )
     port map
     (
-		ss => ss, 
-		sclk => sclk, 
-		data => data,
-		miso => miso 
+        ss => ss, 
+        sclk => sclk, 
+        data => data,
+        miso => miso 
     );
     
 

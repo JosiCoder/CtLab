@@ -44,7 +44,7 @@ architecture stdarch of DACController_Tester is
     --------------------
     signal clk: std_logic := '0';
     signal channel_0_value : signed(test_width-1 downto 0) := (others => '0');
-	signal channel_1_value : signed(test_width-1 downto 0) := (others => '0');
+    signal channel_1_value : signed(test_width-1 downto 0) := (others => '0');
 
     --------------------
     -- Outputs
@@ -67,7 +67,7 @@ architecture stdarch of DACController_Tester is
                                     channel_1_value: integer)
     is
         variable expected_value: integer;
-		variable expected_value_with_offset: unsigned(test_width-1 downto 0);
+        variable expected_value_with_offset: unsigned(test_width-1 downto 0);
         variable current_channel: integer := -1;
         variable channel_0_used, channel_1_used: boolean := false;
     begin
@@ -147,8 +147,8 @@ begin
     port map
     (
         clk => clk,
-		channel_0_value => channel_0_value,
-		channel_1_value => channel_1_value,
+        channel_0_value => channel_0_value,
+        channel_1_value => channel_1_value,
         dac_channel_select => dac_channel_select,
         dac_write => dac_write,
         dac_value => dac_value

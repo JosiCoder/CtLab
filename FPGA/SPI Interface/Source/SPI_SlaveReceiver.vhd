@@ -84,9 +84,9 @@ begin
     )
     port map
     (
-		buffer_enable => buffer_enable, 
-		address => address_int, 
-		buffer_enable_x => buffer_enable_x_int
+        buffer_enable => buffer_enable, 
+        address => address_int, 
+        buffer_enable_x => buffer_enable_x_int
     );
 
 
@@ -98,9 +98,9 @@ begin
     )
     port map
     (
-		sclk => sclk, 
-		mosi => mosi, 
-		data => receiver_data
+        sclk => sclk, 
+        mosi => mosi, 
+        data => receiver_data
     );
 
 

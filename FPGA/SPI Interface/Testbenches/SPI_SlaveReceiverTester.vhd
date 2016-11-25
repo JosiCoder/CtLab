@@ -121,14 +121,14 @@ begin
     )
     port map
     (
-		clk => clk, 
-		buffer_enable => ss_data,
-		sclk => sclk, 
-		ss_address => ss_address, 
-		address => address, 
-		mosi => mosi, 
-		data_x => data_x,
-		ready_x => ready_x
+        clk => clk, 
+        buffer_enable => ss_data,
+        sclk => sclk, 
+        ss_address => ss_address, 
+        address => address, 
+        mosi => mosi, 
+        data_x => data_x,
+        ready_x => ready_x
     );
     
 

@@ -90,10 +90,10 @@ begin
     )
     port map
     (
-		sclk => sclk, 
-		ss => ss, 
-		data => transmitter_data, 
-		miso => miso
+        sclk => sclk, 
+        ss => ss, 
+        data => transmitter_data, 
+        miso => miso
     );
 
 
