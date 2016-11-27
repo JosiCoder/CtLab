@@ -23,11 +23,11 @@ namespace CtLab.Utilities
 {
     public class GlobalAssemblyInfo
     {
-        public const string AssemblyTitle = "CtLab Client Library";
+        public const string AssemblyTitle = "CtLab Library";
         public const string AssemblyDescription = "";
         public const string AssemblyConfiguration = "";
         public const string AssemblyCompany = "Josi Coder";
-        public const string AssemblyProduct = "CtLab Client Library";
+        public const string AssemblyProduct = "CtLab Library";
         public const string AssemblyCopyright = "Copyright © Josi Coder 2016";
         public const string AssemblyTrademark = "";
         public const string AssemblyCulture = "";

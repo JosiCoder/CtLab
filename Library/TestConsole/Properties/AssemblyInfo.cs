@@ -20,11 +20,11 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CtLab.Utilities;
 
-[assembly: AssemblyTitle("CtLab Client Library Test Console")]
+[assembly: AssemblyTitle("CtLab Library Test Console")]
 [assembly: AssemblyDescription(GlobalAssemblyInfo.AssemblyDescription)]
 [assembly: AssemblyConfiguration(GlobalAssemblyInfo.AssemblyConfiguration)]
 [assembly: AssemblyCompany(GlobalAssemblyInfo.AssemblyCompany)]
-[assembly: AssemblyProduct("CtLab Client Library Test Console")]
+[assembly: AssemblyProduct("CtLab Library Test Console")]
 [assembly: AssemblyCopyright(GlobalAssemblyInfo.AssemblyCopyright)]
 [assembly: AssemblyTrademark(GlobalAssemblyInfo.AssemblyTrademark)]
 [assembly: AssemblyCulture(GlobalAssemblyInfo.AssemblyCulture)]
