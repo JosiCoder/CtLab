@@ -3,7 +3,7 @@
 # Builds a Ct-Lab-based component. Intended to be source-invoked by that component's build script.
 # That invoking script is expected to provide a "solution" variable.
 
-configPar="release"
+configPar=""
 cleanall=0
 
 if [ $# -ne 0 ]; then
@@ -22,7 +22,7 @@ case "$configPar" in
         cleanall=1
 		;;
     *)
-        echo "Usage: $(basename "$0") { [release] | debug | cleanall }"
+        echo "Usage: $(basename "$0") { release | debug | cleanall }"
         exit 1
 		;;
 esac
