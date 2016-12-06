@@ -53,6 +53,13 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
         MeasurementModes MeasurementMode { get; }
 
         /// <summary>
+        /// Gets the exponent of the least significant digit for the current
+        /// prescaler mode. If, for example, the least significant digit is
+        /// 1/10 (0.1), an exponent of -1 is returned.
+        /// </summary>
+        int LeastSignificantDigitExponent { get; }
+
+        /// <summary>
 		/// Gets the counter's value in Hertz for frequency measurements or in seconds
         /// for period measurements.
         /// </summary>

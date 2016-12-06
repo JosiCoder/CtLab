@@ -110,6 +110,12 @@ namespace CtLab.FpgaSignalGenerator.Specs
         {
             SUT.Value.ShouldEqual(120);
         }
+
+        [Test]
+        public void it_should_return_a_least_significant_digit_exponent_of_0()
+        {
+            SUT.LeastSignificantDigitExponent.ShouldEqual(0);
+        }
     }
 
 
@@ -126,10 +132,16 @@ namespace CtLab.FpgaSignalGenerator.Specs
         {
             SUT.Value.ShouldEqual(12);
         }
+
+        [Test]
+        public void it_should_return_a_least_significant_digit_exponent_of_minus_1()
+        {
+            SUT.LeastSignificantDigitExponent.ShouldEqual(-1);
+        }
     }
 
 
-    public class When_using_a_couner_clock_of_ten_kilohertz
+    public class When_using_a_counter_clock_of_ten_kilohertz
         : UniversalCounterValueSpecs
     {
         protected override void When()
@@ -141,6 +153,12 @@ namespace CtLab.FpgaSignalGenerator.Specs
         public void it_should_return_the_raw_value_divided_by_ten_thousand()
         {
             SUT.Value.ShouldEqual(0.012);
+        }
+
+        [Test]
+        public void it_should_return_a_least_significant_digit_exponent_of_minus_4()
+        {
+            SUT.LeastSignificantDigitExponent.ShouldEqual(-4);
         }
     }
 }

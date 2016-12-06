@@ -156,6 +156,39 @@ namespace CtLab.FpgaSignalGenerator.Standard
         }
 
         /// <summary>
+        /// Gets the exponent of the least significant digit for the current
+        /// prescaler mode. If, for example, the least significant digit is
+        /// 1/10 (0.1), an exponent of -1 is returned.
+        /// </summary>
+        public int LeastSignificantDigitExponent
+        {
+            get
+            {
+                switch (_configurationWriter.PrescalerMode)
+                {
+                    // Frequency measurement
+                    case PrescalerModes.GatePeriod_100ms:
+                        return 1;
+                    case PrescalerModes.GatePeriod_1s:
+                        return 0;
+                    case PrescalerModes.GatePeriod_10s:
+                        return -1;
+                    // Period measurement
+                    case PrescalerModes.CounterClock_10kHz:
+                        return -4;
+                    case PrescalerModes.CounterClock_100kHz:
+                        return -5;
+                    case PrescalerModes.CounterClock_1MHz:
+                        return -6;
+                    case PrescalerModes.CounterClock_10MHz:
+                        return -7;
+                    default:
+                        throw new ArgumentOutOfRangeException ("PrescalerMode");
+                }
+            }
+        }
+
+        /// <summary>
 		/// Gets the counter's value in Hertz for frequency measurements or in seconds
         /// for period measurements.
         /// </summary>
@@ -164,27 +197,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
             get
             {
                 var rawValue = (double) _rawValueReader.Value;
-
-                // Adjust the counter value according to the selected resolution.
-                switch (_configurationWriter.PrescalerMode)
-                {
-                    case PrescalerModes.GatePeriod_100ms:
-                        return rawValue*10;
-                    case PrescalerModes.GatePeriod_1s:
-                        return rawValue;
-                    case PrescalerModes.GatePeriod_10s:
-                        return rawValue/10;
-                    case PrescalerModes.CounterClock_10kHz:
-                        return rawValue/1e4;
-                    case PrescalerModes.CounterClock_100kHz:
-                        return rawValue/1e5;
-                    case PrescalerModes.CounterClock_1MHz:
-                        return rawValue/1e6;
-                    case PrescalerModes.CounterClock_10MHz:
-                        return rawValue/1e7;
-                    default:
-                        throw new ArgumentOutOfRangeException("PrescalerMode");
-                }
+                return rawValue * Math.Pow (10, LeastSignificantDigitExponent);
             }
         }
 
