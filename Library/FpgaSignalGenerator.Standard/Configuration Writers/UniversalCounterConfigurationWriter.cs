@@ -27,9 +27,9 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// </summary>
     public class UniversalCounterConfigurationWriter : SubchannelWriterBase
     {
-        private UniversalCounterSources _inputSource;
-        private MeasurementModes _measurementMode;
-        private PrescalerModes _prescalerMode;
+        private UniversalCounterSource _inputSource;
+        private MeasurementMode _measurementMode;
+        private PrescalerMode _prescalerMode;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -45,7 +45,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal source.
         /// </summary>
-        public UniversalCounterSources InputSource
+        public UniversalCounterSource InputSource
         {
             get { return _inputSource; }
             set
@@ -58,7 +58,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the measurement mode.
         /// </summary>
-        public MeasurementModes MeasurementMode
+        public MeasurementMode MeasurementMode
         {
             get { return _measurementMode; }
             set
@@ -71,7 +71,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the prescaler mode used to generate the gate time or counter clock.
         /// </summary>
-        public PrescalerModes PrescalerMode
+        public PrescalerMode PrescalerMode
         {
             get { return _prescalerMode; }
             set

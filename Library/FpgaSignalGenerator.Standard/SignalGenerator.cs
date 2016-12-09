@@ -153,8 +153,8 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// </summary>
         public void Reset()
         {
-            OutputSourceSelector.OutputSource0 = OutputSources.DdsGenerator0;
-            OutputSourceSelector.OutputSource1 = OutputSources.DdsGenerator1;
+            OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator0;
+            OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator1;
 
             PulseGenerator.PulseDuration = 0;
             PulseGenerator.PauseDuration = 0;
@@ -165,16 +165,16 @@ namespace CtLab.FpgaSignalGenerator.Standard
                 ddsGenerator.Frequency = 0;
                 ddsGenerator.Amplitude = 0;
                 ddsGenerator.Phase = 0;
-                ddsGenerator.Waveform = Waveforms.Sine;
-                ddsGenerator.AmplitudeModulationSource = (ModulationAndSynchronizationSources)index;
-                ddsGenerator.FrequencyModulationSource = (ModulationAndSynchronizationSources)index;
-                ddsGenerator.PhaseModulationSource = (ModulationAndSynchronizationSources)index;
-                ddsGenerator.SynchronizationSource = (ModulationAndSynchronizationSources)index;
+                ddsGenerator.Waveform = Waveform.Sine;
+                ddsGenerator.AmplitudeModulationSource = (ModulationAndSynchronizationSource)index;
+                ddsGenerator.FrequencyModulationSource = (ModulationAndSynchronizationSource)index;
+                ddsGenerator.PhaseModulationSource = (ModulationAndSynchronizationSource)index;
+                ddsGenerator.SynchronizationSource = (ModulationAndSynchronizationSource)index;
                 ddsGenerator.MaximumFrequencyModulationRange = 0;
             }
 
-            UniversalCounter.InputSource = UniversalCounterSources.DdsGenerator0;
-            UniversalCounter.PrescalerMode = PrescalerModes.GatePeriod_1s;
+            UniversalCounter.InputSource = UniversalCounterSource.DdsGenerator0;
+            UniversalCounter.PrescalerMode = PrescalerMode.GatePeriod_1s;
         }
 
         private DdsGenerator BuildDdsGenerator(byte channel, ushort baseSubchannel)

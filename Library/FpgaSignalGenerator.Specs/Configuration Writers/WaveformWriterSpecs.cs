@@ -36,12 +36,12 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.Waveform = Waveforms.Sawtooth;
+            SUT.Waveform = Waveform.Sawtooth;
             SUT.MaximumFrequencyModulationDepth = 10;
-            SUT.SynchronizationSource = ModulationAndSynchronizationSources.DdsGenerator3;
-            SUT.PhaseModulationSource = ModulationAndSynchronizationSources.DdsGenerator2;
-            SUT.FrequencyModulationSource = ModulationAndSynchronizationSources.DdsGenerator1;
-            SUT.AmplitudeModulationSource = ModulationAndSynchronizationSources.DdsGenerator2;
+            SUT.SynchronizationSource = ModulationAndSynchronizationSource.DdsGenerator3;
+            SUT.PhaseModulationSource = ModulationAndSynchronizationSource.DdsGenerator2;
+            SUT.FrequencyModulationSource = ModulationAndSynchronizationSource.DdsGenerator1;
+            SUT.AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator2;
         }
 
         [Test]

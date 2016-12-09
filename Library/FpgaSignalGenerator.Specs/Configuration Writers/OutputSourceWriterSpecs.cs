@@ -36,9 +36,9 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.OutputSource0 = OutputSources.DdsGenerator1;
-            SUT.OutputSource1 = OutputSources.PulseGenerator;
-            SUT.OutputSource0 = OutputSources.DdsGenerator2;
+            SUT.OutputSource0 = OutputSource.DdsGenerator1;
+            SUT.OutputSource1 = OutputSource.PulseGenerator;
+            SUT.OutputSource0 = OutputSource.DdsGenerator2;
         }
 
         [Test]

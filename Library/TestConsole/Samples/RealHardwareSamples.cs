@@ -68,17 +68,17 @@ namespace CtLab.TestConsole
                 signalGenerator.Reset();
 
                 // Set the outputs to DDS channels 0 and 1.
-                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSources.DdsGenerator0;
-                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSources.DdsGenerator1;
+                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator0;
+                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator1;
 
                 // Configure DDS channel 0 (carrier, modulated by DDS channel 1).
-                signalGenerator.DdsGenerators[0].Waveform = Waveforms.Sine;
+                signalGenerator.DdsGenerators[0].Waveform = Waveform.Sine;
                 signalGenerator.DdsGenerators[0].Frequency = 1000;
                 signalGenerator.DdsGenerators[0].Amplitude = (short)(signalGenerator.DdsGenerators[0].MaximumAmplitude * 1 / 2);
-                signalGenerator.DdsGenerators[0].AmplitudeModulationSource = ModulationAndSynchronizationSources.DdsGenerator1;
+                signalGenerator.DdsGenerators[0].AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator1;
 
                 // Configure DDS channel 1 (modulator).
-                signalGenerator.DdsGenerators[1].Waveform = Waveforms.Sine;
+                signalGenerator.DdsGenerators[1].Waveform = Waveform.Sine;
                 signalGenerator.DdsGenerators[1].Frequency = 100;
                 signalGenerator.DdsGenerators[1].Amplitude = (short)(signalGenerator.DdsGenerators[1].MaximumAmplitude * 1 / 4);
 
@@ -120,18 +120,18 @@ namespace CtLab.TestConsole
                 signalGenerator.Reset();
 
                 // Set the outputs to DDS channels 0 and 1.
-                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSources.DdsGenerator0;
-                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSources.DdsGenerator1;
+                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator0;
+                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator1;
 
                 // Configure DDS channel 0 (carrier, modulated by DDS channel 1).
-                signalGenerator.DdsGenerators[0].Waveform = Waveforms.Sine;
+                signalGenerator.DdsGenerators[0].Waveform = Waveform.Sine;
                 signalGenerator.DdsGenerators[0].Frequency = 6000;
                 signalGenerator.DdsGenerators[0].Amplitude = signalGenerator.DdsGenerators[0].MaximumAmplitude;
-                signalGenerator.DdsGenerators[0].FrequencyModulationSource = ModulationAndSynchronizationSources.DdsGenerator1;
+                signalGenerator.DdsGenerators[0].FrequencyModulationSource = ModulationAndSynchronizationSource.DdsGenerator1;
                 signalGenerator.DdsGenerators[0].MaximumFrequencyModulationRange = 1;
 
                 // Configure DDS channel 1 (modulator).
-                signalGenerator.DdsGenerators[1].Waveform = Waveforms.Sawtooth;
+                signalGenerator.DdsGenerators[1].Waveform = Waveform.Sawtooth;
                 signalGenerator.DdsGenerators[1].Frequency = 100;
                 signalGenerator.DdsGenerators[1].Amplitude = signalGenerator.DdsGenerators[1].MaximumAmplitude;
 
@@ -176,19 +176,19 @@ namespace CtLab.TestConsole
                 signalGenerator.Reset();
 
                 // Set the outputs to DDS channels 2 and 3.
-                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSources.DdsGenerator2;
-                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSources.DdsGenerator3;
+                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator2;
+                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator3;
 
                 // Configure DDS channel 2 (vertical deflection).
-                signalGenerator.DdsGenerators[2].Waveform = Waveforms.Sine;
+                signalGenerator.DdsGenerators[2].Waveform = Waveform.Sine;
                 signalGenerator.DdsGenerators[2].Frequency = 1000;
                 signalGenerator.DdsGenerators[2].Amplitude = signalGenerator.DdsGenerators[2].MaximumAmplitude;
 
                 // Configure DDS channel 3 (horizontal deflection, synchronized by DDS channel 2).
-                signalGenerator.DdsGenerators[3].Waveform = Waveforms.Sine;
+                signalGenerator.DdsGenerators[3].Waveform = Waveform.Sine;
                 signalGenerator.DdsGenerators[3].Frequency = 2000;
                 signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
-                signalGenerator.DdsGenerators[3].SynchronizationSource = ModulationAndSynchronizationSources.DdsGenerator2;
+                signalGenerator.DdsGenerators[3].SynchronizationSource = ModulationAndSynchronizationSource.DdsGenerator2;
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
                 appliance.SendSetCommandsForModifiedValues();
@@ -221,8 +221,8 @@ namespace CtLab.TestConsole
                 signalGenerator.Reset();
 
                 // Set the outputs to the pulse generator.
-                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSources.PulseGenerator;
-                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSources.PulseGenerator;
+                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.PulseGenerator;
+                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.PulseGenerator;
 
                 // Configure pulse generator.
                 signalGenerator.PulseGenerator.PulseDuration = 10000; // 100 us
@@ -259,15 +259,15 @@ namespace CtLab.TestConsole
                 signalGenerator.Reset();
 
                 // Set the outputs to DDS channel 0.
-                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSources.DdsGenerator0;
-                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSources.DdsGenerator0;
+                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator0;
+                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator0;
 
                 // Configure DDS channel 0.
                 signalGenerator.DdsGenerators[0].Amplitude = signalGenerator.DdsGenerators[0].MaximumAmplitude;
 
                 // Configure the universal counter.
-                signalGenerator.UniversalCounter.InputSource = UniversalCounterSources.DdsGenerator0;
-                signalGenerator.UniversalCounter.PrescalerMode = PrescalerModes.GatePeriod_100ms;
+                signalGenerator.UniversalCounter.InputSource = UniversalCounterSource.DdsGenerator0;
+                signalGenerator.UniversalCounter.PrescalerMode = PrescalerMode.GatePeriod_100ms;
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
                 appliance.SendSetCommandsForModifiedValues();

@@ -38,19 +38,19 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
         /// <summary>
         /// Gets or sets the signal source.
         /// </summary>
-        UniversalCounterSources InputSource { get; set; }
+        UniversalCounterSource InputSource { get; set; }
 
         /// <summary>
         /// Gets or sets the prescaler mode used to generate the gate time or counter clock.
         /// Setting this value also modifies <see cref="MeasurementMode"/>.
         /// </summary>
-        PrescalerModes PrescalerMode { get; set; }
+        PrescalerMode PrescalerMode { get; set; }
 
         /// <summary>
         /// Gets the measurement mode.
         /// This is modified implicitly when setting <see cref="PrescalerMode"/>.
         /// </summary>
-        MeasurementModes MeasurementMode { get; }
+        MeasurementMode MeasurementMode { get; }
 
         /// <summary>
         /// Gets the exponent of the least significant digit for the current

@@ -69,7 +69,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal waveform.
         /// </summary>
-        public Waveforms Waveform
+        public Waveform Waveform
         {
             get { return _waveformWriter.Waveform; }
             set { _waveformWriter.Waveform = value; }
@@ -109,7 +109,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the synchronization source. If this value ist set to the current
         /// instance itself, no synchronization takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources SynchronizationSource
+        public ModulationAndSynchronizationSource SynchronizationSource
         {
             get { return _waveformWriter.SynchronizationSource; }
             set { _waveformWriter.SynchronizationSource = value; }
@@ -119,7 +119,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the phase modulation source. If this value ist set to the current
         /// instance itself, no phase modulation takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources PhaseModulationSource
+        public ModulationAndSynchronizationSource PhaseModulationSource
         {
             get { return _waveformWriter.PhaseModulationSource; }
             set { _waveformWriter.PhaseModulationSource = value; }
@@ -129,7 +129,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the frequency modulation source. If this value ist set to the current
         /// instance itself, no frequency modulation takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources FrequencyModulationSource
+        public ModulationAndSynchronizationSource FrequencyModulationSource
         {
             get { return _waveformWriter.FrequencyModulationSource; }
             set { _waveformWriter.FrequencyModulationSource = value; }
@@ -139,7 +139,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the amplitude modulation source. If this value ist set to the current
         /// instance itself, no amplitude modulation takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources AmplitudeModulationSource
+        public ModulationAndSynchronizationSource AmplitudeModulationSource
         {
             get { return _waveformWriter.AmplitudeModulationSource; }
             set { _waveformWriter.AmplitudeModulationSource = value; }

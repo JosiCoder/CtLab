@@ -42,7 +42,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal source for the first output (output 0).
         /// </summary>
-        public OutputSources OutputSource0
+        public OutputSource OutputSource0
         {
             get { return _outputSourceWriter.OutputSource0; }
             set { _outputSourceWriter.OutputSource0 = value; }
@@ -51,7 +51,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal source for the second output (output 1).
         /// </summary>
-        public OutputSources OutputSource1
+        public OutputSource OutputSource1
         {
             get { return _outputSourceWriter.OutputSource1; }
             set { _outputSourceWriter.OutputSource1 = value; }

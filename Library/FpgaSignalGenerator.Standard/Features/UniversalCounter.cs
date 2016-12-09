@@ -112,7 +112,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal source.
         /// </summary>
-        public UniversalCounterSources InputSource
+        public UniversalCounterSource InputSource
         {
             get { return _configurationWriter.InputSource; }
             set { _configurationWriter.InputSource = value; }
@@ -122,7 +122,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the prescaler mode used to generate the gate time or counter clock.
         /// Setting this value also modifies <see cref="MeasurementMode"/>.
         /// </summary>
-        public PrescalerModes PrescalerMode
+        public PrescalerMode PrescalerMode
         {
             get { return _configurationWriter.PrescalerMode; }
             set
@@ -132,15 +132,15 @@ namespace CtLab.FpgaSignalGenerator.Standard
                 // Set the measurement mode accordingly.
                 switch (value)
                 {
-                    case PrescalerModes.GatePeriod_1s:
-                    case PrescalerModes.GatePeriod_100ms:
-                    case PrescalerModes.GatePeriod_10s:
+                    case PrescalerMode.GatePeriod_1s:
+                    case PrescalerMode.GatePeriod_100ms:
+                    case PrescalerMode.GatePeriod_10s:
                         _configurationWriter.MeasurementMode
-                            = MeasurementModes.Frequency;
+                            = MeasurementMode.Frequency;
                         break;
                     default:
                         _configurationWriter.MeasurementMode
-                            = MeasurementModes.Period;
+                            = MeasurementMode.Period;
                         break;
                 }
             }
@@ -150,7 +150,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets the measurement mode.
         /// This is modified implicitly when setting <see cref="PrescalerMode"/>.
         /// </summary>
-        public MeasurementModes MeasurementMode
+        public MeasurementMode MeasurementMode
         {
             get { return _configurationWriter.MeasurementMode; }
         }
@@ -167,20 +167,20 @@ namespace CtLab.FpgaSignalGenerator.Standard
                 switch (_configurationWriter.PrescalerMode)
                 {
                     // Frequency measurement
-                    case PrescalerModes.GatePeriod_100ms:
+                    case PrescalerMode.GatePeriod_100ms:
                         return 1;
-                    case PrescalerModes.GatePeriod_1s:
+                    case PrescalerMode.GatePeriod_1s:
                         return 0;
-                    case PrescalerModes.GatePeriod_10s:
+                    case PrescalerMode.GatePeriod_10s:
                         return -1;
                     // Period measurement
-                    case PrescalerModes.CounterClock_10kHz:
+                    case PrescalerMode.CounterClock_10kHz:
                         return -4;
-                    case PrescalerModes.CounterClock_100kHz:
+                    case PrescalerMode.CounterClock_100kHz:
                         return -5;
-                    case PrescalerModes.CounterClock_1MHz:
+                    case PrescalerMode.CounterClock_1MHz:
                         return -6;
-                    case PrescalerModes.CounterClock_10MHz:
+                    case PrescalerMode.CounterClock_10MHz:
                         return -7;
                     default:
                         throw new ArgumentOutOfRangeException ("PrescalerMode");

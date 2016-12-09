@@ -26,11 +26,11 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
         /// <summary>
         /// Gets or sets the signal source for the first output (output 0).
         /// </summary>
-        OutputSources OutputSource0 { get; set; }
+        OutputSource OutputSource0 { get; set; }
 
         /// <summary>
         /// Gets or sets the signal source for the second output (output 1).
         /// </summary>
-        OutputSources OutputSource1 { get; set; }
+        OutputSource OutputSource1 { get; set; }
     }
 }

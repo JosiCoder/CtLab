@@ -27,8 +27,8 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// </summary>
     public class OutputSourceWriter : SubchannelWriterBase
     {
-        private OutputSources _outputSource0;
-        private OutputSources _outputSource1;
+        private OutputSource _outputSource0;
+        private OutputSource _outputSource1;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -44,7 +44,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal source for the first output (output 0).
         /// </summary>
-        public OutputSources OutputSource0
+        public OutputSource OutputSource0
         {
             get { return _outputSource0;  }
             set
@@ -57,7 +57,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal source for the second output (output 1).
         /// </summary>
-        public OutputSources OutputSource1
+        public OutputSource OutputSource1
         {
             get { return _outputSource1; }
             set

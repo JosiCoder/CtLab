@@ -62,10 +62,10 @@ namespace CtLab.TestConsole
                 // Change some sample settings of the signal generator. This results in modifying the values
                 // of set command classes and sending all the commands that have modified values.
                 var signalGenerator = appliance.SignalGenerator;
-                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSources.DdsGenerator3;
-                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSources.DdsGenerator2;
-                signalGenerator.DdsGenerators [0].AmplitudeModulationSource = ModulationAndSynchronizationSources.DdsGenerator1;
-                signalGenerator.DdsGenerators [1].AmplitudeModulationSource = ModulationAndSynchronizationSources.DdsGenerator2;
+                signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator3;
+                signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator2;
+                signalGenerator.DdsGenerators [0].AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator1;
+                signalGenerator.DdsGenerators [1].AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator2;
                 signalGenerator.DdsGenerators [0].Amplitude = 1000;
                 signalGenerator.DdsGenerators [1].Amplitude = 100;
                 appliance.SendSetCommandsForModifiedValues ();

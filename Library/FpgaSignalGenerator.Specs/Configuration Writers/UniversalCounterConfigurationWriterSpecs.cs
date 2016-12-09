@@ -36,10 +36,10 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.InputSource = UniversalCounterSources.DdsGenerator1;
-            SUT.MeasurementMode = MeasurementModes.Period;
-            SUT.PrescalerMode = PrescalerModes.CounterClock_1MHz;
-            SUT.InputSource = UniversalCounterSources.DdsGenerator2;
+            SUT.InputSource = UniversalCounterSource.DdsGenerator1;
+            SUT.MeasurementMode = MeasurementMode.Period;
+            SUT.PrescalerMode = PrescalerMode.CounterClock_1MHz;
+            SUT.InputSource = UniversalCounterSource.DdsGenerator2;
         }
 
         [Test]

@@ -62,15 +62,15 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.PrescalerMode = PrescalerModes.GatePeriod_10s;
+            SUT.PrescalerMode = PrescalerMode.GatePeriod_10s;
         }
 
         [Test]
         public void it_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
         {
             var expectedValue =
-                ((uint)MeasurementModes.Frequency) << 4
-                | ((uint)PrescalerModes.GatePeriod_10s);
+                ((uint)MeasurementMode.Frequency) << 4
+                | ((uint)PrescalerMode.GatePeriod_10s);
 
             _lastValueSet.ShouldEqual(expectedValue);
         }
@@ -82,15 +82,15 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.PrescalerMode = PrescalerModes.CounterClock_1MHz;
+            SUT.PrescalerMode = PrescalerMode.CounterClock_1MHz;
         }
 
         [Test]
         public void it_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
         {
             var expectedValue =
-                ((uint)MeasurementModes.Period) << 4
-                | ((uint)PrescalerModes.CounterClock_1MHz);
+                ((uint)MeasurementMode.Period) << 4
+                | ((uint)PrescalerMode.CounterClock_1MHz);
 
             _lastValueSet.ShouldEqual(expectedValue);
         }
@@ -102,7 +102,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.PrescalerMode = PrescalerModes.GatePeriod_1s;
+            SUT.PrescalerMode = PrescalerMode.GatePeriod_1s;
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.PrescalerMode = PrescalerModes.GatePeriod_10s;
+            SUT.PrescalerMode = PrescalerMode.GatePeriod_10s;
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.PrescalerMode = PrescalerModes.CounterClock_10kHz;
+            SUT.PrescalerMode = PrescalerMode.CounterClock_10kHz;
         }
 
         [Test]

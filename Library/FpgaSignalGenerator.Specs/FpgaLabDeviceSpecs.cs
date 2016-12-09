@@ -57,7 +57,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.DdsGenerators[0].AmplitudeModulationSource = ModulationAndSynchronizationSources.DdsGenerator1;
+            SUT.DdsGenerators[0].AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator1;
             SUT.DdsGenerators[0].Amplitude = 1000;
             SUT.DdsGenerators[1].Amplitude = 500;
         }
@@ -75,7 +75,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.DdsGenerators[0].AmplitudeModulationSource = ModulationAndSynchronizationSources.DdsGenerator0;
+            SUT.DdsGenerators[0].AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator0;
             SUT.DdsGenerators[0].Amplitude = 1000;
         }
 
@@ -92,7 +92,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.DdsGenerators[0].FrequencyModulationSource = ModulationAndSynchronizationSources.DdsGenerator1;
+            SUT.DdsGenerators[0].FrequencyModulationSource = ModulationAndSynchronizationSource.DdsGenerator1;
             SUT.DdsGenerators[0].Frequency = 1e3;
             SUT.DdsGenerators[0].MaximumFrequencyModulationRange = 1;
             SUT.DdsGenerators[1].Amplitude = SUT.DdsGenerators[1].MaximumAmplitude;
@@ -112,7 +112,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
     {
         protected override void When()
         {
-            SUT.DdsGenerators[0].FrequencyModulationSource = ModulationAndSynchronizationSources.DdsGenerator0;
+            SUT.DdsGenerators[0].FrequencyModulationSource = ModulationAndSynchronizationSource.DdsGenerator0;
             SUT.DdsGenerators[0].Frequency = 1e3;
             SUT.DdsGenerators[0].MaximumFrequencyModulationRange = 1;
             SUT.DdsGenerators[0].Amplitude = SUT.DdsGenerators[0].MaximumAmplitude;

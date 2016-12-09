@@ -36,7 +36,7 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
         /// <summary>
         /// Gets or sets the signal waveform.
         /// </summary>
-        Waveforms Waveform { get; set; }
+        Waveform Waveform { get; set; }
 
         /// <summary>
         /// Gets or sets maximum frequency modulation depth. Accepts values in the range of 0..5.
@@ -56,25 +56,25 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
         /// Gets or sets the synchronization source. If this value ist set to the current
         /// instance itself, no synchronization takes place.
         /// </summary>
-        ModulationAndSynchronizationSources SynchronizationSource { get; set; }
+        ModulationAndSynchronizationSource SynchronizationSource { get; set; }
 
         /// <summary>
         /// Gets or sets the phase modulation source. If this value ist set to the current
         /// instance itself, no phase modulation takes place.
         /// </summary>
-        ModulationAndSynchronizationSources PhaseModulationSource { get; set; }
+        ModulationAndSynchronizationSource PhaseModulationSource { get; set; }
 
         /// <summary>
         /// Gets or sets the frequency modulation source. If this value ist set to the current
         /// instance itself, no frequency modulation takes place.
         /// </summary>
-        ModulationAndSynchronizationSources FrequencyModulationSource { get; set; }
+        ModulationAndSynchronizationSource FrequencyModulationSource { get; set; }
 
         /// <summary>
         /// Gets or sets the amplitude modulation source. If this value ist set to the current
         /// instance itself, no amplitude modulation takes place.
         /// </summary>
-        ModulationAndSynchronizationSources AmplitudeModulationSource { get; set; }
+        ModulationAndSynchronizationSource AmplitudeModulationSource { get; set; }
 
         /// <summary>
         /// Gets or sets the value added to the 32 bit phase accumulator in each cycle.

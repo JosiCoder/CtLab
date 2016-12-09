@@ -27,12 +27,12 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// </summary>
     public class WaveformWriter : SubchannelWriterBase
     {
-        private Waveforms _waveform;
+        private Waveform _waveform;
         private ushort _maximumFrequencyModulationDepth;
-        private ModulationAndSynchronizationSources _synchronizationSource;
-        private ModulationAndSynchronizationSources _phaseModulationSource;
-        private ModulationAndSynchronizationSources _frequencyModulationSource;
-        private ModulationAndSynchronizationSources _amplitudeModulationSource;
+        private ModulationAndSynchronizationSource _synchronizationSource;
+        private ModulationAndSynchronizationSource _phaseModulationSource;
+        private ModulationAndSynchronizationSource _frequencyModulationSource;
+        private ModulationAndSynchronizationSource _amplitudeModulationSource;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -48,7 +48,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Gets or sets the signal waveform.
         /// </summary>
-        public Waveforms Waveform
+        public Waveform Waveform
         {
             get { return _waveform; }
             set
@@ -75,7 +75,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the synchronization source. If this value ist set to the current
         /// instance itself, no synchronization takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources SynchronizationSource
+        public ModulationAndSynchronizationSource SynchronizationSource
         {
             get { return _synchronizationSource; }
             set
@@ -89,7 +89,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the phase modulation source. If this value ist set to the current
         /// instance itself, no phase modulation takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources PhaseModulationSource
+        public ModulationAndSynchronizationSource PhaseModulationSource
         {
             get { return _phaseModulationSource; }
             set
@@ -103,7 +103,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the frequency modulation source. If this value ist set to the current
         /// instance itself, no frequency modulation takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources FrequencyModulationSource
+        public ModulationAndSynchronizationSource FrequencyModulationSource
         {
             get { return _frequencyModulationSource; }
             set
@@ -117,7 +117,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// Gets or sets the amplitude modulation source. If this value ist set to the current
         /// instance itself, no amplitude modulation takes place.
         /// </summary>
-        public ModulationAndSynchronizationSources AmplitudeModulationSource
+        public ModulationAndSynchronizationSource AmplitudeModulationSource
         {
             get { return _amplitudeModulationSource; }
             set
