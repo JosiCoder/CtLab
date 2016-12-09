@@ -22,6 +22,7 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
     /// </summary>
     public enum Waveform : ushort
     {
+        // These values must correspond to the FPGA implementation.
         Rectangle = 0,
         Sawtooth = 1,
         Sine = 2
@@ -33,10 +34,11 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
     /// </summary>
     public enum ModulationAndSynchronizationSource : ushort
     {
+        // These values must correspond to the FPGA implementation.
         DdsGenerator0 = 0,
-        DdsGenerator1,
-        DdsGenerator2,
-        DdsGenerator3
+        DdsGenerator1 = 1,
+        DdsGenerator2 = 2,
+        DdsGenerator3 = 3
     }
 
     /// <summary>
@@ -44,11 +46,12 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
     /// </summary>
     public enum OutputSource : ushort
     {
+        // These values must correspond to the FPGA implementation.
         DdsGenerator0 = 0,
-        DdsGenerator1,
-        DdsGenerator2,
-        DdsGenerator3,
-        PulseGenerator
+        DdsGenerator1 = 1,
+        DdsGenerator2 = 2,
+        DdsGenerator3 = 3,
+        PulseGenerator = 4
     }
 
     /// <summary>
@@ -56,12 +59,13 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
     /// </summary>
     public enum UniversalCounterSource : ushort
     {
+        // These values must correspond to the FPGA implementation.
         DdsGenerator0 = 0,
-        DdsGenerator1,
-        DdsGenerator2,
-        DdsGenerator3,
-        PulseGenerator,
-        External
+        DdsGenerator1 = 1,
+        DdsGenerator2 = 2,
+        DdsGenerator3 = 3,
+        PulseGenerator = 4,
+        External = 5
     }
 
     /// <summary>
@@ -69,8 +73,9 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
     /// </summary>
     public enum MeasurementMode : ushort
     {
+        // These values must correspond to the FPGA implementation.
         Frequency = 0,
-        Period
+        Period = 1
     }
 
     /// <summary>
@@ -78,12 +83,13 @@ namespace CtLab.FpgaSignalGenerator.Interfaces
     /// </summary>
     public enum PrescalerMode : ushort
     {
+        // These values must correspond to the FPGA implementation.
         GatePeriod_1s = 0,
-        GatePeriod_10s,
-        GatePeriod_100ms,
-        CounterClock_10MHz,
-        CounterClock_1MHz,
-        CounterClock_100kHz,
-        CounterClock_10kHz
+        GatePeriod_10s = 1,
+        GatePeriod_100ms = 2,
+        CounterClock_10MHz = 4,
+        CounterClock_1MHz = 5,
+        CounterClock_100kHz = 6,
+        CounterClock_10kHz = 7
     }
 }

@@ -27,6 +27,10 @@ namespace CtLab.CommandsAndMessages.Standard
     /// </summary>
     public class MessageReceiver : IMessageReceiver
     {
+        /// <summary>
+        /// Occurs when a message has been received from a c't Lab device. Note that
+        /// this event might be called via a background thread.
+        /// </summary>
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
         /// <summary>
