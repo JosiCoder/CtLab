@@ -120,7 +120,8 @@ namespace CtLab.FpgaSignalGenerator.Standard
 
         /// <summary>
         /// Gets or sets the prescaler mode used to generate the gate time or counter clock.
-        /// Setting this value also modifies <see cref="MeasurementMode"/>.
+        /// Setting this value also modifies <see cref="LeastSignificantDigitExponent"/> and
+        /// <see cref="MeasurementMode".
         /// </summary>
         public PrescalerMode PrescalerMode
         {

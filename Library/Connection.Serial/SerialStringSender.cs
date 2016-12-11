@@ -45,6 +45,7 @@ namespace CtLab.Connection.Serial
             lock (_connection)
             {
                 _connection.Send(stringToSend);
+                Console.WriteLine("String sent: {0}", stringToSend);
             }
         }
     }

@@ -69,6 +69,7 @@ namespace CtLab.Connection.Serial
         /// </remarks>
         private void StringReceivedFromConnection(object sender, StringReceivedEventArgs e)
         {
+            Console.WriteLine("String received: {0}", e.ReceivedString);
             _stringReceived.Raise(this, e);
         }
     }
