@@ -73,23 +73,13 @@ namespace CtLab.Environment
         }
 
         /// <summary>
-        /// Sets the number of the channel assigned to the FPGA Lab device.
+        /// Initializes or reinitializes a single FPGA Lab device instance
+        /// running a signal generator.
         /// </summary>
         /// <param name="channel">
         /// The number of the channel assigned to the FPGA Lab.
         /// </param>
-        public void SetSignalGeneratorChannel(byte channel)
-        {
-            InitializeSignalGenerator(channel);
-        }
-
-        /// <summary>
-        /// Initializes or reinitializes a single FPGA Lab device instance.
-        /// </summary>
-        /// <param name="channel">
-        /// The number of the channel assigned to the FPGA Lab.
-        /// </param>
-        private void InitializeSignalGenerator(byte channel)
+        public void InitializeSignalGenerator(byte channel)
         {
             var schedulerSyncRoot = new object();
             if (QueryCommandScheduler != null)

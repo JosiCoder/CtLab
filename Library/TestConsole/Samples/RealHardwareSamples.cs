@@ -60,7 +60,7 @@ namespace CtLab.TestConsole
                 ((SerialConnection)appliance.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
-                appliance.SetSignalGeneratorChannel(_channel);
+                appliance.InitializeSignalGenerator(_channel);
 
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -112,7 +112,7 @@ namespace CtLab.TestConsole
                 ((SerialConnection)appliance.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
-                appliance.SetSignalGeneratorChannel(_channel);
+                appliance.InitializeSignalGenerator(_channel);
 
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -168,7 +168,7 @@ namespace CtLab.TestConsole
                 ((SerialConnection)appliance.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
-                appliance.SetSignalGeneratorChannel(_channel);
+                appliance.InitializeSignalGenerator(_channel);
 
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -213,7 +213,7 @@ namespace CtLab.TestConsole
                 ((SerialConnection)appliance.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
-                appliance.SetSignalGeneratorChannel(_channel);
+                appliance.InitializeSignalGenerator(_channel);
 
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -251,7 +251,7 @@ namespace CtLab.TestConsole
                 ((SerialConnection)appliance.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
-                appliance.SetSignalGeneratorChannel(_channel);
+                appliance.InitializeSignalGenerator(_channel);
 
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
