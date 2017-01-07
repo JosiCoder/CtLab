@@ -45,7 +45,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         [Test]
         public void it_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
         {
-            _lastValueSet.ShouldEqual((uint)0x00000214);
+            _lastValueSet.ShouldEqual((uint)0x00000215);
         }
     }
 }
