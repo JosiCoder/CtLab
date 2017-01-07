@@ -74,7 +74,7 @@ namespace CtLab.Environment
 
         /// <summary>
         /// Initializes or reinitializes a single FPGA Lab device instance
-        /// running a signal generator.
+        /// running the signal generator.
         /// </summary>
         /// <param name="channel">
         /// The number of the channel assigned to the FPGA Lab.

@@ -78,7 +78,17 @@ namespace CtLab.CommandsAndMessages.Standard
 
             _scheduleTimer =
                 new Timer(
-                    state => SendImmediately(),
+                    state =>
+                    {
+                        try
+                        {
+                            SendImmediately();
+                        }
+                        catch
+                        {
+                            ; // intentionally ignore any errors here (e.g. timeouts)
+                        }
+                    },
                     null, 0, period);
         }
 
