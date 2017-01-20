@@ -18,8 +18,8 @@
 namespace CtLab.FpgaSignalGenerator.Interfaces
 {
     /// <summary>
-    /// Provides facilities to communicate with a DDS generator implemented within a c't Lab FPGA
-    /// device configured as an FPGA Lab.
+    /// Provides facilities to communicate with a DDS generator implemented
+    /// within a c't Lab FPGA device configured as an FPGA Lab.
     /// </summary>
     public interface IDdsGenerator
     {
