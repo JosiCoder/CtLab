@@ -76,7 +76,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         }
 
         /// <summary>
-        /// Gets or sets maximum frequency modulation depth. Accepts values in the range of 0..5.
+        /// Gets or sets the maximum frequency modulation range. Accepts values in the range of 0..5.
         /// If set to n, modulation depth is +/-(<see cref="MaximumFrequency"/> / 2 / 8^(5-n)),
         /// e.g. +/-6103.5 Hz for n=1 and MaximumFrequency=50MHz.
         /// Setting this value also modifies <see cref="MaximumFrequencyModulationDepth"/>.
@@ -94,7 +94,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         }
 
         /// <summary>
-        /// Gets maximum frequency modulation depth in Hertz.
+        /// Gets the maximum frequency modulation depth in Hertz.
         /// This is modified by setting <see cref="MaximumFrequencyModulationRange"/>.
         /// </summary>
         public double MaximumFrequencyModulationDepth
