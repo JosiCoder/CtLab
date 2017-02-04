@@ -24,5 +24,10 @@ namespace CtLab.Connection.Interfaces
     /// </summary>
     public interface IConnection : IDisposable
     {
+        /// <summary>
+        /// Gets a value indicating whether the connection is active.
+        /// </summary>
+        bool IsActive
+        { get; }
     }
 }

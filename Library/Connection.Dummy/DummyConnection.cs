@@ -29,6 +29,12 @@ namespace CtLab.Connection.Dummy
         {
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the connection is active.
+        /// </summary>
+        public bool IsActive
+        { get { return true; } }
+
         public void Dispose()
         {
         }

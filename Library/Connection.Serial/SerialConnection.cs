@@ -38,6 +38,12 @@ namespace CtLab.Connection.Serial
         private volatile bool _cancelReadThread = false;
 
         /// <summary>
+        /// Gets a value indicating whether the connection is active.
+        /// </summary>
+        public bool IsActive
+        { get; private set; }
+
+        /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="portName">
@@ -69,6 +75,8 @@ namespace CtLab.Connection.Serial
                 _readThread = new System.Threading.Thread(() => DoSerialRead ());
                 _readThread.Start ();
             }
+
+            IsActive = true;
         }
 
         /// <summary>
@@ -76,6 +84,8 @@ namespace CtLab.Connection.Serial
         /// </summary>
         public void Close()
         {
+            IsActive = false;
+
             if (_readThread != null)
             {
                 _cancelReadThread = true;
@@ -99,7 +109,15 @@ namespace CtLab.Connection.Serial
         /// <param name="stringToSend">The string to be sent.</param>
         public void Send(string stringToSend)
         {
-            _serialPort.WriteLine(stringToSend);
+            try
+            {
+                _serialPort.WriteLine(stringToSend);
+            }
+            catch
+            {
+                IsActive = false;
+                throw;
+            }
         }
 
         /// <summary>
