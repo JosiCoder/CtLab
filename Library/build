@@ -2,7 +2,7 @@
 
 # Builds the CtLab component.
 
-solution="CtLab.sln"
+solution="CtLabLibrary.sln"
 
 cd "$(dirname "$0")"
 
