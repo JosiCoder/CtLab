@@ -6,4 +6,4 @@ solution="CtLab.sln"
 
 cd "$(dirname "$0")"
 
-. "./do-build"
+. "../Common/Build/do-build"
