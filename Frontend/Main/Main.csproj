@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{2CF7F6D1-46D3-4FBC-8D98-9D4A1AD2083A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>CtLab.Frontend</RootNamespace>
+    <AssemblyName>CtLab</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\output\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\output\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="atk-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\atk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="cairo-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\cairo-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\gdk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gio-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\gio-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glib-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\glib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\gtk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="pango-sharp">
+      <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\pango-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Environment">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Environment.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.FpgaSignalGenerator.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaSignalGenerator.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Connection.Dummy">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Dummy.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Connection.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Connection.Serial">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Serial.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.EnvironmentIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.EnvironmentIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Device.Base">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Device.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.BasicIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.BasicIntegration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\submodules\Bind\src\Bind.cs">
+      <Link>Praeclarum.Bind\Bind.cs</Link>
+    </Compile>
+    <Compile Include="Application\Program.cs" />
+    <Compile Include="ApplianceComponents\UniversalCounter\UniversalCounterView.cs" />
+    <Compile Include="ApplianceComponents\SignalGenerator\SignalGeneratorView.cs" />
+    <Compile Include="ApplianceComponents\Appliance\ApplianceView.cs" />
+    <Compile Include="Application\MainWindowView.cs" />
+    <Compile Include="Primitives\Readout\ReadoutView.cs" />
+    <Compile Include="ApplianceComponents\PulseGenerator\PulseGeneratorView.cs" />
+    <Compile Include="Primitives\ScaleInput\ScaleInputViewBase.cs" />
+    <Compile Include="Application\ApplianceFactory.cs" />
+    <Compile Include="DialogService\ApplicationSettingsView.cs" />
+    <Compile Include="DialogService\MessageDialogBuilder.cs" />
+    <Compile Include="DialogService\DialogExtensions.cs" />
+    <Compile Include="Utilities\TreeViewHelper.cs" />
+    <Compile Include="DialogService\DialogServiceViewModelFactory.cs" />
+    <Compile Include="ApplianceComponents\PulseGenerator\PulseGeneratorDurationScaleInputView.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorView.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorFrequencyScaleInputView.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorAmplitudeScaleInputView.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorPhaseScaleInputView.cs" />
+    <Compile Include="Application\DemoSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplianceComponents\UniversalCounter\UniversalCounterView.glade">
+      <LogicalName>UniversalCounterView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplianceComponents\SignalGenerator\SignalGeneratorView.glade">
+      <LogicalName>SignalGeneratorView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplianceComponents\Appliance\ApplianceView.glade">
+      <LogicalName>ApplianceView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Primitives\Readout\ReadoutView.glade">
+      <LogicalName>ReadoutView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplianceComponents\PulseGenerator\PulseGeneratorView.glade">
+      <LogicalName>PulseGeneratorView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\MainWindowView.glade">
+      <LogicalName>MainWindowView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogService\ApplicationSettingsView.glade">
+      <LogicalName>ApplicationSettingsView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplianceComponents\DdsGenerator\DdsGeneratorView.glade">
+      <LogicalName>DdsGeneratorView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Primitives\ScaleInput\HorizontalScaleInputView.glade">
+      <LogicalName>HorizontalScaleInputView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Primitives\ScaleInput\VerticalScaleInputView.glade">
+      <LogicalName>VerticalScaleInputView.glade</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\GtkSharp.3.1.3\build\net45\GtkSharp.targets" Condition="Exists('..\packages\GtkSharp.3.1.3\build\net45\GtkSharp.targets')" />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\" />
+    <Folder Include="ApplianceComponents\" />
+    <Folder Include="ApplianceComponents\UniversalCounter\" />
+    <Folder Include="ApplianceComponents\SignalGenerator\" />
+    <Folder Include="ApplianceComponents\Appliance\" />
+    <Folder Include="Primitives\" />
+    <Folder Include="Primitives\Readout\" />
+    <Folder Include="ApplianceComponents\PulseGenerator\" />
+    <Folder Include="Primitives\ScaleInput\" />
+    <Folder Include="DialogService\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="ApplianceComponents\DdsGenerator\" />
+    <Folder Include="Praeclarum.Bind\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CtLab.Frontend.ViewModels\CtLab.Frontend.ViewModels.csproj">
+      <Project>{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}</Project>
+      <Name>CtLab.Frontend.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CtLab.Frontend.Utilities\CtLab.Frontend.Utilities.csproj">
+      <Project>{25919214-D54E-4AE4-914D-651BE45BB16D}</Project>
+      <Name>CtLab.Frontend.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

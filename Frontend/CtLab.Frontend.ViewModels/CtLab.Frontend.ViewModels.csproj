@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CtLab.Frontend.ViewModels</RootNamespace>
+    <AssemblyName>CtLab.Frontend.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="CtLab.FpgaSignalGenerator.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaSignalGenerator.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Environment">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Environment.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.BasicIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.BasicIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Connection.Dummy">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Dummy.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Connection.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Connection.Serial">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Serial.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Device.Base">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Device.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.EnvironmentIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.EnvironmentIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MVVM\ViewModelBase.cs" />
+    <Compile Include="Primitives\Readout\MeasurementValueReadoutViewModel.cs" />
+    <Compile Include="Primitives\Readout\ReadoutViewModelBase.cs" />
+    <Compile Include="Utilities\UnitHelper.cs" />
+    <Compile Include="Utilities\ValueConverterViewModel.cs" />
+    <Compile Include="Utilities\ValueConverterViewModelBuilder.cs" />
+    <Compile Include="Primitives\Readout\IReadoutViewModel.cs" />
+    <Compile Include="Primitives\Readout\IMeasurementValueReadoutViewModel.cs" />
+    <Compile Include="Application\IApplianceFactory.cs" />
+    <Compile Include="Application\MainViewModel.cs" />
+    <Compile Include="Application\IMainViewModelDialogService.cs" />
+    <Compile Include="DialogServices\IApplicationSettingsViewModel.cs" />
+    <Compile Include="DialogServices\ApplicationSettingsViewModel.cs" />
+    <Compile Include="DialogServices\IDialogServiceViewModelFactory.cs" />
+    <Compile Include="Application\IApplianceServices.cs" />
+    <Compile Include="Application\ApplicationServices.cs" />
+    <Compile Include="Utilities\MiscExtensions.cs" />
+    <Compile Include="Primitives\ScaleInput\LinLogScaleInputViewModel.cs" />
+    <Compile Include="ApplianceComponents\Appliance\ApplianceViewModel.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorViewModel.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\IDdsGeneratorViewModel.cs" />
+    <Compile Include="ApplianceComponents\Appliance\IApplianceViewModel.cs" />
+    <Compile Include="ApplianceComponents\PulseGenerator\IPulseGeneratorDurationScaleInputViewModel.cs" />
+    <Compile Include="ApplianceComponents\PulseGenerator\IPulseGeneratorViewModel.cs" />
+    <Compile Include="ApplianceComponents\SignalGenerator\ISignalGeneratorViewModel.cs" />
+    <Compile Include="ApplianceComponents\UniversalCounter\IUniversalCounterViewModel.cs" />
+    <Compile Include="ApplianceComponents\PulseGenerator\PulseGeneratorDurationScaleInputViewModel.cs" />
+    <Compile Include="ApplianceComponents\PulseGenerator\PulseGeneratorViewModel.cs" />
+    <Compile Include="ApplianceComponents\SignalGenerator\SignalGeneratorViewModel.cs" />
+    <Compile Include="ApplianceComponents\UniversalCounter\UniversalCounterViewModel.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorFrequencyScaleInputViewModel.cs" />
+    <Compile Include="Primitives\ScaleInput\IScaleInputViewModel.cs" />
+    <Compile Include="Primitives\ScaleInput\ScaleInputViewModelBase.cs" />
+    <Compile Include="Primitives\ScaleInput\LinearScaleInputViewModel.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorAmplitudeScaleInputViewModel.cs" />
+    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorPhaseScaleInputViewModel.cs" />
+    <Compile Include="Application\ApplicationSettings.cs" />
+    <Compile Include="Application\ApplicationSettingsReaderWriter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Primitives\" />
+    <Folder Include="Primitives\ScaleInput\" />
+    <Folder Include="MVVM\" />
+    <Folder Include="Primitives\Readout\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="ApplianceComponents\" />
+    <Folder Include="Application\" />
+    <Folder Include="DialogServices\" />
+    <Folder Include="ApplianceComponents\Appliance\" />
+    <Folder Include="ApplianceComponents\PulseGenerator\" />
+    <Folder Include="ApplianceComponents\DdsGenerator\" />
+    <Folder Include="ApplianceComponents\SignalGenerator\" />
+    <Folder Include="ApplianceComponents\UniversalCounter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CtLab.Frontend.Utilities\CtLab.Frontend.Utilities.csproj">
+      <Project>{25919214-D54E-4AE4-914D-651BE45BB16D}</Project>
+      <Name>CtLab.Frontend.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
