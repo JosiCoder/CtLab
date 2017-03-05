@@ -20,7 +20,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Gtk;
 
-namespace CtLab.Frontend.ViewModels
+namespace CtLab.Frontend
 {
     /// <summary>
     /// Provides a treeview item that in turn can have child items and can
