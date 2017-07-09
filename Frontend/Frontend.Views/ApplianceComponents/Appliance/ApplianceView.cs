@@ -24,26 +24,26 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Provides the Gtk# view of a readout.
+    /// Provides the Gtk# view of an appliance.
     /// </summary>
-    public class ReadoutView: Gtk.Bin
+    public class ApplianceView: Gtk.Bin
     {
-        private readonly IReadoutViewModel _viewModel;
-        [UI] Gtk.Container innerReadoutContainer;
-        [UI] Gtk.Container outerReadoutContainer;
-        [UI] Gtk.Label readoutLabel;
+        private readonly IApplianceViewModel _viewModel;
+        [UI] Gtk.Label connectionLabel;
+        [UI] Gtk.Widget connectionActiveIndicator;
+        [UI] Gtk.Container signalGeneratorContainer;
 
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        public static ReadoutView Create(IReadoutViewModel viewModel)
+        public static ApplianceView Create(IApplianceViewModel viewModel)
         {
-            var builder = new Builder (null, "ReadoutView.glade", null);
-            return new ReadoutView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
+            var builder = new Builder (null, "ApplianceView.glade", null);
+            return new ApplianceView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
         }
 
         /// <summary>
@@ -52,33 +52,21 @@ namespace CtLab.Frontend
         /// <param name="viewModel">The viewmodel represented by this view.</param>
         /// <param name="builder">The Gtk# builder used to build this view.</param>
         /// <param name="handle">The handle of the main widget.</param>
-        private ReadoutView(IReadoutViewModel viewModel, Builder builder, IntPtr handle)
+        private ApplianceView(IApplianceViewModel viewModel, Builder builder, IntPtr handle)
             : base (handle)
         {
             _viewModel = viewModel;
             builder.Autoconnect(this);
 
-            innerReadoutContainer.OverrideBackgroundColor(StateFlags.Normal,
-                new Gdk.RGBA
-                {
-                    Red = 255,
-                    Green = 255,
-                    Blue = 255,
-                    Alpha = 255,
-                });
+            // === Create sub-views. ===
 
-            outerReadoutContainer.OverrideBackgroundColor(StateFlags.Normal,
-                new Gdk.RGBA
-                {
-                    Red = 0,
-                    Green = 0,
-                    Blue = 255,
-                    Alpha = 255,
-                });
+            var signalGenerator =  SignalGeneratorView.Create(_viewModel.SignalGeneratorVM);
+            signalGeneratorContainer.Add(signalGenerator);
 
             // === Create bindings. ===
 
-            PB.Binding.Create (() => readoutLabel.Text == _viewModel.Text);
+            PB.Binding.Create (() => connectionLabel.Text == _viewModel.ConnectionDescription);
+            PB.Binding.Create (() => connectionActiveIndicator.Visible == _viewModel.IsConnectionActive);
         }
     }
 }

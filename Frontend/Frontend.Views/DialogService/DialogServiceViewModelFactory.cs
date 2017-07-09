@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using StructureMap;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Dummy;
 using CtLab.Connection.Serial;
@@ -28,7 +27,7 @@ using CtLab.Environment;
 using CtLab.EnvironmentIntegration;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
     /// Creates dialog service viewmodels.

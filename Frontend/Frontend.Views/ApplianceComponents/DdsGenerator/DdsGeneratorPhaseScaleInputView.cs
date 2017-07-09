@@ -24,22 +24,22 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Provides the Gtk# view of a scale input representing a frequency value of a
+    /// Provides the Gtk# view of a scale input representing an amplitude value of a
     /// DDS generator.
     /// </summary>
-    public class DdsGeneratorFrequencyScaleInputView : ScaleInputViewBase
+    public class DdsGeneratorPhaseScaleInputView : ScaleInputViewBase
     {
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        public static DdsGeneratorFrequencyScaleInputView Create(IScaleInputViewModel viewModel)
+        public static DdsGeneratorPhaseScaleInputView Create(IScaleInputViewModel viewModel)
         {
-            var builderAndHandle = CreateBuilderAndMainWidgetHandle("HorizontalScaleInputView.glade");
-            return new DdsGeneratorFrequencyScaleInputView (viewModel,
+            var builderAndHandle = CreateBuilderAndMainWidgetHandle("VerticalScaleInputView.glade");
+            return new DdsGeneratorPhaseScaleInputView (viewModel,
                 builderAndHandle.Item1, builderAndHandle.Item2);
         }
 
@@ -47,7 +47,7 @@ namespace CtLab.Frontend
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by this view.</param>
-        private DdsGeneratorFrequencyScaleInputView(IScaleInputViewModel viewModel, Builder builder, IntPtr handle)
+        private DdsGeneratorPhaseScaleInputView(IScaleInputViewModel viewModel, Builder builder, IntPtr handle)
             : base (viewModel, builder, handle)
         {}
    }

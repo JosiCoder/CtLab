@@ -19,7 +19,7 @@ using System;
 using Gtk;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
     /// Shows Gtk# message dialogs.

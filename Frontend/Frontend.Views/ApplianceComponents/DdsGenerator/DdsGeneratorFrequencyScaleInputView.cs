@@ -24,22 +24,22 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Provides the Gtk# view of a scale input representing a duration value of a
-    /// pulse generator.
+    /// Provides the Gtk# view of a scale input representing a frequency value of a
+    /// DDS generator.
     /// </summary>
-    public class PulseGeneratorDurationScaleInputView : ScaleInputViewBase
+    public class DdsGeneratorFrequencyScaleInputView : ScaleInputViewBase
     {
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        public static PulseGeneratorDurationScaleInputView Create(IPulseGeneratorDurationScaleInputViewModel viewModel)
+        public static DdsGeneratorFrequencyScaleInputView Create(IScaleInputViewModel viewModel)
         {
             var builderAndHandle = CreateBuilderAndMainWidgetHandle("HorizontalScaleInputView.glade");
-            return new PulseGeneratorDurationScaleInputView (viewModel,
+            return new DdsGeneratorFrequencyScaleInputView (viewModel,
                 builderAndHandle.Item1, builderAndHandle.Item2);
         }
 
@@ -47,7 +47,7 @@ namespace CtLab.Frontend
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by this view.</param>
-        private PulseGeneratorDurationScaleInputView(IPulseGeneratorDurationScaleInputViewModel viewModel, Builder builder, IntPtr handle)
+        private DdsGeneratorFrequencyScaleInputView(IScaleInputViewModel viewModel, Builder builder, IntPtr handle)
             : base (viewModel, builder, handle)
         {}
    }

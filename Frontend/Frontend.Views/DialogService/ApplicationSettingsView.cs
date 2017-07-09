@@ -26,7 +26,7 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
     /// Provides the Gtk# view of an appliance.

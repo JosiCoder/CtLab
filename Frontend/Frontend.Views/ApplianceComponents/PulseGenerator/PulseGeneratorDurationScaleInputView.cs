@@ -24,49 +24,31 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Provides the Gtk# view of an appliance.
+    /// Provides the Gtk# view of a scale input representing a duration value of a
+    /// pulse generator.
     /// </summary>
-    public class ApplianceView: Gtk.Bin
+    public class PulseGeneratorDurationScaleInputView : ScaleInputViewBase
     {
-        private readonly IApplianceViewModel _viewModel;
-        [UI] Gtk.Label connectionLabel;
-        [UI] Gtk.Widget connectionActiveIndicator;
-        [UI] Gtk.Container signalGeneratorContainer;
-
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        public static ApplianceView Create(IApplianceViewModel viewModel)
+        public static PulseGeneratorDurationScaleInputView Create(IPulseGeneratorDurationScaleInputViewModel viewModel)
         {
-            var builder = new Builder (null, "ApplianceView.glade", null);
-            return new ApplianceView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
+            var builderAndHandle = CreateBuilderAndMainWidgetHandle("HorizontalScaleInputView.glade");
+            return new PulseGeneratorDurationScaleInputView (viewModel,
+                builderAndHandle.Item1, builderAndHandle.Item2);
         }
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by this view.</param>
-        /// <param name="builder">The Gtk# builder used to build this view.</param>
-        /// <param name="handle">The handle of the main widget.</param>
-        private ApplianceView(IApplianceViewModel viewModel, Builder builder, IntPtr handle)
-            : base (handle)
-        {
-            _viewModel = viewModel;
-            builder.Autoconnect(this);
-
-            // === Create sub-views. ===
-
-            var signalGenerator =  SignalGeneratorView.Create(_viewModel.SignalGeneratorVM);
-            signalGeneratorContainer.Add(signalGenerator);
-
-            // === Create bindings. ===
-
-            PB.Binding.Create (() => connectionLabel.Text == _viewModel.ConnectionDescription);
-            PB.Binding.Create (() => connectionActiveIndicator.Visible == _viewModel.IsConnectionActive);
-        }
-    }
+        private PulseGeneratorDurationScaleInputView(IPulseGeneratorDurationScaleInputViewModel viewModel, Builder builder, IntPtr handle)
+            : base (viewModel, builder, handle)
+        {}
+   }
 }

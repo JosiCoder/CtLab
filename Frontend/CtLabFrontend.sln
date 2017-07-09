@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.ViewModels.Specs",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.Utilities", "Frontend.Utilities\Frontend.Utilities.csproj", "{25919214-D54E-4AE4-914D-651BE45BB16D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{BC2FE637-592D-4819-84E8-0A847966EFDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.Views", "Frontend.Views\Frontend.Views.csproj", "{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -29,6 +33,10 @@ Global
 		{70987AAF-D79E-48C5-96C3-2AB3F54C27E1}.Debug|x86.Build.0 = Debug|Any CPU
 		{70987AAF-D79E-48C5-96C3-2AB3F54C27E1}.Release|x86.ActiveCfg = Release|Any CPU
 		{70987AAF-D79E-48C5-96C3-2AB3F54C27E1}.Release|x86.Build.0 = Release|Any CPU
+		{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3}.Release|x86.Build.0 = Release|Any CPU
 		{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}.Debug|x86.Build.0 = Debug|Any CPU
 		{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}.Release|x86.ActiveCfg = Release|Any CPU
@@ -37,6 +45,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C3E81B49-C750-4E78-9482-FDCD8F1E4D99} = {23D5D364-CF55-42E9-A94D-F2D34FFF4740}
 		{70987AAF-D79E-48C5-96C3-2AB3F54C27E1} = {23D5D364-CF55-42E9-A94D-F2D34FFF4740}
+		{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3} = {BC2FE637-592D-4819-84E8-0A847966EFDF}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

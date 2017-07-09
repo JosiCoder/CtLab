@@ -59,87 +59,41 @@
     <Reference Include="pango-sharp">
       <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\pango-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="CtLab.Environment">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Environment.dll</HintPath>
-    </Reference>
-    <Reference Include="CtLab.FpgaSignalGenerator.Interfaces">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaSignalGenerator.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="CtLab.Connection.Dummy">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Dummy.dll</HintPath>
-    </Reference>
     <Reference Include="CtLab.Connection.Interfaces">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="CtLab.Connection.Serial">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Serial.dll</HintPath>
     </Reference>
-    <Reference Include="CtLab.EnvironmentIntegration">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.EnvironmentIntegration.dll</HintPath>
-    </Reference>
-    <Reference Include="CtLab.Device.Base">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Device.Base.dll</HintPath>
+    <Reference Include="CtLab.Connection.Dummy">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Dummy.dll</HintPath>
     </Reference>
     <Reference Include="CtLab.BasicIntegration">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.BasicIntegration.dll</HintPath>
     </Reference>
+    <Reference Include="CtLab.Environment">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Environment.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.EnvironmentIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.EnvironmentIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.FpgaSignalGenerator.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaSignalGenerator.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Device.Base">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Device.Base.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\submodules\Bind\src\Bind.cs">
-      <Link>Praeclarum.Bind\Bind.cs</Link>
-    </Compile>
     <Compile Include="Application\Program.cs" />
-    <Compile Include="ApplianceComponents\UniversalCounter\UniversalCounterView.cs" />
-    <Compile Include="ApplianceComponents\SignalGenerator\SignalGeneratorView.cs" />
-    <Compile Include="ApplianceComponents\Appliance\ApplianceView.cs" />
     <Compile Include="Application\MainWindowView.cs" />
-    <Compile Include="Primitives\Readout\ReadoutView.cs" />
-    <Compile Include="ApplianceComponents\PulseGenerator\PulseGeneratorView.cs" />
-    <Compile Include="Primitives\ScaleInput\ScaleInputViewBase.cs" />
     <Compile Include="Application\ApplianceFactory.cs" />
-    <Compile Include="DialogService\ApplicationSettingsView.cs" />
-    <Compile Include="DialogService\MessageDialogBuilder.cs" />
-    <Compile Include="DialogService\DialogExtensions.cs" />
-    <Compile Include="Utilities\TreeViewHelper.cs" />
-    <Compile Include="DialogService\DialogServiceViewModelFactory.cs" />
-    <Compile Include="ApplianceComponents\PulseGenerator\PulseGeneratorDurationScaleInputView.cs" />
-    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorView.cs" />
-    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorFrequencyScaleInputView.cs" />
-    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorAmplitudeScaleInputView.cs" />
-    <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorPhaseScaleInputView.cs" />
     <Compile Include="Application\DemoSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ApplianceComponents\UniversalCounter\UniversalCounterView.glade">
-      <LogicalName>UniversalCounterView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ApplianceComponents\SignalGenerator\SignalGeneratorView.glade">
-      <LogicalName>SignalGeneratorView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ApplianceComponents\Appliance\ApplianceView.glade">
-      <LogicalName>ApplianceView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Primitives\Readout\ReadoutView.glade">
-      <LogicalName>ReadoutView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ApplianceComponents\PulseGenerator\PulseGeneratorView.glade">
-      <LogicalName>PulseGeneratorView.glade</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Application\MainWindowView.glade">
       <LogicalName>MainWindowView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DialogService\ApplicationSettingsView.glade">
-      <LogicalName>ApplicationSettingsView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ApplianceComponents\DdsGenerator\DdsGeneratorView.glade">
-      <LogicalName>DdsGeneratorView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Primitives\ScaleInput\HorizontalScaleInputView.glade">
-      <LogicalName>HorizontalScaleInputView.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Primitives\ScaleInput\VerticalScaleInputView.glade">
-      <LogicalName>VerticalScaleInputView.glade</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -150,17 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />
-    <Folder Include="ApplianceComponents\" />
-    <Folder Include="ApplianceComponents\UniversalCounter\" />
-    <Folder Include="ApplianceComponents\SignalGenerator\" />
-    <Folder Include="ApplianceComponents\Appliance\" />
-    <Folder Include="Primitives\" />
-    <Folder Include="Primitives\Readout\" />
-    <Folder Include="ApplianceComponents\PulseGenerator\" />
-    <Folder Include="Primitives\ScaleInput\" />
-    <Folder Include="DialogService\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="ApplianceComponents\DdsGenerator\" />
     <Folder Include="Praeclarum.Bind\" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +114,10 @@
     <ProjectReference Include="..\Frontend.ViewModels\Frontend.ViewModels.csproj">
       <Project>{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}</Project>
       <Name>Frontend.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Frontend.Views\Frontend.Views.csproj">
+      <Project>{BA04C3B8-8F77-4D1E-BE89-BB51F8F469A3}</Project>
+      <Name>Frontend.Views</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
