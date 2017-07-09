@@ -5,11 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View Models", "View Models", "{23D5D364-CF55-42E9-A94D-F2D34FFF4740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLab.Frontend.ViewModels", "CtLab.Frontend.ViewModels\CtLab.Frontend.ViewModels.csproj", "{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.ViewModels", "Frontend.ViewModels\Frontend.ViewModels.csproj", "{C3E81B49-C750-4E78-9482-FDCD8F1E4D99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLab.Frontend.ViewModels.Specs", "CtLab.Frontend.ViewModels.Specs\CtLab.Frontend.ViewModels.Specs.csproj", "{70987AAF-D79E-48C5-96C3-2AB3F54C27E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.ViewModels.Specs", "Frontend.ViewModels.Specs\Frontend.ViewModels.Specs.csproj", "{70987AAF-D79E-48C5-96C3-2AB3F54C27E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLab.Frontend.Utilities", "CtLab.Frontend.Utilities\CtLab.Frontend.Utilities.csproj", "{25919214-D54E-4AE4-914D-651BE45BB16D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.Utilities", "Frontend.Utilities\Frontend.Utilities.csproj", "{25919214-D54E-4AE4-914D-651BE45BB16D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

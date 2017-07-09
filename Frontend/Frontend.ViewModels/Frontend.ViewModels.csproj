@@ -114,9 +114,9 @@
     <Folder Include="ApplianceComponents\UniversalCounter\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CtLab.Frontend.Utilities\CtLab.Frontend.Utilities.csproj">
+    <ProjectReference Include="..\Frontend.Utilities\Frontend.Utilities.csproj">
       <Project>{25919214-D54E-4AE4-914D-651BE45BB16D}</Project>
-      <Name>CtLab.Frontend.Utilities</Name>
+      <Name>Frontend.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
