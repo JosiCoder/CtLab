@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Gtk;
 using CtLab.Frontend.ViewModels;
+using CtLab.Frontend.Views;
 
 namespace CtLab.Frontend
 {

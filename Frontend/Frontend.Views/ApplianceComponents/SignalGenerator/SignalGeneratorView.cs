@@ -26,7 +26,7 @@ using System.Collections.Specialized;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend.ViewModels
+namespace CtLab.Frontend.Views
 {
     /// <summary>
     /// Provides the Gtk# view of a signal generator.

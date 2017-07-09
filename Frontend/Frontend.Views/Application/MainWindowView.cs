@@ -26,7 +26,7 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend
+namespace CtLab.Frontend.Views
 {
     /// <summary>
     /// Provides the Gtk# view of the main window.
@@ -43,7 +43,7 @@ namespace CtLab.Frontend
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        internal static MainWindowView Create(MainViewModel viewModel)
+        public static MainWindowView Create(MainViewModel viewModel)
         {
             var builder = new Builder (null, "MainWindowView.glade", null);
             return new MainWindowView (viewModel, builder, builder.GetObject ("mainWidget").Handle);

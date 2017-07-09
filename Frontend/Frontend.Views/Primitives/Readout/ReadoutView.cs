@@ -24,7 +24,7 @@ using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend.ViewModels
+namespace CtLab.Frontend.Views
 {
     /// <summary>
     /// Provides the Gtk# view of a readout.

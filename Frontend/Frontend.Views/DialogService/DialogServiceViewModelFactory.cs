@@ -27,7 +27,7 @@ using CtLab.Environment;
 using CtLab.EnvironmentIntegration;
 using CtLab.Frontend.ViewModels;
 
-namespace CtLab.Frontend.ViewModels
+namespace CtLab.Frontend.Views
 {
     /// <summary>
     /// Creates dialog service viewmodels.
