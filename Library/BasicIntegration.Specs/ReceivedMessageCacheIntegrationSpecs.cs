@@ -63,7 +63,6 @@ namespace CtLab.BasicIntegration.Specs
         {
             base.Given();
 
-            _stringReceiverMock = GetMockFor<IStringReceiver>();
             _messageUpdatedSinkMocks = new []
             {
                 new Mock<IMessageUpdatedSink>(),
