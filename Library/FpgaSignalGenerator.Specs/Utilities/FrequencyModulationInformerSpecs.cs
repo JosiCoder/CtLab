@@ -58,14 +58,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_zero()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_zero()
         {
             SUT.ModulationDepth.ShouldEqual(0);
             SUT.RelativeModulationDepth.ShouldEqual(0.0f);
         }
 
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -82,14 +82,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_infinity()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_infinity()
         {
             SUT.ModulationDepth.ShouldEqual(10e6);
             SUT.RelativeModulationDepth.ShouldEqual(float.PositiveInfinity);
         }
     
         [Test]
-        public void it_should_report_overmodulation()
+        public void then_the_SUT_should_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(true);
         }
@@ -106,14 +106,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_infinity()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_infinity()
         {
             SUT.ModulationDepth.ShouldEqual(10e6);
             SUT.RelativeModulationDepth.ShouldEqual(float.PositiveInfinity);
         }
     
         [Test]
-        public void it_should_report_overmodulation()
+        public void then_the_SUT_should_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(true);
         }
@@ -130,14 +130,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_zero()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_zero()
         {
             SUT.ModulationDepth.ShouldEqual(0);
             SUT.RelativeModulationDepth.ShouldEqual(0.0f);
         }
 
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -154,14 +154,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_zero()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_zero()
         {
             SUT.ModulationDepth.ShouldEqual(0);
             SUT.RelativeModulationDepth.ShouldEqual(0.0f);
         }
 
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -178,14 +178,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_one_half()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_one_half()
         {
             SUT.ModulationDepth.ShouldEqual(10e6);
             SUT.RelativeModulationDepth.ShouldEqual(0.5f);
         }
     
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -202,14 +202,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_one_half()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_one_half()
         {
             SUT.ModulationDepth.ShouldEqual(10e6);
             SUT.RelativeModulationDepth.ShouldEqual(0.5f);
         }
 
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -226,14 +226,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_100_percent()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_100_percent()
         {
             SUT.ModulationDepth.ShouldEqual(20e6);
             SUT.RelativeModulationDepth.ShouldEqual(1f);
         }
     
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -250,14 +250,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_a_relative_modulation_depth_of_100_percent()
+        public void then_the_SUT_should_return_a_relative_modulation_depth_of_100_percent()
         {
             SUT.ModulationDepth.ShouldEqual(20e6);
             SUT.RelativeModulationDepth.ShouldEqual(1f);
         }
 
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }
@@ -274,14 +274,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_an_according_relative_modulation_depth_of_more_than_100_percent()
+        public void then_the_SUT_should_return_an_according_relative_modulation_depth_of_more_than_100_percent()
         {
             SUT.ModulationDepth.ShouldEqual(20e6);
             SUT.RelativeModulationDepth.ShouldEqual(2f);
         }
     
         [Test]
-        public void it_should_report_overmodulation()
+        public void then_the_SUT_should_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(true);
         }
@@ -298,14 +298,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_an_according_relative_modulation_depth_of_more_than_100_percent()
+        public void then_the_SUT_should_return_an_according_relative_modulation_depth_of_more_than_100_percent()
         {
             SUT.ModulationDepth.ShouldEqual(20e6);
             SUT.RelativeModulationDepth.ShouldEqual(2f);
         }
 
         [Test]
-        public void it_should_report_overmodulation()
+        public void then_the_SUT_should_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(true);
         }
@@ -322,14 +322,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_ignore_the_180_degree_phase_shift_and_still_return_positive_modulation_depths()
+        public void then_the_SUT_should_ignore_the_180_degree_phase_shift_and_still_return_positive_modulation_depths()
         {
             SUT.ModulationDepth.ShouldEqual(10e6);
             SUT.RelativeModulationDepth.ShouldEqual(0.5f);
         }
 
         [Test]
-        public void it_should_not_report_overmodulation()
+        public void then_the_SUT_should_not_report_overmodulation()
         {
             SUT.Overmodulated.ShouldEqual(false);
         }

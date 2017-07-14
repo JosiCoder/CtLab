@@ -39,7 +39,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_sould_return_the_correctly_parsed_resonse()
+        public void then_the_SUT_should_return_the_correctly_parsed_response()
         {
             _message.ShouldEqual(new[]
             {
@@ -64,7 +64,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-		public void it_sould_return_the_correctly_parsed_resonse()
+        public void then_the_SUT_should_return_the_correctly_parsed_response()
         {
             _message.ShouldEqual(new[]
             {

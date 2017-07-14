@@ -58,7 +58,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_standard_set_command_string()
+        public void then_the_SUT_should_return_a_standard_set_command_string()
         {
             _builtCommandString.ShouldEqual("1:15=2.5");
         }
@@ -76,7 +76,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_standard_set_command_string_including_an_exclamation_mark()
+        public void then_the_SUT_should_return_a_standard_set_command_string_including_an_exclamation_mark()
         {
             _builtCommandString.ShouldEqual("1:20=2!");
         }
@@ -94,13 +94,13 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_call_the_checksum_calculator_with_the_right_command_string()
+        public void then_the_SUT_should_call_the_checksum_calculator_with_the_right_command_string()
         {
             _checksumCalculatorMock.Verify(calc => calc.Calculate(_builtCommandString.TrimChecksum()), Times.Once);
         }
 
         [Test]
-        public void it_should_return_a_standard_set_command_string_including_a_checksum()
+        public void then_the_SUT_should_return_a_standard_set_command_string_including_a_checksum()
         {
             _builtCommandString.ShouldEqual("1:20=1$08");
         }
@@ -118,13 +118,13 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_call_the_checksum_calculator_with_the_right_command_string()
+        public void then_the_SUT_should_call_the_checksum_calculator_with_the_right_command_string()
         {
             _checksumCalculatorMock.Verify(calc => calc.Calculate(_builtCommandString.TrimChecksum()), Times.Once);
         }
 
         [Test]
-        public void it_should_return_a_standard_set_command_string_including_an_exclamation_mark_and_a_checksum()
+        public void then_the_SUT_should_return_a_standard_set_command_string_including_an_exclamation_mark_and_a_checksum()
         {
             _builtCommandString.ShouldEqual("1:20=1!$08");
         }
@@ -142,7 +142,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_set_command_string_without_a_channel()
+        public void then_the_SUT_should_return_a_set_command_string_without_a_channel()
         {
             _builtCommandString.ShouldEqual("20=1");
         }
@@ -160,7 +160,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_broadcast_set_command_string()
+        public void then_the_SUT_should_return_a_broadcast_set_command_string()
         {
             _builtCommandString.ShouldEqual("*:25=1");
         }
@@ -176,7 +176,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_standard_query_command_string()
+        public void then_the_SUT_should_return_a_standard_query_command_string()
         {
             _builtCommandString.ShouldEqual("1:30?");
         }
@@ -193,13 +193,13 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_call_the_checksum_calculator_with_the_right_command_string()
+        public void then_the_SUT_should_call_the_checksum_calculator_with_the_right_command_string()
         {
             _checksumCalculatorMock.Verify(calc => calc.Calculate(_builtCommandString.TrimChecksum()), Times.Once);
         }
 
         [Test]
-        public void it_should_return_a_standard_query_command_string_including_a_checksum()
+        public void then_the_SUT_should_return_a_standard_query_command_string_including_a_checksum()
         {
             _builtCommandString.ShouldEqual("1:30?$08");
         }
@@ -216,7 +216,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_query_command_string_without_a_channel()
+        public void then_the_SUT_should_return_a_query_command_string_without_a_channel()
         {
             _builtCommandString.ShouldEqual("30?");
         }
@@ -233,7 +233,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_a_broadcast_query_command_string()
+        public void then_the_SUT_should_return_a_broadcast_query_command_string()
         {
             _builtCommandString.ShouldEqual("*:35?");
         }

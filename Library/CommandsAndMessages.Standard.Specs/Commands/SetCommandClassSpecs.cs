@@ -44,7 +44,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_value()
+        public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.RawValue.ShouldEqual("33");
         }
@@ -60,7 +60,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_value()
+        public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.RawValue.ShouldEqual("33.3");
         }
@@ -76,7 +76,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_value()
+        public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.RawValue.ShouldEqual("1");
         }
@@ -92,7 +92,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_value()
+        public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.RawValue.ShouldEqual("0");
         }
@@ -108,7 +108,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_be_marked_as_modified()
+        public void then_the_SUT_should_be_marked_as_modified()
         {
             SUT.ValueModified.ShouldBeTrue();
         }
@@ -125,7 +125,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_not_be_marked_as_modified()
+        public void then_the_SUT_should_not_be_marked_as_modified()
         {
             SUT.ValueModified.ShouldBeFalse();
         }
@@ -143,7 +143,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_not_be_marked_as_modified()
+        public void then_the_SUT_should_not_be_marked_as_modified()
         {
             SUT.ValueModified.ShouldBeFalse();
         }
@@ -160,7 +160,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_still_be_marked_as_modified()
+        public void then_the_SUT_should_still_be_marked_as_modified()
         {
             SUT.ValueModified.ShouldBeTrue();
         }

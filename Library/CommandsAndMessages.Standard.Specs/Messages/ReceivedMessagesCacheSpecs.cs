@@ -88,20 +88,20 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
 		[Test]
-		public void it_should_get_a_message_container()
+		public void then_the_SUT_should_return_a_message_container()
 		{
 			_returnedMessageContainer.ShouldNotBeNull();
 		}
 
         [Test]
-		public void it_should_be_able_to_obtain_the_according_message_container()
+		public void then_the_SUT_should_be_able_to_obtain_the_according_message_container()
         {
             var container = SUT.GetMessageContainer(2, 11);
 			container.ShouldBeSameAs(_returnedMessageContainer);
         }
 
         [Test]
-		public void it_should_have_an_empty_message_in_the_message_container()
+		public void then_the_SUT_should_have_an_empty_message_in_the_message_container()
         {
             var container = SUT.GetMessageContainer(2, 11);
             var message = container.Message;
@@ -123,7 +123,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_throw_an_exception()
+        public void then_the_SUT_should_throw_an_exception()
         {
             _theAssertion.ShouldThrow<ArgumentException>();
         }
@@ -142,7 +142,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_update_the_messages_in_the_message_containers()
+        public void then_the_SUT_should_update_the_messages_in_the_message_containers()
         {
             SUT.GetMessageContainer(1, 11).Message.RawValue.ShouldEqual("HI!");
             SUT.GetMessageContainer(2, 22).Message.RawValue.ShouldEqual("Hello!");
@@ -150,7 +150,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_raise_events_for_updated_messages_but_none_else()
+        public void then_the_SUT_should_raise_events_for_updated_messages_but_none_else()
         {
             _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(1,11), EventArgs.Empty), Times.Once);
             _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(2, 22), EventArgs.Empty), Times.Once);
@@ -180,7 +180,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void the_message_container_should_contain_the_most_recently_received_messages()
+        public void then_the_SUTs_message_containers_should_contain_the_most_recently_received_messages()
         {
             SUT.GetMessageContainer(1, 11).Message.RawValue.ShouldEqual("HI!");
             SUT.GetMessageContainer(2, 22).Message.RawValue.ShouldEqual("Hello!");
@@ -188,7 +188,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_raise_events_once_per_real_update()
+        public void then_the_SUT_should_raise_events_once_per_real_update()
         {
             _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(1,11), EventArgs.Empty), Times.Once);
             _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(2, 22), EventArgs.Empty), Times.Once);
@@ -221,7 +221,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_update_the_messages_in_the_message_containers_for_registered_subchannels_but_none_else()
+        public void then_the_SUT_should_update_the_messages_in_the_message_containers_for_registered_subchannels_but_none_else()
         {
             _unregisteredMessageContainer.Message.RawValue.ShouldBeNull();
             SUT.GetMessageContainer(2, 22).Message.RawValue.ShouldEqual("Hello!");
@@ -229,7 +229,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_raise_events_for_the_updated_messages_for_registered_subchannels_but_none_else()
+        public void then_the_SUT_should_raise_events_for_the_updated_messages_for_registered_subchannels_but_none_else()
         {
             _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(_unregisteredMessageContainer, EventArgs.Empty), Times.Never);
             _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(2, 22), EventArgs.Empty), Times.Once);

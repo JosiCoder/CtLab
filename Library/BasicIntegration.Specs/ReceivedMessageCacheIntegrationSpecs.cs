@@ -34,19 +34,18 @@ namespace CtLab.BasicIntegration.Specs
 
 
     public abstract class ReceivedMessageCacheIntegrationSpecs
-        : SpecsFor<object>
+        : SpecsFor<Container>
     {
-        protected Container _container;
         protected Mock<IStringReceiver> _stringReceiverMock;
 
-        protected override void Given()
+        protected override void InitializeClassUnderTest()
         {
             base.Given ();
 
             // Use a mock that we can query whether a method has been called.
             _stringReceiverMock = GetMockFor<IStringReceiver>();
 
-            _container = new Container (expression =>
+            SUT = new Container (expression =>
                 {
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
                     expression.For<IStringReceiver>().Use(_stringReceiverMock.Object);
@@ -83,10 +82,10 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_get_the_same_instance()
+        public void then_the_SUT_should_get_the_same_instance()
         {
-            var instance1 = _container.GetInstance<IMessageCache>();
-            var instance2 = _container.GetInstance<IMessageCache>();
+            var instance1 = SUT.GetInstance<IMessageCache>();
+            var instance2 = SUT.GetInstance<IMessageCache>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -99,7 +98,7 @@ namespace CtLab.BasicIntegration.Specs
 
         protected override void When()
         {
-            _messageCache = _container.GetInstance<IMessageCache>();
+            _messageCache = SUT.GetInstance<IMessageCache>();
 
             _messageCache.Register(1, 255);
             _messageCache.Register(2, 255);
@@ -114,7 +113,7 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_update_the_messages_in_the_message_containers()
+        public void then_the_SUT_should_update_the_messages_in_the_message_containers()
         {
             _messageCache.GetMessageContainer(1, 255).Message.RawValue.ShouldEqual("6");
             _messageCache.GetMessageContainer(2, 255).Message.RawValue.ShouldEqual("7");
@@ -122,7 +121,7 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_raise_events_for_updated_messages_but_none_else()
+        public void then_the_SUT_should_raise_events_for_updated_messages_but_none_else()
         {
             _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(1, 255), EventArgs.Empty), Times.Once);
             _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(2, 255), EventArgs.Empty), Times.Once);

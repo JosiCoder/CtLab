@@ -27,19 +27,18 @@ using CtLab.CommandsAndMessages.Interfaces;
 namespace CtLab.BasicIntegration.Specs
 {
     public abstract class QueryCommandSenderIntegrationSpecs
-        : SpecsFor<object>
+        : SpecsFor<Container>
     {
-        protected Container _container;
         protected Mock<IStringSender> _stringSenderMock;
 
-        protected override void Given()
+        protected override void InitializeClassUnderTest()
         {
             base.Given ();
 
             // Use a mock that we can query whether a method has been called.
             _stringSenderMock = GetMockFor<IStringSender>();
 
-            _container = new Container (expression =>
+            SUT = new Container (expression =>
                 {
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
                     expression.For<IStringSender>().Use(_stringSenderMock.Object);
@@ -52,12 +51,12 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var queryCommandSender = _container.GetInstance<IQueryCommandSender>();
+            var queryCommandSender = SUT.GetInstance<IQueryCommandSender>();
             queryCommandSender.Send(new QueryCommandClass(1, 11));
         }
 
         [Test]
-        public void it_should_send_the_command_string_including_the_checksum()
+        public void then_the_SUT_should_send_the_command_string_including_the_checksum()
         {
             _stringSenderMock.Verify(sender => sender.Send("1:11?$34"), Times.Once);
         }

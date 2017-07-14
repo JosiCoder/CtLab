@@ -76,7 +76,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_throw_an_exception()
+        public void then_the_SUT_should_throw_an_exception()
         {
             _theAssertion.ShouldThrow<ArgumentException>();
         }
@@ -94,7 +94,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_throw_an_exception()
+        public void then_the_SUT_should_throw_an_exception()
         {
             _theAssertion.ShouldThrow<ArgumentException>();
         }
@@ -111,7 +111,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_send_the_commands_for_modified_values_exactly_once_but_none_else()
+        public void then_the_SUT_should_send_the_commands_for_modified_values_exactly_once_but_none_else()
         {
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Once);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Never);
@@ -131,7 +131,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_send_the_commands_for_modified_values_exactly_once_but_none_else()
+        public void then_the_SUT_should_send_the_commands_for_modified_values_exactly_once_but_none_else()
         {
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Once);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Never);
@@ -153,7 +153,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_send_the_commands_for_classes_in_the_command_class_dictionary_but_none_else()
+        public void then_the_SUT_should_send_the_commands_for_classes_in_the_command_class_dictionary_but_none_else()
         {
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Never);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Once);
@@ -174,7 +174,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_send_the_commands_for_classes_in_the_command_class_dictionary_but_none_else()
+        public void then_the_SUT_should_send_the_commands_for_classes_in_the_command_class_dictionary_but_none_else()
         {
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Never);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Once);
@@ -194,7 +194,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_send_all_commands_exactly_once()
+        public void then_the_SUT_should_send_all_commands_exactly_once()
         {
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Once);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Once);

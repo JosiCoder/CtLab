@@ -40,7 +40,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_bytes()
+        public void then_the_SUT_should_return_the_correct_bytes()
         {
             _sampleString.GetBytes().ShouldEqual(new byte[] { 0x31, 0x32, 0x33, 0x20, 0x41, 0x42, 0x43, 0x20, 0x61, 0x62, 0x63 });
         }
@@ -56,7 +56,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correctly_trimmed_command_string()
+        public void then_the_SUT_should_return_the_correctly_trimmed_command_string()
         {
             _sampleString.TrimChecksum().ShouldEqual("command");
         }

@@ -49,7 +49,7 @@ namespace CtLab.SubchannelAccess.Specs
         }
 
         [Test]
-        public void it_should_get_the_value()
+        public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.Value.ShouldEqual((uint)14);
         }

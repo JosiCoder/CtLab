@@ -27,19 +27,18 @@ using CtLab.CommandsAndMessages.Interfaces;
 namespace CtLab.BasicIntegration.Specs
 {
     public abstract class SetCommandDictionaryIntegrationSpecs
-        : SpecsFor<object>
+        : SpecsFor<Container>
     {
-        protected Container _container;
         protected Mock<IStringSender> _stringSenderMock;
 
-        protected override void Given()
+        protected override void InitializeClassUnderTest()
         {
             base.Given ();
 
             // Use a mock that we can query whether a method has been called.
             _stringSenderMock = GetMockFor<IStringSender>();
 
-            _container = new Container (expression =>
+            SUT = new Container (expression =>
                 {
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
                     expression.For<IStringSender>().Use(_stringSenderMock.Object);
@@ -56,10 +55,10 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_get_the_same_instance()
+        public void then_the_SUT_should_get_the_same_instance()
         {
-            var instance1 = _container.GetInstance<ISetCommandClassDictionary>();
-            var instance2 = _container.GetInstance<ISetCommandClassDictionary>();
+            var instance1 = SUT.GetInstance<ISetCommandClassDictionary>();
+            var instance2 = SUT.GetInstance<ISetCommandClassDictionary>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -70,7 +69,7 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var setCommandCLassDict = _container.GetInstance<ISetCommandClassDictionary>();
+            var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary>();
             var setCommandClass = new SetCommandClass(1, 11);
             setCommandCLassDict.Add(setCommandClass);
             setCommandClass.SetValue(15);
@@ -78,7 +77,7 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_send_the_command_string_including_the_checksum_but_without_an_acknowledge_request()
+        public void then_the_SUT_should_send_the_command_string_including_the_checksum_but_without_an_acknowledge_request()
         {
             _stringSenderMock.Verify(sender => sender.Send("1:11=15$32"), Times.Once);
         }

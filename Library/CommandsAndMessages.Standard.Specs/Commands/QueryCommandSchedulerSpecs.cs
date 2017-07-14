@@ -56,7 +56,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_immediately_tell_the_associated_dictionary_to_send_the_commands_exactly_once()
+        public void then_the_SUT_should_immediately_tell_the_associated_dictionary_exactly_once_to_send_the_commands()
         {
             _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(), Times.Once);
         }
@@ -76,7 +76,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_tell_the_associated_dictionary_to_send_the_commands_once_almost_immediately()
+        public void then_the_SUT_should_tell_the_associated_dictionary_exactly_once_almost_immediately_to_send_the_commands()
         {
             Thread.Sleep(_period/2);
             _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(), Times.Once);
@@ -84,7 +84,7 @@ namespace CtLab.CommandsAndMessages.Specs
 
 
         [Test]
-        public void it_should_tell_the_associated_dictionary_to_send_the_commands_once_per_period()
+        public void then_the_SUT_should_tell_the_associated_dictionary_once_per_period_to_send_the_commands()
         {
             while ((DateTime.Now - _startTime).TotalMilliseconds < 5 * _period)
             {

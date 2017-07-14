@@ -40,7 +40,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_have_set_the_phase_increment()
+        public void then_the_SUT_should_also_set_the_phase_increment()
         {
             SUT.PhaseIncrement.ShouldEqual(_maximumPhaseIncrement / 2);
         }
@@ -56,7 +56,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void ir_should_return_the_according_maximum_frequency_modulation_depth()
+        public void then_the_SUT_should_also_set_the_according_maximum_frequency_modulation_depth()
         {
             SUT.MaximumFrequencyModulationDepth.ShouldEqual(3125000);
         }

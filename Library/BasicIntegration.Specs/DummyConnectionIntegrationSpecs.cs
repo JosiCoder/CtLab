@@ -27,15 +27,11 @@ using CtLab.Connection.Dummy;
 namespace CtLab.BasicIntegration.Specs
 {
     public abstract class DummyConnectionIntegrationSpecs
-        : SpecsFor<object>
+        : SpecsFor<Container>
     {
-        protected Container _container;
-
-        protected override void Given()
+        protected override void InitializeClassUnderTest()
         {
-            base.Given();
-
-            _container = new Container (expression =>
+            SUT = new Container (expression =>
                 {
                     expression.AddRegistry<DummyConnectionRegistry>();
                 });
@@ -50,10 +46,10 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_get_the_same_instance()
+        public void then_the_SUT_should_return_the_same_instance()
         {
-            var instance1 = _container.GetInstance<IConnection>();
-            var instance2 = _container.GetInstance<IConnection>();
+            var instance1 = SUT.GetInstance<IConnection>();
+            var instance2 = SUT.GetInstance<IConnection>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -66,10 +62,10 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_get_the_same_instance()
+        public void then_the_SUT_should_return_the_same_instance()
         {
-            var instance1 = _container.GetInstance<IConnection>();
-            var instance2 = _container.GetInstance<DummyConnection>();
+            var instance1 = SUT.GetInstance<IConnection>();
+            var instance2 = SUT.GetInstance<DummyConnection>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -82,18 +78,18 @@ namespace CtLab.BasicIntegration.Specs
         }
 
         [Test]
-        public void it_should_get_the_same_instance_for_the_sender()
+        public void then_the_SUT_should_return_the_same_instance_for_the_sender()
         {
-            var instance1 = _container.GetInstance<IStringSender>();
-            var instance2 = _container.GetInstance<IStringSender>();
+            var instance1 = SUT.GetInstance<IStringSender>();
+            var instance2 = SUT.GetInstance<IStringSender>();
             instance2.ShouldBeSameAs(instance1);
         }
 
         [Test]
-        public void it_should_get_the_same_instance_for_the_receiver()
+        public void then_the_SUT_should_return_the_same_instance_for_the_receiver()
         {
-            var instance1 = _container.GetInstance<IStringReceiver>();
-            var instance2 = _container.GetInstance<IStringReceiver>();
+            var instance1 = SUT.GetInstance<IStringReceiver>();
+            var instance2 = SUT.GetInstance<IStringReceiver>();
             instance2.ShouldBeSameAs(instance1);
         }
     }

@@ -63,7 +63,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_report_the_correct_modulation_values()
+        public void then_the_SUT_should_report_the_correct_modulation_values()
         {
             SUT.DdsGeneratorsAMInformationSets[0].RelativeModulationDepth.ShouldEqual(0.5f);
         }
@@ -80,7 +80,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_not_use_that_and_thus_report_zero_modulation_values()
+        public void then_the_SUT_should_not_use_that_and_thus_report_zero_modulation_values()
         {
             SUT.DdsGeneratorsAMInformationSets[0].RelativeModulationDepth.ShouldEqual(0.0f);
         }
@@ -99,7 +99,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_report_the_correct_modulation_values()
+        public void then_the_SUT_should_report_the_correct_modulation_values()
         {
             SUT.DdsGeneratorsFMInformationSets[0].ModulationDepth
                 .ShouldEqual(SUT.DdsGenerators[0].MaximumFrequencyModulationDepth);
@@ -119,7 +119,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_not_use_that_and_thus_report_zero_modulation_values()
+        public void then_the_SUT_should_not_use_that_and_thus_report_zero_modulation_values()
         {
             SUT.DdsGeneratorsFMInformationSets[0].ModulationDepth
                 .ShouldEqual(0.0f);

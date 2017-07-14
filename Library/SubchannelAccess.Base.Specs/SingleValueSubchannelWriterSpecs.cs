@@ -39,7 +39,7 @@ namespace CtLab.SubchannelAccess.Specs
         }
 
         [Test]
-        public void it_should_pass_the_value_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_value_to_the_command_value_setter_to_reflect_the_most_recent_changes()
         {
             _lastValueSet.ShouldEqual((uint)150);
         }

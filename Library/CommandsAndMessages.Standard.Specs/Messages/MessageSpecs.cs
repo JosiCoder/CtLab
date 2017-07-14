@@ -47,7 +47,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_value()
+        public void then_the_SUT_should_return_the_correct_value()
         {
             _message.ValueToInt32().ShouldEqual(33);
         }
@@ -63,7 +63,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-		public void it_should_return_the_correct_value()
+		public void then_the_SUT_should_return_the_correct_value()
         {
             _message.ValueToDouble().ShouldEqual(33.3);
         }
@@ -79,7 +79,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-		public void it_should_return_the_correct_value()
+		public void then_the_SUT_should_return_the_correct_value()
         {
             _message.ValueToBoolean().ShouldEqual(true);
         }
@@ -95,7 +95,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-		public void it_should_return_the_correct_value()
+		public void then_the_SUT_should_return_the_correct_value()
         {
             _message.ValueToBoolean().ShouldEqual(false);
         }
@@ -114,7 +114,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
         [Test]
-        public void it_should_throw_an_exception()
+        public void then_the_SUT_should_throw_an_exception()
         {
             _theAssertion.ShouldThrow<FormatException>();
         }

@@ -66,7 +66,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
         {
             var expectedValue =
                 ((uint)MeasurementMode.Frequency) << 4
@@ -86,7 +86,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
         {
             var expectedValue =
                 ((uint)MeasurementMode.Period) << 4
@@ -106,13 +106,13 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_the_raw_value_directly()
+        public void then_the_SUT_should_return_the_raw_value_directly()
         {
             SUT.Value.ShouldEqual(120);
         }
 
         [Test]
-        public void it_should_return_a_least_significant_digit_exponent_of_0()
+        public void then_the_SUT_should_return_a_least_significant_digit_exponent_of_0()
         {
             SUT.LeastSignificantDigitExponent.ShouldEqual(0);
         }
@@ -128,13 +128,13 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_the_raw_value_divided_by_ten()
+        public void then_the_SUT_should_return_the_raw_value_divided_by_ten()
         {
             SUT.Value.ShouldEqual(12);
         }
 
         [Test]
-        public void it_should_return_a_least_significant_digit_exponent_of_minus_1()
+        public void then_the_SUT_should_return_a_least_significant_digit_exponent_of_minus_1()
         {
             SUT.LeastSignificantDigitExponent.ShouldEqual(-1);
         }
@@ -150,13 +150,13 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_return_the_raw_value_divided_by_ten_thousand()
+        public void then_the_SUT_should_return_the_raw_value_divided_by_ten_thousand()
         {
             SUT.Value.ShouldEqual(0.012);
         }
 
         [Test]
-        public void it_should_return_a_least_significant_digit_exponent_of_minus_4()
+        public void then_the_SUT_should_return_a_least_significant_digit_exponent_of_minus_4()
         {
             SUT.LeastSignificantDigitExponent.ShouldEqual(-4);
         }

@@ -39,7 +39,7 @@ namespace CtLab.CommandsAndMessages.Specs
         }
 
 		[Test]
-        public void it_should_return_the_correct_checksum()
+        public void then_the_SUT_should_return_the_correct_checksum()
         {
 			_calculatedChecksum.ShouldEqual((byte)0x3A);
         }

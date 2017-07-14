@@ -50,13 +50,13 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_report_an_active_signal()
+        public void then_the_SUT_should_report_an_active_signal()
         {
             SUT.InputSignalActive.ShouldEqual(true);
         }
 
         [Test]
-        public void it_should_not_report_an_overflow()
+        public void then_the_SUT_should_not_report_an_overflow()
         {
             SUT.Overflow.ShouldEqual(false);
         }
@@ -81,13 +81,13 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void it_should_report_an_active_signal()
+        public void then_the_SUT_should_report_an_active_signal()
         {
             SUT.InputSignalActive.ShouldEqual(true);
         }
 
         [Test]
-        public void it_should_report_an_overflow()
+        public void then_the_SUT_should_report_an_overflow()
         {
             SUT.Overflow.ShouldEqual(true);
         }
