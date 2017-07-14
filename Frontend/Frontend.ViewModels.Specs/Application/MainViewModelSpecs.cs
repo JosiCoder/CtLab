@@ -27,6 +27,70 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.Frontend.ViewModels.Specs
 {
+    public abstract class ApplicationSettingsContextBase : IContext<MainViewModel>
+    {
+        protected void Initialize(ISpecs<MainViewModel> specs, string portName)
+        {
+            var dialogServiceViewModelFactoryMock = specs.GetMockFor<IDialogServiceViewModelFactory>();
+            dialogServiceViewModelFactoryMock
+                .Setup (viewModelFactory => viewModelFactory.CreateApplicationSettingsViewModel (It.IsAny<IEnumerable<string>> (), It.IsAny<ApplicationSettings> ()))
+                .Callback<IEnumerable<string>, ApplicationSettings> ((portNames, appSettings) =>
+                {
+                    appSettings.PortName = portName;
+                });
+
+        }
+
+        public abstract void Initialize (ISpecs<MainViewModel> specs);
+    }
+
+    public class user_sets_a_valid_port : ApplicationSettingsContextBase
+    {
+        public override void Initialize(ISpecs<MainViewModel> specs)
+        {
+            base.Initialize(specs, "port1");
+        }
+    }
+
+    public class user_sets_an_invalid_port : ApplicationSettingsContextBase
+    {
+        public override void Initialize(ISpecs<MainViewModel> specs)
+        {
+            base.Initialize(specs, "invalid");
+        }
+    }
+
+
+    public abstract class ApplicationSettingsResponseContextBase : IContext<MainViewModel>
+    {
+        protected void Initialize(ISpecs<MainViewModel> specs, DialogResult dialogResult)
+        {
+            var dialogServiceMock = specs.GetMockFor<IMainViewModelDialogService>();
+            dialogServiceMock
+                .Setup (dialogService => dialogService.ShowAndAdjustApplicationSettings (It.IsAny<IApplicationSettingsViewModel>()))
+                .Returns (dialogResult);
+        }
+
+        public abstract void Initialize (ISpecs<MainViewModel> specs);
+    }
+
+    public class user_commits_application_settings : ApplicationSettingsResponseContextBase
+    {
+        public override void Initialize(ISpecs<MainViewModel> specs)
+        {
+            base.Initialize(specs, DialogResult.Ok);
+        }
+    }
+
+    public class user_cancels_application_settings : ApplicationSettingsResponseContextBase
+    {
+        public override void Initialize(ISpecs<MainViewModel> specs)
+        {
+            base.Initialize(specs, DialogResult.Cancel);
+        }
+    }
+
+
     public abstract class MainViewModelSpecs
         : SpecsFor<MainViewModel>
     {
@@ -104,16 +168,8 @@ namespace CtLab.Frontend.ViewModels.Specs
         {
             base.Given();
 
-            _dialogServiceViewModelFactoryMock
-                .Setup (viewModelFactory => viewModelFactory.CreateApplicationSettingsViewModel (It.IsAny<IEnumerable<string>> (), It.IsAny<ApplicationSettings> ()))
-                .Callback<IEnumerable<string>, ApplicationSettings> ((portNames, appSettings) =>
-                {
-                    appSettings.PortName = "port1";
-                });
-            
-            _dialogServiceMock
-                .Setup (dialogService => dialogService.ShowAndAdjustApplicationSettings (It.IsAny<IApplicationSettingsViewModel>()))
-                .Returns (DialogResult.Ok);
+            Given<user_sets_a_valid_port>();
+            Given<user_commits_application_settings>();
         }
 
         protected override void When()
@@ -157,16 +213,8 @@ namespace CtLab.Frontend.ViewModels.Specs
         {
             base.Given();
 
-            _dialogServiceViewModelFactoryMock
-                .Setup (viewModelFactory => viewModelFactory.CreateApplicationSettingsViewModel (It.IsAny<IEnumerable<string>> (), It.IsAny<ApplicationSettings> ()))
-                .Callback<IEnumerable<string>, ApplicationSettings> ((portNames, appSettings) =>
-                {
-                    appSettings.PortName = "invalid";
-                });
-
-            _dialogServiceMock
-                .Setup (dialogService => dialogService.ShowAndAdjustApplicationSettings (It.IsAny<IApplicationSettingsViewModel>()))
-                .Returns (DialogResult.Ok);
+            Given<user_sets_an_invalid_port>();
+            Given<user_commits_application_settings>();
         }
 
         protected override void When()
@@ -217,9 +265,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         {
             base.Given();
 
-            _dialogServiceMock
-                .Setup (dialogService => dialogService.ShowAndAdjustApplicationSettings (It.IsAny<IApplicationSettingsViewModel>()))
-                .Returns (DialogResult.Cancel);
+            Given<user_cancels_application_settings>();
         }
 
         protected override void When()
