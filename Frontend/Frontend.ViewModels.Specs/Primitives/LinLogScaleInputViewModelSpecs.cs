@@ -59,7 +59,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         [TestCase((uint)5e8, 0, 5e8 * InternalValueUnit)]
         [TestCase((uint)5e8, -3, 5e11 * InternalValueUnit)]
         [TestCase((uint)5e8, 4, 5e4 * InternalValueUnit)]
-        public void it_should_return_the_according_base_and_overview_values (
+        public void then_the_SUT_should_return_the_according_base_and_overview_values (
             uint internalValue, int scaleExponent, double baseValue)
         {
             var overviewValue = Math.Log10 (baseValue);
@@ -82,7 +82,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         [TestCase((uint)5e8, 0, 5e8 * InternalValueUnit)]
         [TestCase((uint)5e8, -3, 5e11 * InternalValueUnit)]
         [TestCase((uint)5e8, 4, 5e4 * InternalValueUnit)]
-        public void it_should_return_the_according_internal_and_overview_values (
+        public void then_the_SUT_should_return_the_according_internal_and_overview_values (
             uint internalValue, int scaleExponent, double baseValue)
         {
             var overviewValue = Math.Log10 (baseValue);
@@ -105,7 +105,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         [TestCase((uint)5e8, 0, 5e8 * InternalValueUnit)]
         [TestCase((uint)5e8, -3, 5e11 * InternalValueUnit)]
         [TestCase((uint)5e8, 4, 5e4 * InternalValueUnit)]
-        public void it_should_return_the_according_internal_and_base_values (
+        public void then_the_SUT_should_return_the_according_internal_and_base_values (
             uint internalValue, int scaleExponent, double baseValue)
         {
             var overviewValue = Math.Log10 (baseValue);

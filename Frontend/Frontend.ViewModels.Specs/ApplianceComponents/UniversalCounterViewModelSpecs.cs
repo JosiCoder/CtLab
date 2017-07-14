@@ -79,14 +79,14 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_update_the_measurement_value_readout_viewmodels_accordingly()
+        public void then_the_SUT_should_update_the_measurement_value_readout_viewmodels_accordingly()
         {
             _frequencyReadoutVMMock.VerifySet(readoutVM => readoutVM.Value = It.IsAny<double>(), Times.AtLeastOnce);
             _periodReadoutVMMock.VerifySet(readoutVM => readoutVM.Value = It.IsAny<double>(), Times.AtLeastOnce);
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_value_and_the_overflow_indicator()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_value_and_the_overflow_indicator()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("Value");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("Overflow");
@@ -104,7 +104,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_a_property_changed_event_for_the_signal_activity_indicator()
+        public void then_the_SUT_should_raise_a_property_changed_event_for_the_signal_activity_indicator()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("InputSignalActive");
         }
@@ -120,13 +120,13 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_call_the_flush_action_passed_to_it()
+        public void then_the_SUT_should_call_the_flush_action_passed_to_it()
         {
             _applianceServicesMock.Verify(flush => flush.Flush(), Times.AtLeastOnce);
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_input_source()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_input_source()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("InputSource");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BindingInputSource");
@@ -143,20 +143,20 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_call_the_flush_action_passed_to_it()
+        public void then_the_SUT_should_call_the_flush_action_passed_to_it()
         {
             _applianceServicesMock.Verify(flush => flush.Flush(), Times.AtLeastOnce);
         }
 
         [Test]
-        public void it_should_update_the_measurement_value_readout_viewmodels_accordingly()
+        public void then_the_SUT_should_update_the_measurement_value_readout_viewmodels_accordingly()
         {
             AssertConfigureReadoutVM (_frequencyReadoutVMMock);
             AssertConfigureReadoutVM (_periodReadoutVMMock);
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_prescaler_mode()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_prescaler_mode()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("PrescalerMode");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BindingPrescalerMode");
@@ -164,7 +164,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_scale_exponent_was_set
+    public class When_setting_the_scale_exponent
         : UniversalCounterViewModelSpecs
     {
         protected override void When()
@@ -173,14 +173,14 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_update_the_measurement_value_readout_viewmodels_accordingly()
+        public void then_the_SUT_should_update_the_measurement_value_readout_viewmodels_accordingly()
         {
             AssertConfigureReadoutVM (_frequencyReadoutVMMock);
             AssertConfigureReadoutVM (_periodReadoutVMMock);
         }
 
         [Test]
-        public void it_should_raise_a_property_changed_events_for_the_scale_exponent()
+        public void then_the_SUT_should_raise_a_property_changed_events_for_the_scale_exponent()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("ScaleExponent");
         }

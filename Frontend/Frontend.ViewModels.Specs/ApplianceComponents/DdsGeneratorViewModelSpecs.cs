@@ -97,7 +97,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_amplitude_modulation_source_has_changed
+    public class When_changing_the_amplitude_modulation_source
         : DdsGeneratorViewModelSpecs
     {
         protected override void When()
@@ -106,21 +106,21 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_amplitude_modulation_source_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_amplitude_modulation_source_properties()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("AmplitudeModulationSource");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BindingAmplitudeModulationSource");
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_amplitude_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_amplitude_modulation_properties()
         {
             VerifyAMPropertyChangedNotifications ();
         }
     }
 
 
-    public class When_the_frequency_modulation_source_has_changed
+    public class When_changing_the_frequency_modulation_source
         : DdsGeneratorViewModelSpecs
     {
         protected override void When()
@@ -129,20 +129,20 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_frequency_modulation_source_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_frequency_modulation_source_properties()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("FrequencyModulationSource");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BindingFrequencyModulationSource");
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_frequency_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_frequency_modulation_properties()
         {
             VerifyFMPropertyChangedNotifications ();
         }
     }
 
-    public class When_a_value_of_the_amplitude_scale_has_changed
+    public class When_changing_a_value_of_the_amplitude_scale
         : DdsGeneratorViewModelSpecs
     {
         protected Mock<IModulationPropertyChangedSink> _modulationPropertyChangedSinkMock;
@@ -166,19 +166,19 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_amplitude_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_amplitude_modulation_properties()
         {
             VerifyAMPropertyChangedNotifications ();
         }
 
         [Test]
-        public void it_should_raise_the_modulation_property_changed_event()
+        public void then_the_SUT_should_raise_the_modulation_property_changed_event()
         {
             _modulationPropertyChangedSinkMock.Verify (sink => sink.ModulationPropertyChanged (It.IsAny<object>(), It.IsAny<EventArgs>()), Times.Once);
         }
     }
 
-    public class When_a_value_of_the_frequency_scale_has_changed
+    public class When_changing_a_value_of_the_frequency_scale
         : DdsGeneratorViewModelSpecs
     {
         protected override void Given()
@@ -196,13 +196,13 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_frequency_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_frequency_modulation_properties()
         {
             VerifyFMPropertyChangedNotifications ();
         }
     }
 
-    public class When_the_frequency_modulation_range_has_changed
+    public class When_changing_the_frequency_modulation_range
         : DdsGeneratorViewModelSpecs
     {
         protected override void When()
@@ -211,7 +211,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_frequency_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_frequency_modulation_properties()
         {
             VerifyFMPropertyChangedNotifications ();
         }
@@ -226,13 +226,13 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_amplitude_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_amplitude_modulation_properties()
         {
             VerifyAMPropertyChangedNotifications ();
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_all_frequency_modulation_properties()
+        public void then_the_SUT_should_raise_property_changed_events_for_all_frequency_modulation_properties()
         {
             VerifyFMPropertyChangedNotifications ();
         }

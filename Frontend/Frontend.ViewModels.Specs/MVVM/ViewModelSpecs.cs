@@ -68,7 +68,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_viewmodel_is_told_to_flush_pending_modifications_to_the_model
+    public class When_telling_the_viewmodel_to_flush_pending_modifications_to_the_model
         : ViewModelSpecs
     {
         protected override void When()
@@ -77,14 +77,14 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_call_the_flush_action_passed_to_it()
+        public void then_the_SUT_should_call_the_flush_action_passed_to_it()
         {
             _applianceServicesMock.Verify(flush => flush.Flush(), Times.Once);
         }
     }
 
 
-    public class When_a_property_is_set
+    public class When_setting_a_property
         : ViewModelSpecs
     {
         protected override void When()
@@ -93,7 +93,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_direct_and_indirect_updates_as_specified_in_the_property_setter()
+        public void then_the_SUT_should_raise_property_changed_events_for_direct_and_indirect_updates_as_specified_in_the_property_setter()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("DirectProperty");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("IndirectProperty");

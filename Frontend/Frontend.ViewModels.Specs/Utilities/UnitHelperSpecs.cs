@@ -40,7 +40,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         [TestCase(-3, "m", "")]
         [TestCase(-4, "μ", "e2")]
         [TestCase(-8, "n", "e1")]
-        public void it_should_return_the_according_unit_prefix_and_value_suffix (
+        public void then_the_SUT_should_return_the_according_unit_prefix_and_value_suffix (
             int scaleFactorExponent, string unitPrefix, string valueSuffix)
         {
             var scaleFactorInfo = UnitHelper.GetScaleFactorInfo(scaleFactorExponent);

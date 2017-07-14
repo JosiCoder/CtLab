@@ -55,13 +55,13 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_return_the_correct_derived_value()
+        public void then_the_SUT_should_return_the_correct_derived_value()
         {
             SUT.DerivedValue.ShouldEqual("99");
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_original_and_derived_values()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_original_and_derived_values()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("OriginalValue");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("DerivedValue");

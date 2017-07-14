@@ -78,14 +78,14 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_get_the_value_from_the_attached_getter()
+        public void then_the_SUT_should_get_the_value_from_the_attached_getter()
         {
             _getterSetterMock.Verify(getterSetter => getterSetter.Getter(), Times.Once);
         }
     }
 
 
-    public class When_the_internal_value_of_a_scale_input_is_set
+    public class When_setting_the_internal_value_of_a_scale_input
         : ScaleInputViewModelSpecs
     {
         protected override void When()
@@ -94,13 +94,13 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_pass_the_value_to_the_attached_setter()
+        public void then_the_SUT_should_pass_the_value_to_the_attached_setter()
         {
             _getterSetterMock.Verify(getterSetter => getterSetter.Setter(99), Times.Once);
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_internal_value_and_derived_values()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_internal_value_and_derived_values()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("InternalValue");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BaseValue");
@@ -109,7 +109,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_base_value_of_a_scale_input_is_set
+    public class When_setting_the_base_value_of_a_scale_input
         : LinLogScaleInputViewModelSpecs
     {
         protected override void When()
@@ -118,7 +118,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_base_value_and_derived_values()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_base_value_and_derived_values()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("InternalValue");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BaseValue");
@@ -127,7 +127,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_overview_value_of_a_scale_input_is_set
+    public class When_setting_the_overview_value_of_a_scale_input
         : LinLogScaleInputViewModelSpecs
     {
         protected override void When()
@@ -136,7 +136,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_internal_value_and_derived_values()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_internal_value_and_derived_values()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("InternalValue");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("BaseValue");
@@ -145,7 +145,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_scale_exponent_of_a_scale_input_is_set
+    public class When_setting_the_scale_exponent_of_a_scale_input
         : LinLogScaleInputViewModelSpecs
     {
         protected override void When()
@@ -154,7 +154,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_raise_property_changed_events_for_the_scale_exponent_and_all_values_depending_on_it()
+        public void then_the_SUT_should_raise_property_changed_events_for_the_scale_exponent_and_all_values_depending_on_it()
         {
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("ScaleExponent");
             _propertyChangedSink.NotifiedPropertyNames.ShouldContain ("InternalValue");
@@ -177,7 +177,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         [TestCase(-8, 1, MaxBaseValueUpper, 0)]
         [TestCase(-9, 10, MaxBaseValueUpper, 0)]
         [TestCase(-10, 100, MaxBaseValueUpper, 0)]
-        public void it_should_return_the_according_base_step_width_and_upper_value (
+        public void then_the_SUT_should_return_the_according_base_step_width_and_upper_value (
             int scaleExponent, double baseValueStepWidth, double baseValueUpper, int baseValueDecimalPlaces)
         {
             SUT.ScaleExponent = scaleExponent;

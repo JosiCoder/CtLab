@@ -64,7 +64,7 @@ namespace CtLab.Frontend.ViewModels.Specs
     }
 
 
-    public class When_the_adjustment_of_the_application_settings_is_requested
+    public class When_requesting_the_adjustment_of_the_application_settings
         : MainViewModelSpecs
     {
         protected override void When()
@@ -73,7 +73,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_ask_the_service_viewmodel_factory_to_create_an_application_settings_viewmodel()
+        public void then_the_SUT_should_ask_the_service_viewmodel_factory_to_create_an_application_settings_viewmodel()
         {
             _dialogServiceViewModelFactoryMock.Verify(
                 factory => factory.CreateApplicationSettingsViewModel(It.IsAny<IEnumerable<string>>(), It.IsAny<ApplicationSettings> ()),
@@ -81,7 +81,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_ask_the_dialog_service_to_provide_the_according_user_dialog()
+        public void then_the_SUT_should_ask_the_dialog_service_to_provide_the_according_user_dialog()
         {
             _dialogServiceMock.Verify(
                 dialogService => dialogService.ShowAndAdjustApplicationSettings(It.IsAny<IApplicationSettingsViewModel>()),
@@ -89,7 +89,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_ask_the_dialog_service_to_provide_the_according_user_dialog_and_pass_the_application_settings_viewmodel_obtained_from_the_factory()
+        public void then_the_SUT_should_ask_the_dialog_service_to_provide_the_according_user_dialog_and_pass_the_application_settings_viewmodel_obtained_from_the_factory()
         {
             _dialogServiceMock.Verify(
                 dialogService => dialogService.ShowAndAdjustApplicationSettings(_applicationSettingsViewModelMock.Object),
@@ -97,7 +97,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
     }
 
-    public class When_the_adjustment_of_the_application_settings_is_requested_and_the_user_sets_a_valid_port
+    public class When_requesting_the_adjustment_of_the_application_settings_and_the_user_sets_a_valid_port
         : MainViewModelSpecs
     {
         protected override void Given() 
@@ -122,7 +122,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_dispose_the_old_appliance_viewmodels()
+        public void then_the_SUT_should_dispose_the_old_appliance_viewmodels()
         {
             foreach(var applianceVMMock in _oldApplianceVMMocks)
             {
@@ -133,7 +133,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_create_the_new_appliances()
+        public void then_the_SUT_should_create_the_new_appliances()
         {
             // Currently, we have only one appliance, but later we might have more.
             _applianceFactoryMock.Verify(
@@ -142,7 +142,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_save_the_application_settings()
+        public void then_the_SUT_should_save_the_application_settings()
         {
             _applicationSettingsWriterMock.Verify(
                 writer => writer.Write(It.IsAny<ApplicationSettings>()),
@@ -150,7 +150,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
     }
 
-    public class When_the_adjustment_of_the_application_settings_is_requested_and_the_user_sets_an_invalid_port
+    public class When_requesting_the_adjustment_of_the_application_settings_and_the_user_sets_an_invalid_port
         : MainViewModelSpecs
     {
         protected override void Given()
@@ -175,7 +175,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_dispose_the_old_appliance_viewmodels()
+        public void then_the_SUT_should_dispose_the_old_appliance_viewmodels()
         {
             foreach(var applianceVMMock in _oldApplianceVMMocks)
             {
@@ -186,7 +186,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_not_create_any_appliances()
+        public void then_the_SUT_should_not_create_any_appliances()
         {
             _applianceFactoryMock.Verify(
                 factory => factory.CreateSerialAppliance (It.IsAny<string>(), It.IsAny<byte>()),
@@ -194,7 +194,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_save_the_application_settings()
+        public void then_the_SUT_should_save_the_application_settings()
         {
             _applicationSettingsWriterMock.Verify(
                 writer => writer.Write(It.IsAny<ApplicationSettings>()),
@@ -202,7 +202,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_show_a_message()
+        public void then_the_SUT_should_show_a_message()
         {
             _dialogServiceMock.Verify(
                 dialogService => dialogService.ShowMessageAndWaitForResponse (It.IsAny<DialogType>(), It.IsAny<string>(), It.IsAny<string>()),
@@ -210,7 +210,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
     }
 
-    public class When_the_adjustment_of_the_application_settings_is_requested_and_the_user_cancels
+    public class When_requesting_the_adjustment_of_the_application_settings_and_the_user_cancels
         : MainViewModelSpecs
     {
         protected override void Given()
@@ -228,7 +228,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_not_dispose_the_old_appliance_viewmodels()
+        public void then_the_SUT_should_not_dispose_the_old_appliance_viewmodels()
         {
             foreach(var applianceVMMock in _oldApplianceVMMocks)
             {
@@ -239,7 +239,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_not_create_any_appliances()
+        public void then_the_SUT_should_not_create_any_appliances()
         {
             _applianceFactoryMock.Verify(
                 factory => factory.CreateSerialAppliance (It.IsAny<string>(), It.IsAny<byte>()),
@@ -247,7 +247,7 @@ namespace CtLab.Frontend.ViewModels.Specs
         }
 
         [Test]
-        public void it_should_not_save_the_application_settings()
+        public void then_the_SUT_should_not_save_the_application_settings()
         {
             _applicationSettingsWriterMock.Verify(
                 writer => writer.Write(It.IsAny<ApplicationSettings>()),
