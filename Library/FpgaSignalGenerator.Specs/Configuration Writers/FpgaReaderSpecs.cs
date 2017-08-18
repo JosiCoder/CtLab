@@ -21,27 +21,21 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.FpgaSignalGenerator.Standard;
 
 namespace CtLab.FpgaSignalGenerator.Specs
 {
-    public abstract class SubchannelWriterSpecs<TSystemUnderTest>
+    public abstract class FpgaReaderSpecs<TSystemUnderTest>
         : SpecsFor<TSystemUnderTest>
         where TSystemUnderTest : class
     {
-        protected Mock<ISubchannelValueSetter> _valueSetterMock;
-        protected object _lastValueSet;
+        protected Mock<IFpgaValueGetter> _valueGetterMock;
 
         protected override void Given()
         {
             base.Given();
 
-            _valueSetterMock = GetMockFor<ISubchannelValueSetter>();
-
-            _valueSetterMock.Setup(setter => setter.SetValue(It.IsAny<uint>())).Callback<uint>(value => { _lastValueSet = value; });
-            _valueSetterMock.Setup(setter => setter.SetValue(It.IsAny<int>())).Callback<int>(value => { _lastValueSet = value; });
-            _valueSetterMock.Setup(setter => setter.SetValue(It.IsAny<double>())).Callback<double>(value => { _lastValueSet = value; });
-            _valueSetterMock.Setup(setter => setter.SetValue(It.IsAny<bool>())).Callback<bool>(value => { _lastValueSet = value; });
+            _valueGetterMock = GetMockFor<IFpgaValueGetter>();
         }
     }
 }

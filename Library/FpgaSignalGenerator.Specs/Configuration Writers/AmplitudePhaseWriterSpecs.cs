@@ -26,7 +26,7 @@ using CtLab.FpgaSignalGenerator.Standard;
 namespace CtLab.FpgaSignalGenerator.Specs
 {
     public abstract class AmplitudePhaseWriterSpecs
-        : SubchannelWriterSpecs<AmplitudePhaseWriter>
+        : FpgaWriterSpecs<AmplitudePhaseWriter>
     {
     }
 
@@ -40,7 +40,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void then_the_SUT_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_combined_values_to_the_FPGA_writer_to_reflect_the_most_recent_changes()
         {
             _lastValueSet.ShouldEqual((uint)0x000f0010);
         }
@@ -56,7 +56,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void then_the_SUT_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_combined_values_to_the_FPGA_writer_to_reflect_the_most_recent_changes()
         {
             _lastValueSet.ShouldEqual((uint)0xfff1fff0);
         }

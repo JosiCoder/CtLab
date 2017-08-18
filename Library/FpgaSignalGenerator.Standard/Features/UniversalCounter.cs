@@ -31,7 +31,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
     {
         private UniversalCounterConfigurationWriter _configurationWriter;
 
-        private UInt32ValueSubchannelReader _rawValueReader;
+        private UniversalCounterRawValueReader _rawValueReader;
         private UniversalCounterStatusReader _statusReader;
 
         private readonly object _anyEventRegistrationLock = new object();
@@ -44,25 +44,25 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <param name="configurationSetter">
 		/// The setter used to set the universal counter's configuration.
         /// </param>
-        /// <param name="rawValueContainer">
-		/// The container used to get the universal counter's most-recent raw value message.
+        /// <param name="rawValueGetter">
+		/// The getter used to get the universal counter's raw value.
         /// </param>
-        /// <param name="statusContainer">
-		/// The container used to get the universal counter's most-recent status message.
+        /// <param name="statusGetter">
+        /// The getter used to get the universal counter's status.
         /// </param>
         public UniversalCounter(
-            ISubchannelValueSetter configurationSetter,
-            IMessageContainer rawValueContainer,
-            IMessageContainer statusContainer)
+            IFpgaValueSetter configurationSetter,
+            IFpgaValueGetter rawValueGetter,
+            IFpgaValueGetter statusGetter)
         {
             _configurationWriter = new UniversalCounterConfigurationWriter(configurationSetter);
-            _rawValueReader = new UInt32ValueSubchannelReader(rawValueContainer);
-            _statusReader = new UniversalCounterStatusReader(statusContainer);
+            _rawValueReader = new UniversalCounterRawValueReader(rawValueGetter);
+            _statusReader = new UniversalCounterStatusReader(statusGetter);
 
-            if (rawValueContainer != null)
-                rawValueContainer.MessageUpdated += this.RawValueContainerMessageUpdated;
-            if (statusContainer != null)
-                statusContainer.MessageUpdated += this.StatusContainerMessageUpdated;
+            if (rawValueGetter != null)
+                rawValueGetter.ValueUpdated += this.RawValueUpdated;
+            if (statusGetter != null)
+                statusGetter.ValueUpdated += this.StatusUpdated;
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         {
             get
             {
-                var rawValue = (double) _rawValueReader.Value;
+                var rawValue = (double) _rawValueReader.RawValue;
                 return rawValue * Math.Pow (10, LeastSignificantDigitExponent);
             }
         }
@@ -219,23 +219,23 @@ namespace CtLab.FpgaSignalGenerator.Standard
         }
 
         /// <summary>
-		/// Performs actions whenever the raw value container's message has been updated.
+		/// Performs actions whenever the raw value has been updated.
         /// </summary>
         /// <remarks>
         /// Usually this will be called via a background thread.
         /// </remarks>
-        private void RawValueContainerMessageUpdated(object sender, EventArgs e)
+        private void RawValueUpdated(object sender, EventArgs e)
         {
             _valueChanged.Raise(this, new ValueChangedEventArgs(Value));
         }
 
         /// <summary>
-		/// Performs actions whenever the status container's message has been updated.
+		/// Performs actions whenever the status has been updated.
         /// </summary>
         /// <remarks>
         /// Usually this will be called via a background thread.
         /// </remarks>
-        private void StatusContainerMessageUpdated(object sender, EventArgs e)
+        private void StatusUpdated(object sender, EventArgs e)
         {
             _inputSignalActiveChanged.Raise(this, new InputSignalActiveChangedEventArgs(InputSignalActive));
         }

@@ -69,8 +69,8 @@
     <Compile Include="FpgaLabDeviceSpecs.cs" />
     <Compile Include="Utilities\AmplitudeModulationInformerSpecs.cs" />
     <Compile Include="Utilities\FrequencyModulationInformerSpecs.cs" />
-    <Compile Include="Configuration Writers\SubchannelReaderSpecs.cs" />
-    <Compile Include="Configuration Writers\SubchannelWriterSpecs.cs" />
+    <Compile Include="Configuration Writers\FpgaWriterSpecs.cs" />
+    <Compile Include="Configuration Writers\FpgaReaderSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Utilities.csproj">

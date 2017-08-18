@@ -15,12 +15,12 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-	/// Provides facilities to set the value of a c't Lab device's subchannel.
+	/// Provides facilities to set a value within the FPGA.
     /// </summary>
-    public interface ISubchannelValueSetter
+    public interface IFpgaValueSetter
     {
         /// <summary>
         /// Sets a signed integer value.

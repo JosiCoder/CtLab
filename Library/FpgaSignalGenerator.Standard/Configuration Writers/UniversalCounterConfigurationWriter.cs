@@ -22,11 +22,12 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Writes the universal counter configuration by setting the value of a set command that
-    /// can be sent to a c't Lab FPGA device configured as an FPGA Lab.
+    /// Writes the universal counter configuration by setting the according value of
+    /// an FPGA device configured as an FPGA Lab.
     /// </summary>
-    public class UniversalCounterConfigurationWriter : SubchannelWriterBase
+    public class UniversalCounterConfigurationWriter
     {
+        private readonly IFpgaValueSetter _valueSetter;
         private UniversalCounterSource _inputSource;
         private MeasurementMode _measurementMode;
         private PrescalerMode _prescalerMode;
@@ -34,12 +35,12 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="subchannelValueSetter">
-		/// The setter used to set the subchannel's value.
+        /// <param name="valueSetter">
+        /// The setter used to set the FPGA's value.
         /// </param>
-        public UniversalCounterConfigurationWriter(ISubchannelValueSetter subchannelValueSetter)
-            : base (subchannelValueSetter)
+        public UniversalCounterConfigurationWriter(IFpgaValueSetter valueSetter)
         {
+            _valueSetter = valueSetter;
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
                 ((uint)_inputSource) << 8
                 | ((uint)_measurementMode) << 4
                 | ((uint)_prescalerMode);
-            _subchannelValueSetter.SetValue(combinedValue);
+            _valueSetter.SetValue(combinedValue);
         }
     }
 }

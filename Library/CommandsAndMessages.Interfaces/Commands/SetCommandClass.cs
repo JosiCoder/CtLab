@@ -71,36 +71,32 @@ namespace CtLab.CommandsAndMessages.Interfaces
         }
 
         /// <summary>
-        /// Converts the command value from a signed integer.
+        /// Sets a signed integer value.
         /// </summary>
-        /// <returns>The converted value.</returns>
         public void SetValue(int value)
         {
             RawValue = value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
-        /// Converts the command value from an unsigned integer.
+        /// Sets an unsigned integer value.
         /// </summary>
-        /// <returns>The converted value.</returns>
         public void SetValue(uint value)
         {
             RawValue = value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
-        /// Converts the command value from a floating point number.
+        /// Sets a floating point value.
         /// </summary>
-        /// <returns>The converted value.</returns>
         public void SetValue(double value)
         {
             RawValue = value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
-        /// Converts the command value from a boolean value.
+        /// Sets a boolean value.
         /// </summary>
-        /// <returns>The converted value.</returns>
         public void SetValue(bool value)
         {
             RawValue = value ? "1" : "0";

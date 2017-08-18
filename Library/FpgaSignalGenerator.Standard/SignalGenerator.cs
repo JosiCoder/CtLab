@@ -25,7 +25,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// <summary>
     /// Represents a signal generator based on the c't Lab.
     /// </summary>
-    public class SignalGenerator : DeviceBase, ISignalGenerator
+    public class SignalGenerator : DeviceConnectionBase, ISignalGenerator
     {
         public readonly DdsGenerator[] _ddsGenerators;
         public readonly OutputSourceSelector _outputSourceSelector;
@@ -127,25 +127,20 @@ namespace CtLab.FpgaSignalGenerator.Standard
             _ddsGenerators[3] = BuildDdsGenerator(channel, 28);
 
             // The signal selectors for two outputs.
-            _outputSourceSelector
-                = new OutputSourceSelector(
-                    BuildAndRegisterSetCommandClass(channel, 3));
+            _outputSourceSelector = new OutputSourceSelector(
+                CreateFpgaValueSetter(channel, 3));
 
             // The pulse generator.
-            _pulseGenerator
-                = new PulseGenerator(
-                    BuildAndRegisterSetCommandClass(channel, 15),
-                    BuildAndRegisterSetCommandClass(channel, 14));
+            _pulseGenerator = new PulseGenerator(
+                CreateFpgaValueSetter(channel, 15),
+                CreateFpgaValueSetter(channel, 14));
 
             // The universal counter.
-            _universalCounter
-                = new UniversalCounter(
-                    BuildAndRegisterSetCommandClass(channel, 12),
-                    RegisterMessage(channel, 5),
-                    RegisterMessage(channel, 4)
-                    );
-            BuildAndRegisterQueryCommandClass(channel, 4);
-            BuildAndRegisterQueryCommandClass(channel, 5);
+            _universalCounter = new UniversalCounter(
+                CreateFpgaValueSetter(channel, 12),
+                CreateFpgaValueGetter(channel, 5),
+                CreateFpgaValueGetter(channel, 4)
+            );
         }
 
         /// <summary>
@@ -180,10 +175,23 @@ namespace CtLab.FpgaSignalGenerator.Standard
         private DdsGenerator BuildDdsGenerator(byte channel, ushort baseSubchannel)
         {
             return new DdsGenerator(
-                           BuildAndRegisterSetCommandClass(channel, baseSubchannel),
-                           BuildAndRegisterSetCommandClass(channel, (ushort)(baseSubchannel + 1)),
-                           BuildAndRegisterSetCommandClass(channel, (ushort)(baseSubchannel + 2))
-                       );
+                CreateFpgaValueSetter(channel, baseSubchannel),
+                CreateFpgaValueSetter(channel, (ushort)(baseSubchannel + 1)),
+                CreateFpgaValueSetter(channel, (ushort)(baseSubchannel + 2))
+            );
+        }
+
+        private CtLabSetCommandFpgaValueSetter CreateFpgaValueSetter(byte channel, ushort subchannel)
+        {
+            return new CtLabSetCommandFpgaValueSetter (BuildAndRegisterSetCommandClass (channel, subchannel));
+        }
+
+        private CtLabQueryCommandFpgaValueGetter CreateFpgaValueGetter(byte channel, ushort subchannel)
+        {
+            return new CtLabQueryCommandFpgaValueGetter (
+                BuildAndRegisterQueryCommandClass (channel, subchannel),
+                RegisterMessage(channel, subchannel)
+            );
         }
     }
 }

@@ -57,9 +57,9 @@ namespace CtLab.FpgaSignalGenerator.Standard
 		/// The setter used to set the generator's amplitude and phase.
         /// </param>
         public DdsGenerator(
-            ISubchannelValueSetter waveformSetter,
-            ISubchannelValueSetter phaseIncrementSetter,
-            ISubchannelValueSetter amplitudePhaseSetter)
+            IFpgaValueSetter waveformSetter,
+            IFpgaValueSetter phaseIncrementSetter,
+            IFpgaValueSetter amplitudePhaseSetter)
         {
             _waveformWriter = new WaveformWriter(waveformSetter);
             _phaseIncrementWriter = new PhaseIncrementWriter(phaseIncrementSetter);

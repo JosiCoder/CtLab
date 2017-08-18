@@ -17,63 +17,45 @@
 
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.SubchannelAccess;
-using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Writes the amplitude and phase of a DDS generator by setting the according value of
-    /// an FPGA device configured as an FPGA Lab.
+    /// Writes the pulse or pause duration of a pulse generator by setting the according
+    /// value of an FPGA device configured as an FPGA Lab.
     /// </summary>
-    public class AmplitudePhaseWriter
+    public class PulsePauseDurationWriter
     {
         private readonly IFpgaValueSetter _valueSetter;
-        private short _amplitude;
-        private short _phase;
+        private uint _value;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="valueSetter">
-		/// The setter used to set the FPGA's value.
+        /// The setter used to set the FPGA's value.
         /// </param>
-        public AmplitudePhaseWriter(IFpgaValueSetter valueSetter)
+        public PulsePauseDurationWriter(IFpgaValueSetter valueSetter)
         {
             _valueSetter = valueSetter;
         }
 
         /// <summary>
-        /// Gets or sets the amplitude.
+        /// Gets or sets the value.
         /// </summary>
-        public short Amplitude
+        public uint Value
         {
-            get { return _amplitude; }
+            get { return _value; }
             set
             {
-                _amplitude = value;
-                SetCommandValue();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the phase.
-        /// </summary>
-        public short Phase
-        {
-            get { return _phase; }
-            set
-            {
-                _phase = value;
+                _value = value;
                 SetCommandValue();
             }
         }
 
         private void SetCommandValue()
         {
-			// Here two signed numbers are interpreted as 16-bit two's complement patterns and
-            // merged together.
-            var combinedValue = ((uint)(ushort)_amplitude) << 16 | (ushort)_phase;
-            _valueSetter.SetValue(combinedValue);
+            _valueSetter.SetValue(_value);
         }
     }
 }

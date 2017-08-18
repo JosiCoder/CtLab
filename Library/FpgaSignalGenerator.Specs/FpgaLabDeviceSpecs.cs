@@ -42,6 +42,10 @@ namespace CtLab.FpgaSignalGenerator.Specs
             var rawValueContainer = new MessageContainer(1, 11);
             rawValueContainer.UpdateMessage(new Message() { RawValue = "120" });
 
+            GetMockFor<IMessageCache> ()
+                .Setup (mc => mc.Register (It.IsAny<byte>(), It.IsAny<ushort>()))
+                .Returns (rawValueContainer);
+
             container.Configure (expression =>
                 {
                     expression.ForConcreteType<SignalGenerator>()

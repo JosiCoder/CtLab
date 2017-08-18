@@ -23,10 +23,11 @@ namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
     /// Writes the waveform, modulation, and synchronization settings of a DDS generator by
-    /// setting the value of a set command that can be sent to a c't Lab FPGA device configured as an FPGA Lab.
+    /// setting the according value of an FPGA device configured as an FPGA Lab.
     /// </summary>
-    public class WaveformWriter : SubchannelWriterBase
+    public class WaveformWriter
     {
+        private readonly IFpgaValueSetter _valueSetter;
         private Waveform _waveform;
         private ushort _maximumFrequencyModulationDepth;
         private ModulationAndSynchronizationSource _synchronizationSource;
@@ -37,12 +38,12 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="subchannelValueSetter">
-		/// The setter used to set the subchannel's value.
+        /// <param name="valueSetter">
+        /// The setter used to set the FPGA's value.
         /// </param>
-        public WaveformWriter(ISubchannelValueSetter subchannelValueSetter)
-            : base (subchannelValueSetter)
+        public WaveformWriter(IFpgaValueSetter valueSetter)
         {
+            _valueSetter = valueSetter;
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
                 | ((uint) _frequencyModulationSource << 2)
                 | ((uint) _amplitudeModulationSource);
 
-            _subchannelValueSetter.SetValue(combinedValue);
+            _valueSetter.SetValue(combinedValue);
         }
     }
 }

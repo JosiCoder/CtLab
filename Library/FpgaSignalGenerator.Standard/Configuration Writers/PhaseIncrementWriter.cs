@@ -21,20 +21,41 @@ using CtLab.SubchannelAccess;
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Writes the phase increment of a DDS generator by setting the value of a set command
-    /// that can be sent to a c't Lab FPGA device configured as an FPGA Lab.
+    /// Writes the phase increment of a DDS generator by setting the according value of
+    /// an FPGA device configured as an FPGA Lab.
     /// </summary>
-    public class PhaseIncrementWriter : UInt32ValueSubchannelWriter
+    public class PhaseIncrementWriter
     {
+        private readonly IFpgaValueSetter _valueSetter;
+        private uint _value;
+
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="subchannelValueSetter">
-		/// The setter used to set the subchannel's value.
+        /// <param name="valueSetter">
+        /// The setter used to set the FPGA's value.
         /// </param>
-        public PhaseIncrementWriter(ISubchannelValueSetter subchannelValueSetter)
-            : base(subchannelValueSetter)
+        public PhaseIncrementWriter(IFpgaValueSetter valueSetter)
         {
+            _valueSetter = valueSetter;
+        }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        public uint Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                SetCommandValue();
+            }
+        }
+
+        private void SetCommandValue()
+        {
+            _valueSetter.SetValue(_value);
         }
     }
 }

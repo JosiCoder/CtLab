@@ -34,7 +34,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <param name="outputSourceSetter">
         /// The setter used to set the output signal source selection.
         /// </param>
-        public OutputSourceSelector(ISubchannelValueSetter outputSourceSetter)
+        public OutputSourceSelector(IFpgaValueSetter outputSourceSetter)
         {
             _outputSourceWriter = new OutputSourceWriter(outputSourceSetter);
         }

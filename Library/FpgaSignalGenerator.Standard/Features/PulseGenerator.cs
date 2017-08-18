@@ -27,8 +27,8 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// </summary>
     public class PulseGenerator : IPulseGenerator
     {
-        private UInt32ValueSubchannelWriter _pulseDurationConfigurator;
-        private UInt32ValueSubchannelWriter _pauseDurationConfigurator;
+        private PulsePauseDurationWriter _pulseDurationWriter;
+        private PulsePauseDurationWriter _pauseDurationWriter;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -40,11 +40,11 @@ namespace CtLab.FpgaSignalGenerator.Standard
 		/// The setter used to set the generator's pause duration.
         /// </param>
         public PulseGenerator(
-            ISubchannelValueSetter pulseDurationSetter,
-            ISubchannelValueSetter pauseDurationSetter)
+            IFpgaValueSetter pulseDurationSetter,
+            IFpgaValueSetter pauseDurationSetter)
         {
-            _pulseDurationConfigurator = new UInt32ValueSubchannelWriter(pulseDurationSetter);
-            _pauseDurationConfigurator = new UInt32ValueSubchannelWriter(pauseDurationSetter);
+            _pulseDurationWriter = new PulsePauseDurationWriter(pulseDurationSetter);
+            _pauseDurationWriter = new PulsePauseDurationWriter(pauseDurationSetter);
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// </summary>
         public uint PulseDuration
         {
-            get { return _pulseDurationConfigurator.Value; }
-            set { _pulseDurationConfigurator.Value = value; }
+            get { return _pulseDurationWriter.Value; }
+            set { _pulseDurationWriter.Value = value; }
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// </summary>
         public uint PauseDuration
         {
-            get { return _pauseDurationConfigurator.Value; }
-            set { _pauseDurationConfigurator.Value = value; }
+            get { return _pauseDurationWriter.Value; }
+            set { _pauseDurationWriter.Value = value; }
         }
     }
 }

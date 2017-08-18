@@ -28,7 +28,7 @@ using CtLab.FpgaSignalGenerator.Standard;
 
 namespace CtLab.FpgaSignalGenerator.Specs
 {
-    public abstract class UniversalCounterSpecs : SubchannelWriterSpecs<UniversalCounter>
+    public abstract class UniversalCounterSpecs : FpgaWriterSpecs<UniversalCounter>
     {
     }
 
@@ -40,17 +40,14 @@ namespace CtLab.FpgaSignalGenerator.Specs
         {
             base.ConfigureContainer (container);
 
-            // The contained message is a value object and thus can't be mocked. It also can't
-            // be modified within a mocked message container via the interface. Thus we need a
-            // real message container here instead of a mock.
-            var rawValueContainer = new MessageContainer(1, 11);
-            rawValueContainer.UpdateMessage(new Message() { RawValue = "120" });
+            var rawValueGetterMock = new Mock<IFpgaValueGetter>();
+            rawValueGetterMock.Setup (rvg => rvg.ValueAsUInt32).Returns (120);
 
             container.Configure (expression =>
                 {
                     expression.ForConcreteType<UniversalCounter>()
-                        .Configure.Ctor<IMessageContainer>("rawValueContainer")
-                        .Is(rawValueContainer);
+                        .Configure.Ctor<IFpgaValueGetter>("rawValueGetter")
+                        .Is(rawValueGetterMock.Object);
                 }
             );
         }
@@ -66,7 +63,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void then_the_SUT_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_combined_values_to_the_FPGA_writer_to_reflect_the_most_recent_changes()
         {
             var expectedValue =
                 ((uint)MeasurementMode.Frequency) << 4
@@ -86,7 +83,7 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
 
         [Test]
-        public void then_the_SUT_should_pass_the_combined_values_to_the_command_value_setter_to_reflect_the_most_recent_changes()
+        public void then_the_SUT_should_pass_the_combined_values_to_the_FPGA_writer_to_reflect_the_most_recent_changes()
         {
             var expectedValue =
                 ((uint)MeasurementMode.Period) << 4

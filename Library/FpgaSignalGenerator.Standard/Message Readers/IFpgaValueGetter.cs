@@ -15,31 +15,42 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+using System;
+
+namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-	/// Provides facilities to set the value of a c't Lab device's subchannel.
+	/// Provides facilities to get a value from the FPGA.
     /// </summary>
-    public interface ISubchannelValueSetter
+    public interface IFpgaValueGetter
     {
         /// <summary>
-        /// Sets a signed integer value.
+        /// Occurs when a value has been updated.
         /// </summary>
-        void SetValue(int value);
+        event EventHandler<EventArgs> ValueUpdated;
 
         /// <summary>
-        /// Sets an unsigned integer value.
+        /// Gets the value as an integer.
         /// </summary>
-        void SetValue(uint value);
+        int ValueAsInt32
+        { get; }
 
         /// <summary>
-        /// Sets a floating point value.
+        /// Gets the value as an unsigned integer.
         /// </summary>
-        void SetValue(double value);
+        uint ValueAsUInt32
+        { get; }
 
         /// <summary>
-        /// Sets a boolean value.
+        /// Gets the value as a floating point number.
         /// </summary>
-        void SetValue(bool value);
+        double ValueAsDouble
+        { get; }
+
+        /// <summary>
+        /// Gets the value as a boolean value.
+        /// </summary>
+        bool ValueAsBoolean
+        { get; }
     }
 }

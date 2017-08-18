@@ -26,27 +26,17 @@ using CtLab.FpgaSignalGenerator.Standard;
 namespace CtLab.FpgaSignalGenerator.Specs
 {
     public abstract class UniversalCounterStatusReaderSpecs
-        : SubchannelReaderSpecs<UniversalCounterStatusReader>
+        : FpgaReaderSpecs<UniversalCounterStatusReader>
     {
     }
 
 
-    public class When_getting_a_counter_status_from_a_message_with_active_input_and_without_overflow
+    public class When_getting_a_counter_status_from_a_raw_value_with_active_input_and_without_overflow
         : UniversalCounterStatusReaderSpecs
     {
         protected override void When()
         {
-            // The message is a structure and thus is a value object. It must be set
-            // before passing it to the IMessageContainer mock (as its copied then).
-            var messageToReturn = new Message
-                                       {
-                                           Channel = 7,
-                                           Subchannel = 255,
-                                           RawValue = "1",
-                                           Description = "xxx"
-                                       };
-
-            _messageContainerMock.Setup(container => container.Message).Returns(messageToReturn);
+            _valueGetterMock.Setup(getter => getter.ValueAsUInt32).Returns(1);
         }
 
         [Test]
@@ -62,22 +52,12 @@ namespace CtLab.FpgaSignalGenerator.Specs
         }
     }
 
-    public class When_getting_a_counter_status_from_a_message_with_active_input_and_overflow
+    public class When_getting_a_counter_status_from_a_raw_value_with_active_input_and_overflow
         : UniversalCounterStatusReaderSpecs
     {
         protected override void When()
         {
-            // The message is a structure and thus is a value object. It must be set
-            // before passing it to the IMessageContainer mock.
-            var messageToReturn = new Message
-            {
-                Channel = 7,
-                Subchannel = 255,
-                RawValue = "3",
-                Description = "xxx"
-            };
-
-            _messageContainerMock.Setup(container => container.Message).Returns(messageToReturn);
+            _valueGetterMock.Setup(getter => getter.ValueAsUInt32).Returns(3);
         }
 
         [Test]

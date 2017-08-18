@@ -22,23 +22,24 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Writes the signal source selection for the outputs by setting the value of a set
-    /// command that can be sent to a c't Lab FPGA device configured as an FPGA Lab.
+    /// Writes the signal source selection for the outputs by setting the according value of
+    /// an FPGA device configured as an FPGA Lab.
     /// </summary>
-    public class OutputSourceWriter : SubchannelWriterBase
+    public class OutputSourceWriter
     {
+        private readonly IFpgaValueSetter _valueSetter;
         private OutputSource _outputSource0;
         private OutputSource _outputSource1;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="subchannelValueSetter">
-		/// The setter used to set the subchannel's value.
+        /// <param name="valueSetter">
+        /// The setter used to set the FPGA's value.
         /// </param>
-        public OutputSourceWriter(ISubchannelValueSetter subchannelValueSetter)
-            : base (subchannelValueSetter)
+        public OutputSourceWriter(IFpgaValueSetter valueSetter)
         {
+            _valueSetter = valueSetter;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         private void SetCommandValue()
         {
             var combinedValue = ((uint) _outputSource1) << 4 | ((uint) _outputSource0);
-            _subchannelValueSetter.SetValue(combinedValue);
+            _valueSetter.SetValue(combinedValue);
         }
     }
 }

@@ -16,49 +16,57 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.SubchannelAccess;
-using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Reads the status of a universal counter by getting the according value of
-    /// an FPGA device configured as an FPGA Lab.
+    /// Sets Fpga values by sending according c't Lab set commands.
     /// </summary>
-    public class UniversalCounterStatusReader
+    public class CtLabSetCommandFpgaValueSetter : IFpgaValueSetter
     {
-        private readonly IFpgaValueGetter _valueGetter;
+        private SetCommandClass _setCommandClass;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="valueGetter">
-        /// The setter used to get the FPGA's value.
+        /// <param name="setCommandClass">
+        /// The command class representing the set commands sent to the c't Lab device.
         /// </param>
-        public UniversalCounterStatusReader(IFpgaValueGetter valueGetter)
+        public CtLabSetCommandFpgaValueSetter(SetCommandClass setCommandClass)
         {
-            _valueGetter = valueGetter;
+            _setCommandClass = setCommandClass;
         }
 
         /// <summary>
-        /// Gets a value indicating whether an overflow has occurred.
+        /// Sets a signed integer value.
         /// </summary>
-        public bool Overflow
+        public void SetValue(int value)
         {
-            get { return (Value & 0x00000002) != 0; }
+            _setCommandClass.SetValue (value);
         }
 
         /// <summary>
-		/// Gets a value indicating whether the counter's input signal is active.
+        /// Sets an unsigned integer value.
         /// </summary>
-        public bool InputSignalActive
+        public void SetValue(uint value)
         {
-            get { return (Value & 0x00000001) != 0; }
+            _setCommandClass.SetValue (value);
         }
 
-        private uint Value
+        /// <summary>
+        /// Sets a floating point value.
+        /// </summary>
+        public void SetValue(double value)
         {
-            get { return _valueGetter.ValueAsUInt32; }
+            _setCommandClass.SetValue (value);
+        }
+
+        /// <summary>
+        /// Sets a boolean value.
+        /// </summary>
+        public void SetValue(bool value)
+        {
+            _setCommandClass.SetValue (value);
         }
     }
 }
