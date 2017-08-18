@@ -45,7 +45,6 @@ namespace CtLab.Frontend.Views
         [UI] Gtk.ComboBox serialPortComboBox;
         [UI] Gtk.Label serialPortHintLabel;
         [UI] Gtk.ListStore serialPortListStore;
-        //[UI] Gtk.SpinButton channelSpinbutton;
         [UI] Gtk.Adjustment channelAdjustment;
 
         /// <summary>
