@@ -17,6 +17,7 @@
 
 using StructureMap;
 using CtLab.Environment;
+using CtLab.Device.Base;
 
 namespace CtLab.EnvironmentIntegration
 {
@@ -31,6 +32,10 @@ namespace CtLab.EnvironmentIntegration
         public ApplianceRegistry()
         {
             // === Lab appliances and devices ===
+
+            For<ApplianceConnection>()
+                .Singleton()
+                .Use<ApplianceConnection>();
 
             For<Appliance>()
                 .Singleton()

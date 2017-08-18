@@ -20,24 +20,41 @@ using CtLab.CommandsAndMessages.Interfaces;
 namespace CtLab.Device.Base
 {
     /// <summary>
-    /// Provides the base functionality for appliances.
+    /// Provides access to an appliance, based on c't Lab set and query commands.
     /// </summary>
-    public abstract class ApplianceBase
+    public class ApplianceConnection
     {
         /// <summary>
         /// The command class dictionary used to send the set commands.
         /// </summary>
-        protected readonly ISetCommandClassDictionary SetCommandClassDictionary;
+        private readonly ISetCommandClassDictionary _setCommandClassDictionary;
 
         /// <summary>
         /// The command scheduler used to send the query commands.
         /// </summary>
-        protected readonly IQueryCommandScheduler QueryCommandScheduler;
+        private readonly IQueryCommandScheduler _queryCommandScheduler;
 
         /// <summary>
         /// The message cache used to receive the messages.
         /// </summary>
-        protected readonly IMessageCache ReceivedMessagesCache;
+        private readonly IMessageCache _receivedMessagesCache;
+
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the underlying query
+        /// command class dictionary.
+        /// </summary>
+        public object SyncRoot
+        {
+            get
+            {
+                var syncRoot = new object();
+                if (_queryCommandScheduler != null)
+                {
+                    syncRoot = _queryCommandScheduler.SyncRoot;
+                }
+                return syncRoot;
+            }
+        }
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -45,12 +62,12 @@ namespace CtLab.Device.Base
         /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public ApplianceBase(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
+        public ApplianceConnection(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
             IMessageCache receivedMessagesCache)
         {
-            SetCommandClassDictionary = setCommandClassDictionary;
-            QueryCommandScheduler = queryCommandScheduler;
-            ReceivedMessagesCache = receivedMessagesCache;
+            _setCommandClassDictionary = setCommandClassDictionary;
+            _queryCommandScheduler = queryCommandScheduler;
+            _receivedMessagesCache = receivedMessagesCache;
         }
 
         /// <summary>
@@ -58,7 +75,7 @@ namespace CtLab.Device.Base
         /// </summary>
         public void SendSetCommandsForModifiedValues()
         {
-            SetCommandClassDictionary.SendCommandsForModifiedValues();
+            _setCommandClassDictionary.SendCommandsForModifiedValues();
         }
 
         /// <summary>
@@ -67,8 +84,8 @@ namespace CtLab.Device.Base
         /// <param name="period">The period in milliseconds.</param>
         public void StartSendingQueryCommands(long period)
         {
-            if (QueryCommandScheduler != null)
-                QueryCommandScheduler.StartSending(period);
+            if (_queryCommandScheduler != null)
+                _queryCommandScheduler.StartSending(period);
         }
 
         /// <summary>
@@ -76,8 +93,8 @@ namespace CtLab.Device.Base
         /// </summary>
         public void StopSendingQueryCommands()
         {
-            if (QueryCommandScheduler != null)
-                QueryCommandScheduler.StopSending();
+            if (_queryCommandScheduler != null)
+                _queryCommandScheduler.StopSending();
         }
 
         /// <summary>
@@ -85,8 +102,8 @@ namespace CtLab.Device.Base
         /// </summary>
         public void SendQueryCommandsImmediately()
         {
-            if (QueryCommandScheduler != null)
-                QueryCommandScheduler.SendImmediately();
+            if (_queryCommandScheduler != null)
+                _queryCommandScheduler.SendImmediately();
         }
     }
 }

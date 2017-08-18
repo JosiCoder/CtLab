@@ -26,11 +26,23 @@ namespace CtLab.Environment
     /// <summary>
     /// Provides the appliance currently used.
     /// </summary>
-    public class Appliance : ApplianceBase, IDisposable
+    public class Appliance : IDisposable
     {
+        private readonly ApplianceConnection _applianceConnection;
         private readonly IDeviceFactory _deviceFactory;
         private readonly IConnection _connection;
         private ISignalGenerator _signalGenerator;
+
+        /// <summary>
+        /// Gets the appliance connection used by this instance.
+        /// </summary>
+        public ApplianceConnection ApplianceConnection
+        {
+            get
+            {
+                return _applianceConnection;
+            }
+        }
 
         /// <summary>
         /// Gets the connection used by this instance.
@@ -59,15 +71,13 @@ namespace CtLab.Environment
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
+        /// <param name="applianceConnection">The connection used to access the appliance.</param>
         /// <param name="deviceFactory">The factory used to create the devices of the appliance.</param>
         /// <param name="connection">The connection used by this instance.</param>
-        /// <param name="setCommandClassDictionary">The command clasSignalGenerators dictionary used to send the set commands.</param>
-        /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
-        /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public Appliance(IDeviceFactory deviceFactory, IConnection connection, ISetCommandClassDictionary setCommandClassDictionary,
-            IQueryCommandScheduler queryCommandScheduler, IMessageCache receivedMessagesCache)
-            : base(setCommandClassDictionary, queryCommandScheduler, receivedMessagesCache)
+        public Appliance(ApplianceConnection applianceConnection,
+            IDeviceFactory deviceFactory, IConnection connection)
         {
+            _applianceConnection = applianceConnection;
             _deviceFactory = deviceFactory;
             _connection = connection;
         }
@@ -81,11 +91,7 @@ namespace CtLab.Environment
         /// </param>
         public void InitializeSignalGenerator(byte channel)
         {
-            var schedulerSyncRoot = new object();
-            if (QueryCommandScheduler != null)
-                schedulerSyncRoot = QueryCommandScheduler.SyncRoot;
-
-            lock (schedulerSyncRoot)
+            lock (_applianceConnection.SyncRoot)
             {
                 if (_signalGenerator != null)
                     _signalGenerator.Dispose();
@@ -94,7 +100,7 @@ namespace CtLab.Environment
 
                 // Initialize the device.
                 _signalGenerator.Reset();
-                SendSetCommandsForModifiedValues();
+                _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }
 

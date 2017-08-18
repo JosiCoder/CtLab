@@ -88,7 +88,7 @@ namespace CtLab.TestConsole
                                   signalGenerator.DdsGeneratorsAMInformationSets[0].Overmodulated ? "" : "not ");
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
-                appliance.SendSetCommandsForModifiedValues();
+                appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
             }
 
             Utilities.WriteFooterAndWaitForKeyPress();
@@ -144,7 +144,7 @@ namespace CtLab.TestConsole
                                   signalGenerator.DdsGeneratorsFMInformationSets[0].ModulationDepth);
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
-                appliance.SendSetCommandsForModifiedValues();
+                appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
             }
 
             Utilities.WriteFooterAndWaitForKeyPress();
@@ -191,7 +191,7 @@ namespace CtLab.TestConsole
                 signalGenerator.DdsGenerators[3].SynchronizationSource = ModulationAndSynchronizationSource.DdsGenerator2;
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
-                appliance.SendSetCommandsForModifiedValues();
+                appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
             }
 
             Utilities.WriteFooterAndWaitForKeyPress();
@@ -229,7 +229,7 @@ namespace CtLab.TestConsole
                 signalGenerator.PulseGenerator.PauseDuration = 100000; // 1 ms
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
-                appliance.SendSetCommandsForModifiedValues();
+                appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
             }
 
             Utilities.WriteFooterAndWaitForKeyPress();
@@ -270,14 +270,14 @@ namespace CtLab.TestConsole
                 signalGenerator.UniversalCounter.PrescalerMode = PrescalerMode.GatePeriod_100ms;
 
                 // Flush all modifications, i.e. send all set commands that have modified values.
-                appliance.SendSetCommandsForModifiedValues();
+                appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
                 // Listen to counter changes and display them.
                 signalGenerator.UniversalCounter.ValueChanged +=
                     (sender, e) => Console.WriteLine("Counter reported a new frequency: {0}", e.Value);
 
                 // Send query commands periodically for some seconds.
-                appliance.StartSendingQueryCommands(_queryCommandSendPeriod);
+                appliance.ApplianceConnection.StartSendingQueryCommands(_queryCommandSendPeriod);
 
                 // Change the generator frequency making the counter report new values.
                 var millisecondsToWait = 3000;
@@ -287,7 +287,7 @@ namespace CtLab.TestConsole
                 SetDds0FrequencyAndWait(appliance, 2000, millisecondsToWait);
 
                 // Stop sending query commands.
-                appliance.StopSendingQueryCommands();
+                appliance.ApplianceConnection.StopSendingQueryCommands();
                 Thread.Sleep(2 * _queryCommandSendPeriod); // wait for all pending 
             }
 
@@ -306,7 +306,7 @@ namespace CtLab.TestConsole
         private static void SetDds0FrequencyAndWait(Appliance appliance, int frequency, int millisecondsToWait)
         {
             appliance.SignalGenerator.DdsGenerators[0].Frequency = frequency;
-            appliance.SendSetCommandsForModifiedValues();
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
             Console.WriteLine("Generator frequency set to {0}", frequency);
             Thread.Sleep(millisecondsToWait);
         }
