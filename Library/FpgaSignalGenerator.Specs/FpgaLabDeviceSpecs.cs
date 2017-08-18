@@ -36,22 +36,28 @@ namespace CtLab.FpgaSignalGenerator.Specs
         {
             base.ConfigureContainer (container);
 
-            // The contained message is a value object and thus can't be mocked. It also can't
-            // be modified within a mocked message container via the interface. Thus we need a
-            // real message container here instead of a mock.
-            var rawValueContainer = new MessageContainer(1, 11);
-            rawValueContainer.UpdateMessage(new Message() { RawValue = "120" });
+//            GetMockFor<IFpgaLabDeviceConnection> ()
+//                .Setup (dc => dc.CreateFpgaValueSetter(It.IsAny<ushort>()))
+//                .Returns (() =>
+//                    {
+//                        var mock = new Mock<IFpgaValueSetter>();
+//                        return mock.Object;
+//                    });
+//
+            GetMockFor<IFpgaLabDeviceConnection> ()
+                .Setup (dc => dc.CreateFpgaValueSetter(It.IsAny<ushort>()))
+                .Returns (new Mock<IFpgaValueSetter>().Object);
 
-            GetMockFor<IMessageCache> ()
-                .Setup (mc => mc.Register (It.IsAny<byte>(), It.IsAny<ushort>()))
-                .Returns (rawValueContainer);
-
-            container.Configure (expression =>
-                {
-                    expression.ForConcreteType<SignalGenerator>()
-                        .Configure.Ctor<byte>("channel").Is(7);
-                }
-            );
+            GetMockFor<IFpgaLabDeviceConnection> ()
+                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>()))
+                .Returns (() =>
+                    {
+                        var valueGetterMock = new Mock<IFpgaValueGetter>();
+                        valueGetterMock
+                            .Setup(vg => vg.ValueAsUInt32)
+                            .Returns(120);
+                        return valueGetterMock.Object;
+                    });
         }
     }
 

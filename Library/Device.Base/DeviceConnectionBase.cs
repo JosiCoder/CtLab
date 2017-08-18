@@ -21,9 +21,9 @@ using CtLab.CommandsAndMessages.Interfaces;
 namespace CtLab.Device.Base
 {
     /// <summary>
-    /// Provides the base functionality for accessing c't Lab devices.
+    /// Provides the base functionality to access c't Lab devices.
     /// </summary>
-    public abstract class DeviceConnectionBase : IDisposable
+    public abstract class DeviceConnectionBase
     {
         /// <summary>
         /// Gets the command namespace CtFpga. used to send the set commands.
@@ -54,7 +54,7 @@ namespace CtLab.Device.Base
         /// <param name="setCommandClassDictionary">The dictonary used for the set command classes.</param>
         /// <param name="queryCommandClassDictionary">The dictonary used for the query command classes.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        protected DeviceConnectionBase(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
+        public DeviceConnectionBase(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandClassDictionary = queryCommandClassDictionary;

@@ -46,6 +46,7 @@
     <Compile Include="ApplianceRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeviceFactory.cs" />
+    <Compile Include="CtLabFpgaLabDeviceConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Environment\Environment.csproj">

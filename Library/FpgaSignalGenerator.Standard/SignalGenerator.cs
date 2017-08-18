@@ -23,14 +23,15 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Represents a signal generator based on the c't Lab.
+    /// Represents an FPGA Lab signal generator.
     /// </summary>
-    public class SignalGenerator : DeviceConnectionBase, ISignalGenerator
+    public class SignalGenerator : ISignalGenerator
     {
-        public readonly DdsGenerator[] _ddsGenerators;
-        public readonly OutputSourceSelector _outputSourceSelector;
-        public readonly PulseGenerator _pulseGenerator;
-        public readonly UniversalCounter _universalCounter;
+        private readonly IFpgaLabDeviceConnection _deviceConnection;
+        private readonly DdsGenerator[] _ddsGenerators;
+        private readonly OutputSourceSelector _outputSourceSelector;
+        private readonly PulseGenerator _pulseGenerator;
+        private readonly UniversalCounter _universalCounter;
 
         public IDdsGenerator[] DdsGenerators
         { get { return (DdsGenerator[])_ddsGenerators.Clone(); } }
@@ -107,39 +108,42 @@ namespace CtLab.FpgaSignalGenerator.Standard
         }
 
         /// <summary>
+        /// Releases all resource used by this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            _deviceConnection.Dispose();
+        }
+
+        /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="channel">
-        /// The number of the channel assigned to the FPGA Lab device controlled by this instance.
-        /// </param>
-        /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
-        /// <param name="queryCommandClassDictionary">The command class dictionary used to send the query commands.</param>
-        /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public SignalGenerator(byte channel, ISetCommandClassDictionary setCommandClassDictionary,
-            IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
-            : base(channel, setCommandClassDictionary, queryCommandClassDictionary, receivedMessagesCache)
+        /// <param name="deviceConnection">The connection used to access the device.</param>
+        public SignalGenerator(IFpgaLabDeviceConnection deviceConnection)
         {
+            _deviceConnection = deviceConnection;
+
             // Four DDS generators.
             _ddsGenerators = new DdsGenerator[4];
-            _ddsGenerators[0] = BuildDdsGenerator(channel, 16);
-            _ddsGenerators[1] = BuildDdsGenerator(channel, 20);
-            _ddsGenerators[2] = BuildDdsGenerator(channel, 24);
-            _ddsGenerators[3] = BuildDdsGenerator(channel, 28);
+            _ddsGenerators[0] = BuildDdsGenerator(16);
+            _ddsGenerators[1] = BuildDdsGenerator(20);
+            _ddsGenerators[2] = BuildDdsGenerator(24);
+            _ddsGenerators[3] = BuildDdsGenerator(28);
 
             // The signal selectors for two outputs.
             _outputSourceSelector = new OutputSourceSelector(
-                CreateFpgaValueSetter(channel, 3));
+                CreateFpgaValueSetter(3));
 
             // The pulse generator.
             _pulseGenerator = new PulseGenerator(
-                CreateFpgaValueSetter(channel, 15),
-                CreateFpgaValueSetter(channel, 14));
+                CreateFpgaValueSetter(15),
+                CreateFpgaValueSetter(14));
 
             // The universal counter.
             _universalCounter = new UniversalCounter(
-                CreateFpgaValueSetter(channel, 12),
-                CreateFpgaValueGetter(channel, 5),
-                CreateFpgaValueGetter(channel, 4)
+                CreateFpgaValueSetter(12),
+                CreateFpgaValueGetter(5),
+                CreateFpgaValueGetter(4)
             );
         }
 
@@ -172,26 +176,23 @@ namespace CtLab.FpgaSignalGenerator.Standard
             UniversalCounter.PrescalerMode = PrescalerMode.GatePeriod_1s;
         }
 
-        private DdsGenerator BuildDdsGenerator(byte channel, ushort baseSubchannel)
+        private DdsGenerator BuildDdsGenerator(ushort baseRegisterNumber)
         {
             return new DdsGenerator(
-                CreateFpgaValueSetter(channel, baseSubchannel),
-                CreateFpgaValueSetter(channel, (ushort)(baseSubchannel + 1)),
-                CreateFpgaValueSetter(channel, (ushort)(baseSubchannel + 2))
+                CreateFpgaValueSetter(baseRegisterNumber),
+                CreateFpgaValueSetter((ushort)(baseRegisterNumber + 1)),
+                CreateFpgaValueSetter((ushort)(baseRegisterNumber + 2))
             );
         }
 
-        private CtLabSetCommandFpgaValueSetter CreateFpgaValueSetter(byte channel, ushort subchannel)
+        private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
-            return new CtLabSetCommandFpgaValueSetter (BuildAndRegisterSetCommandClass (channel, subchannel));
+            return _deviceConnection.CreateFpgaValueSetter(registerNumber);
         }
 
-        private CtLabQueryCommandFpgaValueGetter CreateFpgaValueGetter(byte channel, ushort subchannel)
+        private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return new CtLabQueryCommandFpgaValueGetter (
-                BuildAndRegisterQueryCommandClass (channel, subchannel),
-                RegisterMessage(channel, subchannel)
-            );
+            return _deviceConnection.CreateFpgaValueGetter(registerNumber);
         }
     }
 }
