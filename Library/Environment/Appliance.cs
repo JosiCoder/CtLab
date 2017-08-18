@@ -16,7 +16,6 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.Device.Base;
 using CtLab.FpgaSignalGenerator.Interfaces;
@@ -28,30 +27,18 @@ namespace CtLab.Environment
     /// </summary>
     public class Appliance : IDisposable
     {
-        private readonly ApplianceConnection _applianceConnection;
+        private readonly CtLabApplianceConnection _applianceConnection;
         private readonly IDeviceFactory _deviceFactory;
-        private readonly IConnection _connection;
         private ISignalGenerator _signalGenerator;
 
         /// <summary>
         /// Gets the appliance connection used by this instance.
         /// </summary>
-        public ApplianceConnection ApplianceConnection
+        public CtLabApplianceConnection ApplianceConnection
         {
             get
             {
                 return _applianceConnection;
-            }
-        }
-
-        /// <summary>
-        /// Gets the connection used by this instance.
-        /// </summary>
-        public IConnection Connection
-        {
-            get
-            {
-                return _connection;
             }
         }
 
@@ -73,13 +60,11 @@ namespace CtLab.Environment
         /// </summary>
         /// <param name="applianceConnection">The connection used to access the appliance.</param>
         /// <param name="deviceFactory">The factory used to create the devices of the appliance.</param>
-        /// <param name="connection">The connection used by this instance.</param>
-        public Appliance(ApplianceConnection applianceConnection,
-            IDeviceFactory deviceFactory, IConnection connection)
+        public Appliance(CtLabApplianceConnection applianceConnection,
+            IDeviceFactory deviceFactory)
         {
             _applianceConnection = applianceConnection;
             _deviceFactory = deviceFactory;
-            _connection = connection;
         }
 
         /// <summary>
@@ -109,8 +94,8 @@ namespace CtLab.Environment
             if (_signalGenerator != null)
                 _signalGenerator.Dispose();
 
-            if (_connection != null)
-                _connection.Dispose();
+            if (_applianceConnection != null)
+                _applianceConnection.Dispose();
         }
     }
 }

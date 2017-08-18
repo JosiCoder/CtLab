@@ -33,9 +33,9 @@ namespace CtLab.EnvironmentIntegration
         {
             // === Lab appliances and devices ===
 
-            For<ApplianceConnection>()
+            For<CtLabApplianceConnection>()
                 .Singleton()
-                .Use<ApplianceConnection>();
+                .Use<CtLabApplianceConnection>();
 
             For<Appliance>()
                 .Singleton()

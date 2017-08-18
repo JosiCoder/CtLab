@@ -77,7 +77,7 @@ namespace CtLab.Frontend.ViewModels
         /// Gets a value indicating whether the appliance's connection is active.
         /// </summary>
         public bool IsConnectionActive
-        { get { return _appliance.Connection.IsActive; } }
+        { get { return _appliance.ApplianceConnection.Connection.IsActive; } }
 
         /// <summary>
         /// Gets the signal generator of the appliance.

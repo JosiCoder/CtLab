@@ -57,7 +57,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = container.GetInstance<Appliance>())
             {
-                ((SerialConnection)appliance.Connection).Open(_portName);
+                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
                 appliance.InitializeSignalGenerator(_channel);
@@ -109,7 +109,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = container.GetInstance<Appliance>())
             {
-                ((SerialConnection)appliance.Connection).Open(_portName);
+                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
                 appliance.InitializeSignalGenerator(_channel);
@@ -165,7 +165,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = container.GetInstance<Appliance>())
             {
-                ((SerialConnection)appliance.Connection).Open(_portName);
+                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
                 appliance.InitializeSignalGenerator(_channel);
@@ -210,7 +210,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = container.GetInstance<Appliance>())
             {
-                ((SerialConnection)appliance.Connection).Open(_portName);
+                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
                 appliance.InitializeSignalGenerator(_channel);
@@ -248,7 +248,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = container.GetInstance<Appliance>())
             {
-                ((SerialConnection)appliance.Connection).Open(_portName);
+                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
 
                 // Set the channel of the appliance´s only FPGA lab.
                 appliance.InitializeSignalGenerator(_channel);

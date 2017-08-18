@@ -58,7 +58,7 @@ namespace CtLab.Frontend
             var container = CreateContainer<SerialConnectionRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            ((SerialConnection)appliance.Connection).Open(portName);
+            ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
             DoFinalInitialization(appliance, channel);
             return appliance;

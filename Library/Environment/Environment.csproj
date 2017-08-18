@@ -40,6 +40,7 @@
     <Compile Include="Appliance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDeviceFactory.cs" />
+    <Compile Include="CtLabApplianceConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Utilities.csproj">

@@ -15,6 +15,8 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
+using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.Environment
@@ -22,8 +24,10 @@ namespace CtLab.Environment
     /// <summary>
     /// Provides access to an appliance, based on c't Lab set and query commands.
     /// </summary>
-    public class ApplianceConnection
+    public class CtLabApplianceConnection : IDisposable
     {
+        private readonly IConnection _connection;
+
         /// <summary>
         /// The command class dictionary used to send the set commands.
         /// </summary>
@@ -57,14 +61,28 @@ namespace CtLab.Environment
         }
 
         /// <summary>
+        /// Gets the connection used by this instance.
+        /// </summary>
+        public IConnection Connection
+        {
+            get
+            {
+                return _connection;
+            }
+        }
+
+        /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
+        /// <param name="connection">The connection used by this instance.</param>
         /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public ApplianceConnection(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
+        public CtLabApplianceConnection(IConnection connection,
+            ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
             IMessageCache receivedMessagesCache)
         {
+            _connection = connection;
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;
             _receivedMessagesCache = receivedMessagesCache;
@@ -104,6 +122,12 @@ namespace CtLab.Environment
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.SendImmediately();
+        }
+
+        public void Dispose()
+        {
+            if (_connection != null)
+                _connection.Dispose();
         }
     }
 }
