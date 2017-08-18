@@ -17,7 +17,7 @@
 
 using CtLab.CommandsAndMessages.Interfaces;
 
-namespace CtLab.Device.Base
+namespace CtLab.EnvironmentIntegration
 {
     /// <summary>
     /// Provides access to an appliance, based on c't Lab set and query commands.
