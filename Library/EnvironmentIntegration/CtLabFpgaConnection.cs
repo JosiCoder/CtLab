@@ -25,8 +25,10 @@ namespace CtLab.EnvironmentIntegration
     /// <summary>
     /// Provides access to an FPGA Lab device, based on c't Lab set and query commands.
     /// </summary>
-    public class CtLabFpgaLabDeviceConnection : DeviceConnectionBase, IFpgaLabDeviceConnection
+    public class CtLabFpgaConnection : IFpgaConnection
     {
+        private readonly DeviceConnection _deviceConnection;
+
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
@@ -36,9 +38,9 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="setCommandClassDictionary">The dictonary used for the set command classes.</param>
         /// <param name="queryCommandClassDictionary">The dictonary used for the query command classes.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public CtLabFpgaLabDeviceConnection(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
-            : base(channel, setCommandClassDictionary, queryCommandClassDictionary, receivedMessagesCache)
+        public CtLabFpgaConnection(DeviceConnection deviceConnection)
         {
+            _deviceConnection = deviceConnection;
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace CtLab.EnvironmentIntegration
         public IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
             return new CtLabFpgaValueSetter (
-                BuildAndRegisterSetCommandClass (Channel, registerNumber));
+                _deviceConnection.BuildAndRegisterSetCommandClass (registerNumber));
         }
 
         /// <summary>
@@ -64,9 +66,17 @@ namespace CtLab.EnvironmentIntegration
         public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
             return new CtLabFpgaValueGetter (
-                BuildAndRegisterQueryCommandClass (Channel, registerNumber),
-                RegisterMessage(Channel, registerNumber)
+                _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber),
+                _deviceConnection.RegisterMessage(registerNumber)
             );
+        }
+
+        /// <summary>
+        /// Releases all resource used by this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            _deviceConnection.Dispose();
         }
     }
 }

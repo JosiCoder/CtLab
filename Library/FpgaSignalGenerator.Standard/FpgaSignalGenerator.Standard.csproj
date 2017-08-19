@@ -55,7 +55,7 @@
     <Compile Include="Message Readers\UniversalCounterStatusReader %28Kopie%29.cs" />
     <Compile Include="FPGA Value Setters and Getters\IFpgaValueGetter.cs" />
     <Compile Include="FPGA Value Setters and Getters\IFpgaValueSetter.cs" />
-    <Compile Include="IFpgaLabDeviceConnection.cs" />
+    <Compile Include="IFpgaConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
@@ -65,10 +65,6 @@
     <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
       <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
       <Name>CommandsAndMessages.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Device.Base\Device.Base.csproj">
-      <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
-      <Name>Device.Base</Name>
     </ProjectReference>
     <ProjectReference Include="..\FpgaSignalGenerator.Interfaces\FpgaSignalGenerator.Interfaces.csproj">
       <Project>{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}</Project>

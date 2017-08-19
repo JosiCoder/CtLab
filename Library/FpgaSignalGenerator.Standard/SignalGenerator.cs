@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.Device.Base;
 using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
@@ -27,7 +26,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// </summary>
     public class SignalGenerator : ISignalGenerator
     {
-        private readonly IFpgaLabDeviceConnection _deviceConnection;
+        private readonly IFpgaConnection _fpgaConnection;
         private readonly DdsGenerator[] _ddsGenerators;
         private readonly OutputSourceSelector _outputSourceSelector;
         private readonly PulseGenerator _pulseGenerator;
@@ -112,16 +111,16 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// </summary>
         public void Dispose()
         {
-            _deviceConnection.Dispose();
+            _fpgaConnection.Dispose();
         }
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="deviceConnection">The connection used to access the device.</param>
-        public SignalGenerator(IFpgaLabDeviceConnection deviceConnection)
+        public SignalGenerator(IFpgaConnection deviceConnection)
         {
-            _deviceConnection = deviceConnection;
+            _fpgaConnection = deviceConnection;
 
             // Four DDS generators.
             _ddsGenerators = new DdsGenerator[4];
@@ -187,12 +186,12 @@ namespace CtLab.FpgaSignalGenerator.Standard
 
         private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
-            return _deviceConnection.CreateFpgaValueSetter(registerNumber);
+            return _fpgaConnection.CreateFpgaValueSetter(registerNumber);
         }
 
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _deviceConnection.CreateFpgaValueGetter(registerNumber);
+            return _fpgaConnection.CreateFpgaValueGetter(registerNumber);
         }
     }
 }

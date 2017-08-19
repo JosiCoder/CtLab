@@ -33,17 +33,17 @@ namespace CtLab.EnvironmentIntegration
         {
             // === Lab appliances and devices ===
 
-            For<CtLabApplianceConnection>()
+            For<IApplianceConnection>()
                 .Singleton()
                 .Use<CtLabApplianceConnection>();
-
-            For<Appliance>()
-                .Singleton()
-                .Use<Appliance>();
 
             For<IDeviceFactory>()
                 .Singleton()
                 .Use<DeviceFactory>();
+
+            For<Appliance>()
+                .Singleton()
+                .Use<Appliance>();
         }
     }
 }

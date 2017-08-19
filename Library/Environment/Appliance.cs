@@ -27,14 +27,14 @@ namespace CtLab.Environment
     /// </summary>
     public class Appliance : IDisposable
     {
-        private readonly CtLabApplianceConnection _applianceConnection;
+        private readonly IApplianceConnection _applianceConnection;
         private readonly IDeviceFactory _deviceFactory;
         private ISignalGenerator _signalGenerator;
 
         /// <summary>
         /// Gets the appliance connection used by this instance.
         /// </summary>
-        public CtLabApplianceConnection ApplianceConnection
+        public IApplianceConnection ApplianceConnection
         {
             get
             {
@@ -60,8 +60,7 @@ namespace CtLab.Environment
         /// </summary>
         /// <param name="applianceConnection">The connection used to access the appliance.</param>
         /// <param name="deviceFactory">The factory used to create the devices of the appliance.</param>
-        public Appliance(CtLabApplianceConnection applianceConnection,
-            IDeviceFactory deviceFactory)
+        public Appliance(IApplianceConnection applianceConnection, IDeviceFactory deviceFactory)
         {
             _applianceConnection = applianceConnection;
             _deviceFactory = deviceFactory;
@@ -85,7 +84,7 @@ namespace CtLab.Environment
 
                 // Initialize the device.
                 _signalGenerator.Reset();
-                _applianceConnection.SendSetCommandsForModifiedValues();
+                _applianceConnection.FlushModifications();
             }
         }
 

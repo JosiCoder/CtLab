@@ -17,14 +17,13 @@
 
 using System;
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.Device.Base;
 
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
     /// Provides facilities to access an FPGA Lab device.
     /// </summary>
-    public interface IFpgaLabDeviceConnection : IDisposable
+    public interface IFpgaConnection : IDisposable
     {
         /// <summary>
         /// Creates an FPGA value setter.

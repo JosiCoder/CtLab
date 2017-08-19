@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Device.Base;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
@@ -54,10 +55,12 @@ namespace CtLab.EnvironmentIntegration
         /// </param>
         public ISignalGenerator CreateSignalGenerator(byte channel)
         {
-            var deviceConnection = new CtLabFpgaLabDeviceConnection (channel, _setCommandClassDictionary,
+            var deviceConnection = new DeviceConnection (channel, _setCommandClassDictionary,
                 _queryCommandScheduler.CommandClassDictionary, _receivedMessagesCache);
 
-            return new SignalGenerator(deviceConnection);
+            var fpgaConnection = new CtLabFpgaConnection (deviceConnection);
+
+            return new SignalGenerator(fpgaConnection);
         }
     }
 }

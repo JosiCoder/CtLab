@@ -18,13 +18,14 @@
 using System;
 using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.Environment;
 
-namespace CtLab.Environment
+namespace CtLab.EnvironmentIntegration
 {
     /// <summary>
     /// Provides access to an appliance, based on c't Lab set and query commands.
     /// </summary>
-    public class CtLabApplianceConnection : IDisposable
+    public class CtLabApplianceConnection : IApplianceConnection
     {
         private readonly IConnection _connection;
 
@@ -41,7 +42,7 @@ namespace CtLab.Environment
         /// <summary>
         /// The message cache used to receive the messages.
         /// </summary>
-        private readonly IMessageCache _receivedMessagesCache;
+        //private readonly IMessageCache _receivedMessagesCache;
 
         /// <summary>
         /// Gets an object that can be used to synchronize access to the underlying query
@@ -85,13 +86,46 @@ namespace CtLab.Environment
             _connection = connection;
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;
-            _receivedMessagesCache = receivedMessagesCache;
+            //_receivedMessagesCache = receivedMessagesCache;
+        }
+
+        /// <summary>
+        /// Flushes any modifications to the hardware.
+        /// </summary>
+        public void FlushModifications()
+        {
+            SendSetCommandsForModifiedValues ();
+        }
+
+        /// <summary>
+        /// Starts polling the hardware for new values.
+        /// </summary>
+        /// <param name="period">The period in milliseconds.</param>
+        public void StartPolling(long period)
+        {
+            StartSendingQueryCommands (period);
+        }
+
+        /// <summary>
+        /// Starts polling the hardware for new values.
+        /// </summary>
+        public void StopPolling()
+        {
+            StopSendingQueryCommands ();
+        }
+
+        /// <summary>
+        /// Polls the hardware once for new values.
+        /// </summary>
+        public void PollOnce()
+        {
+            SendQueryCommandsImmediately ();
         }
 
         /// <summary>
         /// Sends all set commands that have modified values.
         /// </summary>
-        public void SendSetCommandsForModifiedValues()
+        private void SendSetCommandsForModifiedValues()
         {
             _setCommandClassDictionary.SendCommandsForModifiedValues();
         }
@@ -100,7 +134,7 @@ namespace CtLab.Environment
         /// Starts sending the scheduled query commands periodically using the specified period.
         /// </summary>
         /// <param name="period">The period in milliseconds.</param>
-        public void StartSendingQueryCommands(long period)
+        private void StartSendingQueryCommands(long period)
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.StartSending(period);
@@ -109,7 +143,7 @@ namespace CtLab.Environment
         /// <summary>
         /// Stops sending the scheduled query commands periodically.
         /// </summary>
-        public void StopSendingQueryCommands()
+        private void StopSendingQueryCommands()
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.StopSending();
@@ -118,7 +152,7 @@ namespace CtLab.Environment
         /// <summary>
         /// Sends all query commands immediately.
         /// </summary>
-        public void SendQueryCommandsImmediately()
+        private void SendQueryCommandsImmediately()
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.SendImmediately();

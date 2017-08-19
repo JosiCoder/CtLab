@@ -21,9 +21,9 @@ using CtLab.CommandsAndMessages.Interfaces;
 namespace CtLab.Device.Base
 {
     /// <summary>
-    /// Provides the base functionality to access c't Lab devices.
+    /// Provides access to a c't Lab device.
     /// </summary>
-    public abstract class DeviceConnectionBase
+    public class DeviceConnection
     {
         /// <summary>
         /// Gets the command namespace CtFpga. used to send the set commands.
@@ -54,7 +54,7 @@ namespace CtLab.Device.Base
         /// <param name="setCommandClassDictionary">The dictonary used for the set command classes.</param>
         /// <param name="queryCommandClassDictionary">The dictonary used for the query command classes.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public DeviceConnectionBase(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
+        public DeviceConnection(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandClassDictionary = queryCommandClassDictionary;
@@ -85,16 +85,13 @@ namespace CtLab.Device.Base
         /// <summary>
         /// Builds a set command class and adds it to the dictionary.
         /// </summary>
-        /// <param name="channel">
-        /// The channel number of the device the commands are sent to.
-        /// </param>
         /// <param name="subchannel">
         /// The subchannel number corresponding to the commands sent.
         /// </param>
         /// <returns>The set command class.</returns>
-        protected SetCommandClass BuildAndRegisterSetCommandClass(byte channel, ushort subchannel)
+        public SetCommandClass BuildAndRegisterSetCommandClass(ushort subchannel)
         {
-            var commandClass = new SetCommandClass(channel, subchannel);
+            var commandClass = new SetCommandClass(Channel, subchannel);
             _setCommandClassDictionary.Add(commandClass);
             return commandClass;
         }
@@ -102,16 +99,13 @@ namespace CtLab.Device.Base
         /// <summary>
         /// Builds a query command class and adds it to the dictionary.
         /// </summary>
-        /// <param name="channel">
-        /// The channel number of the device the commands are sent to.
-        /// </param>
         /// <param name="subchannel">
         /// The subchannel number corresponding to the commands sent.
         /// </param>
         /// <returns>The query command class.</returns>
-        protected QueryCommandClass BuildAndRegisterQueryCommandClass(byte channel, ushort subchannel)
+        public QueryCommandClass BuildAndRegisterQueryCommandClass(ushort subchannel)
         {
-            var commandClass = new QueryCommandClass(channel, subchannel);
+            var commandClass = new QueryCommandClass(Channel, subchannel);
             _queryCommandClassDictionary.Add(commandClass);
             return commandClass;
         }
@@ -120,16 +114,13 @@ namespace CtLab.Device.Base
         /// Registers a channel's subchannel for message caching and returns the message
         /// container for that subchannel.
         /// </summary>
-        /// <param name="channel">
-        /// The channel to register a subchannel for.
-        /// </param>
         /// <param name="subchannel">
         /// The subchannel to register.
         /// </param>
         /// <returns>The message container.</returns>
-        protected IMessageContainer RegisterMessage(byte channel, ushort subchannel)
+        public IMessageContainer RegisterMessage(ushort subchannel)
         {
-            return _receivedMessagesCache.Register(channel, subchannel);
+            return _receivedMessagesCache.Register(Channel, subchannel);
         }
     }
 }
