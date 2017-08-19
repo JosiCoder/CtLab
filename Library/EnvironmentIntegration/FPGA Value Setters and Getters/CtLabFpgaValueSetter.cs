@@ -16,8 +16,9 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.FpgaSignalGenerator.Standard;
 
-namespace CtLab.FpgaSignalGenerator.Standard
+namespace CtLab.EnvironmentIntegration
 {
     /// <summary>
     /// Sets Fpga values by sending according c't Lab set commands.

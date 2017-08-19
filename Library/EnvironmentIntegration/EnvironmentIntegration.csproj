@@ -47,6 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeviceFactory.cs" />
     <Compile Include="CtLabFpgaLabDeviceConnection.cs" />
+    <Compile Include="FPGA Value Setters and Getters\CtLabFpgaValueSetter.cs" />
+    <Compile Include="FPGA Value Setters and Getters\CtLabFpgaValueGetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Environment\Environment.csproj">
@@ -84,5 +86,8 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FPGA Value Setters and Getters\" />
   </ItemGroup>
 </Project>

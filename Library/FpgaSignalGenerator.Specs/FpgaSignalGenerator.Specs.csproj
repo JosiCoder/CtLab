@@ -81,10 +81,6 @@
       <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
       <Name>CommandsAndMessages.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SubchannelAccess.Base\SubchannelAccess.Base.csproj">
-      <Project>{25D49FF1-65DF-4738-9608-9B84BAC9952B}</Project>
-      <Name>SubchannelAccess.Base</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Device.Base\Device.Base.csproj">
       <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
       <Name>Device.Base</Name>

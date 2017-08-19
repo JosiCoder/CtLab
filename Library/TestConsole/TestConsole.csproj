@@ -139,10 +139,6 @@
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SubchannelAccess.Base\SubchannelAccess.Base.csproj">
-      <Project>{25D49FF1-65DF-4738-9608-9B84BAC9952B}</Project>
-      <Name>SubchannelAccess.Base</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BasicIntegration\BasicIntegration.csproj">
       <Project>{E0CA97E8-3844-4A39-BC5E-8D9B60D675DE}</Project>
       <Name>BasicIntegration</Name>
