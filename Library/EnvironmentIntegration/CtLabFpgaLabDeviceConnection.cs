@@ -50,7 +50,7 @@ namespace CtLab.EnvironmentIntegration
         /// <returns>The created FPGA value setter.</returns>
         public IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
-            return new CtLabSetCommandFpgaValueSetter (
+            return new CtLabFpgaValueSetter (
                 BuildAndRegisterSetCommandClass (Channel, registerNumber));
         }
 
@@ -63,7 +63,7 @@ namespace CtLab.EnvironmentIntegration
         /// <returns>The created FPGA value getter.</returns>
         public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return new CtLabQueryCommandFpgaValueGetter (
+            return new CtLabFpgaValueGetter (
                 BuildAndRegisterQueryCommandClass (Channel, registerNumber),
                 RegisterMessage(Channel, registerNumber)
             );

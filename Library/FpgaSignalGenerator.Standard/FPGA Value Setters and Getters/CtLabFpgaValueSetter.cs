@@ -17,54 +17,56 @@
 
 using CtLab.CommandsAndMessages.Interfaces;
 
-namespace CtLab.SubchannelAccess
+namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Provides the base functionality for classes that read a single (non-combined) value from
-    /// a message that may have been received from a c't Lab device.
+    /// Sets Fpga values by sending according c't Lab set commands.
     /// </summary>
-    public abstract class SingleValueSubchannelReaderBase<TValue> : SubchannelReaderBase
+    public class CtLabFpgaValueSetter : IFpgaValueSetter
     {
+        private SetCommandClass _setCommandClass;
+
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="messageContainer">
-        /// The container holding the message.
+        /// <param name="setCommandClass">
+        /// The command class representing the set commands sent to the c't Lab device.
         /// </param>
-        protected SingleValueSubchannelReaderBase(IMessageContainer messageContainer)
-            : base(messageContainer)
+        public CtLabFpgaValueSetter(SetCommandClass setCommandClass)
         {
+            _setCommandClass = setCommandClass;
         }
 
         /// <summary>
-        /// Gets or sets the value.
+        /// Sets a signed integer value.
         /// </summary>
-        public abstract TValue Value{ get; }
-    }
-
-    /// <summary>
-    /// Reads a single (non-combined) value from a message that may have been received from a
-    /// c't Lab device.
-    /// </summary>
-    public class UInt32ValueSubchannelReader : SingleValueSubchannelReaderBase<uint>
-    {
-        /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        /// <param name="messageContainer">
-        /// The container holding the message.
-        /// </param>
-        public UInt32ValueSubchannelReader(IMessageContainer messageContainer)
-            : base(messageContainer)
+        public void SetValue(int value)
         {
+            _setCommandClass.SetValue (value);
         }
 
         /// <summary>
-        /// Gets the value.
+        /// Sets an unsigned integer value.
         /// </summary>
-        public override uint Value
+        public void SetValue(uint value)
         {
-            get { return _messageContainer.Message.ValueToUInt32(); }
+            _setCommandClass.SetValue (value);
+        }
+
+        /// <summary>
+        /// Sets a floating point value.
+        /// </summary>
+        public void SetValue(double value)
+        {
+            _setCommandClass.SetValue (value);
+        }
+
+        /// <summary>
+        /// Sets a boolean value.
+        /// </summary>
+        public void SetValue(bool value)
+        {
+            _setCommandClass.SetValue (value);
         }
     }
 }

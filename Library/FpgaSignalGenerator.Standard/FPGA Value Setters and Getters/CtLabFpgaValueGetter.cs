@@ -21,9 +21,10 @@ using CtLab.CommandsAndMessages.Interfaces;
 namespace CtLab.FpgaSignalGenerator.Standard
 {
     /// <summary>
-    /// Gets Fpga values by sending according c't Lab query commands.
+    /// Gets Fpga values by sending according c't Lab query commands
+    /// and evaluating according c't Lab messages.
     /// </summary>
-    public class CtLabQueryCommandFpgaValueGetter : IFpgaValueGetter
+    public class CtLabFpgaValueGetter : IFpgaValueGetter
     {
         /// <summary>
         /// Occurs when a value has been updated.
@@ -41,7 +42,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
         /// <param name="messageContainer">
         /// The message container used to receive messages from the c't Lab device.
         /// </param>
-        public CtLabQueryCommandFpgaValueGetter(QueryCommandClass queryCommandClass,
+        public CtLabFpgaValueGetter(QueryCommandClass queryCommandClass,
             IMessageContainer messageContainer)
         {
             _messageContainer = messageContainer;

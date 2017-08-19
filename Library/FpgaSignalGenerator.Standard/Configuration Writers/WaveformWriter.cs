@@ -16,7 +16,6 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.SubchannelAccess;
 using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard

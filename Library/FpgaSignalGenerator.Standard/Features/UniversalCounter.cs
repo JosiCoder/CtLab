@@ -18,7 +18,6 @@
 using System;
 using CtLab.Utilities;
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.SubchannelAccess;
 using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
