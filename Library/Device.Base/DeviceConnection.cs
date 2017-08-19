@@ -25,23 +25,12 @@ namespace CtLab.Device.Base
     /// </summary>
     public class DeviceConnection
     {
-        /// <summary>
-        /// Gets the command namespace CtFpga. used to send the set commands.
-        /// </summary>
         private readonly ISetCommandClassDictionary _setCommandClassDictionary;
-
-        /// <summary>
-        /// Gets the command namespace CtFpga. used to send the query commands.
-        /// </summary>
         private readonly IQueryCommandClassDictionary _queryCommandClassDictionary;
-
-        /// <summary>
-        /// Gets the message cache used to receive the messages.
-        /// </summary>
         private readonly IMessageCache _receivedMessagesCache;
 
         /// <summary>
-        /// Gets the number of the channel assigned to the c't Lab device controlled by this instance.
+        /// The number of the channel assigned to the c't Lab device controlled by this instance.
         /// </summary>
         public readonly byte Channel;
 
