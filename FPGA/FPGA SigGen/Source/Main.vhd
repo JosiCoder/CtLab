@@ -38,42 +38,44 @@ entity Main is
     (
         -- The system clock.
         sysclk: in std_logic; 
-        -- The clock controlling the serial data transmission.
-        sclk: in std_logic; 
-        -- The address slave select (low during transmission).
-        ssreg: in std_logic;
-        -- The data slave select (low during transmission).
-        ssdat: in std_logic;
-        -- The serial input.
-        mosi: in std_logic; 
-        -- The universal counter input.
-        cntr_in: in std_logic;
-        -- The serial output.
-        miso: out std_logic; 
+        -- The internal SPI interface.
+        f_sck: in std_logic; -- 
+        f_rs: in std_logic; -- low during transmission
+        f_ds: in std_logic; -- low during transmission
+        f_mosi: in std_logic; 
+        f_miso: out std_logic; 
+        -- The external SPI interface.
+        ext_sck: in std_logic; -- 
+        ext_rs: in std_logic; -- low during transmission
+        ext_ds: in std_logic; -- low during transmission
+        ext_mosi: in std_logic; 
+        ext_miso: out std_logic; 
         -- The test LED output.
         test_led: out std_logic;
-        -- The DDS generators´ synchronization outputs.
+        -- The universal counter input.
+        cntr_in: in std_logic;
+        -- The DDS generators synchronization outputs.
         dds_sync_out: out std_logic_vector(number_of_dds_generators-1 downto 0);
         -- The pulse generator output.
         pulse_out: out std_logic;
-        -- The RAM´s write enable signal (active low).
+        -- The RAMs write enable signal (active low).
         ram_we_n: out std_logic;
-        -- The RAM´s output enable signal (active low).
+        -- The RAMs output enable signal (active low).
         ram_oe_n: out std_logic;
-        -- The DAC´s clock (single DAC U2 only).
+        -- The DACs clock (single DAC U2 only).
         dac_clk: out std_logic;
-        -- The DAC´s channel selection signal (dual DAC U5 only).
+        -- The DACs channel selection signal (dual DAC U5 only).
         dac_channel_select: out std_logic;
-        -- The DAC´s write signal (dual DAC U5 only, active low).
+        -- The DACs write signal (dual DAC U5 only, active low).
         dac_write_n: out std_logic;
-        -- The DAC´s value.
+        -- The DACs value.
         dac_value: out std_logic_vector(dac_data_width-1 downto 0)
     );
 end entity;
 
 architecture stdarch of Main is
 
-    -- Configuration constants.
+    -- Configuration constants
     constant address_width: positive := 5; -- max. 8 (for addresses 0..255)
     constant dds_generator_lookup_table_phase_width: natural := 12;
     constant pulse_generator_counter_width: natural := 32;
@@ -83,7 +85,7 @@ architecture stdarch of Main is
     constant dds_generator_sample_width: natural := dac_data_width;
     constant dac_source_selector_width: natural := 4;
 
-    -- SPI sub-address constants.
+    -- SPI sub-address constants
     type integer_vector is array (natural range <>) of integer;
     -- SPI receiver sub-addresses.
     constant dds_generator_base_subaddr: integer_vector(0 to number_of_dds_generators-1)
@@ -96,18 +98,34 @@ architecture stdarch of Main is
     constant universal_counter_state_subaddr: integer := 4;
     constant universal_counter_value_subaddr: integer := 5;
 
-    -- Clocks.
+    -- Clocks
     signal clk_50mhz: std_logic;
     signal clk_100mhz: std_logic;
 
-    -- SPI.
+    -- SPI interfaces
+    type spi_in_type is record
+        mosi: std_logic;
+        sclk: std_logic;
+        ss_address: std_logic;
+        ss_data: std_logic;
+    end record;
+    signal selected_spi_in, internal_spi_in, external_spi_in, inactive_spi_in: spi_in_type :=
+    (
+        -- Initialize to proper idle values.
+        mosi => '0',
+        sclk => '1',
+        ss_address => '1',
+        ss_data => '1'
+    );
+    signal miso: std_logic;
+
+    -- Internals
     signal transmit_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0)
             := (others => (others => '0'));
     signal received_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
     signal ready_x: std_logic_vector(number_of_data_buffers-1 downto 0);
-    signal miso_int: std_logic;
 
-    -- DDS signal generators.
+    -- DDS signal generators
     signal dds_generator_configs_raw: data_buffer_vector(number_of_dds_generators-1 downto 0);
     signal dds_generator_configs: modulated_generator_config_vector(number_of_dds_generators-1 downto 0);
     signal dds_generator_phase_increments: modulated_generator_phase_vector(number_of_dds_generators-1 downto 0);
@@ -117,19 +135,19 @@ architecture stdarch of Main is
     signal dds_generator_samples: modulated_generator_sample_vector(number_of_dds_generators-1 downto 0);
     signal dds_sync_int: std_logic_vector(number_of_dds_generators-1 downto 0);
 
-    -- Pulse generator.
+    -- Pulse generator
     signal pulse_generator_high_duration, pulse_generator_low_duration:
             unsigned(data_width-1 downto 0);
     signal pulse_int: std_logic;
             
-    -- Universal counter.
+    -- Universal counter
     signal universal_counter_config: data_buffer;
     signal universal_counter_input: std_logic;
     signal universal_counter_value: unsigned(data_width-1 downto 0);
     signal universal_counter_state: data_buffer;
     signal update_universal_counter_output: std_logic;
 
-    -- DAC controller.
+    -- DAC controller
     signal dac_channel_select_int: std_logic;
     signal dac_write_int: std_logic;
     subtype dac_channel_value is signed(dac_data_width-1 downto 0);
@@ -137,7 +155,7 @@ architecture stdarch of Main is
     signal dac_channel_values: dac_channel_value_vector(1 downto 0);
     signal prepared_dac_value: unsigned(dac_data_width-1 downto 0);
 
-    -- Peripheral (I/O) configuration.
+    -- Peripheral (I/O) configuration
     signal peripheral_config_raw: data_buffer;
     subtype dac_channel_source is unsigned(dac_source_selector_width-1 downto 0);
     type dac_channel_source_vector is array (natural range <>) of dac_channel_source;
@@ -215,7 +233,7 @@ begin
     -----------------------------------------------------------------------------
 
     -- Generate DDS synchronization signals (high during 1st half period, i.e.
-    -- the rising edge marks 0°).
+    -- the rising edge marks 0).
     generate_sync: for i in 0 to number_of_dds_generators-1 generate
         dds_sync_int(i) <= not dds_generator_phases(i)(dds_generator_phase_width-1);
     end generate;
@@ -223,6 +241,34 @@ begin
     -- Freeze counter output while transmitting counter state or value.
     update_universal_counter_output <= ready_x(4) and ready_x(5);
     
+
+    --------------------------------------------------------------------------------
+    -- SPI input selection logic.
+    --------------------------------------------------------------------------------
+
+    -- The internal SPI bus (i.e. the one connected to the microcontroller of the
+    -- c'Lab FPGA board).
+    internal_spi_in.mosi <= f_mosi;
+    internal_spi_in.sclk <= f_sck;
+    internal_spi_in.ss_address <= f_rs;
+    internal_spi_in.ss_data <= f_ds;
+
+    -- The external SPI bus (i.e. the one connected to the expansion ports of the
+    -- c'Lab FPGA board).
+    external_spi_in.mosi <= ext_mosi;
+    external_spi_in.sclk <= ext_sck;
+    external_spi_in.ss_address <= ext_rs;
+    external_spi_in.ss_data <= ext_ds;
+
+    -- Select the SPI bus to use.
+    -- Note: The microcontroller of the c'Lab FPGA board accesses the SPI bus periodically
+    -- if one of the Param or Value screens is selected on the panel. Thus, while using
+    -- the external bus, set the panel to the file selection screen.
+    selected_spi_in <=
+        internal_spi_in when (internal_spi_in.ss_address = '0' or internal_spi_in.ss_data = '0') else
+        external_spi_in when (external_spi_in.ss_address = '0' or external_spi_in.ss_data = '0') else
+        inactive_spi_in;
+
 
     --------------------------------------------------------------------------------
     -- Component instantiation.
@@ -248,12 +294,12 @@ begin
     port map
     (
         clk => clk_50mhz, 
-        sclk => sclk, 
-        ss_address => ssreg, 
-        ss_data => ssdat,
+        sclk => selected_spi_in.sclk, 
+        ss_address => selected_spi_in.ss_address, 
+        ss_data => selected_spi_in.ss_data,
         transmit_data_x => transmit_data_x,
-        mosi => mosi,
-        miso => miso_int,
+        mosi => selected_spi_in.mosi,
+        miso => miso,
         received_data_x => received_data_x,
         ready_x => ready_x
     );
@@ -334,7 +380,7 @@ begin
     -- Internal configuration logic.
     --------------------------------------------------------------------------------
 
-    -- Connects the selected signals to the DACs´ inputs.
+    -- Connects the selected signals to the DACs inputs.
     connect_dac_input: process is
         constant dac_channel_source_pulse: integer := 4;
         variable dac_channel_source: integer;
@@ -355,7 +401,7 @@ begin
     end process;
 
 
-    -- Connects the selected signals to the universal counter´s input.
+    -- Connects the selected signals to the universal counters input.
     connect_counter_input: process is
         constant universal_counter_source_pulse: integer := 4;
         constant universal_counter_source_external: integer := 5;
@@ -386,7 +432,8 @@ begin
     dds_sync_out <= dds_sync_int;
 
     -- SPI & test LED.
-    miso <= miso_int when ssdat = '0' else 'Z';
+    f_miso <= miso when f_ds = '0' else 'Z';
+    ext_miso <= miso when ext_ds = '0' else 'Z';
     test_led <= received_data_x(0)(0);
 
     -- SRAM.
@@ -398,7 +445,7 @@ begin
     dac_clk <= dac_channel_select_int; -- (single DAC U2 only)
     dac_channel_select <= dac_channel_select_int; -- (dual DAC U5 only)
     dac_write_n <= not dac_write_int; -- (dual DAC U5 only)
-    -- Invert the DAC value to compensate the hardware´s inverter.
+    -- Invert the DAC value to compensate the hardwares inverter.
     invert_dac_value: for i in dac_value'range generate
         dac_value(i) <= not prepared_dac_value(i);
     end generate;

@@ -24,22 +24,37 @@ NET "SYSCLK" LOC = "P55";
 NET "SYSCLK" TNM_NET = "SYSCLK_NET";
 TIMESPEC "TS_SYSCLK_NET" = PERIOD "SYSCLK_NET" 50 MHz HIGH 50 %;
 
-# SPI Interface
-NET "SSREG" LOC = "P68"; # Address register write
-NET "SSDAT" LOC = "P69"; # Data register R/W
-NET "SCLK" LOC = "P70"; # SPI clock
-#NET "INT" LOC = "P74"; # Interrupt of frequency counter
-NET "MISO" LOC = "P73"; # Data output of SPI interface
-NET "MOSI" LOC = "P63"; # Data input of SPI interface
-NET "SSREG" CLOCK_DEDICATED_ROUTE = FALSE;
-NET "SSDAT" CLOCK_DEDICATED_ROUTE = FALSE;
-NET "SCLK" CLOCK_DEDICATED_ROUTE = FALSE;
-NET "SCLK" TNM_NET = "SCLK_NET";
-TIMESPEC "TS_SCLK_NET" = PERIOD "SCLK_NET" 10 MHz HIGH 50 %;
+# Internal SPI Interface
+NET "F_RS" LOC = "P68"; # Address register write
+NET "F_DS" LOC = "P69"; # Data register R/W
+NET "F_SCK" LOC = "P70"; # SPI clock
+#NET "F_INT" LOC = "P74"; # Interrupt of frequency counter
+NET "F_MISO" LOC = "P73"; # Data output of SPI interface
+NET "F_MOSI" LOC = "P63"; # Data input of SPI interface
+NET "F_RS" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "F_DS" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "F_SCK" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "F_SCK" TNM_NET = "F_SCK_NET";
+TIMESPEC "TS_F_SCK_NET" = PERIOD "F_SCK_NET" 10 MHz HIGH 50 %;
+TIMESPEC "TS_IGNORE_F_SCK_TO_SYSCLK" = FROM "F_SCK_NET" TO "SYSCLK_NET" TIG;
+TIMESPEC "TS_IGNORE_SYSCLK_TO_F_SCK" = FROM "SYSCLK_NET" TO "F_SCK_NET" TIG;
  
 # Miscellaneous
 NET "Test_LED"  LOC = "P44"  ; 
 
-# Additional Timing Constraints
-TIMESPEC "TS_IGNORE_SCLK_TO_SYSCLK" = FROM "SCLK_NET" TO "SYSCLK_NET" TIG;
-TIMESPEC "TS_IGNORE_SYSCLK_TO_SCLK" = FROM "SYSCLK_NET" TO "SCLK_NET" TIG;
+# ========== External SPI ==========
+
+# External SPI Interface
+NET "EXT_RS" LOC = "P87"; # Address register write
+NET "EXT_DS" LOC = "P90"; # Data register R/W
+NET "EXT_SCK" LOC = "P93"; # SPI clock
+#NET "EXT_INT" LOC = "Pxx"; # Interrupt of frequency counter
+NET "EXT_MISO" LOC = "P96"; # Data output of SPI interface
+NET "EXT_MOSI" LOC = "P98"; # Data input of SPI interface
+NET "EXT_RS" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "EXT_DS" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "EXT_SCK" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "EXT_SCK" TNM_NET = "EXT_SCK_NET";
+TIMESPEC "TS_EXT_SCK_NET" = PERIOD "EXT_SCK_NET" 10 MHz HIGH 50 %;
+TIMESPEC "TS_IGNORE_EXT_SCK_TO_SYSCLK" = FROM "EXT_SCK_NET" TO "SYSCLK_NET" TIG;
+TIMESPEC "TS_IGNORE_SYSCLK_TO_EXT_SCK" = FROM "SYSCLK_NET" TO "EXT_SCK_NET" TIG;
