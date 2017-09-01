@@ -16,31 +16,41 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.CommandsAndMessages.Interfaces;
 
-namespace CtLab.FpgaSignalGenerator.Standard
+namespace CtLab.FpgaConnection.Interfaces
 {
     /// <summary>
-    /// Provides facilities to access an FPGA Lab device.
+	/// Provides facilities to get a value from the FPGA.
     /// </summary>
-    public interface IFpgaConnection : IDisposable
+    public interface IFpgaValueGetter
     {
         /// <summary>
-        /// Creates an FPGA value setter.
+        /// Occurs when a value has been updated.
         /// </summary>
-        /// <param name="registerNumber">
-        /// The number of the FPGA register to write to.
-        /// </param>
-        /// <returns>The created FPGA value setter.</returns>
-        IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber);
+        event EventHandler<EventArgs> ValueUpdated;
 
         /// <summary>
-        /// Creates an FPGA value getter.
+        /// Gets the value as an integer.
         /// </summary>
-        /// <param name="registerNumber">
-        /// The number of the FPGA register to read from.
-        /// </param>
-        /// <returns>The created FPGA value getter.</returns>
-        IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber);
+        int ValueAsInt32
+        { get; }
+
+        /// <summary>
+        /// Gets the value as an unsigned integer.
+        /// </summary>
+        uint ValueAsUInt32
+        { get; }
+
+        /// <summary>
+        /// Gets the value as a floating point number.
+        /// </summary>
+        double ValueAsDouble
+        { get; }
+
+        /// <summary>
+        /// Gets the value as a boolean value.
+        /// </summary>
+        bool ValueAsBoolean
+        { get; }
     }
 }

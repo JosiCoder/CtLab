@@ -97,6 +97,10 @@
       <Project>{06238F54-9C00-4F05-96EF-DF96C3CB14F0}</Project>
       <Name>FpgaSignalGenerator.Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FpgaConnection.Interfaces\FpgaConnection.Interfaces.csproj">
+      <Project>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</Project>
+      <Name>FpgaConnection.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

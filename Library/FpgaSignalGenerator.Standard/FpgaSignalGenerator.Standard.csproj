@@ -53,22 +53,19 @@
     <Compile Include="SignalGenerator.cs" />
     <Compile Include="Configuration Writers\PulsePauseDurationWriter.cs" />
     <Compile Include="Message Readers\UniversalCounterStatusReader %28Kopie%29.cs" />
-    <Compile Include="FPGA Value Setters and Getters\IFpgaValueGetter.cs" />
-    <Compile Include="FPGA Value Setters and Getters\IFpgaValueSetter.cs" />
-    <Compile Include="IFpgaConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
-      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CommandsAndMessages.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FpgaSignalGenerator.Interfaces\FpgaSignalGenerator.Interfaces.csproj">
       <Project>{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}</Project>
       <Name>FpgaSignalGenerator.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FpgaConnection.Interfaces\FpgaConnection.Interfaces.csproj">
+      <Project>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</Project>
+      <Name>FpgaConnection.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -79,7 +76,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="FPGA Value Setters and Getters\" />
-  </ItemGroup>
 </Project>

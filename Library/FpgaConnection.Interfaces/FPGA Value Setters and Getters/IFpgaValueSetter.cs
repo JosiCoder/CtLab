@@ -15,42 +15,31 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
-
-namespace CtLab.FpgaSignalGenerator.Standard
+namespace CtLab.FpgaConnection.Interfaces
 {
     /// <summary>
-	/// Provides facilities to get a value from the FPGA.
+	/// Provides facilities to set a value within the FPGA.
     /// </summary>
-    public interface IFpgaValueGetter
+    public interface IFpgaValueSetter
     {
         /// <summary>
-        /// Occurs when a value has been updated.
+        /// Sets a signed integer value.
         /// </summary>
-        event EventHandler<EventArgs> ValueUpdated;
+        void SetValue(int value);
 
         /// <summary>
-        /// Gets the value as an integer.
+        /// Sets an unsigned integer value.
         /// </summary>
-        int ValueAsInt32
-        { get; }
+        void SetValue(uint value);
 
         /// <summary>
-        /// Gets the value as an unsigned integer.
+        /// Sets a floating point value.
         /// </summary>
-        uint ValueAsUInt32
-        { get; }
+        void SetValue(double value);
 
         /// <summary>
-        /// Gets the value as a floating point number.
+        /// Sets a boolean value.
         /// </summary>
-        double ValueAsDouble
-        { get; }
-
-        /// <summary>
-        /// Gets the value as a boolean value.
-        /// </summary>
-        bool ValueAsBoolean
-        { get; }
+        void SetValue(bool value);
     }
 }

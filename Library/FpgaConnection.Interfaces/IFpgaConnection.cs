@@ -15,31 +15,31 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.FpgaSignalGenerator.Standard
+using System;
+
+namespace CtLab.FpgaConnection.Interfaces
 {
     /// <summary>
-	/// Provides facilities to set a value within the FPGA.
+    /// Provides facilities to access an FPGA Lab device.
     /// </summary>
-    public interface IFpgaValueSetter
+    public interface IFpgaConnection : IDisposable
     {
         /// <summary>
-        /// Sets a signed integer value.
+        /// Creates an FPGA value setter.
         /// </summary>
-        void SetValue(int value);
+        /// <param name="registerNumber">
+        /// The number of the FPGA register to write to.
+        /// </param>
+        /// <returns>The created FPGA value setter.</returns>
+        IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber);
 
         /// <summary>
-        /// Sets an unsigned integer value.
+        /// Creates an FPGA value getter.
         /// </summary>
-        void SetValue(uint value);
-
-        /// <summary>
-        /// Sets a floating point value.
-        /// </summary>
-        void SetValue(double value);
-
-        /// <summary>
-        /// Sets a boolean value.
-        /// </summary>
-        void SetValue(bool value);
+        /// <param name="registerNumber">
+        /// The number of the FPGA register to read from.
+        /// </param>
+        /// <returns>The created FPGA value getter.</returns>
+        IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber);
     }
 }

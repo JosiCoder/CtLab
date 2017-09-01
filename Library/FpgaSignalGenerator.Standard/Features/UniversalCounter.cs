@@ -17,8 +17,8 @@
 
 using System;
 using CtLab.Utilities;
-using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
+using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
 {

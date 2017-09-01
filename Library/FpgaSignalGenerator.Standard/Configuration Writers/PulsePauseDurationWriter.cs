@@ -15,7 +15,7 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
 {

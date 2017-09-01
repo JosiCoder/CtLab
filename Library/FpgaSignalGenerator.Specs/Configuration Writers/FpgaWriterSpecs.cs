@@ -22,6 +22,7 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.FpgaSignalGenerator.Standard;
+using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Specs
 {
