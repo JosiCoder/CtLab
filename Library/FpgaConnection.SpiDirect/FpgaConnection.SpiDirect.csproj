@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</ProjectGuid>
+    <ProjectGuid>{662B4B2E-58F5-4A75-BD38-813DA4ECC948}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CtLab.FpgaConnection.Interfaces</RootNamespace>
-    <AssemblyName>CtLab.FpgaConnection.Interfaces</AssemblyName>
+    <RootNamespace>CtLab.FpgaConnection.SpiDirect</RootNamespace>
+    <AssemblyName>CtLab.FpgaConnection.SpiDirect</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,12 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FPGA Value Setters and Getters\IFpgaValueGetter.cs" />
-    <Compile Include="FPGA Value Setters and Getters\IFpgaValueSetter.cs" />
-    <Compile Include="IFpgaConnection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="FPGA Value Setters and Getters\" />
-  </ItemGroup>
 </Project>

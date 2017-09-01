@@ -46,9 +46,6 @@
     <Compile Include="ApplianceRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeviceFactory.cs" />
-    <Compile Include="FPGA Value Setters and Getters\CtLabFpgaValueSetter.cs" />
-    <Compile Include="FPGA Value Setters and Getters\CtLabFpgaValueGetter.cs" />
-    <Compile Include="CtLabFpgaConnection.cs" />
     <Compile Include="CtLabApplianceConnection.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +81,10 @@
       <Project>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</Project>
       <Name>FpgaConnection.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FpgaConnection.CtLabProtocol\FpgaConnection.CtLabProtocol.csproj">
+      <Project>{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}</Project>
+      <Name>FpgaConnection.CtLabProtocol</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -95,8 +96,5 @@
   -->
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FPGA Value Setters and Getters\" />
   </ItemGroup>
 </Project>

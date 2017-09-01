@@ -18,9 +18,8 @@
 using System;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
-using CtLab.FpgaSignalGenerator.Standard;
 
-namespace CtLab.EnvironmentIntegration
+namespace CtLab.FpgaConnection.CtLabProtocol
 {
     /// <summary>
     /// Gets Fpga values by sending according c't Lab query commands

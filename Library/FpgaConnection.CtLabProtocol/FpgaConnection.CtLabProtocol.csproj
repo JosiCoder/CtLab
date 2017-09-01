@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</ProjectGuid>
+    <ProjectGuid>{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CtLab.FpgaConnection.Interfaces</RootNamespace>
-    <AssemblyName>CtLab.FpgaConnection.Interfaces</AssemblyName>
+    <RootNamespace>CtLab.FpgaConnection.CtLabProtocol</RootNamespace>
+    <AssemblyName>CtLab.FpgaConnection.CtLabProtocol</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,12 +32,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FPGA Value Setters and Getters\IFpgaValueGetter.cs" />
-    <Compile Include="FPGA Value Setters and Getters\IFpgaValueSetter.cs" />
-    <Compile Include="IFpgaConnection.cs" />
+    <Compile Include="FPGA Value Setters and Getters\CtLabFpgaValueGetter.cs" />
+    <Compile Include="FPGA Value Setters and Getters\CtLabFpgaValueSetter.cs" />
+    <Compile Include="CtLabFpgaConnection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="FPGA Value Setters and Getters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FpgaConnection.Interfaces\FpgaConnection.Interfaces.csproj">
+      <Project>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</Project>
+      <Name>FpgaConnection.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Device.Base\Device.Base.csproj">
+      <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
+      <Name>Device.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
+      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
+      <Name>CommandsAndMessages.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
