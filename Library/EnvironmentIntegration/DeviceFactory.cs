@@ -20,8 +20,8 @@ using CtLab.Device.Base;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
-using CtLab.Environment;
 using CtLab.FpgaConnection.CtLabProtocol;
+using CtLab.Environment;
 
 namespace CtLab.EnvironmentIntegration
 {

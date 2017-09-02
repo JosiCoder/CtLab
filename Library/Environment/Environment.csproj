@@ -59,10 +59,6 @@
       <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
       <Name>CommandsAndMessages.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Device.Base\Device.Base.csproj">
-      <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
-      <Name>Device.Base</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

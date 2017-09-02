@@ -17,7 +17,6 @@
 
 using System;
 using CtLab.Connection.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.Environment
 {

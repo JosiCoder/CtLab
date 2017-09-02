@@ -17,7 +17,6 @@
 
 using System;
 using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.Device.Base;
 using CtLab.FpgaSignalGenerator.Interfaces;
 
 namespace CtLab.Environment
