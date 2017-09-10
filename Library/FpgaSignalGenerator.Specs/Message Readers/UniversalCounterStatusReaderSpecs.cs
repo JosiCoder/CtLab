@@ -20,10 +20,9 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
-using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
 
-namespace CtLab.FpgaSignalGenerator.Specs
+namespace CtLab.FpgaSignalGenerator.Standard.Specs
 {
     public abstract class UniversalCounterStatusReaderSpecs
         : FpgaReaderSpecs<UniversalCounterStatusReader>

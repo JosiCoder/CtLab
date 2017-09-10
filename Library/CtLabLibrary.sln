@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Signal Generator", "Signal 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaSignalGenerator.Standard", "FpgaSignalGenerator.Standard\FpgaSignalGenerator.Standard.csproj", "{06238F54-9C00-4F05-96EF-DF96C3CB14F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaSignalGenerator.Specs", "FpgaSignalGenerator.Specs\FpgaSignalGenerator.Specs.csproj", "{A978A2FD-9EF3-4AB1-B192-C52B526D83F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaSignalGenerator.Standard.Specs", "FpgaSignalGenerator.Specs\FpgaSignalGenerator.Standard.Specs.csproj", "{A978A2FD-9EF3-4AB1-B192-C52B526D83F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaSignalGenerator.Interfaces", "FpgaSignalGenerator.Interfaces\FpgaSignalGenerator.Interfaces.csproj", "{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}"
 EndProject

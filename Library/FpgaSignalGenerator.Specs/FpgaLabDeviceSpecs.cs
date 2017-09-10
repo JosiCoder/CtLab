@@ -22,13 +22,11 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using StructureMap;
-using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.CommandsAndMessages.Standard;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
 using CtLab.FpgaConnection.Interfaces;
 
-namespace CtLab.FpgaSignalGenerator.Specs
+namespace CtLab.FpgaSignalGenerator.Standard.Specs
 {
     public abstract class FpgaLabDeviceSpecs
         : SpecsFor<SignalGenerator>

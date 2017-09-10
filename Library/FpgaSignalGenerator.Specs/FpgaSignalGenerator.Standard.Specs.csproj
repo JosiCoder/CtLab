@@ -6,8 +6,8 @@
     <ProjectGuid>{A978A2FD-9EF3-4AB1-B192-C52B526D83F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CtLab.FpgaSignalGenerator.Specs</RootNamespace>
-    <AssemblyName>CtLab.FpgaSignalGenerator.Specs</AssemblyName>
+    <RootNamespace>CtLab.FpgaSignalGenerator.Standard.Specs</RootNamespace>
+    <AssemblyName>CtLab.FpgaSignalGenerator.Standard.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -76,18 +76,6 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
-      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CommandsAndMessages.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Device.Base\Device.Base.csproj">
-      <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
-      <Name>Device.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Standard\CommandsAndMessages.Standard.csproj">
-      <Project>{057DA3C3-69A0-44E9-910B-33FCFC282058}</Project>
-      <Name>CommandsAndMessages.Standard</Name>
     </ProjectReference>
     <ProjectReference Include="..\FpgaSignalGenerator.Interfaces\FpgaSignalGenerator.Interfaces.csproj">
       <Project>{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}</Project>
