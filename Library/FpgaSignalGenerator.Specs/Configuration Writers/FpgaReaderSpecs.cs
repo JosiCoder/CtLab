@@ -24,7 +24,7 @@ using Moq;
 using CtLab.FpgaSignalGenerator.Standard;
 using CtLab.FpgaConnection.Interfaces;
 
-namespace CtLab.FpgaSignalGenerator.Specs
+namespace CtLab.FpgaSignalGenerator.Standard.Specs
 {
     public abstract class FpgaReaderSpecs<TSystemUnderTest>
         : SpecsFor<TSystemUnderTest>

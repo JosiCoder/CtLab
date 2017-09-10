@@ -23,7 +23,7 @@ using Moq;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
 
-namespace CtLab.FpgaSignalGenerator.Specs
+namespace CtLab.FpgaSignalGenerator.Standard.Specs
 {
     public abstract class WaveformWriterSpecs
         : FpgaWriterSpecs<WaveformWriter>
