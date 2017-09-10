@@ -23,8 +23,8 @@ namespace CtLab.Environment
     public interface IApplianceConnection : IDisposable
     {
         /// <summary>
-        /// Gets an object that can be used to synchronize access to the underlying query
-        /// command class dictionary.
+        /// Gets an object that can be used to synchronize access to the current object
+        /// and its internals.
         /// </summary>
         object SyncRoot
         { get; }

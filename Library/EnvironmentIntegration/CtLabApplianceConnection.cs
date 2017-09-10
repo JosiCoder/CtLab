@@ -45,8 +45,8 @@ namespace CtLab.EnvironmentIntegration
         //private readonly IMessageCache _receivedMessagesCache;
 
         /// <summary>
-        /// Gets an object that can be used to synchronize access to the underlying query
-        /// command class dictionary.
+        /// Gets an object that can be used to synchronize access to the current object
+        /// and its internals.
         /// </summary>
         public object SyncRoot
         {

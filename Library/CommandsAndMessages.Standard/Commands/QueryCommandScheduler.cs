@@ -32,8 +32,8 @@ namespace CtLab.CommandsAndMessages.Standard
         private Timer _scheduleTimer;
 
         /// <summary>
-        /// Gets an object that can be used to synchronize access to the underlying query
-        /// command class dictionary.
+        /// Gets an object that can be used to synchronize access to the current object
+        /// and its internals.
         /// </summary>
         public object SyncRoot { get { return _syncRoot; } }
 

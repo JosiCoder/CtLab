@@ -24,8 +24,8 @@ namespace CtLab.CommandsAndMessages.Interfaces
     public interface IQueryCommandScheduler
     {
         /// <summary>
-        /// Gets an object that can be used to synchronize access to the underlying query
-        /// command dictionary.
+        /// Gets an object that can be used to synchronize access to the current object
+        /// and its internals.
         /// </summary>
         object SyncRoot { get; }
 
