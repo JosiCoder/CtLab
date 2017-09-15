@@ -3209,22 +3209,22 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Class" version="0" id="O57">
       <dia:attribute name="obj_pos">
-        <dia:point val="35.2203,83.2177"/>
+        <dia:point val="36.2553,83.2177"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.1703,83.1677;43.8853,84.4677"/>
+        <dia:rectangle val="36.2053,83.1677;42.8478,84.4677"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
-        <dia:point val="35.2203,83.2177"/>
+        <dia:point val="36.2553,83.2177"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.6150000000000002"/>
+        <dia:real val="6.5424999999999995"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.2000000000000002"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#CtLabFpgaValueSetter#</dia:string>
+        <dia:string>#FpgaValueSetter#</dia:string>
       </dia:attribute>
       <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
@@ -3320,22 +3320,22 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Class" version="0" id="O58">
       <dia:attribute name="obj_pos">
-        <dia:point val="40.8771,85.6057"/>
+        <dia:point val="41.9121,85.6057"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="40.8271,85.5557;49.6071,86.8557"/>
+        <dia:rectangle val="41.8621,85.5557;48.5696,86.8557"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
-        <dia:point val="40.8771,85.6057"/>
+        <dia:point val="41.9121,85.6057"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.6799999999999997"/>
+        <dia:real val="6.6074999999999999"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.2000000000000002"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#CtLabFpgaValueGetter#</dia:string>
+        <dia:string>#FpgaValueGetter#</dia:string>
       </dia:attribute>
       <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
@@ -3431,22 +3431,22 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Class" version="0" id="O59">
       <dia:attribute name="obj_pos">
-        <dia:point val="29.5634,80.8601"/>
+        <dia:point val="30.5996,80.8601"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="29.5134,80.8101;38.0259,82.1101"/>
+        <dia:rectangle val="30.5496,80.8101;36.9896,82.1101"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
-        <dia:point val="29.5634,80.8601"/>
+        <dia:point val="30.5996,80.8601"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.4124999999999996"/>
+        <dia:real val="6.3399999999999999"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.2000000000000002"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#CtLabFpgaConnection#</dia:string>
+        <dia:string>#FpgaConnection#</dia:string>
       </dia:attribute>
       <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
@@ -3542,17 +3542,17 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Realizes" version="1" id="O60">
       <dia:attribute name="obj_pos">
-        <dia:point val="33.7696,65.5717"/>
+        <dia:point val="33.7697,65.5717"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="32.9196,65.5217;34.6197,80.8598"/>
+        <dia:rectangle val="32.9197,65.5217;34.6197,80.8598"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="33.7696,65.5717"/>
-        <dia:point val="33.7696,66.4217"/>
+        <dia:point val="33.7697,65.5717"/>
+        <dia:point val="33.7697,66.4217"/>
         <dia:point val="33.7696,80.7598"/>
         <dia:point val="33.7696,80.8098"/>
       </dia:attribute>
@@ -3593,9 +3593,9 @@ c't Lab protocol.#</dia:string>
       </dia:attribute>
       <dia:attribute name="orth_points">
         <dia:point val="39.5266,67.9293"/>
-        <dia:point val="39.5266,75.9484"/>
-        <dia:point val="39.5278,75.9484"/>
-        <dia:point val="39.5278,83.1674"/>
+        <dia:point val="39.5266,68.7793"/>
+        <dia:point val="39.5265,83.1174"/>
+        <dia:point val="39.5265,83.1674"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
@@ -3624,19 +3624,19 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Realizes" version="1" id="O62">
       <dia:attribute name="obj_pos">
-        <dia:point val="45.2159,70.3173"/>
+        <dia:point val="45.2158,70.3173"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="44.3659,70.2673;46.0659,85.6054"/>
+        <dia:rectangle val="44.3658,70.2673;46.0658,85.6054"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="45.2159,70.3173"/>
-        <dia:point val="45.2159,78.3363"/>
-        <dia:point val="45.2171,78.3363"/>
-        <dia:point val="45.2171,85.5554"/>
+        <dia:point val="45.2158,70.3173"/>
+        <dia:point val="45.2158,71.1673"/>
+        <dia:point val="45.2159,85.5054"/>
+        <dia:point val="45.2159,85.5554"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
@@ -3740,19 +3740,19 @@ c't Lab protocol.#</dia:string>
         <dia:point val="50.2639,117.014"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.2139,116.964;58.9939,118.264"/>
+        <dia:rectangle val="50.2139,116.964;56.9214,118.264"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
         <dia:point val="50.2639,117.014"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.6799999999999997"/>
+        <dia:real val="6.6074999999999999"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.2000000000000002"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#CtLabFpgaValueGetter#</dia:string>
+        <dia:string>#FpgaValueGetter#</dia:string>
       </dia:attribute>
       <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
@@ -3851,19 +3851,19 @@ c't Lab protocol.#</dia:string>
         <dia:point val="50.2639,119.292"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.2139,119.242;58.9289,120.542"/>
+        <dia:rectangle val="50.2139,119.242;56.8564,120.542"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
         <dia:point val="50.2639,119.292"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.6150000000000002"/>
+        <dia:real val="6.5424999999999995"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.2000000000000002"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#CtLabFpgaValueSetter#</dia:string>
+        <dia:string>#FpgaValueSetter#</dia:string>
       </dia:attribute>
       <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
@@ -3962,19 +3962,19 @@ c't Lab protocol.#</dia:string>
         <dia:point val="50.2639,114.736"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.2139,114.686;58.7264,115.986"/>
+        <dia:rectangle val="50.2139,114.686;56.6539,115.986"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
         <dia:point val="50.2639,114.736"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="8.4124999999999996"/>
+        <dia:real val="6.3399999999999999"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="1.2000000000000002"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#CtLabFpgaConnection#</dia:string>
+        <dia:string>#FpgaConnection#</dia:string>
       </dia:attribute>
       <dia:attribute name="stereotype">
         <dia:string>##</dia:string>
@@ -4070,16 +4070,16 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Dependency" version="1" id="O68">
       <dia:attribute name="obj_pos">
-        <dia:point val="43.8852,83.8177"/>
+        <dia:point val="42.8479,83.8177"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="43.8352,82.5066;54.1471,84.2371"/>
+        <dia:rectangle val="42.7979,82.5066;54.1471,84.2371"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="43.8852,83.8177"/>
+        <dia:point val="42.8479,83.8177"/>
         <dia:point val="52.2377,83.8177"/>
         <dia:point val="52.2377,82.9566"/>
         <dia:point val="53.6971,82.9566"/>
@@ -4114,16 +4114,16 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Dependency" version="1" id="O69">
       <dia:attribute name="obj_pos">
-        <dia:point val="49.6075,86.2057"/>
+        <dia:point val="48.5696,86.2057"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="49.5575,84.9433;54.1471,86.6495"/>
+        <dia:rectangle val="48.5196,84.9433;54.1471,86.6495"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="49.6075,86.2057"/>
+        <dia:point val="48.5696,86.2057"/>
         <dia:point val="52.0256,86.2057"/>
         <dia:point val="52.0256,85.3933"/>
         <dia:point val="53.6971,85.3933"/>
@@ -4673,18 +4673,18 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Realizes" version="1" id="O76">
       <dia:attribute name="obj_pos">
-        <dia:point val="13.1599,103.388"/>
+        <dia:point val="13.1598,103.388"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="12.3099,103.338;14.0099,119.55"/>
+        <dia:rectangle val="12.3098,103.338;14.0098,119.55"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="13.1599,103.388"/>
-        <dia:point val="13.1599,104.238"/>
-        <dia:point val="13.1599,119.45"/>
+        <dia:point val="13.1598,103.388"/>
+        <dia:point val="13.1598,111.844"/>
+        <dia:point val="13.1599,111.844"/>
         <dia:point val="13.1599,119.5"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
@@ -4717,7 +4717,7 @@ c't Lab protocol.#</dia:string>
         <dia:point val="30.731,109.965"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="30.681,108.915;43.9317,118.495"/>
+        <dia:rectangle val="30.681,108.915;43.9317,118.496"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5795,16 +5795,16 @@ c't Lab protocol.#</dia:string>
         <dia:boolean val="false"/>
       </dia:attribute>
       <dia:attribute name="obj_pos">
-        <dia:point val="37.9759,81.4601"/>
+        <dia:point val="36.9397,81.4601"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="37.9259,77.0999;55.2553,82.3101"/>
+        <dia:rectangle val="36.8897,77.0999;55.2553,82.3101"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="37.9759,81.4601"/>
+        <dia:point val="36.9397,81.4601"/>
         <dia:point val="52.1753,81.4601"/>
         <dia:point val="52.1753,77.8499"/>
         <dia:point val="55.2053,77.8499"/>
@@ -5869,7 +5869,7 @@ c't Lab protocol.#</dia:string>
         <dia:point val="23.5521,100.239"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="23.5021,100.189;33.8354,107.028"/>
+        <dia:rectangle val="23.5021,99.489;33.8354,106.278"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -5901,16 +5901,16 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - Dependency" version="1" id="O91">
       <dia:attribute name="obj_pos">
-        <dia:point val="24.5201,117.552"/>
+        <dia:point val="24.5157,117.552"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="24.4701,109.515;31.181,117.602"/>
+        <dia:rectangle val="24.4657,109.515;31.181,117.602"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="24.5201,117.552"/>
+        <dia:point val="24.5157,117.552"/>
         <dia:point val="27.4399,117.552"/>
         <dia:point val="27.4399,109.965"/>
         <dia:point val="30.731,109.965"/>
@@ -5948,7 +5948,7 @@ c't Lab protocol.#</dia:string>
         <dia:point val="15.9649,120.1"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="15.9149,116.907;49.54,120.328"/>
+        <dia:rectangle val="15.9149,116.907;49.54,120.15"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>

@@ -21,21 +21,21 @@ using CtLab.FpgaConnection.Interfaces;
 namespace CtLab.FpgaConnection.CtLabProtocol
 {
     /// <summary>
-    /// Sets Fpga values by sending according c't Lab set commands.
+    /// Sets FPGA values by sending according c't Lab set commands.
     /// </summary>
-    public class CtLabFpgaValueSetter : IFpgaValueSetter
+    public class FpgaValueSetter : IFpgaValueSetter
     {
-        private SetCommandClass _setCommandClass;
+        private ISubchannelValueSetter _valueSetter;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="setCommandClass">
-        /// The command class representing the set commands sent to the c't Lab device.
+        /// <param name="valueSetter">
+        /// The value setter used to set values within the FPGA.
         /// </param>
-        public CtLabFpgaValueSetter(SetCommandClass setCommandClass)
+        public FpgaValueSetter(ISubchannelValueSetter valueSetter)
         {
-            _setCommandClass = setCommandClass;
+            _valueSetter = valueSetter;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// </summary>
         public void SetValue(int value)
         {
-            _setCommandClass.SetValue (value);
+            _valueSetter.SetValue (value);
         }
 
         /// <summary>
@@ -51,23 +51,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// </summary>
         public void SetValue(uint value)
         {
-            _setCommandClass.SetValue (value);
-        }
-
-        /// <summary>
-        /// Sets a floating point value.
-        /// </summary>
-        public void SetValue(double value)
-        {
-            _setCommandClass.SetValue (value);
-        }
-
-        /// <summary>
-        /// Sets a boolean value.
-        /// </summary>
-        public void SetValue(bool value)
-        {
-            _setCommandClass.SetValue (value);
+            _valueSetter.SetValue (value);
         }
     }
 }

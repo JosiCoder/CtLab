@@ -22,10 +22,9 @@ using CtLab.FpgaConnection.Interfaces;
 namespace CtLab.FpgaConnection.CtLabProtocol
 {
     /// <summary>
-    /// Gets Fpga values by sending according c't Lab query commands
-    /// and evaluating according c't Lab messages.
+    /// Gets FPGA values by evaluating according c't Lab messages.
     /// </summary>
-    public class CtLabFpgaValueGetter : IFpgaValueGetter
+    public class FpgaValueGetter : IFpgaValueGetter
     {
         /// <summary>
         /// Occurs when a value has been updated.
@@ -37,14 +36,10 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="queryCommandClass">
-        /// The command class representing the query commands sent to the c't Lab device.
-        /// </param>
         /// <param name="messageContainer">
-        /// The message container used to receive messages from the c't Lab device.
+        /// The message container used to get calues from the FPGA.
         /// </param>
-        public CtLabFpgaValueGetter(QueryCommandClass queryCommandClass,
-            IMessageContainer messageContainer)
+        public FpgaValueGetter(IMessageContainer messageContainer)
         {
             _messageContainer = messageContainer;
 
@@ -77,28 +72,6 @@ namespace CtLab.FpgaConnection.CtLabProtocol
             get
             {
                 return _messageContainer.Message.ValueToUInt32();
-            }
-        }
-
-        /// <summary>
-        /// Gets the value as a floating point number.
-        /// </summary>
-        public double ValueAsDouble
-        {
-            get
-            {
-                return _messageContainer.Message.ValueToDouble();
-            }
-        }
-
-        /// <summary>
-        /// Gets the value as a boolean value.
-        /// </summary>
-        public bool ValueAsBoolean
-        {
-            get
-            {
-                return _messageContainer.Message.ValueToBoolean();
             }
         }
     }

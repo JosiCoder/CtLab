@@ -59,7 +59,8 @@ namespace CtLab.EnvironmentIntegration
             var deviceConnection = new DeviceConnection (channel, _setCommandClassDictionary,
                 _queryCommandScheduler.CommandClassDictionary, _receivedMessagesCache);
 
-            var fpgaConnection = new CtLabFpgaConnection (deviceConnection);
+            var fpgaConnection = new
+                CtLab.FpgaConnection.CtLabProtocol.FpgaConnection (deviceConnection);
 
             return new SignalGenerator(fpgaConnection);
         }

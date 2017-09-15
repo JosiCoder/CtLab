@@ -31,15 +31,5 @@ namespace CtLab.FpgaConnection.Interfaces
         /// Sets an unsigned integer value.
         /// </summary>
         void SetValue(uint value);
-
-        /// <summary>
-        /// Sets a floating point value.
-        /// </summary>
-        void SetValue(double value);
-
-        /// <summary>
-        /// Sets a boolean value.
-        /// </summary>
-        void SetValue(bool value);
     }
 }

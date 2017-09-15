@@ -32,6 +32,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FpgaConnection.cs" />
+    <Compile Include="FPGA Value Setters and Getters\FpgaValueGetter.cs" />
+    <Compile Include="FPGA Value Setters and Getters\FpgaValueSetter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="FPGA Value Setters and Getters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FpgaConnection.Interfaces\FpgaConnection.Interfaces.csproj">
+      <Project>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</Project>
+      <Name>FpgaConnection.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

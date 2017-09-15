@@ -25,20 +25,17 @@ namespace CtLab.FpgaConnection.CtLabProtocol
     /// <summary>
     /// Provides access to an FPGA Lab device, based on c't Lab set and query commands.
     /// </summary>
-    public class CtLabFpgaConnection : IFpgaConnection
+    public class FpgaConnection : IFpgaConnection
     {
         private readonly DeviceConnection _deviceConnection;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="channel">
-        /// The number of the channel assigned to the c't Lab device controlled by this instance.
+        /// <param name="deviceConnection">
+        /// The device connection to the c't Lab device.
         /// </param>
-        /// <param name="setCommandClassDictionary">The dictonary used for the set command classes.</param>
-        /// <param name="queryCommandClassDictionary">The dictonary used for the query command classes.</param>
-        /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public CtLabFpgaConnection(DeviceConnection deviceConnection)
+        public FpgaConnection(DeviceConnection deviceConnection)
         {
             _deviceConnection = deviceConnection;
         }
@@ -52,7 +49,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// <returns>The created FPGA value setter.</returns>
         public IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
-            return new CtLabFpgaValueSetter (
+            return new FpgaValueSetter (
                 _deviceConnection.BuildAndRegisterSetCommandClass (registerNumber));
         }
 
@@ -65,8 +62,8 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// <returns>The created FPGA value getter.</returns>
         public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return new CtLabFpgaValueGetter (
-                _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber),
+            _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber);
+            return new FpgaValueGetter (
                 _deviceConnection.RegisterMessage(registerNumber)
             );
         }

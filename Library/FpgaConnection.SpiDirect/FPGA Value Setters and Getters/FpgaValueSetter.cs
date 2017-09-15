@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+////------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -15,30 +15,9 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
+//using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.FpgaConnection.Interfaces;
 
-namespace CtLab.FpgaConnection.Interfaces
+namespace CtLab.FpgaConnection.SpiDirect
 {
-    /// <summary>
-	/// Provides facilities to get a value from the FPGA.
-    /// </summary>
-    public interface IFpgaValueGetter
-    {
-        /// <summary>
-        /// Occurs when a value has been updated.
-        /// </summary>
-        event EventHandler<EventArgs> ValueUpdated;
-
-        /// <summary>
-        /// Gets the value as an integer.
-        /// </summary>
-        int ValueAsInt32
-        { get; }
-
-        /// <summary>
-        /// Gets the value as an unsigned integer.
-        /// </summary>
-        uint ValueAsUInt32
-        { get; }
-    }
 }
