@@ -62,8 +62,8 @@ namespace CtLab.TestConsole
             setCommandDictionary.SendCommandsForModifiedValues();
 
             // Prepare to receive messages via the configured dummy string receiver.
-            var messageCache = container.GetInstance<IMessageCache<CtLabMessageChannel>>();
-            var messageContainer = messageCache.Register(new CtLabMessageChannel(7, 255));
+            var messageCache = container.GetInstance<IMessageCache<MessageChannel>>();
+            var messageContainer = messageCache.Register(new MessageChannel(7, 255));
             messageContainer.MessageUpdated +=
                 (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
                                                  messageContainer.Message.Channel.Channel,

@@ -43,15 +43,15 @@ namespace CtLab.CommandsAndMessages.Standard
         /// </summary>
         /// <param name="messageString">The message string to be parsed.</param>
         /// <returns>A list of messages, each per line in the message string.</returns>
-        public Message<CtLabMessageChannel>[] Parse(string messageString)
+        public Message<MessageChannel>[] Parse(string messageString)
         {
-            var messageList = new List<Message<CtLabMessageChannel>>();
+            var messageList = new List<Message<MessageChannel>>();
             foreach (Match match in regularExpression.Matches(messageString))
             {
                 var groups = match.Groups;
-                var message = new Message<CtLabMessageChannel>
+                var message = new Message<MessageChannel>
                 {
-                    Channel = new CtLabMessageChannel
+                    Channel = new MessageChannel
                     {
                         Channel = byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
                         Subchannel = ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture),

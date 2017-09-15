@@ -84,8 +84,8 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_get_the_same_instance()
         {
-            var instance1 = SUT.GetInstance<IMessageCache<CtLabMessageChannel>>();
-            var instance2 = SUT.GetInstance<IMessageCache<CtLabMessageChannel>>();
+            var instance1 = SUT.GetInstance<IMessageCache<MessageChannel>>();
+            var instance2 = SUT.GetInstance<IMessageCache<MessageChannel>>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -94,19 +94,19 @@ namespace CtLab.BasicIntegration.Specs
     public class When_signalling_a_received_string
             : ReceivedMessageCacheIntegrationInteractionSpecs
     {
-        private IMessageCache<CtLabMessageChannel> _messageCache;
+        private IMessageCache<MessageChannel> _messageCache;
 
         protected override void When()
         {
-            _messageCache = SUT.GetInstance<IMessageCache<CtLabMessageChannel>>();
+            _messageCache = SUT.GetInstance<IMessageCache<MessageChannel>>();
 
-            _messageCache.Register(new CtLabMessageChannel(1, 255));
-            _messageCache.Register(new CtLabMessageChannel(2, 255));
-            _messageCache.Register(new CtLabMessageChannel(3, 255));
+            _messageCache.Register(new MessageChannel(1, 255));
+            _messageCache.Register(new MessageChannel(2, 255));
+            _messageCache.Register(new MessageChannel(3, 255));
 
-            _messageCache.GetMessageContainer(new CtLabMessageChannel(1, 255)).MessageUpdated += _messageUpdatedSinkMocks[0].Object.MessageUpdated;
-            _messageCache.GetMessageContainer(new CtLabMessageChannel(2, 255)).MessageUpdated += _messageUpdatedSinkMocks[1].Object.MessageUpdated;
-            _messageCache.GetMessageContainer(new CtLabMessageChannel(3, 255)).MessageUpdated += _messageUpdatedSinkMocks[2].Object.MessageUpdated;
+            _messageCache.GetMessageContainer(new MessageChannel(1, 255)).MessageUpdated += _messageUpdatedSinkMocks[0].Object.MessageUpdated;
+            _messageCache.GetMessageContainer(new MessageChannel(2, 255)).MessageUpdated += _messageUpdatedSinkMocks[1].Object.MessageUpdated;
+            _messageCache.GetMessageContainer(new MessageChannel(3, 255)).MessageUpdated += _messageUpdatedSinkMocks[2].Object.MessageUpdated;
 
             _stringReceiverMock.Raise(stringReceiver => stringReceiver.StringReceived += null,
                 new StringReceivedEventArgs("#1:255=6 [CHKSUM]\n#2:255=7 [CHKSUM]"));
@@ -115,17 +115,17 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_update_the_messages_in_the_message_containers()
         {
-            _messageCache.GetMessageContainer(new CtLabMessageChannel(1, 255)).Message.RawValue.ShouldEqual("6");
-            _messageCache.GetMessageContainer(new CtLabMessageChannel(2, 255)).Message.RawValue.ShouldEqual("7");
-            _messageCache.GetMessageContainer(new CtLabMessageChannel(3, 255)).Message.RawValue.ShouldBeNull();
+            _messageCache.GetMessageContainer(new MessageChannel(1, 255)).Message.RawValue.ShouldEqual("6");
+            _messageCache.GetMessageContainer(new MessageChannel(2, 255)).Message.RawValue.ShouldEqual("7");
+            _messageCache.GetMessageContainer(new MessageChannel(3, 255)).Message.RawValue.ShouldBeNull();
         }
 
         [Test]
         public void then_the_SUT_should_raise_events_for_updated_messages_but_none_else()
         {
-            _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(new CtLabMessageChannel(1, 255)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(new CtLabMessageChannel(2, 255)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(new CtLabMessageChannel(3, 255)), EventArgs.Empty), Times.Never);
+            _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(new MessageChannel(1, 255)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(new MessageChannel(2, 255)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(_messageCache.GetMessageContainer(new MessageChannel(3, 255)), EventArgs.Empty), Times.Never);
         }
 
     }

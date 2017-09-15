@@ -17,14 +17,14 @@
 
 using System;
 
-namespace CtLab.Messages.Interfaces
+namespace CtLab.CommandsAndMessages.Interfaces
 {
     /// <summary>
-    /// Specifies a source for c't lab messages.
+    /// Specifies a channel for c't lab messages.
     /// </summary>
-    public struct CtLabMessageChannel
+    public struct MessageChannel
     {
-        public CtLabMessageChannel(byte channel, ushort subchannel)
+        public MessageChannel(byte channel, ushort subchannel)
         {
             Channel = channel;
             Subchannel = subchannel;

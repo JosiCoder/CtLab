@@ -29,9 +29,9 @@ namespace CtLab.CommandsAndMessages.Specs
     public abstract class MessageSpecs
         : SpecsFor<object>
     {
-        protected Message<CtLabMessageChannel> _message = new Message<CtLabMessageChannel>
+        protected Message<MessageChannel> _message = new Message<MessageChannel>
                             {
-                                Channel = new CtLabMessageChannel
+                                Channel = new MessageChannel
                                 {  
                                     Channel = 7,
                                     Subchannel = 255,

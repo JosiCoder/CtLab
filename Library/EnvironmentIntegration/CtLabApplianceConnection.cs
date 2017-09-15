@@ -82,7 +82,7 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
         public CtLabApplianceConnection(IConnection connection,
             ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache<CtLabMessageChannel> receivedMessagesCache)
+            IMessageCache<MessageChannel> receivedMessagesCache)
         {
             _connection = connection;
             _setCommandClassDictionary = setCommandClassDictionary;
