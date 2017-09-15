@@ -18,6 +18,7 @@
 using NUnit.Framework;
 using SpecsFor;
 using Should;
+using ExpectedObjects;
 using SpecsFor.ShouldExtensions;
 using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
@@ -42,7 +43,7 @@ namespace CtLab.CommandsAndMessages.Specs
         [Test]
         public void then_the_SUT_should_return_the_correctly_parsed_response()
         {
-            _message.ShouldEqual(new[]
+            _message.ShouldLookLike(new[]
             {
                 new Message<MessageChannel>  
                 {
@@ -70,7 +71,7 @@ namespace CtLab.CommandsAndMessages.Specs
         [Test]
         public void then_the_SUT_should_return_the_correctly_parsed_response()
         {
-            _message.ShouldEqual(new[]
+            _message.ShouldLookLike(new[]
             {
                 new Message<MessageChannel>  
                 {

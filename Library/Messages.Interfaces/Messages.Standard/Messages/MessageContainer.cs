@@ -27,7 +27,7 @@ namespace CtLab.Messages.Standard
     /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
     public class MessageContainer<TMessageChannel>: IMessageContainer<TMessageChannel>
     {
-        private Message<TMessageChannel> _message;
+        private Message<TMessageChannel> _message = new Message<TMessageChannel>();
 
         /// <summary>
         /// Occurs when the message has been updated.
@@ -60,7 +60,7 @@ namespace CtLab.Messages.Standard
         /// <param name="message">The new message.</param>
         public void UpdateMessage(Message<TMessageChannel> message)
         {
-            if (!message.Equals(_message))
+            if (!message.ValueEquals(_message))
             {
                 _message = message;
                 MessageUpdated.Raise(this, EventArgs.Empty);

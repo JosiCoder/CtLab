@@ -22,11 +22,21 @@ namespace CtLab.Messages.Interfaces
 {
     /// <summary>
     /// Represents a message received from a certain message channel.
-    /// This is a value object.
     /// </summary>
     /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public struct Message<TMessageChannel>
+    public class Message<TMessageChannel>
     {
+        /// <summary>
+        /// Determines whether the value of the message is equal to that of
+        /// the specified message.
+        /// </summary>
+        /// <param name="otherMessage">The message to compare with.</param>
+        /// <returns>A value indicating whether the message values are equal.</returns>
+        public bool ValueEquals (Message<TMessageChannel> otherMessage)
+        {
+            return RawValue == otherMessage.RawValue;
+        }
+
         /// <summary>
         /// The channel the message comes from.
         /// </summary>
