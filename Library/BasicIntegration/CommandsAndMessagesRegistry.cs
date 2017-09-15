@@ -16,6 +16,8 @@
 //--------------------------------------------------------------------------------
 
 using StructureMap;
+using CtLab.Messages.Interfaces;
+using CtLab.Messages.Standard;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.CommandsAndMessages.Standard;
 
@@ -67,11 +69,11 @@ namespace CtLab.BasicIntegration
 
             // === Received messages ===
 
-            For<IMessageCache>()
+            For<IMessageCache<CtLabMessageSource>>()//TODO
                 .Singleton()
-                .Use<ReceivedMessagesCache>();
+                .Use<ReceivedMessagesCache<CtLabMessageSource>>();//TODO
 
-            For<IMessageReceiver>()
+            For<IMessageReceiver<CtLabMessageSource>>()//TODO
                 .Singleton()
                 .Use<MessageReceiver>();
 

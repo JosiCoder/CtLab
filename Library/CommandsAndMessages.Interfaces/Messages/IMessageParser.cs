@@ -15,6 +15,8 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using CtLab.Messages.Interfaces;
+
 namespace CtLab.CommandsAndMessages.Interfaces
 {
     /// <summary>
@@ -33,6 +35,6 @@ namespace CtLab.CommandsAndMessages.Interfaces
         /// </summary>
         /// <param name="messageString">The message string to be parsed.</param>
         /// <returns>A list of messages, each per line in the message string.</returns>
-        Message[] Parse(string messageString);
+        Message<CtLabMessageSource>[] Parse(string messageString);
     }
 }

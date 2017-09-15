@@ -21,8 +21,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using StructureMap;
-using CtLab.Connection.Interfaces;
+using CtLab.Messages.Interfaces;
 using CtLab.Connection.Serial;
+using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.BasicIntegration;
 
@@ -92,12 +93,12 @@ namespace CtLab.TestConsole
                 setCommandDictionary.SendCommandsForModifiedValues();
 
                 // Prepare to receive messages of subchannel 255 via the configured string receiver.
-                var messageCache = container.GetInstance<IMessageCache>();
-                var messageContainer = messageCache.Register(_channel, 255);
+                var messageCache = container.GetInstance<IMessageCache<CtLabMessageSource>>();
+                var messageContainer = messageCache.Register(new CtLabMessageSource(_channel, 255));
                 messageContainer.MessageUpdated +=
                     (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                                                     messageContainer.Message.Channel,
-                                                     messageContainer.Message.Subchannel,
+                                                     messageContainer.Message.Source.Channel,
+                                                     messageContainer.Message.Source.Subchannel,
                                                      messageContainer.Message.RawValue);
 
                 Console.WriteLine("For the next seconds, operate the c´t Lab panels to generate messages...");

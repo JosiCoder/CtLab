@@ -15,9 +15,43 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-//using CtLab.CommandsAndMessages.Interfaces;
+//using CtLab.Spi.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaConnection.SpiDirect
 {
+//    /// <summary>
+//    /// Sets FPGA values via the SPI interface.
+//    /// </summary>
+//    public class FpgaValueSetter : IFpgaValueSetter
+//    {
+//        private ISpiValueSetter _valueSetter;
+//
+//        /// <summary>
+//        /// Initializes an instance of this class.
+//        /// </summary>
+//        /// <param name="valueSetter">
+//        /// The value setter used to set values within the FPGA.
+//        /// </param>
+//        public FpgaValueSetter(ISpiValueSetter valueSetter)
+//        {
+//            _valueSetter = valueSetter;
+//        }
+//
+//        /// <summary>
+//        /// Sets a signed integer value.
+//        /// </summary>
+//        public void SetValue(int value)
+//        {
+//            _valueSetter.SetValue (value);
+//        }
+//
+//        /// <summary>
+//        /// Sets an unsigned integer value.
+//        /// </summary>
+//        public void SetValue(uint value)
+//        {
+//            _valueSetter.SetValue (value);
+//        }
+//    }
 }

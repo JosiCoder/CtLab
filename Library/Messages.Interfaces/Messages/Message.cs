@@ -18,23 +18,19 @@
 using System;
 using System.Globalization;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Holds information received within a message from a c't Lab device.
+    /// Represents a message received from a certain message source.
     /// This is a value object.
     /// </summary>
-    public struct Message
+    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
+    public struct Message<TMessageSource>
     {
         /// <summary>
-        /// The number of the device that has sent the message.
+        /// The source the message comes from.
         /// </summary>
-        public byte Channel;
-
-        /// <summary>
-        /// The subchannel the message comes from.
-        /// </summary>
-        public ushort Subchannel;
+        public TMessageSource Source;
 
         /// <summary>
         /// The raw (unconverted) message value.

@@ -83,6 +83,12 @@
     <Reference Include="pango-sharp">
       <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\pango-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="CtLab.Messages.Standard">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Messages.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.Messages.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Messages.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.Device.Base
@@ -27,7 +28,7 @@ namespace CtLab.Device.Base
     {
         private readonly ISetCommandClassDictionary _setCommandClassDictionary;
         private readonly IQueryCommandClassDictionary _queryCommandClassDictionary;
-        private readonly IMessageCache _receivedMessagesCache;
+        private readonly IMessageCache<CtLabMessageSource> _receivedMessagesCache;
 
         /// <summary>
         /// The number of the channel assigned to the c't Lab device controlled by this instance.
@@ -43,7 +44,7 @@ namespace CtLab.Device.Base
         /// <param name="setCommandClassDictionary">The dictonary used for the set command classes.</param>
         /// <param name="queryCommandClassDictionary">The dictonary used for the query command classes.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public DeviceConnection(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
+        public DeviceConnection(byte channel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache<CtLabMessageSource> receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandClassDictionary = queryCommandClassDictionary;
@@ -68,7 +69,7 @@ namespace CtLab.Device.Base
         {
             _setCommandClassDictionary.RemoveCommandsForChannel(Channel);
             _queryCommandClassDictionary.RemoveCommandsForChannel(Channel);
-            _receivedMessagesCache.UnregisterSubchannelsForChannel(Channel);
+            _receivedMessagesCache.UnregisterSubchannelsForChannel(key => key.Channel == Channel);
         }
 
         /// <summary>
@@ -107,9 +108,9 @@ namespace CtLab.Device.Base
         /// The subchannel to register.
         /// </param>
         /// <returns>The message container.</returns>
-        public IMessageContainer RegisterMessage(ushort subchannel)
+        public IMessageContainer<CtLabMessageSource> RegisterMessage(ushort subchannel)
         {
-            return _receivedMessagesCache.Register(Channel, subchannel);
+            return _receivedMessagesCache.Register(new CtLabMessageSource(Channel, subchannel));
         }
     }
 }

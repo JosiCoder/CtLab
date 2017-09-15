@@ -16,6 +16,9 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Utilities;
+using CtLab.Messages.Interfaces;
+using CtLab.Messages.Standard;
 using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
@@ -23,16 +26,10 @@ namespace CtLab.CommandsAndMessages.Standard
 {
     /// <summary>
     /// Listens to c't Lab devices and, for each string received, converts that string to one or
-    /// more messages, and fires one event per message.
+    /// more messages, and raises one event per message.
     /// </summary>
-    public class MessageReceiver : IMessageReceiver
+    public class MessageReceiver : MessageReceiverBase<CtLabMessageSource>
     {
-        /// <summary>
-        /// Occurs when a message has been received from a c't Lab device. Note that
-        /// this event might be called via a background thread.
-        /// </summary>
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
-
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
@@ -45,16 +42,11 @@ namespace CtLab.CommandsAndMessages.Standard
             stringReceiver.StringReceived +=
                 (sender, e) =>
                 {
-                    var msgRecvd = MessageReceived;
-                    if (msgRecvd != null)
-                        // There are subscribers listening for received messages.
+                    // Parse the received string to get one or more messages,
+                    // raise an event for each message.
+                    foreach (var message in messageParser.Parse(e.ReceivedString))
                     {
-                        // Parse the received string to get one or more messages.
-                        foreach (var message in messageParser.Parse(e.ReceivedString))
-                        {
-                            // Raises an event for each message.
-                            msgRecvd(sender, new MessageReceivedEventArgs(message));
-                        }
+                        RaiseMessageReceived(this, new MessageReceivedEventArgs<CtLabMessageSource>(message));
                     }
                 };
         }

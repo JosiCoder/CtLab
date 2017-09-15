@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.CommandsAndMessages.Standard
@@ -42,16 +43,19 @@ namespace CtLab.CommandsAndMessages.Standard
         /// </summary>
         /// <param name="messageString">The message string to be parsed.</param>
         /// <returns>A list of messages, each per line in the message string.</returns>
-        public Message[] Parse(string messageString)
+        public Message<CtLabMessageSource>[] Parse(string messageString)
         {
-            var messageList = new List<Message>();
+            var messageList = new List<Message<CtLabMessageSource>>();
             foreach (Match match in regularExpression.Matches(messageString))
             {
                 var groups = match.Groups;
-                var message = new Message
+                var message = new Message<CtLabMessageSource>
                 {
-                    Channel = byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
-                    Subchannel = ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture),
+                    Source = new CtLabMessageSource
+                    {
+                        Channel = byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
+                        Subchannel = ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture),
+                    },
                     RawValue = groups["value"].Value,
                     Description = groups["description"].Value,
                 };

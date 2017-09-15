@@ -23,6 +23,7 @@ using System.Threading;
 using StructureMap;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Dummy;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.BasicIntegration;
 
@@ -61,12 +62,12 @@ namespace CtLab.TestConsole
             setCommandDictionary.SendCommandsForModifiedValues();
 
             // Prepare to receive messages via the configured dummy string receiver.
-            var messageCache = container.GetInstance<IMessageCache>();
-            var messageContainer = messageCache.Register(7, 255);
+            var messageCache = container.GetInstance<IMessageCache<CtLabMessageSource>>();
+            var messageContainer = messageCache.Register(new CtLabMessageSource(7, 255));
             messageContainer.MessageUpdated +=
                 (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                                                 messageContainer.Message.Channel,
-                                                 messageContainer.Message.Subchannel,
+                                                 messageContainer.Message.Source.Channel,
+                                                 messageContainer.Message.Source.Subchannel,
                                                  messageContainer.Message.RawValue);
 
             // Simulate receiving a message by injecting it into the configured dummy string receiver.

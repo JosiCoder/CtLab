@@ -20,6 +20,7 @@ using NUnit.Framework;
 using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.CommandsAndMessages.Standard;
 
@@ -28,10 +29,13 @@ namespace CtLab.CommandsAndMessages.Specs
     public abstract class MessageSpecs
         : SpecsFor<object>
     {
-        protected Message _message = new Message
+        protected Message<CtLabMessageSource> _message = new Message<CtLabMessageSource>
                             {
-                                Channel = 7,
-                                Subchannel = 255,
+                                Source = new CtLabMessageSource
+                                {  
+                                    Channel = 7,
+                                    Subchannel = 255,
+                                },
                                 RawValue = "0",
                                 Description = "DSCR"
                             };

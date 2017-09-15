@@ -16,26 +16,28 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Utilities;
+using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Standard
 {
     /// <summary>
-    /// Provides data for the MessageReceived event.
-    /// </summary>
-    public class MessageReceivedEventArgs : EventArgs
+    /// Provides the base functionality for message receivers.
+    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
+    public abstract class MessageReceiverBase<TMessageSource> : IMessageReceiver<TMessageSource>
     {
         /// <summary>
-        /// Initializes a new instance of this class.
+        /// Occurs when a message has been received from a c't Lab device. Note that
+        /// this event might be called via a background thread.
         /// </summary>
-        /// <param name="message">The received message.</param>
-        public MessageReceivedEventArgs(Message message)
-        {
-            Message = message;
-        }
+        public event EventHandler<MessageReceivedEventArgs<TMessageSource>> MessageReceived;
 
         /// <summary>
-        /// Gets or sets the received message.
+        /// Raises a MessageReceived event.
         /// </summary>
-        public Message Message;
+        protected void RaiseMessageReceived(object sender, MessageReceivedEventArgs<TMessageSource> eventArgs)
+        {
+            MessageReceived.Raise(sender, eventArgs);
+        }
     }
 }

@@ -17,16 +17,26 @@
 
 using System;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides facilities to handle received messages.
+    /// Provides data for the MessageReceived event.
     /// </summary>
-    public interface IMessageReceiver
+    /// <param name="messageReceiver">The message receiver used to receive the messages.</param>
+    public class MessageReceivedEventArgs<TMessageSource> : EventArgs
     {
         /// <summary>
-        /// Occurs when a message has been received from a c't Lab device.
+        /// Initializes a new instance of this class.
         /// </summary>
-        event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        /// <param name="message">The received message.</param>
+        public MessageReceivedEventArgs(Message<TMessageSource> message)
+        {
+            Message = message;
+        }
+
+        /// <summary>
+        /// Gets or sets the received message.
+        /// </summary>
+        public Message<TMessageSource> Message;
     }
 }

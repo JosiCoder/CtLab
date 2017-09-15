@@ -17,23 +17,17 @@
 
 using System;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides facilities to hold and return a message that may have been received from a
-    /// c't Lab device.
+    /// Provides facilities to handle received messages.
     /// </summary>
-    public interface IMessageContainer
+    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
+    public interface IMessageReceiver<TMessageSource>
     {
         /// <summary>
-        /// Gets the message.
+        /// Occurs when a message has been received.
         /// </summary>
-        /// <returns>A message.</returns>
-        Message Message {get;}
-
-        /// <summary>
-        /// Occurs when the message has been updated.
-        /// </summary>
-        event EventHandler<EventArgs> MessageUpdated;
+        event EventHandler<MessageReceivedEventArgs<TMessageSource>> MessageReceived;
     }
 }

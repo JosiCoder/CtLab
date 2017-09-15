@@ -40,15 +40,10 @@
     <Compile Include="Commands\IQueryCommandScheduler.cs" />
     <Compile Include="Miscellaneous\IChecksumCalculator.cs" />
     <Compile Include="Commands\ICommandSender.cs" />
-    <Compile Include="Messages\IMessageContainer.cs" />
     <Compile Include="Messages\IMessageParser.cs" />
-    <Compile Include="Messages\IMessageReceiver.cs" />
-    <Compile Include="Messages\IMessagesCache.cs" />
     <Compile Include="Commands\IQueryCommandStringBuilder.cs" />
     <Compile Include="Commands\ISetCommandStringBuilder.cs" />
     <Compile Include="Miscellaneous\ISubchannelValueSetter.cs" />
-    <Compile Include="Messages\MessageReceivedEventArgs.cs" />
-    <Compile Include="Messages\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\CommandClass.cs" />
     <Compile Include="Commands\QueryCommandClass.cs" />
@@ -69,6 +64,10 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Messages.Interfaces\Messages.Interfaces.csproj">
+      <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
+      <Name>Messages.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

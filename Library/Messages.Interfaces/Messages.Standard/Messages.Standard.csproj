@@ -3,17 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}</ProjectGuid>
+    <ProjectGuid>{998169A4-595A-4995-ACFA-010FB9C59191}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CtLab.FpgaConnection.CtLabProtocol</RootNamespace>
-    <AssemblyName>CtLab.FpgaConnection.CtLabProtocol</AssemblyName>
+    <RootNamespace>CtLab.Messages.Standard</RootNamespace>
+    <AssemblyName>CtLab.Messages.Standard</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\..\output\Debug\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\..\output\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -32,30 +32,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FPGA Value Setters and Getters\FpgaValueGetter.cs" />
-    <Compile Include="FPGA Value Setters and Getters\FpgaValueSetter.cs" />
-    <Compile Include="FpgaConnection.cs" />
+    <Compile Include="Messages\MessageContainer.cs" />
+    <Compile Include="Messages\MessageReceiverBase.cs" />
+    <Compile Include="Messages\ReceivedMessagesCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="FPGA Value Setters and Getters\" />
+    <Folder Include="Messages\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FpgaConnection.Interfaces\FpgaConnection.Interfaces.csproj">
-      <Project>{403DF8FB-8479-4546-AE27-707FBD5EC4F2}</Project>
-      <Name>FpgaConnection.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Device.Base\Device.Base.csproj">
-      <Project>{19AC8F27-095D-4E81-93F6-B32F37F1C975}</Project>
-      <Name>Device.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
-      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CommandsAndMessages.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Messages.Interfaces\Messages.Interfaces.csproj">
+    <ProjectReference Include="..\Messages.Interfaces.csproj">
       <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
       <Name>Messages.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

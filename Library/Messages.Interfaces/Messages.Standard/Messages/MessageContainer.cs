@@ -17,16 +17,17 @@
 
 using System;
 using CtLab.Utilities;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.Messages.Standard
 {
     /// <summary>
-    /// Holds and returns a message that may have been received from a c't Lab device.
+    /// Holds and returns a message received from a certain message source.
     /// </summary>
-    public class MessageContainer : IMessageContainer
+    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
+    public class MessageContainer<TMessageSource>: IMessageContainer<TMessageSource>
     {
-        private Message _message;
+        private Message<TMessageSource> _message;
 
         /// <summary>
         /// Occurs when the message has been updated.
@@ -36,23 +37,19 @@ namespace CtLab.CommandsAndMessages.Standard
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="channel">
-        /// The channel this container is assigned to.
+        /// <param name="messageSource">
+        /// The message source this container is assigned to.
         /// </param>
-        /// <param name="subchannel">
-        /// The subchannel this container is assigned to.
-        /// </param>
-        public MessageContainer(byte channel, ushort subchannel)
+        public MessageContainer(TMessageSource messageSource)
         {
-            _message.Channel = channel;
-            _message.Subchannel = subchannel;
+            _message.Source = messageSource;
         }
 
         /// <summary>
         /// Gets the contained message.
         /// </summary>
-        /// <returns>A message.</returns>
-        public Message Message
+        /// <returns>The message.</returns>
+        public Message<TMessageSource> Message
         {
             get { return _message; }
         }
@@ -61,7 +58,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// Updates the contained message.
         /// </summary>
         /// <param name="message">The new message.</param>
-        public void UpdateMessage(Message message)
+        public void UpdateMessage(Message<TMessageSource> message)
         {
             if (!message.Equals(_message))
             {

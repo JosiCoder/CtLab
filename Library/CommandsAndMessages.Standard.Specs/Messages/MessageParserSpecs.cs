@@ -19,6 +19,7 @@ using NUnit.Framework;
 using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.CommandsAndMessages.Standard;
 
@@ -27,7 +28,7 @@ namespace CtLab.CommandsAndMessages.Specs
     public abstract class MessageParserSpecs
         : SpecsFor<MessageParser>
     {
-        protected Message[] _message;
+        protected Message<CtLabMessageSource>[] _message;
     }
 
     public class When_parsing_a_single_line_message_string
@@ -43,10 +44,13 @@ namespace CtLab.CommandsAndMessages.Specs
         {
             _message.ShouldEqual(new[]
             {
-                new Message  
+                new Message<CtLabMessageSource>  
                 {
-                    Channel = 7,
-                    Subchannel = 255,
+                    Source = new CtLabMessageSource
+                    {
+                        Channel = 7,
+                        Subchannel = 255,
+                    },
                     RawValue = "33",
                     Description = "DSCR"
                 }
@@ -68,17 +72,23 @@ namespace CtLab.CommandsAndMessages.Specs
         {
             _message.ShouldEqual(new[]
             {
-                new Message  
+                new Message<CtLabMessageSource>  
                 {
-                    Channel = 7,
-                    Subchannel = 255,
+                    Source = new CtLabMessageSource
+                    {
+                        Channel = 7,
+                        Subchannel = 255,
+                    },
                     RawValue = "33",
                     Description = "DSCR"
                 },
-                new Message  
+                new Message<CtLabMessageSource>  
                 {
-                    Channel = 6,
-                    Subchannel = 254,
+                    Source = new CtLabMessageSource
+                    {
+                        Channel = 6,
+                        Subchannel = 254,
+                    },
                     RawValue = "22",
                     Description = "NEXT"
                 }

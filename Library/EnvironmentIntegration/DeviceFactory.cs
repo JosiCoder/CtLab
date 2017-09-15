@@ -17,6 +17,7 @@
 
 using System;
 using CtLab.Device.Base;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
@@ -32,7 +33,7 @@ namespace CtLab.EnvironmentIntegration
     {
         private readonly ISetCommandClassDictionary _setCommandClassDictionary;
         private readonly IQueryCommandScheduler _queryCommandScheduler;
-        private readonly IMessageCache _receivedMessagesCache;
+        private readonly IMessageCache<CtLabMessageSource> _receivedMessagesCache;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -41,7 +42,7 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
         public DeviceFactory(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache receivedMessagesCache)
+            IMessageCache<CtLabMessageSource> receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;

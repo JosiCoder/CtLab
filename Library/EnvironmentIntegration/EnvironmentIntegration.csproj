@@ -85,6 +85,10 @@
       <Project>{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}</Project>
       <Name>FpgaConnection.CtLabProtocol</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Messages.Interfaces\Messages.Interfaces.csproj">
+      <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
+      <Name>Messages.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

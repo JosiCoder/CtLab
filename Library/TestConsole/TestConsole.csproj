@@ -155,6 +155,10 @@
       <Project>{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}</Project>
       <Name>FpgaSignalGenerator.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Messages.Interfaces\Messages.Interfaces.csproj">
+      <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
+      <Name>Messages.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

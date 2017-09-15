@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.Environment;
@@ -81,7 +82,7 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
         public CtLabApplianceConnection(IConnection connection,
             ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache receivedMessagesCache)
+            IMessageCache<CtLabMessageSource> receivedMessagesCache)
         {
             _connection = connection;
             _setCommandClassDictionary = setCommandClassDictionary;
