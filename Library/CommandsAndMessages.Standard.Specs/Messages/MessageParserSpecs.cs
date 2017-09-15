@@ -28,7 +28,7 @@ namespace CtLab.CommandsAndMessages.Specs
     public abstract class MessageParserSpecs
         : SpecsFor<MessageParser>
     {
-        protected Message<CtLabMessageSource>[] _message;
+        protected Message<CtLabMessageChannel>[] _message;
     }
 
     public class When_parsing_a_single_line_message_string
@@ -44,9 +44,9 @@ namespace CtLab.CommandsAndMessages.Specs
         {
             _message.ShouldEqual(new[]
             {
-                new Message<CtLabMessageSource>  
+                new Message<CtLabMessageChannel>  
                 {
-                    Source = new CtLabMessageSource
+                    Channel = new CtLabMessageChannel
                     {
                         Channel = 7,
                         Subchannel = 255,
@@ -72,9 +72,9 @@ namespace CtLab.CommandsAndMessages.Specs
         {
             _message.ShouldEqual(new[]
             {
-                new Message<CtLabMessageSource>  
+                new Message<CtLabMessageChannel>  
                 {
-                    Source = new CtLabMessageSource
+                    Channel = new CtLabMessageChannel
                     {
                         Channel = 7,
                         Subchannel = 255,
@@ -82,9 +82,9 @@ namespace CtLab.CommandsAndMessages.Specs
                     RawValue = "33",
                     Description = "DSCR"
                 },
-                new Message<CtLabMessageSource>  
+                new Message<CtLabMessageChannel>  
                 {
-                    Source = new CtLabMessageSource
+                    Channel = new CtLabMessageChannel
                     {
                         Channel = 6,
                         Subchannel = 254,

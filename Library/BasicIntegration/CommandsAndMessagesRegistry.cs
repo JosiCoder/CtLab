@@ -69,11 +69,11 @@ namespace CtLab.BasicIntegration
 
             // === Received messages ===
 
-            For<IMessageCache<CtLabMessageSource>>()//TODO
+            For<IMessageCache<CtLabMessageChannel>>()
                 .Singleton()
-                .Use<ReceivedMessagesCache<CtLabMessageSource>>();//TODO
+                .Use<ReceivedMessagesCache<CtLabMessageChannel>>();
 
-            For<IMessageReceiver<CtLabMessageSource>>()//TODO
+            For<IMessageReceiver<CtLabMessageChannel>>()
                 .Singleton()
                 .Use<MessageReceiver>();
 

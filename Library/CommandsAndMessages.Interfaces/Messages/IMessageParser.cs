@@ -35,6 +35,6 @@ namespace CtLab.CommandsAndMessages.Interfaces
         /// </summary>
         /// <param name="messageString">The message string to be parsed.</param>
         /// <returns>A list of messages, each per line in the message string.</returns>
-        Message<CtLabMessageSource>[] Parse(string messageString);
+        Message<CtLabMessageChannel>[] Parse(string messageString);
     }
 }

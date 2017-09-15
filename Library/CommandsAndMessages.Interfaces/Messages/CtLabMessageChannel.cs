@@ -20,23 +20,16 @@ using System;
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides data for the MessageReceived event.
+    /// Specifies a source for c't lab messages.
     /// </summary>
-    /// <param name="messageReceiver">The message receiver used to receive the messages.</param>
-    public class MessageReceivedEventArgs<TMessageChannel> : EventArgs
+    public struct CtLabMessageChannel
     {
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
-        /// <param name="message">The received message.</param>
-        public MessageReceivedEventArgs(Message<TMessageChannel> message)
+        public CtLabMessageChannel(byte channel, ushort subchannel)
         {
-            Message = message;
+            Channel = channel;
+            Subchannel = subchannel;
         }
-
-        /// <summary>
-        /// Gets or sets the received message.
-        /// </summary>
-        public Message<TMessageChannel> Message;
+        public byte Channel;
+        public ushort Subchannel;
     }
 }

@@ -21,16 +21,16 @@ using System.Globalization;
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Represents a message received from a certain message source.
+    /// Represents a message received from a certain message channel.
     /// This is a value object.
     /// </summary>
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public struct Message<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public struct Message<TMessageChannel>
     {
         /// <summary>
-        /// The source the message comes from.
+        /// The channel the message comes from.
         /// </summary>
-        public TMessageSource Source;
+        public TMessageChannel Channel;
 
         /// <summary>
         /// The raw (unconverted) message value.

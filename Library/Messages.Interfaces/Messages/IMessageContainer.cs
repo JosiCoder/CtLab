@@ -21,16 +21,16 @@ namespace CtLab.Messages.Interfaces
 {
     /// <summary>
     /// Provides facilities to hold and return a message received from a certain
-    /// message source.
+    /// message channel.
     /// </summary>
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public interface IMessageContainer<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public interface IMessageContainer<TMessageChannel>
     {
         /// <summary>
         /// Gets the message.
         /// </summary>
         /// <returns>The message.</returns>
-        Message<TMessageSource> Message {get;}
+        Message<TMessageChannel> Message {get;}
 
         /// <summary>
         /// Occurs when the message has been updated.

@@ -33,7 +33,7 @@ namespace CtLab.EnvironmentIntegration
     {
         private readonly ISetCommandClassDictionary _setCommandClassDictionary;
         private readonly IQueryCommandScheduler _queryCommandScheduler;
-        private readonly IMessageCache<CtLabMessageSource> _receivedMessagesCache;
+        private readonly IMessageCache<CtLabMessageChannel> _receivedMessagesCache;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -42,7 +42,7 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
         public DeviceFactory(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache<CtLabMessageSource> receivedMessagesCache)
+            IMessageCache<CtLabMessageChannel> receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;

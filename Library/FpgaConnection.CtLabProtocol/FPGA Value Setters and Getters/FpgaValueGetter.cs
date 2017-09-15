@@ -32,7 +32,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// </summary>
         public event EventHandler<EventArgs> ValueUpdated;
 
-        private IMessageContainer<CtLabMessageSource> _messageContainer;
+        private IMessageContainer<CtLabMessageChannel> _messageContainer;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -40,7 +40,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// <param name="messageContainer">
         /// The message container used to get calues from the FPGA.
         /// </param>
-        public FpgaValueGetter(IMessageContainer<CtLabMessageSource> messageContainer)
+        public FpgaValueGetter(IMessageContainer<CtLabMessageChannel> messageContainer)
         {
             _messageContainer = messageContainer;
 

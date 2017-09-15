@@ -25,44 +25,44 @@ namespace CtLab.Messages.Standard
     /// <summary>
     /// Holds the most-recently received messages for sources registered for message caching.
     /// </summary>
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public class ReceivedMessagesCache<TMessageSource> : IMessageCache<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class ReceivedMessagesCache<TMessageChannel> : IMessageCache<TMessageChannel>
     {
-        private readonly IMessageReceiver<TMessageSource> _messageReceiver;
-        private readonly Dictionary<TMessageSource, MessageContainer<TMessageSource>> _messageDictionary
-            = new Dictionary<TMessageSource, MessageContainer<TMessageSource>>();
+        private readonly IMessageReceiver<TMessageChannel> _messageReceiver;
+        private readonly Dictionary<TMessageChannel, MessageContainer<TMessageChannel>> _messageDictionary
+            = new Dictionary<TMessageChannel, MessageContainer<TMessageChannel>>();
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="messageReceiver">The message receiver used to receive the messages.</param>
-        public ReceivedMessagesCache(IMessageReceiver<TMessageSource> messageReceiver)
+        public ReceivedMessagesCache(IMessageReceiver<TMessageChannel> messageReceiver)
         {
             _messageReceiver = messageReceiver;
             _messageReceiver.MessageReceived += (sender, e) => UpdateMessage(e.Message);
         }
 
         /// <summary>
-        /// Registers a message source for caching and returns the message container
-        /// for that message source.
+        /// Registers a message channel for caching and returns the message container
+        /// for that message channel.
         /// </summary>
-        /// <param name="messageSource">
-        /// The message source to register.
+        /// <param name="messageChannel">
+        /// The message channel to register.
         /// </param>
-        /// <returns>The message container for the specified message source.</returns>
-        public IMessageContainer<TMessageSource> Register(TMessageSource messageSource)
+        /// <returns>The message container for the specified message channel.</returns>
+        public IMessageContainer<TMessageChannel> Register(TMessageChannel messageChannel)
         {
             // Add a container holding a default message to the dictionary.
-            var container = new MessageContainer<TMessageSource>(messageSource);
-            _messageDictionary.Add(messageSource, container);
+            var container = new MessageContainer<TMessageChannel>(messageChannel);
+            _messageDictionary.Add(messageChannel, container);
             return container;
         }
 
         /// <summary>
-        /// Unregisters all message sources that meet the specified predicate from caching.
+        /// Unregisters all message channels that meet the specified predicate from caching.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void UnregisterSubchannelsForChannel(Func<TMessageSource, bool> predicate)
+        public void UnregisterSubchannelsForChannel(Func<TMessageChannel, bool> predicate)
         {
             var affectedKeys = (from key in _messageDictionary.Keys
                                 where predicate(key)
@@ -76,28 +76,28 @@ namespace CtLab.Messages.Standard
         }
 
         /// <summary>
-        /// Gets the message container for the specified message source.
+        /// Gets the message container for the specified message channel.
         /// </summary>
-        /// <param name="messageSource">
-        /// The message source to get the message container for.
+        /// <param name="messageChannel">
+        /// The message channel to get the message container for.
         /// </param>
         /// <returns>The message container.</returns>
-        public IMessageContainer<TMessageSource> GetMessageContainer(TMessageSource messageSource)
+        public IMessageContainer<TMessageChannel> GetMessageContainer(TMessageChannel messageChannel)
         {
-            return _messageDictionary[messageSource];
+            return _messageDictionary[messageChannel];
         }
 
         /// <summary>
-        /// Updates a cached message within the cache based on the specified message source.
-        /// Messages for unregistered message sources are ignored.
+        /// Updates a cached message within the cache based on the specified message channel.
+        /// Messages for unregistered message channels are ignored.
         /// </summary>
         /// <param name="message">The message used to update the cache.</param>
         /// <returns>
-        /// The container of the updated message or null for unregistered message sources.
+        /// The container of the updated message or null for unregistered message channels.
         /// </returns>
-        public IMessageContainer<TMessageSource> UpdateMessage(Message<TMessageSource> message)
+        public IMessageContainer<TMessageChannel> UpdateMessage(Message<TMessageChannel> message)
         {
-            var key = message.Source;
+            var key = message.Channel;
             if (_messageDictionary.ContainsKey(key))
             {
                 _messageDictionary[key].UpdateMessage(message);

@@ -93,12 +93,12 @@ namespace CtLab.TestConsole
                 setCommandDictionary.SendCommandsForModifiedValues();
 
                 // Prepare to receive messages of subchannel 255 via the configured string receiver.
-                var messageCache = container.GetInstance<IMessageCache<CtLabMessageSource>>();
-                var messageContainer = messageCache.Register(new CtLabMessageSource(_channel, 255));
+                var messageCache = container.GetInstance<IMessageCache<CtLabMessageChannel>>();
+                var messageContainer = messageCache.Register(new CtLabMessageChannel(_channel, 255));
                 messageContainer.MessageUpdated +=
                     (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                                                     messageContainer.Message.Source.Channel,
-                                                     messageContainer.Message.Source.Subchannel,
+                                                     messageContainer.Message.Channel.Channel,
+                                                     messageContainer.Message.Channel.Subchannel,
                                                      messageContainer.Message.RawValue);
 
                 Console.WriteLine("For the next seconds, operate the c´t Lab panels to generate messages...");

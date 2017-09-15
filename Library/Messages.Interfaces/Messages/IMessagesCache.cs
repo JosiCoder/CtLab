@@ -20,48 +20,34 @@ using System;
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Specifies a source for messages.
-    /// </summary>
-    public struct CtLabMessageSource
-    {
-        public CtLabMessageSource(byte channel, ushort subchannel)
-        {
-            Channel = channel;
-            Subchannel = subchannel;
-        }
-        public byte Channel;
-        public ushort Subchannel;
-    }
-
-    /// <summary>
     /// Provides facilities to access cached messages.
     /// </summary>
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public interface IMessageCache<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public interface IMessageCache<TMessageChannel>
     {
         /// <summary>
-        /// Registers a message source for caching and returns the message container
-        /// for that message source.
+        /// Registers a message channel for caching and returns the message container
+        /// for that message channel.
         /// </summary>
-        /// <param name="messageSource">
-        /// The message source to register.
+        /// <param name="messageChannel">
+        /// The message channel to register.
         /// </param>
-        /// <returns>The message container for the specified message source.</returns>
-        IMessageContainer<TMessageSource> Register(TMessageSource messageSource);
+        /// <returns>The message container for the specified message channel.</returns>
+        IMessageContainer<TMessageChannel> Register(TMessageChannel messageChannel);
 
         /// <summary>
-        /// Unregisters all message sources that meet the specified predicate from caching.
+        /// Unregisters all message channels that meet the specified predicate from caching.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        void UnregisterSubchannelsForChannel(Func<TMessageSource, bool> predicate);
+        void UnregisterSubchannelsForChannel(Func<TMessageChannel, bool> predicate);
 
         /// <summary>
-        /// Gets the message container for the specified message source.
+        /// Gets the message container for the specified message channel.
         /// </summary>
-        /// <param name="messageSource">
-        /// The message source to get the message container for.
+        /// <param name="messageChannel">
+        /// The message channel to get the message container for.
         /// </param>
         /// <returns>The message container.</returns>
-        IMessageContainer<TMessageSource> GetMessageContainer(TMessageSource messageSource);
+        IMessageContainer<TMessageChannel> GetMessageContainer(TMessageChannel messageChannel);
     }
 }

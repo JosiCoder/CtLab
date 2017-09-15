@@ -23,19 +23,19 @@ namespace CtLab.Messages.Standard
 {
     /// <summary>
     /// Provides the base functionality for message receivers.
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public abstract class MessageReceiverBase<TMessageSource> : IMessageReceiver<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public abstract class MessageReceiverBase<TMessageChannel> : IMessageReceiver<TMessageChannel>
     {
         /// <summary>
         /// Occurs when a message has been received from a c't Lab device. Note that
         /// this event might be called via a background thread.
         /// </summary>
-        public event EventHandler<MessageReceivedEventArgs<TMessageSource>> MessageReceived;
+        public event EventHandler<MessageReceivedEventArgs<TMessageChannel>> MessageReceived;
 
         /// <summary>
         /// Raises a MessageReceived event.
         /// </summary>
-        protected void RaiseMessageReceived(object sender, MessageReceivedEventArgs<TMessageSource> eventArgs)
+        protected void RaiseMessageReceived(object sender, MessageReceivedEventArgs<TMessageChannel> eventArgs)
         {
             MessageReceived.Raise(sender, eventArgs);
         }

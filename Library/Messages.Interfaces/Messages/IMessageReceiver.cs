@@ -22,12 +22,12 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to handle received messages.
     /// </summary>
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public interface IMessageReceiver<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public interface IMessageReceiver<TMessageChannel>
     {
         /// <summary>
         /// Occurs when a message has been received.
         /// </summary>
-        event EventHandler<MessageReceivedEventArgs<TMessageSource>> MessageReceived;
+        event EventHandler<MessageReceivedEventArgs<TMessageChannel>> MessageReceived;
     }
 }

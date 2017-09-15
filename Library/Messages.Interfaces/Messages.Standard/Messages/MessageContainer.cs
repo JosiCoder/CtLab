@@ -22,12 +22,12 @@ using CtLab.Messages.Interfaces;
 namespace CtLab.Messages.Standard
 {
     /// <summary>
-    /// Holds and returns a message received from a certain message source.
+    /// Holds and returns a message received from a certain message channel.
     /// </summary>
-    /// <typeparam name="TMessageSource">The type of the message source.</typeparam>
-    public class MessageContainer<TMessageSource>: IMessageContainer<TMessageSource>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class MessageContainer<TMessageChannel>: IMessageContainer<TMessageChannel>
     {
-        private Message<TMessageSource> _message;
+        private Message<TMessageChannel> _message;
 
         /// <summary>
         /// Occurs when the message has been updated.
@@ -37,19 +37,19 @@ namespace CtLab.Messages.Standard
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="messageSource">
-        /// The message source this container is assigned to.
+        /// <param name="messageChannel">
+        /// The message channel this container is assigned to.
         /// </param>
-        public MessageContainer(TMessageSource messageSource)
+        public MessageContainer(TMessageChannel messageChannel)
         {
-            _message.Source = messageSource;
+            _message.Channel = messageChannel;
         }
 
         /// <summary>
         /// Gets the contained message.
         /// </summary>
         /// <returns>The message.</returns>
-        public Message<TMessageSource> Message
+        public Message<TMessageChannel> Message
         {
             get { return _message; }
         }
@@ -58,7 +58,7 @@ namespace CtLab.Messages.Standard
         /// Updates the contained message.
         /// </summary>
         /// <param name="message">The new message.</param>
-        public void UpdateMessage(Message<TMessageSource> message)
+        public void UpdateMessage(Message<TMessageChannel> message)
         {
             if (!message.Equals(_message))
             {
