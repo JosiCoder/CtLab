@@ -55,9 +55,9 @@
       <Project>{43AC2096-9932-4D3B-9F41-8586F71421C8}</Project>
       <Name>Connection.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
+    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CtLabProtocol.Interfaces.csproj">
       <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CommandsAndMessages.Interfaces</Name>
+      <Name>CtLabProtocol.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A02FEEEF-1F57-427C-9A71-051B4BC520CC}</ProjectGuid>
+    <ProjectGuid>{057DA3C3-69A0-44E9-910B-33FCFC282058}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CtLab.CommandsAndMessages.Standard.Specs</RootNamespace>
-    <AssemblyName>CtLab.CommandsAndMessages.Standard.Specs</AssemblyName>
+    <RootNamespace>CtLab.CtLabProtocol.Standard</RootNamespace>
+    <AssemblyName>CtLab.CtLabProtocol.Standard</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,48 +35,22 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="ExpectedObjects">
-      <HintPath>..\packages\ExpectedObjects.1.2.3\lib\net40\ExpectedObjects.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Should">
-      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.dll</HintPath>
-    </Reference>
-    <Reference Include="StructureMap.Net4">
-      <HintPath>..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.Net4.dll</HintPath>
-    </Reference>
-    <Reference Include="SpecsFor">
-      <HintPath>..\packages\SpecsFor.5.0.0\lib\net40\SpecsFor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CommandStringBuilderSpecs.cs" />
-    <Compile Include="Commands\CommandStringExtensionsSpecs.cs" />
-    <Compile Include="Commands\QueryCommandSchedulerSpecs.cs" />
-    <Compile Include="Messages\MessageParserSpecs.cs" />
-    <Compile Include="Messages\MessageSpecs.cs" />
-    <Compile Include="Messages\ReceivedMessagesCacheSpecs.cs" />
-    <Compile Include="Miscellaneous\ChecksumCalculatorSpecs.cs" />
+    <Compile Include="Commands\CommandMnemonics.cs" />
+    <Compile Include="Commands\CommandStringBuilder.cs" />
+    <Compile Include="Commands\CommandStringExtensions.cs" />
+    <Compile Include="Messages\MessageParser.cs" />
+    <Compile Include="Messages\MessageReceiver.cs" />
+    <Compile Include="Miscellaneous\ChecksumCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\SetCommandClassSpecs.cs" />
-    <Compile Include="Commands\SetCommandDictionarySpecs.cs" />
+    <Compile Include="Commands\QueryCommandSender.cs" />
+    <Compile Include="Commands\SetCommandSender.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
-      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CommandsAndMessages.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Standard\CommandsAndMessages.Standard.csproj">
-      <Project>{057DA3C3-69A0-44E9-910B-33FCFC282058}</Project>
-      <Name>CommandsAndMessages.Standard</Name>
+    <ProjectReference Include="..\Connection.Interfaces\Connection.Interfaces.csproj">
+      <Project>{43AC2096-9932-4D3B-9F41-8586F71421C8}</Project>
+      <Name>Connection.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
@@ -90,6 +64,10 @@
       <Project>{998169A4-595A-4995-ACFA-010FB9C59191}</Project>
       <Name>Messages.Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CtLabProtocol.Interfaces.csproj">
+      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
+      <Name>CtLabProtocol.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -99,7 +77,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
 </Project>

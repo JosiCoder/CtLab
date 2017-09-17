@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab", "ct Lab", "{12521C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab Protocol", "ct Lab Protocol", "{CAEAC26B-494E-47BF-94E3-E5E996638B04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandsAndMessages.Standard", "CommandsAndMessages.Standard\CommandsAndMessages.Standard.csproj", "{057DA3C3-69A0-44E9-910B-33FCFC282058}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLabProtocol.Standard", "CommandsAndMessages.Standard\CtLabProtocol.Standard.csproj", "{057DA3C3-69A0-44E9-910B-33FCFC282058}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandsAndMessages.Interfaces", "CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj", "{AB459BFD-3A04-4A5E-B073-4C138F1856EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLabProtocol.Interfaces", "CommandsAndMessages.Interfaces\CtLabProtocol.Interfaces.csproj", "{AB459BFD-3A04-4A5E-B073-4C138F1856EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandsAndMessages.Standard.Specs", "CommandsAndMessages.Standard.Specs\CommandsAndMessages.Standard.Specs.csproj", "{A02FEEEF-1F57-427C-9A71-051B4BC520CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLabProtocol.Standard.Specs", "CommandsAndMessages.Standard.Specs\CtLabProtocol.Standard.Specs.csproj", "{A02FEEEF-1F57-427C-9A71-051B4BC520CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connections", "Connections", "{630C6DF8-4B57-4709-A851-2220A3CB10E6}"
 EndProject

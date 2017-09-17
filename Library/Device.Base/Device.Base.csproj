@@ -41,10 +41,6 @@
     <Compile Include="DeviceConnection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">
-      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CommandsAndMessages.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
@@ -52,6 +48,10 @@
     <ProjectReference Include="..\Messages.Interfaces\Messages.Interfaces.csproj">
       <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
       <Name>Messages.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CtLabProtocol.Interfaces.csproj">
+      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
+      <Name>CtLabProtocol.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
