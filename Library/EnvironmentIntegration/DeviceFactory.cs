@@ -18,7 +18,7 @@
 using System;
 using CtLab.Device.Base;
 using CtLab.Messages.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
 using CtLab.FpgaConnection.CtLabProtocol;

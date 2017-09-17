@@ -15,7 +15,7 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.CtLabProtocol.Interfaces
 {
     /// <summary>
     /// Provides facilities to calculate a checksum for c't Lab commands.

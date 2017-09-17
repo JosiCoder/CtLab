@@ -17,7 +17,7 @@
 
 using System;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.CtLabProtocol.Interfaces
 {
     /// <summary>
     /// Specifies a channel for c't lab messages.

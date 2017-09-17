@@ -17,9 +17,9 @@
 
 using CtLab.Connection.Interfaces;
 using CtLab.Messages.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.CtLabProtocol.Standard
 {
     /// <summary>
     /// Creates a command string for a set command class and sends that string to a c't Lab device.

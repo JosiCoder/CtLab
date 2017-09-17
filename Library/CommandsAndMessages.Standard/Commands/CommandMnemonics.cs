@@ -15,7 +15,7 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.CtLabProtocol.Standard
 {
     /// <summary>
     /// Provides c't Lab command menmonics along with the according subchannel numbers.

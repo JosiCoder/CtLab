@@ -23,10 +23,10 @@ using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
 using CtLab.Messages.Standard;
-using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.CommandsAndMessages.Standard;
+using CtLab.CtLabProtocol.Interfaces;
+using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CommandsAndMessages.Specs
+namespace CtLab.CtLabProtocol.Specs
 {
     public interface IMessageUpdatedSink
     {

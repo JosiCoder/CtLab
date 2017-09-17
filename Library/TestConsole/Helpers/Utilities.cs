@@ -42,7 +42,7 @@ namespace CtLab.TestConsole
             var container = new Container(expression =>
             {
                 expression.AddRegistry<TConnectionRegistry>();
-                expression.AddRegistry<CommandsAndMessagesRegistry>();
+                expression.AddRegistry<CtLabProtocolRegistry>();
                 expression.AddRegistry<ApplianceRegistry>();
             });
 

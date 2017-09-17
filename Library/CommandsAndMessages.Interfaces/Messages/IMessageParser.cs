@@ -17,7 +17,7 @@
 
 using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.CtLabProtocol.Interfaces
 {
     /// <summary>
     /// Provides facilities to parse message strings that may have been received from c't Lab

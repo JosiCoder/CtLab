@@ -17,7 +17,7 @@
 
 using System.Text;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.CtLabProtocol.Standard
 {
     /// <summary>
     /// Provides some extensions for c't Lab command strings.

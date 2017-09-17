@@ -17,7 +17,7 @@
 
 using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.CtLabProtocol.Interfaces
 {
     /// <summary>
     /// Provides facilities to build strings from set commands that can be be sent

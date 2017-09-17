@@ -23,7 +23,7 @@ using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
 namespace CtLab.BasicIntegration.Specs
 {
@@ -39,7 +39,7 @@ namespace CtLab.BasicIntegration.Specs
 
             SUT = new Container (expression =>
                 {
-                    expression.AddRegistry<CommandsAndMessagesRegistry>();
+                    expression.AddRegistry<CtLabProtocolRegistry>();
                     expression.For<IStringSender>().Use(_stringSenderMock.Object);
 
                 });

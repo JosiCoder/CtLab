@@ -18,9 +18,9 @@
 using System;
 using System.Globalization;
 using CtLab.Messages.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.CtLabProtocol.Standard
 {
     /// <summary>
     /// Builds strings from commands that can be be sent to c't Lab devices.

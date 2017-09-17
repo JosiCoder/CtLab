@@ -21,10 +21,10 @@ using Should;
 using ExpectedObjects;
 using SpecsFor.ShouldExtensions;
 using CtLab.Messages.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.CommandsAndMessages.Standard;
+using CtLab.CtLabProtocol.Interfaces;
+using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CommandsAndMessages.Specs
+namespace CtLab.CtLabProtocol.Specs
 {
     public abstract class MessageParserSpecs
         : SpecsFor<MessageParser>

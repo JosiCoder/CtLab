@@ -20,9 +20,9 @@ using CtLab.Utilities;
 using CtLab.Messages.Interfaces;
 using CtLab.Messages.Standard;
 using CtLab.Connection.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.CtLabProtocol.Standard
 {
     /// <summary>
     /// Listens to c't Lab devices and, for each string received, converts that string to one or

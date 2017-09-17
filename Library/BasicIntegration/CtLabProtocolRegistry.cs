@@ -18,20 +18,20 @@
 using StructureMap;
 using CtLab.Messages.Interfaces;
 using CtLab.Messages.Standard;
-using CtLab.CommandsAndMessages.Interfaces;
-using CtLab.CommandsAndMessages.Standard;
+using CtLab.CtLabProtocol.Interfaces;
+using CtLab.CtLabProtocol.Standard;
 
 namespace CtLab.BasicIntegration
 {
     /// <summary>
     /// Registers required classes with the dependency injection container.
     /// </summary>
-    public class CommandsAndMessagesRegistry : Registry
+    public class CtLabProtocolRegistry : Registry
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        public CommandsAndMessagesRegistry()
+        public CtLabProtocolRegistry()
         {
             // === Set commands ===
 

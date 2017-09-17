@@ -16,8 +16,6 @@
 //--------------------------------------------------------------------------------
 
 using System;
-//using CtLab.Device.Base;
-//using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaConnection.SpiDirect

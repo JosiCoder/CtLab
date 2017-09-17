@@ -23,7 +23,7 @@ using System.Threading;
 using StructureMap;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Serial;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 using CtLab.BasicIntegration;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Environment;

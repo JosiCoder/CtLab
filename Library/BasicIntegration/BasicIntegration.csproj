@@ -46,7 +46,7 @@
     <Compile Include="DummyConnectionRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialConnectionRegistry.cs" />
-    <Compile Include="CommandsAndMessagesRegistry.cs" />
+    <Compile Include="CtLabProtocolRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Connection.Interfaces\Connection.Interfaces.csproj">

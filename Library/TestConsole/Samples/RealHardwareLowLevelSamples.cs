@@ -24,7 +24,7 @@ using StructureMap;
 using CtLab.Messages.Interfaces;
 using CtLab.Connection.Serial;
 using CtLab.Connection.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 using CtLab.BasicIntegration;
 
 namespace CtLab.TestConsole

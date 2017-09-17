@@ -20,9 +20,9 @@ using NUnit.Framework;
 using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
-using CtLab.CommandsAndMessages.Standard;
+using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CommandsAndMessages.Specs
+namespace CtLab.CtLabProtocol.Specs
 {
     public abstract class CommandStringExtensionsSpecs
         : SpecsFor<object>

@@ -17,7 +17,7 @@
 
 using System;
 using CtLab.Messages.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
 namespace CtLab.Device.Base
 {

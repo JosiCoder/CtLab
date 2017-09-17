@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using CtLab.Messages.Interfaces;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.CtLabProtocol.Standard
 {
     /// <summary>
     /// Parses message strings that may have been received from c't Lab devices.
