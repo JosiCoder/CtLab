@@ -20,6 +20,7 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.CommandsAndMessages.Standard;
 
@@ -52,7 +53,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new SetCommandClass(1, 15);
+            var command = new SetCommandClass<MessageChannel>(new MessageChannel(1, 15));
             command.SetValue(2.5);
             _builtCommandString = SUT.BuildCommand(command);
         }
@@ -70,7 +71,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new SetCommandClass(1, 20);
+            var command = new SetCommandClass<MessageChannel>(new MessageChannel(1, 20));
             command.SetValue(2);
             _builtCommandString = SUT.BuildCommand(command, false, true);
         }
@@ -88,7 +89,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new SetCommandClass(1, 20);
+            var command = new SetCommandClass<MessageChannel>(new MessageChannel(1, 20));
             command.SetValue(1);
             _builtCommandString = SUT.BuildCommand(command, true, false);
         }
@@ -112,7 +113,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new SetCommandClass(1, 20);
+            var command = new SetCommandClass<MessageChannel>(new MessageChannel(1, 20));
             command.SetValue(1);
             _builtCommandString = SUT.BuildCommand(command, true, true);
         }
@@ -136,7 +137,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new SetCommandClass(SUT.DefaultChannel, 20);
+            var command = new SetCommandClass<MessageChannel>(new MessageChannel(SUT.DefaultChannel, 20));
             command.SetValue(1);
             _builtCommandString = SUT.BuildCommand(command);
         }
@@ -154,7 +155,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new SetCommandClass(SUT.BroadcastChannel, 25);
+            var command = new SetCommandClass<MessageChannel>(new MessageChannel(SUT.BroadcastChannel, 25));
             command.SetValue(1);
             _builtCommandString = SUT.BuildCommand(command);
         }
@@ -171,7 +172,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new QueryCommandClass(1, 30);
+            var command = new QueryCommandClass<MessageChannel>(new MessageChannel(1, 30));
             _builtCommandString = SUT.BuildCommand(command);
         }
 
@@ -188,7 +189,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new QueryCommandClass(1, 30);
+            var command = new QueryCommandClass<MessageChannel>(new MessageChannel(1, 30));
             _builtCommandString = SUT.BuildCommand(command, true);
         }
 
@@ -211,7 +212,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new QueryCommandClass(SUT.DefaultChannel, 30);
+            var command = new QueryCommandClass<MessageChannel>(new MessageChannel(SUT.DefaultChannel, 30));
             _builtCommandString = SUT.BuildCommand(command);
         }
 
@@ -228,7 +229,7 @@ namespace CtLab.CommandsAndMessages.Specs
     {
         protected override void When()
         {
-            var command = new QueryCommandClass(SUT.BroadcastChannel, 35);
+            var command = new QueryCommandClass<MessageChannel>(new MessageChannel(SUT.BroadcastChannel, 35));
             _builtCommandString = SUT.BuildCommand(command);
         }
 

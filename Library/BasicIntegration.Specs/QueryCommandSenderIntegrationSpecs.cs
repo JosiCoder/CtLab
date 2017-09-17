@@ -21,6 +21,7 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
+using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
@@ -51,8 +52,8 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var queryCommandSender = SUT.GetInstance<IQueryCommandSender>();
-            queryCommandSender.Send(new QueryCommandClass(1, 11));
+            var queryCommandSender = SUT.GetInstance<IQueryCommandSender<MessageChannel>>();
+            queryCommandSender.Send(new QueryCommandClass<MessageChannel>(new MessageChannel(1, 11)));
         }
 
         [Test]

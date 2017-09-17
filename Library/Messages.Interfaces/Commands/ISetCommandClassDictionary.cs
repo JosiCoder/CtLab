@@ -15,38 +15,17 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
-
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides the base functionality for command classes.
+    /// Provides facilities to operate on a cache holding set command classes.
     /// </summary>
-    public abstract class CommandClass
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public interface ISetCommandClassDictionary<TMessageChannel> : ICommandClassDictionary<SetCommandClass<TMessageChannel>, TMessageChannel>
     {
         /// <summary>
-        /// The channel number of the device the commands are sent to.
+        /// Sends commands for all command classes that have modified values.
         /// </summary>
-        public readonly byte Channel;
-
-        /// <summary>
-        /// The subchannel number corresponding to the commands sent.
-        /// </summary>
-        public readonly ushort Subchannel;
-
-        /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        /// <param name="channel">
-        /// The channel number of the device the commands are sent to.
-        /// </param>
-        /// <param name="subchannel">
-        /// The subchannel number corresponding to the commands sent.
-        /// </param>
-        protected CommandClass(byte channel, ushort subchannel)
-        {
-            Channel = channel;
-            Subchannel = subchannel;
-        }
+        void SendCommandsForModifiedValues();
     }
 }

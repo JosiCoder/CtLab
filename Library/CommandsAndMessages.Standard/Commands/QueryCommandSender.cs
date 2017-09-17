@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.Connection.Interfaces;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.CommandsAndMessages.Standard
@@ -23,9 +24,9 @@ namespace CtLab.CommandsAndMessages.Standard
     /// <summary>
     /// Creates a command string for a query command class and sends that string to a c't Lab device.
     /// </summary>
-    public class QueryCommandSender : IQueryCommandSender
+    public class QueryCommandSender : IQueryCommandSender<MessageChannel>
     {
-        private IQueryCommandStringBuilder _stringBuilder;
+        private IQueryCommandStringBuilder<MessageChannel> _stringBuilder;
         private IStringSender _stringSender;
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// The string builder used to build the command string.
         /// </param>
         /// <param name="stringSender">The sender used to send the string.</param>
-        public QueryCommandSender(IQueryCommandStringBuilder stringBuilder, IStringSender stringSender)
+        public QueryCommandSender(IQueryCommandStringBuilder<MessageChannel> stringBuilder, IStringSender stringSender)
         {
             _stringBuilder = stringBuilder;
             _stringSender = stringSender;
@@ -45,7 +46,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// Sends a query command including a checksum to a c't Lab device.
         /// </summary>
         /// <param name="commandClass">The command class to send a command for.</param>
-        public void Send(QueryCommandClass commandClass)
+        public void Send(QueryCommandClass<MessageChannel> commandClass)
         {
             Send(commandClass, true);
         }
@@ -55,7 +56,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// </summary>
         /// <param name="commandClass">The command class to send a command for.</param>
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
-        public void Send(QueryCommandClass commandClass, bool generateChecksum)
+        public void Send(QueryCommandClass<MessageChannel> commandClass, bool generateChecksum)
         {
             _stringSender.Send(_stringBuilder.BuildCommand(commandClass, generateChecksum));
         }

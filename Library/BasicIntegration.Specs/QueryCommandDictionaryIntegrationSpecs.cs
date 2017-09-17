@@ -21,6 +21,7 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
+using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
@@ -56,8 +57,8 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_return_the_same_instance()
         {
-            var instance1 = SUT.GetInstance<IQueryCommandClassDictionary>();
-            var instance2 = SUT.GetInstance<IQueryCommandClassDictionary>();
+            var instance1 = SUT.GetInstance<IQueryCommandClassDictionary<MessageChannel>>();
+            var instance2 = SUT.GetInstance<IQueryCommandClassDictionary<MessageChannel>>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -68,8 +69,8 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var queryCommandClassDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
-            var queryCommand = new QueryCommandClass(1, 11);
+            var queryCommandClassDictionary = SUT.GetInstance<IQueryCommandClassDictionary<MessageChannel>>();
+            var queryCommand = new QueryCommandClass<MessageChannel>(new MessageChannel(1, 11));
             queryCommandClassDictionary.Add(queryCommand);
             queryCommandClassDictionary.SendCommands();
         }

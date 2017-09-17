@@ -37,9 +37,20 @@
     <Compile Include="Messages\IMessagesCache.cs" />
     <Compile Include="Messages\MessageReceivedEventArgs.cs" />
     <Compile Include="Messages\IMessageReceiver.cs" />
+    <Compile Include="Commands\CommandClassBase.cs" />
+    <Compile Include="Commands\QueryCommandClass.cs" />
+    <Compile Include="Commands\SetCommandClass.cs" />
+    <Compile Include="Commands\ICommandClassDictionary.cs" />
+    <Compile Include="Commands\ICommandSender.cs" />
+    <Compile Include="Commands\IQueryCommandClassDictionary.cs" />
+    <Compile Include="Commands\IQueryCommandScheduler.cs" />
+    <Compile Include="Commands\ISetCommandClassDictionary.cs" />
+    <Compile Include="Miscellaneous\IChannelValueSetter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Messages\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Miscellaneous\" />
   </ItemGroup>
 </Project>

@@ -20,34 +20,33 @@ using System;
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides facilities to access cached messages.
+    /// Provides facilities to operate on a dictionary holding command classes.
     /// </summary>
     /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface IMessageCache<TMessageChannel>
+    public interface ICommandClassDictionary<TCommandClass, TMessageChannel> where TCommandClass : CommandClassBase<TMessageChannel>
     {
         /// <summary>
-        /// Registers a message channel for caching and returns the message container
-        /// for that message channel.
+        /// Adds a command class to the dictionary unless there is already a matching one.
         /// </summary>
-        /// <param name="messageChannel">
-        /// The message channel to register.
-        /// </param>
-        /// <returns>The message container for the specified message channel.</returns>
-        IMessageContainer<TMessageChannel> Register(TMessageChannel messageChannel);
+        /// <param name="commandClass">The command class to add to the cache.</param>
+        void Add(TCommandClass commandClass);
 
         /// <summary>
-        /// Unregisters all message channels that meet the specified predicate from caching.
+        /// For a list of command classes, adds each one to the dictionary unless there is already
+        /// a matching one.
+        /// </summary>
+        /// <param name="commandClasses">A list of command classes to add to the cache.</param>
+        void Add(TCommandClass[] commandClasses);
+
+        /// <summary>
+        /// Removes the commands for all channels that meet the specified predicate.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        void UnregisterMessageChannels(Func<TMessageChannel, bool> predicate);
+        void RemoveChannelCommands(Func<TMessageChannel, bool> predicate);
 
         /// <summary>
-        /// Gets the message container for the specified message channel.
+        /// Sends all commands.
         /// </summary>
-        /// <param name="messageChannel">
-        /// The message channel to get the message container for.
-        /// </param>
-        /// <returns>The message container.</returns>
-        IMessageContainer<TMessageChannel> GetMessageContainer(TMessageChannel messageChannel);
+        void SendCommands();
     }
 }

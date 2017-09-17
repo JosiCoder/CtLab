@@ -15,12 +15,30 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+using System;
+
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides facilities to operate on a cache holding query command classes.
+    /// Provides the base functionality for command classes.
     /// </summary>
-    public interface IQueryCommandClassDictionary : ICommandClassDictionary<QueryCommandClass>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public abstract class CommandClassBase<TMessageChannel>
     {
+        /// <summary>
+        /// The channel the commands are sent to.
+        /// </summary>
+        public TMessageChannel Channel;
+
+        /// <summary>
+        /// Initializes an instance of this class.
+        /// </summary>
+        /// <param name="channel">
+        /// The channel the commands are sent to.
+        /// </param>
+        protected CommandClassBase(TMessageChannel channel)
+        {
+            Channel = channel;
+        }
     }
 }

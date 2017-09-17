@@ -37,21 +37,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\IQueryCommandScheduler.cs" />
     <Compile Include="Miscellaneous\IChecksumCalculator.cs" />
-    <Compile Include="Commands\ICommandSender.cs" />
     <Compile Include="Messages\IMessageParser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Messages\MessageChannel.cs" />
     <Compile Include="Commands\IQueryCommandStringBuilder.cs" />
     <Compile Include="Commands\ISetCommandStringBuilder.cs" />
-    <Compile Include="Miscellaneous\ISubchannelValueSetter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\CommandClass.cs" />
-    <Compile Include="Commands\QueryCommandClass.cs" />
-    <Compile Include="Commands\SetCommandClass.cs" />
-    <Compile Include="Commands\ICommandClassDictionary.cs" />
-    <Compile Include="Commands\IQueryCommandClassDictionary.cs" />
-    <Compile Include="Commands\ISetCommandClassDictionary.cs" />
-    <Compile Include="Messages\MessageChannel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -70,5 +61,8 @@
       <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
       <Name>Messages.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
 </Project>

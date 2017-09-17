@@ -15,39 +15,41 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.Messages.Standard
 {
     /// <summary>
     /// Provides the base functionality for command class dictionaries.
     /// </summary>
-    public abstract class CommandClassDictionaryBase<TCommandClass> : ICommandClassDictionary<TCommandClass>
-        where TCommandClass : CommandClass
+    /// <typeparam name="TCommandClass">The type of the command classes in the dictionary.</typeparam>
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public abstract class CommandClassDictionaryBase<TCommandClass, TMessageChannel> : ICommandClassDictionary<TCommandClass, TMessageChannel>
+        where TCommandClass : CommandClassBase<TMessageChannel>
     {
-        protected readonly ICommandSender<TCommandClass> _commandSender;
-        protected readonly Dictionary<CommandClassKey, TCommandClass> _commandClassDictionary = new Dictionary<CommandClassKey, TCommandClass>();
+        protected struct CommandClassKey
+        {
+            public CommandClassKey(CommandClassBase<TMessageChannel> commandClass)
+            {
+                Channel = commandClass.Channel;
+            }
+            public TMessageChannel Channel;
+        }
+
+        protected readonly ICommandSender<TCommandClass, TMessageChannel> _commandSender;
+        protected readonly Dictionary<CommandClassKey, TCommandClass> _commandClassDictionary
+            = new Dictionary<CommandClassKey, TCommandClass>();
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="commandSender">The command sender used to send the commands.</param>
-        protected CommandClassDictionaryBase(ICommandSender<TCommandClass> commandSender)
+        protected CommandClassDictionaryBase(ICommandSender<TCommandClass, TMessageChannel> commandSender)
         {
             _commandSender = commandSender;
-        }
-
-        protected struct CommandClassKey
-        {
-            public CommandClassKey(CommandClass commandClass)
-            {
-                Channel = commandClass.Channel;
-                Subchannel = commandClass.Subchannel;
-            }
-            public byte Channel;
-            public ushort Subchannel;
         }
 
         /// <summary>
@@ -74,15 +76,15 @@ namespace CtLab.CommandsAndMessages.Standard
         }
 
         /// <summary>
-        /// Removes all command classes belonging to a specific channel.
+        /// Removes the commands for all channels that meet the specified predicate.
         /// </summary>
-        /// <param name="channel">The channel to remove the commands for.</param>
-        public void RemoveCommandsForChannel(byte channel)
+        /// <param name="predicate">The predicate that must be met.</param>
+        public void RemoveChannelCommands(Func<TMessageChannel, bool> predicate)
         {
             var affectedKeys = (from key in _commandClassDictionary.Keys
-                                where key.Channel == channel
+                                where predicate(key.Channel)
                                 select key
-                               ).ToArray();
+                           ).ToArray();
 
             foreach (var key in affectedKeys)
             {

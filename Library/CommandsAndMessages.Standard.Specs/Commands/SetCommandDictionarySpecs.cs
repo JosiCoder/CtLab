@@ -21,13 +21,15 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
+using CtLab.Messages.Interfaces;
+using CtLab.Messages.Standard;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.CommandsAndMessages.Standard;
 
 namespace CtLab.CommandsAndMessages.Specs
 {
     public abstract class SetCommandDictionarySpecs
-        : SpecsFor<SetCommandClassDictionary>
+        : SpecsFor<SetCommandClassDictionary<MessageChannel>>
     {
     }
 
@@ -35,11 +37,11 @@ namespace CtLab.CommandsAndMessages.Specs
     public abstract class SetCommandDictionaryWithSampleCommandsSpecs
         : SetCommandDictionarySpecs
     {
-        protected SetCommandClass[] _setCommands = new[]
+        protected SetCommandClass<MessageChannel>[] _setCommands = new[]
         {
-            new SetCommandClass(1, 11),
-            new SetCommandClass(2, 22),
-            new SetCommandClass(3, 33)
+            new SetCommandClass<MessageChannel>(new MessageChannel(1, 11)),
+            new SetCommandClass<MessageChannel>(new MessageChannel(2, 22)),
+            new SetCommandClass<MessageChannel>(new MessageChannel(3, 33))
         };
 
         protected override void Given()
@@ -54,13 +56,29 @@ namespace CtLab.CommandsAndMessages.Specs
     public abstract class SetCommandDictionaryInteractionSpecs
         : SetCommandDictionaryWithSampleCommandsSpecs
     {
-        protected Mock<ISetCommandSender> _setCommandSenderMock;
+        protected Mock<ICommandSender<SetCommandClass<MessageChannel>,MessageChannel>> _setCommandSenderMock;
+
+        protected override void ConfigureContainer (StructureMap.IContainer container)
+        {
+            base.ConfigureContainer (container);
+
+            // There is a more specific 'alias' interface available for the set command sender,
+            // thus make the container use the same instance for both.
+            container.Configure (expression =>
+                {
+                    expression.Forward
+                    <
+                        ICommandSender<SetCommandClass<MessageChannel>,MessageChannel>,
+                        ISetCommandSender<MessageChannel>
+                    >();
+                });
+        }
 
         protected override void Given()
         {
             base.Given();
 
-            _setCommandSenderMock = GetMockFor<ISetCommandSender>();
+            _setCommandSenderMock = GetMockFor<ICommandSender<SetCommandClass<MessageChannel>,MessageChannel>>();
         }
     }
 
@@ -72,7 +90,7 @@ namespace CtLab.CommandsAndMessages.Specs
 
         protected override void When()
         {
-            _theAssertion = () => SUT.Add(new SetCommandClass(1, 11));
+            _theAssertion = () => SUT.Add(new SetCommandClass<MessageChannel>(new MessageChannel(1, 11)));
         }
 
         [Test]
@@ -113,6 +131,9 @@ namespace CtLab.CommandsAndMessages.Specs
         [Test]
         public void then_the_SUT_should_send_the_commands_for_modified_values_exactly_once_but_none_else()
         {
+            _setCommandSenderMock.Verify(sender => sender.Send(It.IsAny<SetCommandClass<MessageChannel>>()), Times.Once);
+
+
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Once);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Never);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[2]), Times.Never);
@@ -148,7 +169,7 @@ namespace CtLab.CommandsAndMessages.Specs
             _setCommands[0].SetValue(2);
             _setCommands[1].SetValue(2);
             _setCommands[2].SetValue(2);
-            SUT.RemoveCommandsForChannel(_setCommands[0].Channel);
+            SUT.RemoveChannelCommands(key => key.Main == _setCommands[0].Channel.Main);
             SUT.SendCommandsForModifiedValues();
         }
 
@@ -169,7 +190,7 @@ namespace CtLab.CommandsAndMessages.Specs
         {
             _setCommands[0].SetValue(2);
             _setCommands[1].SetValue(2);
-            SUT.RemoveCommandsForChannel(_setCommands[0].Channel);
+            SUT.RemoveChannelCommands(key => key.Main == _setCommands[0].Channel.Main);
             SUT.SendCommands();
         }
 

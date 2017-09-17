@@ -107,8 +107,8 @@ namespace CtLab.CommandsAndMessages.Specs
         {
             var container = SUT.GetMessageContainer(new MessageChannel(2, 11));
             var message = container.Message;
-            message.Channel.Channel.ShouldEqual((byte)2);
-            message.Channel.Subchannel.ShouldEqual((ushort)11);
+            message.Channel.Main.ShouldEqual((byte)2);
+            message.Channel.Sub.ShouldEqual((ushort)11);
             message.RawValue.ShouldBeNull();
         }
     }
@@ -209,7 +209,7 @@ namespace CtLab.CommandsAndMessages.Specs
             base.Given();
 
             _unregisteredMessageContainer = SUT.GetMessageContainer(new MessageChannel(1, 11));
-            SUT.UnregisterSubchannelsForChannel(key => key.Channel == 1);
+            SUT.UnregisterMessageChannels(key => key.Main == 1);
         }
 
         protected override void When()

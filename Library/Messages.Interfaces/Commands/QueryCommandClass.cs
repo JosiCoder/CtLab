@@ -15,23 +15,22 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
-using CtLab.CommandsAndMessages.Interfaces;
-
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Maintains a unique query command class for each combination of channel and subchannel.
-    /// Sends some or all set commands to get the c't Lab devices in sync.
+    /// Represents query commands that can be sent e.g. to retrieve values or settings.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class QueryCommandClass<TMessageChannel> : CommandClassBase<TMessageChannel>
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
+        /// <param name="channel">
+        /// The channel the commands are sent to.
+        /// </param>
+        public QueryCommandClass(TMessageChannel channel)
+            : base(channel)
         {
         }
     }

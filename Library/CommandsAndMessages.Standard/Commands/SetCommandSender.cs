@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.Connection.Interfaces;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.CommandsAndMessages.Standard
@@ -23,9 +24,9 @@ namespace CtLab.CommandsAndMessages.Standard
     /// <summary>
     /// Creates a command string for a set command class and sends that string to a c't Lab device.
     /// </summary>
-    public class SetCommandSender : ISetCommandSender
+    public class SetCommandSender : ISetCommandSender<MessageChannel>
     {
-        private ISetCommandStringBuilder _stringBuilder;
+        private ISetCommandStringBuilder<MessageChannel> _stringBuilder;
         private IStringSender _stringSender;
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// The string builder used to build the command string.
         /// </param>
         /// <param name="stringSender">The sender used to send the string.</param>
-        public SetCommandSender(ISetCommandStringBuilder stringBuilder, IStringSender stringSender)
+        public SetCommandSender(ISetCommandStringBuilder<MessageChannel> stringBuilder, IStringSender stringSender)
         {
             _stringBuilder = stringBuilder;
             _stringSender = stringSender;
@@ -46,7 +47,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// achnowledge.
         /// </summary>
         /// <param name="commandClass">The command class to send a command for.</param>
-        public void Send(SetCommandClass commandClass)
+        public void Send(SetCommandClass<MessageChannel> commandClass)
         {
             Send(commandClass, true, false);
         }
@@ -59,7 +60,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// <param name="requestAcknowledge">
         /// true to request an acknowledge from the receiver; otherwiese, false.
         /// </param>
-        public void Send(SetCommandClass commandClass, bool generateChecksum, bool requestAcknowledge)
+        public void Send(SetCommandClass<MessageChannel> commandClass, bool generateChecksum, bool requestAcknowledge)
         {
             _stringSender.Send(_stringBuilder.BuildCommand(commandClass, generateChecksum, requestAcknowledge));
         }

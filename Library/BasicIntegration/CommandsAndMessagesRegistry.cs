@@ -35,34 +35,34 @@ namespace CtLab.BasicIntegration
         {
             // === Set commands ===
 
-            For<ISetCommandClassDictionary>()
+            For<ISetCommandClassDictionary<MessageChannel>>()
                 .Singleton()
-                .Use<SetCommandClassDictionary>();
+                .Use<SetCommandClassDictionary<MessageChannel>>();
 
-            For<ISetCommandSender>()
+            For<ISetCommandSender<MessageChannel>>()
                 .Singleton()
                 .Use<SetCommandSender>();
 
-            For<ISetCommandStringBuilder>()
+            For<ISetCommandStringBuilder<MessageChannel>>()
                 .Singleton()
                 .Use<CommandStringBuilder>();
 
 
             // === Query commands ===
 
-            For<IQueryCommandScheduler>()
+            For<IQueryCommandScheduler<MessageChannel>>()
                 .Singleton()
-                .Use<QueryCommandScheduler>();
+                .Use<QueryCommandScheduler<MessageChannel>>();
 
-            For<IQueryCommandClassDictionary>()
+            For<IQueryCommandClassDictionary<MessageChannel>>()
                 .Singleton()
-                .Use<QueryCommandClassDictionary>();
+                .Use<QueryCommandClassDictionary<MessageChannel>>();
             
-            For<IQueryCommandSender>()
+            For<IQueryCommandSender<MessageChannel>>()
                 .Singleton()
                 .Use<QueryCommandSender>();
 
-            For<IQueryCommandStringBuilder>()
+            For<IQueryCommandStringBuilder<MessageChannel>>()
                 .Singleton()
                 .Use<CommandStringBuilder>();
 

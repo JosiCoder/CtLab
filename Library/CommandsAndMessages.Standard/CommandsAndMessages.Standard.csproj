@@ -40,16 +40,12 @@
     <Compile Include="Commands\CommandMnemonics.cs" />
     <Compile Include="Commands\CommandStringBuilder.cs" />
     <Compile Include="Commands\CommandStringExtensions.cs" />
-    <Compile Include="Commands\QueryCommandScheduler.cs" />
-    <Compile Include="Commands\QueryCommandSender.cs" />
-    <Compile Include="Commands\SetCommandSender.cs" />
     <Compile Include="Messages\MessageParser.cs" />
     <Compile Include="Messages\MessageReceiver.cs" />
     <Compile Include="Miscellaneous\ChecksumCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\CommandClassDictionaryBase.cs" />
-    <Compile Include="Commands\QueryCommandClassDictionary.cs" />
-    <Compile Include="Commands\SetCommandClassDictionary.cs" />
+    <Compile Include="Commands\QueryCommandSender.cs" />
+    <Compile Include="Commands\SetCommandSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommandsAndMessages.Interfaces\CommandsAndMessages.Interfaces.csproj">

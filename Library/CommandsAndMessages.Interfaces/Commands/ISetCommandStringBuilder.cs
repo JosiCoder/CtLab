@@ -15,13 +15,16 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using CtLab.Messages.Interfaces;
+
 namespace CtLab.CommandsAndMessages.Interfaces
 {
     /// <summary>
     /// Provides facilities to build strings from set commands that can be be sent
     /// to c't Lab devices.
     /// </summary>
-    public interface ISetCommandStringBuilder
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public interface ISetCommandStringBuilder<TMessageChannel>
     {
         /// <summary>
         /// Gets a pseudo channel number used to specify that a command is to be sent
@@ -42,7 +45,7 @@ namespace CtLab.CommandsAndMessages.Interfaces
         /// </summary>
         /// <param name="commandClass">The command class to send a command for.</param>
         /// <returns>The built command string.</returns>
-        string BuildCommand(SetCommandClass commandClass);
+        string BuildCommand(SetCommandClass<TMessageChannel> commandClass);
 
         /// <summary>
 		/// Builds a set command string using the command classes' channel and subchannel.
@@ -51,6 +54,6 @@ namespace CtLab.CommandsAndMessages.Interfaces
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
         /// <param name="requestAcknowledge">true to request an acknowledge from the receiver; otherwiese, false.</param>
         /// <returns>The built command string.</returns>
-        string BuildCommand(SetCommandClass commandClass, bool generateChecksum, bool requestAcknowledge);
+        string BuildCommand(SetCommandClass<TMessageChannel> commandClass, bool generateChecksum, bool requestAcknowledge);
     }
 }

@@ -15,13 +15,14 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
     /// Provides facilities to schedule query commands contained in a query command
     /// dictionary, i.e. to send them periodically.
     /// </summary>
-    public interface IQueryCommandScheduler
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public interface IQueryCommandScheduler<TMessageChannel>
     {
         /// <summary>
         /// Gets an object that can be used to synchronize access to the current object
@@ -34,7 +35,7 @@ namespace CtLab.CommandsAndMessages.Interfaces
         /// When scheduling is activated, this dictionary will be periodically accessed
         /// asynchronously, i.e. from a different thread.
         /// </summary>
-        IQueryCommandClassDictionary CommandClassDictionary { get ; }
+        IQueryCommandClassDictionary<TMessageChannel> CommandClassDictionary { get ; }
 
         /// <summary>
         /// Sends all scheduled commands immediately.

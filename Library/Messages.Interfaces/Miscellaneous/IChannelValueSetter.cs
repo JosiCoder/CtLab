@@ -15,35 +15,31 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides facilities to operate on a dictionary holding command classes.
+	/// Provides facilities to set the value of a channel.
     /// </summary>
-    public interface ICommandClassDictionary<TCommandClass> where TCommandClass : CommandClass
+    public interface IChannelValueSetter
     {
         /// <summary>
-        /// Adds a command class to the dictionary unless there is already a matching one.
+        /// Sets a signed integer value.
         /// </summary>
-        /// <param name="commandClass">The command class to add to the cache.</param>
-        void Add(TCommandClass commandClass);
+        void SetValue(int value);
 
         /// <summary>
-        /// For a list of command classes, adds each one to the dictionary unless there is already
-        /// a matching one.
+        /// Sets an unsigned integer value.
         /// </summary>
-        /// <param name="commandClasses">A list of command classes to add to the cache.</param>
-        void Add(TCommandClass[] commandClasses);
+        void SetValue(uint value);
 
         /// <summary>
-        /// Removes all commands belonging to a specific channel.
+        /// Sets a floating point value.
         /// </summary>
-        /// <param name="channel">The channel to remove the commands for.</param>
-        void RemoveCommandsForChannel(byte channel);
+        void SetValue(double value);
 
         /// <summary>
-        /// Sends all commands.
+        /// Sets a boolean value.
         /// </summary>
-        void SendCommands();
+        void SetValue(bool value);
     }
 }

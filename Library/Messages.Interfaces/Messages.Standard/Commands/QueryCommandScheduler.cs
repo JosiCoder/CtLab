@@ -17,17 +17,18 @@
 
 using System;
 using System.Threading;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.Messages.Standard
 {
     /// <summary>
     /// Schedules query commands for classes contained in a query command class dictionary,
     /// i.e. sends them periodically.
     /// </summary>
-    public class QueryCommandScheduler : IQueryCommandScheduler, IDisposable
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class QueryCommandScheduler<TMessageChannel> : IQueryCommandScheduler<TMessageChannel>, IDisposable
     {
-        private readonly IQueryCommandClassDictionary _commandClassDictionary;
+        private readonly IQueryCommandClassDictionary<TMessageChannel> _commandClassDictionary;
         private readonly object _syncRoot = new object();
         private Timer _scheduleTimer;
 
@@ -42,7 +43,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// When scheduling is activated, this dictionary will be periodically accessed
         /// asynchronously, i.e. from a different thread.
         /// </summary>
-        public IQueryCommandClassDictionary CommandClassDictionary { get { return _commandClassDictionary; } }
+        public IQueryCommandClassDictionary<TMessageChannel> CommandClassDictionary { get { return _commandClassDictionary; } }
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -50,7 +51,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// <param name="commandClassDictionary">
         /// The dictionary holding the command classes to send commands for.
         /// </param>
-        public QueryCommandScheduler(IQueryCommandClassDictionary commandClassDictionary)
+        public QueryCommandScheduler(IQueryCommandClassDictionary<TMessageChannel> commandClassDictionary)
         {
             _commandClassDictionary = commandClassDictionary;
         }

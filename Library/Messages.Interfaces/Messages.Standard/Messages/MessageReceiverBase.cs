@@ -27,8 +27,8 @@ namespace CtLab.Messages.Standard
     public abstract class MessageReceiverBase<TMessageChannel> : IMessageReceiver<TMessageChannel>
     {
         /// <summary>
-        /// Occurs when a message has been received from a c't Lab device. Note that
-        /// this event might be called via a background thread.
+        /// Occurs when a message has been received. Note that this event might be called via
+        /// a background thread.
         /// </summary>
         public event EventHandler<MessageReceivedEventArgs<TMessageChannel>> MessageReceived;
 

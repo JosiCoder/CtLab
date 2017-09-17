@@ -35,10 +35,15 @@
     <Compile Include="Messages\MessageContainer.cs" />
     <Compile Include="Messages\MessageReceiverBase.cs" />
     <Compile Include="Messages\ReceivedMessagesCache.cs" />
+    <Compile Include="Commands\CommandClassDictionaryBase.cs" />
+    <Compile Include="Commands\QueryCommandClassDictionary.cs" />
+    <Compile Include="Commands\SetCommandClassDictionary.cs" />
+    <Compile Include="Commands\QueryCommandScheduler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Messages\" />
+    <Folder Include="Commands\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Messages.Interfaces.csproj">

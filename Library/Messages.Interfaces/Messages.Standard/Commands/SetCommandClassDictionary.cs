@@ -16,21 +16,22 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.CommandsAndMessages.Interfaces;
+using CtLab.Messages.Interfaces;
 
-namespace CtLab.CommandsAndMessages.Standard
+namespace CtLab.Messages.Standard
 {
     /// <summary>
-    /// Maintains a unique set command class for each combination of channel and subchannel.
-    /// Sends some or all set commands to get the c't Lab devices in sync.
+    /// Maintains a unique set command class for each channel.
+    /// Sends some or all set commands to get the devices in sync.
     /// </summary>
-    public class SetCommandClassDictionary : CommandClassDictionaryBase<SetCommandClass>, ISetCommandClassDictionary
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class SetCommandClassDictionary<TMessageChannel> : CommandClassDictionaryBase<SetCommandClass<TMessageChannel>, TMessageChannel>, ISetCommandClassDictionary<TMessageChannel>
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="commandSender">The command sender used to send the commands.</param>
-        public SetCommandClassDictionary(ISetCommandSender commandSender)
+        public SetCommandClassDictionary(ICommandSender<SetCommandClass<TMessageChannel>, TMessageChannel> commandSender)
             : base(commandSender)
         {
         }
@@ -49,7 +50,7 @@ namespace CtLab.CommandsAndMessages.Standard
 
         /// <summary>
         /// Sends commands for all set command classes that have modified values to
-        /// get the c't Lab devices in sync.
+        /// get the devices in sync.
         /// </summary>
         public void SendCommandsForModifiedValues()
         {

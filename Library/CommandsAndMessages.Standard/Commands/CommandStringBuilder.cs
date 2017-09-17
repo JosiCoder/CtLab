@@ -17,6 +17,7 @@
 
 using System;
 using System.Globalization;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 
 namespace CtLab.CommandsAndMessages.Standard
@@ -24,7 +25,7 @@ namespace CtLab.CommandsAndMessages.Standard
     /// <summary>
     /// Builds strings from commands that can be be sent to c't Lab devices.
     /// </summary>
-    public class CommandStringBuilder : ISetCommandStringBuilder, IQueryCommandStringBuilder
+    public class CommandStringBuilder : ISetCommandStringBuilder<MessageChannel>, IQueryCommandStringBuilder<MessageChannel>
     {
         private const string _setCommandWithChannelFormatString = "{0}:{1}={2}";
         private const string _setCommandWithoutChannelFormatString = "{1}={2}";
@@ -70,7 +71,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// </summary>
         /// <param name="commandClass">The command class to build the command string for.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(SetCommandClass commandClass)
+        public string BuildCommand(SetCommandClass<MessageChannel> commandClass)
         {
             return BuildCommand(commandClass, false, false);
         }
@@ -82,20 +83,20 @@ namespace CtLab.CommandsAndMessages.Standard
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
         /// <param name="requestAcknowledge">true to request an acknowledge from the receiver; otherwiese, false.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(SetCommandClass commandClass, bool generateChecksum, bool requestAcknowledge)
+        public string BuildCommand(SetCommandClass<MessageChannel> commandClass, bool generateChecksum, bool requestAcknowledge)
         {
             string formatString;
 
-            if (commandClass.Channel == DefaultChannel)
+            if (commandClass.Channel.Main == DefaultChannel)
                 formatString = _setCommandWithoutChannelFormatString;
             else
-                formatString = (commandClass.Channel == BroadcastChannel)
+                formatString = (commandClass.Channel.Main == BroadcastChannel)
                     ? _setCommandWithBroadcastChannelFormatString
                     : _setCommandWithChannelFormatString;
 
             // Generate basic command string.
             var commandString = String.Format(CultureInfo.InvariantCulture, formatString,
-                                                 commandClass.Channel, commandClass.Subchannel, commandClass.RawValue);
+                                                 commandClass.Channel.Main, commandClass.Channel.Sub, commandClass.RawValue);
 
             // Optionally add acknowledge request.
             commandString = requestAcknowledge
@@ -116,7 +117,7 @@ namespace CtLab.CommandsAndMessages.Standard
         /// </summary>
         /// <param name="commandClass">The command class to build the command string for.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(QueryCommandClass commandClass)
+        public string BuildCommand(QueryCommandClass<MessageChannel> commandClass)
         {
             return BuildCommand(commandClass, false);
         }
@@ -127,20 +128,20 @@ namespace CtLab.CommandsAndMessages.Standard
         /// <param name="commandClass">The command class to build the string for.</param>
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(QueryCommandClass commandClass, bool generateChecksum)
+        public string BuildCommand(QueryCommandClass<MessageChannel> commandClass, bool generateChecksum)
         {
             string formatString;
 
-            if (commandClass.Channel == DefaultChannel)
+            if (commandClass.Channel.Main == DefaultChannel)
                 formatString = _queryCommandWithoutChannelFormatString;
             else
-                formatString = (commandClass.Channel == BroadcastChannel)
+                formatString = (commandClass.Channel.Main == BroadcastChannel)
                     ? _queryCommandWithBroadcastChannelFormatString
                     : _queryCommandWithChannelFormatString;
 
             // Generate basic command string.
             var commandString = String.Format(CultureInfo.InvariantCulture,
-                formatString, commandClass.Channel, commandClass.Subchannel);
+                formatString, commandClass.Channel.Main, commandClass.Channel.Sub);
 
             // Optionally add checksum.
             commandString = generateChecksum

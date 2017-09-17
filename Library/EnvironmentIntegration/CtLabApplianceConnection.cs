@@ -33,12 +33,12 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// The command class dictionary used to send the set commands.
         /// </summary>
-        private readonly ISetCommandClassDictionary _setCommandClassDictionary;
+        private readonly ISetCommandClassDictionary<MessageChannel> _setCommandClassDictionary;
 
         /// <summary>
         /// The command scheduler used to send the query commands.
         /// </summary>
-        private readonly IQueryCommandScheduler _queryCommandScheduler;
+        private readonly IQueryCommandScheduler<MessageChannel> _queryCommandScheduler;
 
         /// <summary>
         /// The message cache used to receive the messages.
@@ -81,7 +81,7 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
         public CtLabApplianceConnection(IConnection connection,
-            ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
+            ISetCommandClassDictionary<MessageChannel> setCommandClassDictionary, IQueryCommandScheduler<MessageChannel> queryCommandScheduler,
             IMessageCache<MessageChannel> receivedMessagesCache)
         {
             _connection = connection;

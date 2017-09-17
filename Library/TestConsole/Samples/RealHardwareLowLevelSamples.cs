@@ -82,13 +82,13 @@ namespace CtLab.TestConsole
                 connection.Open(_portName);
 
                 // Send a command via the configured string sender.
-                var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary>();
-                var setCommandClass = new SetCommandClass(_channel, 1);
+                var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary<MessageChannel>>();
+                var setCommandClass = new SetCommandClass<MessageChannel>(new MessageChannel(_channel, 1));
                 setCommandDictionary.Add(setCommandClass);
                 setCommandClass.SetValue(128);
                 Console.WriteLine("Sending command, channel {0}/{1}, raw value {2}",
-                                  setCommandClass.Channel,
-                                  setCommandClass.Subchannel,
+                                  setCommandClass.Channel.Main,
+                                  setCommandClass.Channel.Sub,
                                   setCommandClass.RawValue);
                 setCommandDictionary.SendCommandsForModifiedValues();
 
@@ -97,8 +97,8 @@ namespace CtLab.TestConsole
                 var messageContainer = messageCache.Register(new MessageChannel(_channel, 255));
                 messageContainer.MessageUpdated +=
                     (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                                                     messageContainer.Message.Channel.Channel,
-                                                     messageContainer.Message.Channel.Subchannel,
+                                                     messageContainer.Message.Channel.Main,
+                                                     messageContainer.Message.Channel.Sub,
                                                      messageContainer.Message.RawValue);
 
                 Console.WriteLine("For the next seconds, operate the c´t Lab panels to generate messages...");

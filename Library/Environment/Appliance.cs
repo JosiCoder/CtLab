@@ -69,17 +69,17 @@ namespace CtLab.Environment
         /// Initializes or reinitializes a single FPGA Lab device instance
         /// running the signal generator.
         /// </summary>
-        /// <param name="channel">
-        /// The number of the channel assigned to the FPGA Lab.
+        /// <param name="mainChannel">
+        /// The number of the main channel assigned to the FPGA Lab.
         /// </param>
-        public void InitializeSignalGenerator(byte channel)
+        public void InitializeSignalGenerator(byte mainChannel)
         {
             lock (_applianceConnection.SyncRoot)
             {
                 if (_signalGenerator != null)
                     _signalGenerator.Dispose();
 
-                _signalGenerator = _deviceFactory.CreateSignalGenerator(channel);
+                _signalGenerator = _deviceFactory.CreateSignalGenerator(mainChannel);
 
                 // Initialize the device.
                 _signalGenerator.Reset();

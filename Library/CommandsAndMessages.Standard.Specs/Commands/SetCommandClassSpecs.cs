@@ -20,17 +20,18 @@ using NUnit.Framework;
 using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.CommandsAndMessages.Standard;
 
 namespace CtLab.CommandsAndMessages.Specs
 {
     public abstract class SetCommandClassSpecs
-        : SpecsFor<SetCommandClass>
+        : SpecsFor<SetCommandClass<MessageChannel>>
     {
         protected override void InitializeClassUnderTest()
         {
-            SUT = new SetCommandClass(7, 255);
+            SUT = new SetCommandClass<MessageChannel>(new MessageChannel(7, 255));
         }
     }
 

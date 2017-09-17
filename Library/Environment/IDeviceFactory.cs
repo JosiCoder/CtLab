@@ -27,9 +27,9 @@ namespace CtLab.Environment
         /// <summary>
         /// Creates an FPGA-based signal generator.
         /// </summary>
-        /// <param name="channel">
-        /// The number of the channel assigned to the FPGA module.
+        /// <param name="mainChannel">
+        /// The number of the main channel assigned to the FPGA module.
         /// </param>
-        ISignalGenerator CreateSignalGenerator(byte channel);
+        ISignalGenerator CreateSignalGenerator(byte mainChannel);
     }
 }

@@ -53,8 +53,8 @@ namespace CtLab.CommandsAndMessages.Standard
                 {
                     Channel = new MessageChannel
                     {
-                        Channel = byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
-                        Subchannel = ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture),
+                        Main = byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
+                        Sub = ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture),
                     },
                     RawValue = groups["value"].Value,
                     Description = groups["description"].Value,

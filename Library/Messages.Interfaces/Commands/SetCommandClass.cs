@@ -17,13 +17,13 @@
 
 using System.Globalization;
 
-namespace CtLab.CommandsAndMessages.Interfaces
+namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Represents set commands that can be sent to a c't Lab device e.g. to set values
-    /// or options.
+    /// Represents set commands that can be sent e.g. to set values or options.
     /// </summary>
-    public class SetCommandClass : CommandClass, ISubchannelValueSetter
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class SetCommandClass<TMessageChannel> : CommandClassBase<TMessageChannel>, IChannelValueSetter
     {
         private string _rawValue;
 
@@ -60,13 +60,10 @@ namespace CtLab.CommandsAndMessages.Interfaces
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="channel">
-        /// The channel number of the device the commands are sent to.
+        /// The channel the commands are sent to.
         /// </param>
-        /// <param name="subchannel">
-        /// The subchannel number corresponding to the commands sent.
-        /// </param>
-        public SetCommandClass(byte channel, ushort subchannel)
-            : base(channel, subchannel)
+        public SetCommandClass(TMessageChannel channel)
+            : base(channel)
         {
         }
 

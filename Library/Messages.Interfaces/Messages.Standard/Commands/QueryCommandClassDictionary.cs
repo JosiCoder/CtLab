@@ -15,31 +15,25 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-namespace CtLab.CommandsAndMessages.Interfaces
+using System;
+using CtLab.Messages.Interfaces;
+
+namespace CtLab.Messages.Standard
 {
     /// <summary>
-	/// Provides facilities to set the value of a c't Lab device's subchannel.
+    /// Maintains a unique query command class for each channel.
+    /// Sends some or all query commands to get the devices in sync.
     /// </summary>
-    public interface ISubchannelValueSetter
+    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
+    public class QueryCommandClassDictionary<TMessageChannel> : CommandClassDictionaryBase<QueryCommandClass<TMessageChannel>, TMessageChannel>, IQueryCommandClassDictionary<TMessageChannel>
     {
         /// <summary>
-        /// Sets a signed integer value.
+        /// Initializes an instance of this class.
         /// </summary>
-        void SetValue(int value);
-
-        /// <summary>
-        /// Sets an unsigned integer value.
-        /// </summary>
-        void SetValue(uint value);
-
-        /// <summary>
-        /// Sets a floating point value.
-        /// </summary>
-        void SetValue(double value);
-
-        /// <summary>
-        /// Sets a boolean value.
-        /// </summary>
-        void SetValue(bool value);
+        /// <param name="commandSender">The command sender used to send the commands.</param>
+        public QueryCommandClassDictionary(ICommandSender<QueryCommandClass<TMessageChannel>, TMessageChannel> commandSender)
+            : base(commandSender)
+        {
+        }
     }
 }

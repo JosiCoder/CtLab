@@ -49,8 +49,8 @@ namespace CtLab.CommandsAndMessages.Specs
                 {
                     Channel = new MessageChannel
                     {
-                        Channel = 7,
-                        Subchannel = 255,
+                        Main = 7,
+                        Sub = 255,
                     },
                     RawValue = "33",
                     Description = "DSCR"
@@ -77,8 +77,8 @@ namespace CtLab.CommandsAndMessages.Specs
                 {
                     Channel = new MessageChannel
                     {
-                        Channel = 7,
-                        Subchannel = 255,
+                        Main = 7,
+                        Sub = 255,
                     },
                     RawValue = "33",
                     Description = "DSCR"
@@ -87,8 +87,8 @@ namespace CtLab.CommandsAndMessages.Specs
                 {
                     Channel = new MessageChannel
                     {
-                        Channel = 6,
-                        Subchannel = 254,
+                        Main = 6,
+                        Sub = 254,
                     },
                     RawValue = "22",
                     Description = "NEXT"

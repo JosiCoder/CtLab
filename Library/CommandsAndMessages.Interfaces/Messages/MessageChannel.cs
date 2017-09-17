@@ -24,12 +24,12 @@ namespace CtLab.CommandsAndMessages.Interfaces
     /// </summary>
     public struct MessageChannel
     {
-        public MessageChannel(byte channel, ushort subchannel)
+        public MessageChannel(byte mainChannel, ushort subchannel)
         {
-            Channel = channel;
-            Subchannel = subchannel;
+            Main = mainChannel;
+            Sub = subchannel;
         }
-        public byte Channel;
-        public ushort Subchannel;
+        public byte Main;
+        public ushort Sub;
     }
 }

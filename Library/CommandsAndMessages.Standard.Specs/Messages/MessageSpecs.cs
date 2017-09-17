@@ -33,8 +33,8 @@ namespace CtLab.CommandsAndMessages.Specs
                             {
                                 Channel = new MessageChannel
                                 {  
-                                    Channel = 7,
-                                    Subchannel = 255,
+                                    Main = 7,
+                                    Sub = 255,
                                 },
                                 RawValue = "0",
                                 Description = "DSCR"

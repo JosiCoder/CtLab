@@ -62,7 +62,7 @@ namespace CtLab.Messages.Standard
         /// Unregisters all message channels that meet the specified predicate from caching.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void UnregisterSubchannelsForChannel(Func<TMessageChannel, bool> predicate)
+        public void UnregisterMessageChannels(Func<TMessageChannel, bool> predicate)
         {
             var affectedKeys = (from key in _messageDictionary.Keys
                                 where predicate(key)

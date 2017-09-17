@@ -15,6 +15,7 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using CtLab.Messages.Interfaces;
 using CtLab.CommandsAndMessages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
@@ -25,7 +26,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
     /// </summary>
     public class FpgaValueSetter : IFpgaValueSetter
     {
-        private ISubchannelValueSetter _valueSetter;
+        private IChannelValueSetter _valueSetter;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -33,7 +34,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// <param name="valueSetter">
         /// The value setter used to set values within the FPGA.
         /// </param>
-        public FpgaValueSetter(ISubchannelValueSetter valueSetter)
+        public FpgaValueSetter(IChannelValueSetter valueSetter)
         {
             _valueSetter = valueSetter;
         }
