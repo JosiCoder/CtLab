@@ -21,17 +21,15 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using CtLab.Messages.Interfaces;
-using CtLab.CtLabProtocol.Interfaces;
-using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocol.Specs
+namespace CtLab.Messages.Standard.Specs
 {
     public abstract class SetCommandClassSpecs
         : SpecsFor<SetCommandClass<MessageChannel>>
     {
         protected override void InitializeClassUnderTest()
         {
-            SUT = new SetCommandClass<MessageChannel>(new MessageChannel(7, 255));
+            SUT = new SetCommandClass<MessageChannel>(new MessageChannel(7));
         }
     }
 

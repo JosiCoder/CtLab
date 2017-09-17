@@ -23,10 +23,8 @@ using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
 using CtLab.Messages.Standard;
-using CtLab.CtLabProtocol.Interfaces;
-using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocol.Specs
+namespace CtLab.Messages.Standard.Specs
 {
     public interface IMessageUpdatedSink
     {
@@ -47,9 +45,9 @@ namespace CtLab.CtLabProtocol.Specs
         {
             base.Given();
 
-            SUT.Register(new MessageChannel(1, 11));
-            SUT.Register(new MessageChannel(2, 22));
-            SUT.Register(new MessageChannel(3, 33));
+            SUT.Register(new MessageChannel(1));
+            SUT.Register(new MessageChannel(2));
+            SUT.Register(new MessageChannel(3));
         }
     }
 
@@ -72,9 +70,9 @@ namespace CtLab.CtLabProtocol.Specs
                 new Mock<IMessageUpdatedSink>()
             };
 
-            SUT.GetMessageContainer(new MessageChannel(1, 11)).MessageUpdated += _messageUpdatedSinkMocks[0].Object.MessageUpdated;
-            SUT.GetMessageContainer(new MessageChannel(2, 22)).MessageUpdated += _messageUpdatedSinkMocks[1].Object.MessageUpdated;
-            SUT.GetMessageContainer(new MessageChannel(3, 33)).MessageUpdated += _messageUpdatedSinkMocks[2].Object.MessageUpdated;
+            SUT.GetMessageContainer(new MessageChannel(1)).MessageUpdated += _messageUpdatedSinkMocks[0].Object.MessageUpdated;
+            SUT.GetMessageContainer(new MessageChannel(2)).MessageUpdated += _messageUpdatedSinkMocks[1].Object.MessageUpdated;
+            SUT.GetMessageContainer(new MessageChannel(3)).MessageUpdated += _messageUpdatedSinkMocks[2].Object.MessageUpdated;
         }
     }
 
@@ -86,7 +84,7 @@ namespace CtLab.CtLabProtocol.Specs
 
         protected override void When()
         {
-            _returnedMessageContainer = SUT.Register(new MessageChannel(2, 11));
+            _returnedMessageContainer = SUT.Register(new MessageChannel(2));
         }
 
 		[Test]
@@ -98,17 +96,16 @@ namespace CtLab.CtLabProtocol.Specs
         [Test]
 		public void then_the_SUT_should_be_able_to_obtain_the_according_message_container()
         {
-            var container = SUT.GetMessageContainer(new MessageChannel(2, 11));
+            var container = SUT.GetMessageContainer(new MessageChannel(2));
 			container.ShouldBeSameAs(_returnedMessageContainer);
         }
 
         [Test]
 		public void then_the_SUT_should_have_an_empty_message_in_the_message_container()
         {
-            var container = SUT.GetMessageContainer(new MessageChannel(2, 11));
+            var container = SUT.GetMessageContainer(new MessageChannel(2));
             var message = container.Message;
-            message.Channel.Main.ShouldEqual((byte)2);
-            message.Channel.Sub.ShouldEqual((ushort)11);
+            message.Channel.Id.ShouldEqual((byte)2);
             message.RawValue.ShouldBeNull();
         }
     }
@@ -121,7 +118,7 @@ namespace CtLab.CtLabProtocol.Specs
 
         protected override void When()
         {
-            _theAssertion = () => SUT.Register(new MessageChannel(1, 11));
+            _theAssertion = () => SUT.Register(new MessageChannel(1));
         }
 
         [Test]
@@ -138,25 +135,25 @@ namespace CtLab.CtLabProtocol.Specs
         protected override void When()
         {
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (1, 11), RawValue = "HI!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (1), RawValue = "HI!" }));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2, 22), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2), RawValue = "Hello!" }));
         }
 
         [Test]
         public void then_the_SUT_should_update_the_messages_in_the_message_containers()
         {
-            SUT.GetMessageContainer(new MessageChannel(1, 11)).Message.RawValue.ShouldEqual("HI!");
-            SUT.GetMessageContainer(new MessageChannel(2, 22)).Message.RawValue.ShouldEqual("Hello!");
-            SUT.GetMessageContainer(new MessageChannel(3, 33)).Message.RawValue.ShouldBeNull();
+            SUT.GetMessageContainer(new MessageChannel(1)).Message.RawValue.ShouldEqual("HI!");
+            SUT.GetMessageContainer(new MessageChannel(2)).Message.RawValue.ShouldEqual("Hello!");
+            SUT.GetMessageContainer(new MessageChannel(3)).Message.RawValue.ShouldBeNull();
         }
 
         [Test]
         public void then_the_SUT_should_raise_events_for_updated_messages_but_none_else()
         {
-            _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(1,11)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(2, 22)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(3, 33)), EventArgs.Empty), Times.Never);
+            _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(1)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(2)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(3)), EventArgs.Empty), Times.Never);
         }
     }
 
@@ -168,33 +165,33 @@ namespace CtLab.CtLabProtocol.Specs
         {
             // Message with one update.
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (1, 11), RawValue = "HI!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (1), RawValue = "HI!" }));
             // Message with two identical (i.e. redudant) updates.
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2, 22), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2), RawValue = "Hello!" }));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2, 22), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2), RawValue = "Hello!" }));
             // Message with two real (i.e. non-redudant) updates.
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (3, 33), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (3), RawValue = "Hello!" }));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (3, 33), RawValue = "Hello again!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (3), RawValue = "Hello again!" }));
         }
 
         [Test]
         public void then_the_SUTs_message_containers_should_contain_the_most_recently_received_messages()
         {
-            SUT.GetMessageContainer(new MessageChannel(1, 11)).Message.RawValue.ShouldEqual("HI!");
-            SUT.GetMessageContainer(new MessageChannel(2, 22)).Message.RawValue.ShouldEqual("Hello!");
-            SUT.GetMessageContainer(new MessageChannel(3, 33)).Message.RawValue.ShouldEqual("Hello again!");
+            SUT.GetMessageContainer(new MessageChannel(1)).Message.RawValue.ShouldEqual("HI!");
+            SUT.GetMessageContainer(new MessageChannel(2)).Message.RawValue.ShouldEqual("Hello!");
+            SUT.GetMessageContainer(new MessageChannel(3)).Message.RawValue.ShouldEqual("Hello again!");
         }
 
         [Test]
         public void then_the_SUT_should_raise_events_once_per_real_update()
         {
-            _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(1,11)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(2, 22)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(3, 33)), EventArgs.Empty), Times.Exactly(2));
+            _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(1)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(2)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(3)), EventArgs.Empty), Times.Exactly(2));
         }
     }
 
@@ -208,34 +205,34 @@ namespace CtLab.CtLabProtocol.Specs
         {
             base.Given();
 
-            _unregisteredMessageContainer = SUT.GetMessageContainer(new MessageChannel(1, 11));
-            SUT.UnregisterMessageChannels(key => key.Main == 1);
+            _unregisteredMessageContainer = SUT.GetMessageContainer(new MessageChannel(1));
+            SUT.UnregisterMessageChannels(key => key.Id == 1);
         }
 
         protected override void When()
         {
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (1, 11), RawValue = "HI!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (1), RawValue = "HI!" }));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2, 22), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (2), RawValue = "Hello!" }));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (3, 33), RawValue = "Hello again!" }));
+                new MessageReceivedEventArgs<MessageChannel>(new Message<MessageChannel>() { Channel = new MessageChannel (3), RawValue = "Hello again!" }));
         }
 
         [Test]
         public void then_the_SUT_should_update_the_messages_in_the_message_containers_for_registered_subchannels_but_none_else()
         {
             _unregisteredMessageContainer.Message.RawValue.ShouldBeNull();
-            SUT.GetMessageContainer(new MessageChannel(2, 22)).Message.RawValue.ShouldEqual("Hello!");
-            SUT.GetMessageContainer(new MessageChannel(3, 33)).Message.RawValue.ShouldEqual("Hello again!");
+            SUT.GetMessageContainer(new MessageChannel(2)).Message.RawValue.ShouldEqual("Hello!");
+            SUT.GetMessageContainer(new MessageChannel(3)).Message.RawValue.ShouldEqual("Hello again!");
         }
 
         [Test]
         public void then_the_SUT_should_raise_events_for_the_updated_messages_for_registered_subchannels_but_none_else()
         {
             _messageUpdatedSinkMocks[0].Verify(sink => sink.MessageUpdated(_unregisteredMessageContainer, EventArgs.Empty), Times.Never);
-            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(2, 22)), EventArgs.Empty), Times.Once);
-            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(3, 33)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[1].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(2)), EventArgs.Empty), Times.Once);
+            _messageUpdatedSinkMocks[2].Verify(sink => sink.MessageUpdated(SUT.GetMessageContainer(new MessageChannel(3)), EventArgs.Empty), Times.Once);
         }
     }
 }

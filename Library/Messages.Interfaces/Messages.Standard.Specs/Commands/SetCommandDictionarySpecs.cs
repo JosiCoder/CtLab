@@ -23,10 +23,8 @@ using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
 using CtLab.Messages.Standard;
-using CtLab.CtLabProtocol.Interfaces;
-using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocol.Specs
+namespace CtLab.Messages.Standard.Specs
 {
     public abstract class SetCommandDictionarySpecs
         : SpecsFor<SetCommandClassDictionary<MessageChannel>>
@@ -39,9 +37,9 @@ namespace CtLab.CtLabProtocol.Specs
     {
         protected SetCommandClass<MessageChannel>[] _setCommands = new[]
         {
-            new SetCommandClass<MessageChannel>(new MessageChannel(1, 11)),
-            new SetCommandClass<MessageChannel>(new MessageChannel(2, 22)),
-            new SetCommandClass<MessageChannel>(new MessageChannel(3, 33))
+            new SetCommandClass<MessageChannel>(new MessageChannel(1)),
+            new SetCommandClass<MessageChannel>(new MessageChannel(2)),
+            new SetCommandClass<MessageChannel>(new MessageChannel(3))
         };
 
         protected override void Given()
@@ -90,7 +88,7 @@ namespace CtLab.CtLabProtocol.Specs
 
         protected override void When()
         {
-            _theAssertion = () => SUT.Add(new SetCommandClass<MessageChannel>(new MessageChannel(1, 11)));
+            _theAssertion = () => SUT.Add(new SetCommandClass<MessageChannel>(new MessageChannel(1)));
         }
 
         [Test]
@@ -169,7 +167,7 @@ namespace CtLab.CtLabProtocol.Specs
             _setCommands[0].SetValue(2);
             _setCommands[1].SetValue(2);
             _setCommands[2].SetValue(2);
-            SUT.RemoveChannelCommands(key => key.Main == _setCommands[0].Channel.Main);
+            SUT.RemoveChannelCommands(key => key.Id == _setCommands[0].Channel.Id);
             SUT.SendCommandsForModifiedValues();
         }
 
@@ -190,7 +188,7 @@ namespace CtLab.CtLabProtocol.Specs
         {
             _setCommands[0].SetValue(2);
             _setCommands[1].SetValue(2);
-            SUT.RemoveChannelCommands(key => key.Main == _setCommands[0].Channel.Main);
+            SUT.RemoveChannelCommands(key => key.Id == _setCommands[0].Channel.Id);
             SUT.SendCommands();
         }
 

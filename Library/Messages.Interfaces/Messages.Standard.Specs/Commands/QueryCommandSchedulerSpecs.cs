@@ -24,10 +24,8 @@ using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
 using CtLab.Messages.Standard;
-using CtLab.CtLabProtocol.Interfaces;
-using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocol.Specs
+namespace CtLab.Messages.Standard.Specs
 {
     public abstract class QueryCommandSchedulerSpecs
         : SpecsFor<QueryCommandScheduler<MessageChannel>>

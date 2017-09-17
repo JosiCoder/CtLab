@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -15,33 +15,15 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using NUnit.Framework;
-using SpecsFor;
-using Should;
-using SpecsFor.ShouldExtensions;
-using CtLab.CtLabProtocol.Standard;
-
-namespace CtLab.CtLabProtocol.Standard.Specs
+namespace CtLab.Messages.Standard.Specs
 {
-    public abstract class ChecksumCalculatorSpecs
-		: SpecsFor<ChecksumCalculator>
+    public struct MessageChannel
     {
-        protected byte _calculatedChecksum;
-    }
-
-
-    public class When_calculating_the_checksum_of_a_string
-        : ChecksumCalculatorSpecs
-    {
-		protected override void When()
+        public MessageChannel(int id)
         {
-            _calculatedChecksum = SUT.Calculate("Hallo Carsten");
+            Id = id;
         }
-
-		[Test]
-        public void then_the_SUT_should_return_the_correct_checksum()
-        {
-			_calculatedChecksum.ShouldEqual((byte)0x3A);
-        }
+        public int Id;
     }
 }
+

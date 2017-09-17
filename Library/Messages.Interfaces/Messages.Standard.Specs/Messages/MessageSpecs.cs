@@ -21,21 +21,15 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using CtLab.Messages.Interfaces;
-using CtLab.CtLabProtocol.Interfaces;
-using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocol.Specs
+namespace CtLab.Messages.Standard.Specs
 {
     public abstract class MessageSpecs
         : SpecsFor<object>
     {
         protected Message<MessageChannel> _message = new Message<MessageChannel>
                             {
-                                Channel = new MessageChannel
-                                {  
-                                    Main = 7,
-                                    Sub = 255,
-                                },
+                                Channel = new MessageChannel(7),
                                 RawValue = "0",
                                 Description = "DSCR"
                             };

@@ -22,7 +22,7 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocol.Specs
+namespace CtLab.CtLabProtocol.Standard.Specs
 {
     public abstract class CommandStringExtensionsSpecs
         : SpecsFor<object>

@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Interfaces", "Mess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Standard", "Messages.Interfaces\Messages.Standard\Messages.Standard.csproj", "{998169A4-595A-4995-ACFA-010FB9C59191}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Standard.Specs", "Messages.Interfaces\Messages.Standard.Specs\Messages.Standard.Specs.csproj", "{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{562569ED-CC4D-4AD6-BF94-7C638EFB5874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{562569ED-CC4D-4AD6-BF94-7C638EFB5874}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{562569ED-CC4D-4AD6-BF94-7C638EFB5874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52}.Release|Any CPU.Build.0 = Release|Any CPU
 		{57D63BB0-C30F-47C3-9885-9E0A78A404E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57D63BB0-C30F-47C3-9885-9E0A78A404E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D63BB0-C30F-47C3-9885-9E0A78A404E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -183,6 +189,7 @@ Global
 		{CB58A966-A2FA-4D45-A8B9-2EEF1D65C212} = {1D6FB3C4-52C8-497B-B0A0-F574AF5A9314}
 		{87633C5D-333C-4CCE-899B-45ADB857C856} = {CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}
 		{998169A4-595A-4995-ACFA-010FB9C59191} = {CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}
+		{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52} = {CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
