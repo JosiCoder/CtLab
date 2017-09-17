@@ -136,7 +136,7 @@ namespace CtLab.Frontend
             var container = new StructureMap.Container (expression =>
                 {
                     expression.AddRegistry<TConnectionRegistry> ();
-                    expression.AddRegistry<CommandsAndMessagesRegistry> ();
+                    expression.AddRegistry<CtLabProtocolRegistry> ();
                     expression.AddRegistry<ApplianceRegistry> ();
                 });
 
