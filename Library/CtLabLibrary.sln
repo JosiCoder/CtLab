@@ -5,9 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{90BBC975-0E39-4A17-925A-D61E1D14858E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab", "ct Lab", "{12521C72-C17B-4F3F-9E2E-1A07D949D9F4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab Protocol", "ct Lab Protocol", "{12521C72-C17B-4F3F-9E2E-1A07D949D9F4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab Protocol", "ct Lab Protocol", "{CAEAC26B-494E-47BF-94E3-E5E996638B04}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab Message Handling", "ct Lab Message Handling", "{CAEAC26B-494E-47BF-94E3-E5E996638B04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtLabProtocol.Standard", "CommandsAndMessages.Standard\CtLabProtocol.Standard.csproj", "{057DA3C3-69A0-44E9-910B-33FCFC282058}"
 EndProject
@@ -57,7 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Environment", "Environment\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvironmentIntegration", "EnvironmentIntegration\EnvironmentIntegration.csproj", "{E7BBCA24-D650-4019-BC25-EE9AF25FD654}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message Handling", "Message Handling", "{1D6FB3C4-52C8-497B-B0A0-F574AF5A9314}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generic Message Handling", "Generic Message Handling", "{1D6FB3C4-52C8-497B-B0A0-F574AF5A9314}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messages", "Messages", "{CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}"
 EndProject
