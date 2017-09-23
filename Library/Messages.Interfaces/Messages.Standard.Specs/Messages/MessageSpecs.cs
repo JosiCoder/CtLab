@@ -25,14 +25,16 @@ using CtLab.Messages.Interfaces;
 namespace CtLab.Messages.Standard.Specs
 {
     public abstract class MessageSpecs
-        : SpecsFor<object>
+        : SpecsFor<Message>
     {
-        protected Message _message = new Message
-                            {
-                                Channel = new SpecsMessageChannel(7),
-                                RawValue = "0",
-                                Description = "DSCR"
-                            };
+        protected override void InitializeClassUnderTest()
+        {
+            SUT = new Message {
+                Channel = new SpecsMessageChannel (7),
+                RawValue = "0",
+                Description = "DSCR"
+            };
+        }
     }
 
 
@@ -41,13 +43,13 @@ namespace CtLab.Messages.Standard.Specs
     {
         protected override void When()
         {
-            _message.RawValue = "33";
+            SUT.RawValue = "33";
         }
 
         [Test]
         public void then_the_SUT_should_return_the_correct_value()
         {
-            _message.ValueToInt32().ShouldEqual(33);
+            SUT.ValueToInt32().ShouldEqual(33);
         }
     }
 
@@ -57,13 +59,13 @@ namespace CtLab.Messages.Standard.Specs
     {
         protected override void When()
         {
-            _message.RawValue = "33.3";
+            SUT.RawValue = "33.3";
         }
 
         [Test]
 		public void then_the_SUT_should_return_the_correct_value()
         {
-            _message.ValueToDouble().ShouldEqual(33.3);
+            SUT.ValueToDouble().ShouldEqual(33.3);
         }
     }
 
@@ -73,13 +75,13 @@ namespace CtLab.Messages.Standard.Specs
     {
         protected override void When()
         {
-            _message.RawValue = "1";
+            SUT.RawValue = "1";
         }
 
         [Test]
 		public void then_the_SUT_should_return_the_correct_value()
         {
-            _message.ValueToBoolean().ShouldEqual(true);
+            SUT.ValueToBoolean().ShouldEqual(true);
         }
     }
 
@@ -89,13 +91,13 @@ namespace CtLab.Messages.Standard.Specs
     {
         protected override void When()
         {
-            _message.RawValue = "0";
+            SUT.RawValue = "0";
         }
 
         [Test]
 		public void then_the_SUT_should_return_the_correct_value()
         {
-            _message.ValueToBoolean().ShouldEqual(false);
+            SUT.ValueToBoolean().ShouldEqual(false);
         }
     }
 
@@ -107,8 +109,8 @@ namespace CtLab.Messages.Standard.Specs
 
         protected override void When()
         {
-            _message.RawValue = "2";
-            _theAssertion = () => _message.ValueToBoolean();
+            SUT.RawValue = "2";
+            _theAssertion = () => SUT.ValueToBoolean();
         }
 
         [Test]

@@ -31,8 +31,6 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void InitializeClassUnderTest()
         {
-            base.Given();
-
             SUT = new Container (expression =>
                 {
                     expression.AddRegistry<SerialConnectionRegistry>();

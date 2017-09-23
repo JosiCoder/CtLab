@@ -41,8 +41,6 @@ namespace CtLab.BasicIntegration.Specs
 
         protected override void InitializeClassUnderTest()
         {
-            base.Given ();
-
             // Use a mock that we can query whether a method has been called.
             _stringReceiverMock = GetMockFor<IStringReceiver>();
 
