@@ -29,7 +29,8 @@ namespace CtLab.Messages.Standard.Specs
     {
         protected override void InitializeClassUnderTest()
         {
-            SUT = new Message {
+            SUT = new Message
+            {
                 Channel = new SpecsMessageChannel (7),
                 RawValue = "0",
                 Description = "DSCR"
