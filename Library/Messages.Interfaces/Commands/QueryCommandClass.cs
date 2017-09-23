@@ -20,8 +20,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Represents query commands that can be sent e.g. to retrieve values or settings.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class QueryCommandClass<TMessageChannel> : CommandClassBase<TMessageChannel>
+    public class QueryCommandClass : CommandClassBase
     {
         /// <summary>
         /// Initializes an instance of this class.
@@ -29,7 +28,7 @@ namespace CtLab.Messages.Interfaces
         /// <param name="channel">
         /// The channel the commands are sent to.
         /// </param>
-        public QueryCommandClass(TMessageChannel channel)
+        public QueryCommandClass(IMessageChannel channel)
             : base(channel)
         {
         }

@@ -20,8 +20,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to operate on a cache holding query command classes.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface IQueryCommandClassDictionary<TMessageChannel> : ICommandClassDictionary<QueryCommandClass<TMessageChannel>, TMessageChannel>
+    public interface IQueryCommandClassDictionary : ICommandClassDictionary<QueryCommandClass>
     {
     }
 }

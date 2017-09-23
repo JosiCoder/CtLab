@@ -24,10 +24,9 @@ namespace CtLab.Messages.Standard
     /// <summary>
     /// Holds and returns a message received from a certain message channel.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class MessageContainer<TMessageChannel>: IMessageContainer<TMessageChannel>
+    public class MessageContainer: IMessageContainer
     {
-        private Message<TMessageChannel> _message = new Message<TMessageChannel>();
+        private Message _message = new Message();
 
         /// <summary>
         /// Occurs when the message has been updated.
@@ -40,7 +39,7 @@ namespace CtLab.Messages.Standard
         /// <param name="messageChannel">
         /// The message channel this container is assigned to.
         /// </param>
-        public MessageContainer(TMessageChannel messageChannel)
+        public MessageContainer(IMessageChannel messageChannel)
         {
             _message.Channel = messageChannel;
         }
@@ -49,7 +48,7 @@ namespace CtLab.Messages.Standard
         /// Gets the contained message.
         /// </summary>
         /// <returns>The message.</returns>
-        public Message<TMessageChannel> Message
+        public Message Message
         {
             get { return _message; }
         }
@@ -58,7 +57,7 @@ namespace CtLab.Messages.Standard
         /// Updates the contained message.
         /// </summary>
         /// <param name="message">The new message.</param>
-        public void UpdateMessage(Message<TMessageChannel> message)
+        public void UpdateMessage(Message message)
         {
             if (!message.ValueEquals(_message))
             {

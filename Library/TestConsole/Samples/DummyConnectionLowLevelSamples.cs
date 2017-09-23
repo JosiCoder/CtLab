@@ -51,24 +51,26 @@ namespace CtLab.TestConsole
             var container = ConfigureIoC();
 
             // Send a command via the configured dummy string sender.
-            var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary<MessageChannel>>();
-            var setCommandClass = new SetCommandClass<MessageChannel>(new MessageChannel(1, 11));
+            var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary>();
+            var setCommandChannel = new MessageChannel(1, 11);
+            var setCommandClass = new SetCommandClass(setCommandChannel);
             setCommandDictionary.Add(setCommandClass);
             setCommandClass.SetValue(15);
             Console.WriteLine("Sending command, channel {0}/{1}, raw value {2}",
-                              setCommandClass.Channel.Main,
-                              setCommandClass.Channel.Sub,
-                              setCommandClass.RawValue);
+                setCommandChannel.Main,
+                setCommandChannel.Sub,
+                setCommandClass.RawValue);
             setCommandDictionary.SendCommandsForModifiedValues();
 
             // Prepare to receive messages via the configured dummy string receiver.
-            var messageCache = container.GetInstance<IMessageCache<MessageChannel>>();
-            var messageContainer = messageCache.Register(new MessageChannel(7, 255));
+            var messageCache = container.GetInstance<IMessageCache>();
+            var messageChannel = new MessageChannel(7, 255);
+            var messageContainer = messageCache.Register(messageChannel);
             messageContainer.MessageUpdated +=
                 (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                                                 messageContainer.Message.Channel.Main,
-                                                 messageContainer.Message.Channel.Sub,
-                                                 messageContainer.Message.RawValue);
+                    messageChannel.Main,
+                    messageChannel.Sub,
+                    messageContainer.Message.RawValue);
 
             // Simulate receiving a message by injecting it into the configured dummy string receiver.
             ((DummyStringReceiver)container.GetInstance<IStringReceiver>())
@@ -90,8 +92,8 @@ namespace CtLab.TestConsole
 
             // Prepare a query command class and add it to the dictionary maintained
             // by the scheduler.
-            var commandScheduler = container.GetInstance<IQueryCommandScheduler<MessageChannel>>();
-            var queryCommandClass = new QueryCommandClass<MessageChannel>(new MessageChannel(1, 4));
+            var commandScheduler = container.GetInstance<IQueryCommandScheduler>();
+            var queryCommandClass = new QueryCommandClass(new MessageChannel(1, 4));
             commandScheduler.CommandClassDictionary.Add(queryCommandClass);
 
             // Start sending query commands periodically via the configured dummy string

@@ -22,8 +22,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to operate on a dictionary holding command classes.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface ICommandClassDictionary<TCommandClass, TMessageChannel> where TCommandClass : CommandClassBase<TMessageChannel>
+    public interface ICommandClassDictionary<TCommandClass> where TCommandClass : CommandClassBase
     {
         /// <summary>
         /// Adds a command class to the dictionary unless there is already a matching one.
@@ -42,7 +41,7 @@ namespace CtLab.Messages.Interfaces
         /// Removes the commands for all channels that meet the specified predicate.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        void RemoveChannelCommands(Func<TMessageChannel, bool> predicate);
+        void RemoveChannelCommands(Func<IMessageChannel, bool> predicate);
 
         /// <summary>
         /// Sends all commands.

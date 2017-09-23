@@ -31,9 +31,9 @@ namespace CtLab.EnvironmentIntegration
     /// </summary>
     public class DeviceFactory : IDeviceFactory
     {
-        private readonly ISetCommandClassDictionary<MessageChannel> _setCommandClassDictionary;
-        private readonly IQueryCommandScheduler<MessageChannel> _queryCommandScheduler;
-        private readonly IMessageCache<MessageChannel> _receivedMessagesCache;
+        private readonly ISetCommandClassDictionary _setCommandClassDictionary;
+        private readonly IQueryCommandScheduler _queryCommandScheduler;
+        private readonly IMessageCache _receivedMessagesCache;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -41,8 +41,8 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public DeviceFactory(ISetCommandClassDictionary<MessageChannel> setCommandClassDictionary, IQueryCommandScheduler<MessageChannel> queryCommandScheduler,
-            IMessageCache<MessageChannel> receivedMessagesCache)
+        public DeviceFactory(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
+            IMessageCache receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;
@@ -52,12 +52,12 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Creates an FPGA-based signal generator.
         /// </summary>
-        /// <param name="mainChannel">
-        /// The number of the main channel assigned to the FPGA module.
+        /// <param name="mainchannel">
+        /// The number of the mainchannel assigned to the FPGA module.
         /// </param>
-        public ISignalGenerator CreateSignalGenerator(byte mainChannel)
+        public ISignalGenerator CreateSignalGenerator(byte mainchannel)
         {
-            var deviceConnection = new DeviceConnection (mainChannel, _setCommandClassDictionary,
+            var deviceConnection = new DeviceConnection (mainchannel, _setCommandClassDictionary,
                 _queryCommandScheduler.CommandClassDictionary, _receivedMessagesCache);
 
             var fpgaConnection = new

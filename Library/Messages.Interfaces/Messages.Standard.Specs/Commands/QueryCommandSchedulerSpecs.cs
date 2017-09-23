@@ -28,7 +28,7 @@ using CtLab.Messages.Standard;
 namespace CtLab.Messages.Standard.Specs
 {
     public abstract class QueryCommandSchedulerSpecs
-        : SpecsFor<QueryCommandScheduler<MessageChannel>>
+        : SpecsFor<QueryCommandScheduler>
     {
     }
 
@@ -36,13 +36,13 @@ namespace CtLab.Messages.Standard.Specs
     public abstract class QueryCommandSchedulerInteractionSpecs
         : QueryCommandSchedulerSpecs
     {
-        protected Mock<IQueryCommandClassDictionary<MessageChannel>> _queryCommandDictionaryMock;
+        protected Mock<IQueryCommandClassDictionary> _queryCommandDictionaryMock;
 
         protected override void Given()
         {
             base.Given();
 
-            _queryCommandDictionaryMock = GetMockFor<IQueryCommandClassDictionary<MessageChannel>> ();                
+            _queryCommandDictionaryMock = GetMockFor<IQueryCommandClassDictionary> ();                
         }
     }
 

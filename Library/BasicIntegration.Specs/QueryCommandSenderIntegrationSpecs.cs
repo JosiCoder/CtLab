@@ -52,8 +52,8 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var queryCommandSender = SUT.GetInstance<IQueryCommandSender<MessageChannel>>();
-            queryCommandSender.Send(new QueryCommandClass<MessageChannel>(new MessageChannel(1, 11)));
+            var queryCommandSender = SUT.GetInstance<IQueryCommandSender>();
+            queryCommandSender.Send(new QueryCommandClass(new MessageChannel(1, 11)));
         }
 
         [Test]

@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -15,42 +15,30 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
 using CtLab.Messages.Interfaces;
 
-namespace CtLab.CtLabProtocol.Interfaces
+namespace CtLab.Messages.Standard.Specs
 {
     /// <summary>
-    /// Specifies a channel for c't lab messages (messages based on the text protocol
-    /// used througout the entire c't lab).
+    /// Specifies a channel for testing purposes. This can also be used as an example
+    /// for developing own message channels.
     /// </summary>
     #pragma warning disable 0660 // operator == or != defined without Equals() override
-    public class MessageChannel : MessageChannelBase<MessageChannel>
+    public class SpecsMessageChannel : MessageChannelBase<SpecsMessageChannel>
     {
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
-        /// <param name="main">The mainchannel.</param>
-        /// <param name="sub">The subchannel.</param>
-        public MessageChannel(byte main, ushort sub)
+        /// <param name="id">The channel identifier.</param>
+        public SpecsMessageChannel(int id)
         {
-            Main = main;
-            Sub = sub;
+            Id = id;
         }
 
         /// <summary>
-        /// Gets the mainchannel.
+        /// Gets the channel identifier.
         /// </summary>
-        public byte Main
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the subchannel.
-        /// </summary>
-        public ushort Sub
+        public int Id
         {
             get;
             private set;
@@ -65,11 +53,9 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// A value indicating whether contents the specified object are equal to contents
         /// of the current object.
         /// </returns>
-        protected override bool CompareContents(MessageChannel other)
+        protected override bool CompareContents(SpecsMessageChannel other)
         {
-            return
-                this.Main == other.Main &&
-                this.Sub == other.Sub;
+            return this.Id == other.Id;
         }
 
         /// <summary>
@@ -78,21 +64,21 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            // Concatenate Main and Sub (fits into an int).
-            return sizeof (ushort) * Main + Sub;
+            return Id;
         }
 
-        public static bool operator ==(MessageChannel item1, MessageChannel item2)
+        public static bool operator ==(SpecsMessageChannel item1, SpecsMessageChannel item2)
         {
             return
                 CompareReferences(item1, item2) &&
                 item1.CompareContents(item2);
         }
 
-        public static bool operator !=(MessageChannel item1, MessageChannel item2)
+        public static bool operator !=(SpecsMessageChannel item1, SpecsMessageChannel item2)
         {
             return !(item1 == item2);
         }
     }
     #pragma warning restore 0660
 }
+

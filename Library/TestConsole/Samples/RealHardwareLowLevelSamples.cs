@@ -82,24 +82,26 @@ namespace CtLab.TestConsole
                 connection.Open(_portName);
 
                 // Send a command via the configured string sender.
-                var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary<MessageChannel>>();
-                var setCommandClass = new SetCommandClass<MessageChannel>(new MessageChannel(_channel, 1));
+                var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary>();
+                var setCommandChannel = new MessageChannel(_channel, 1);
+                var setCommandClass = new SetCommandClass(setCommandChannel);
                 setCommandDictionary.Add(setCommandClass);
                 setCommandClass.SetValue(128);
                 Console.WriteLine("Sending command, channel {0}/{1}, raw value {2}",
-                                  setCommandClass.Channel.Main,
-                                  setCommandClass.Channel.Sub,
-                                  setCommandClass.RawValue);
+                    setCommandChannel.Main,
+                    setCommandChannel.Sub,
+                    setCommandClass.RawValue);
                 setCommandDictionary.SendCommandsForModifiedValues();
 
                 // Prepare to receive messages of subchannel 255 via the configured string receiver.
-                var messageCache = container.GetInstance<IMessageCache<MessageChannel>>();
-                var messageContainer = messageCache.Register(new MessageChannel(_channel, 255));
+                var messageCache = container.GetInstance<IMessageCache>();
+                var messageChannel = new MessageChannel(_channel, 255);
+                var messageContainer = messageCache.Register(messageChannel);
                 messageContainer.MessageUpdated +=
                     (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                                                     messageContainer.Message.Channel.Main,
-                                                     messageContainer.Message.Channel.Sub,
-                                                     messageContainer.Message.RawValue);
+                        messageChannel.Main,
+                        messageChannel.Sub,
+                        messageContainer.Message.RawValue);
 
                 Console.WriteLine("For the next seconds, operate the c´t Lab panels to generate messages...");
 

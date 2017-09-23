@@ -28,7 +28,7 @@ namespace CtLab.CtLabProtocol.Standard
     /// Listens to c't Lab devices and, for each string received, converts that string to one or
     /// more messages, and raises one event per message.
     /// </summary>
-    public class MessageReceiver : MessageReceiverBase<MessageChannel>
+    public class MessageReceiver : MessageReceiverBase
     {
         /// <summary>
         /// Initializes an instance of this class.
@@ -46,7 +46,7 @@ namespace CtLab.CtLabProtocol.Standard
                     // raise an event for each message.
                     foreach (var message in messageParser.Parse(e.ReceivedString))
                     {
-                        RaiseMessageReceived(this, new MessageReceivedEventArgs<MessageChannel>(message));
+                        RaiseMessageReceived(this, new MessageReceivedEventArgs(message));
                     }
                 };
         }

@@ -22,8 +22,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Represents set commands that can be sent e.g. to set values or options.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class SetCommandClass<TMessageChannel> : CommandClassBase<TMessageChannel>, IChannelValueSetter
+    public class SetCommandClass : CommandClassBase, IChannelValueSetter
     {
         private string _rawValue;
 
@@ -62,7 +61,7 @@ namespace CtLab.Messages.Interfaces
         /// <param name="channel">
         /// The channel the commands are sent to.
         /// </param>
-        public SetCommandClass(TMessageChannel channel)
+        public SetCommandClass(IMessageChannel channel)
             : base(channel)
         {
         }

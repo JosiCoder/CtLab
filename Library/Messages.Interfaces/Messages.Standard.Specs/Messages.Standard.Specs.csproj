@@ -55,10 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\QueryCommandSchedulerSpecs.cs" />
     <Compile Include="Commands\SetCommandClassSpecs.cs" />
-    <Compile Include="Helper\MessageChannel.cs" />
     <Compile Include="Commands\SetCommandDictionarySpecs.cs" />
     <Compile Include="Messages\MessageSpecs.cs" />
     <Compile Include="Messages\ReceivedMessagesCacheSpecs.cs" />
+    <Compile Include="Helper\SpecsMessageChannel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

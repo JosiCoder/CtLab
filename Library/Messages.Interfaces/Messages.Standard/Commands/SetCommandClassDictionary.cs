@@ -24,14 +24,13 @@ namespace CtLab.Messages.Standard
     /// Maintains a unique set command class for each channel.
     /// Sends some or all set commands to get the devices in sync.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class SetCommandClassDictionary<TMessageChannel> : CommandClassDictionaryBase<SetCommandClass<TMessageChannel>, TMessageChannel>, ISetCommandClassDictionary<TMessageChannel>
+    public class SetCommandClassDictionary : CommandClassDictionaryBase<SetCommandClass>, ISetCommandClassDictionary
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="commandSender">The command sender used to send the commands.</param>
-        public SetCommandClassDictionary(ICommandSender<SetCommandClass<TMessageChannel>, TMessageChannel> commandSender)
+        public SetCommandClassDictionary(ICommandSender<SetCommandClass> commandSender)
             : base(commandSender)
         {
         }

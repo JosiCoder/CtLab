@@ -26,30 +26,30 @@ namespace CtLab.Device.Base
     /// </summary>
     public class DeviceConnection
     {
-        private readonly ISetCommandClassDictionary<MessageChannel> _setCommandClassDictionary;
-        private readonly IQueryCommandClassDictionary<MessageChannel> _queryCommandClassDictionary;
-        private readonly IMessageCache<MessageChannel> _receivedMessagesCache;
+        private readonly ISetCommandClassDictionary _setCommandClassDictionary;
+        private readonly IQueryCommandClassDictionary _queryCommandClassDictionary;
+        private readonly IMessageCache _receivedMessagesCache;
 
         /// <summary>
-        /// The number of the main channel assigned to the c't Lab device controlled by this instance.
+        /// The number of the mainchannel assigned to the c't Lab device controlled by this instance.
         /// </summary>
-        public readonly byte MainChannel;
+        public readonly byte Mainchannel;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="mainChannel">
-        /// The number of the main channel assigned to the c't Lab device controlled by this instance.
+        /// <param name="mainchannel">
+        /// The number of the mainchannel assigned to the c't Lab device controlled by this instance.
         /// </param>
         /// <param name="setCommandClassDictionary">The dictonary used for the set command classes.</param>
         /// <param name="queryCommandClassDictionary">The dictonary used for the query command classes.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
-        public DeviceConnection(byte mainChannel, ISetCommandClassDictionary<MessageChannel> setCommandClassDictionary, IQueryCommandClassDictionary<MessageChannel> queryCommandClassDictionary, IMessageCache<MessageChannel> receivedMessagesCache)
+        public DeviceConnection(byte mainchannel, ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandClassDictionary queryCommandClassDictionary, IMessageCache receivedMessagesCache)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandClassDictionary = queryCommandClassDictionary;
             _receivedMessagesCache = receivedMessagesCache;
-            MainChannel = mainChannel;
+            Mainchannel = mainchannel;
         }
 
         /// <summary>
@@ -67,9 +67,15 @@ namespace CtLab.Device.Base
         /// </summary>
         private void Detach()
         {
-            _setCommandClassDictionary.RemoveChannelCommands(key => key.Main == MainChannel);
-            _queryCommandClassDictionary.RemoveChannelCommands(key => key.Main == MainChannel);
-            _receivedMessagesCache.UnregisterMessageChannels(key => key.Main == MainChannel);
+            Func<IMessageChannel, bool> sameMainchannelPredicate = channel =>
+            {
+                var ctLabChannel = channel as MessageChannel;
+                return ctLabChannel != null && ctLabChannel.Main == Mainchannel;
+            };
+
+            _setCommandClassDictionary.RemoveChannelCommands(sameMainchannelPredicate);
+            _queryCommandClassDictionary.RemoveChannelCommands(sameMainchannelPredicate);
+            _receivedMessagesCache.UnregisterMessageChannels(sameMainchannelPredicate);
         }
 
         /// <summary>
@@ -79,9 +85,9 @@ namespace CtLab.Device.Base
         /// The subchannel number corresponding to the commands sent.
         /// </param>
         /// <returns>The set command class.</returns>
-        public SetCommandClass<MessageChannel> BuildAndRegisterSetCommandClass(ushort subchannel)
+        public SetCommandClass BuildAndRegisterSetCommandClass(ushort subchannel)
         {
-            var commandClass = new SetCommandClass<MessageChannel>(new MessageChannel(MainChannel, subchannel));
+            var commandClass = new SetCommandClass(new MessageChannel(Mainchannel, subchannel));
             _setCommandClassDictionary.Add(commandClass);
             return commandClass;
         }
@@ -93,9 +99,9 @@ namespace CtLab.Device.Base
         /// The subchannel number corresponding to the commands sent.
         /// </param>
         /// <returns>The query command class.</returns>
-        public QueryCommandClass<MessageChannel> BuildAndRegisterQueryCommandClass(ushort subchannel)
+        public QueryCommandClass BuildAndRegisterQueryCommandClass(ushort subchannel)
         {
-            var commandClass = new QueryCommandClass<MessageChannel>(new MessageChannel(MainChannel, subchannel));
+            var commandClass = new QueryCommandClass(new MessageChannel(Mainchannel, subchannel));
             _queryCommandClassDictionary.Add(commandClass);
             return commandClass;
         }
@@ -108,9 +114,9 @@ namespace CtLab.Device.Base
         /// The subchannel to register.
         /// </param>
         /// <returns>The message container.</returns>
-        public IMessageContainer<MessageChannel> RegisterMessage(ushort subchannel)
+        public IMessageContainer RegisterMessage(ushort subchannel)
         {
-            return _receivedMessagesCache.Register(new MessageChannel(MainChannel, subchannel));
+            return _receivedMessagesCache.Register(new MessageChannel(Mainchannel, subchannel));
         }
     }
 }

@@ -23,13 +23,13 @@ namespace CtLab.Messages.Interfaces
     /// Provides data for the MessageReceived event.
     /// </summary>
     /// <param name="messageReceiver">The message receiver used to receive the messages.</param>
-    public class MessageReceivedEventArgs<TMessageChannel> : EventArgs
+    public class MessageReceivedEventArgs : EventArgs
     {
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         /// <param name="message">The received message.</param>
-        public MessageReceivedEventArgs(Message<TMessageChannel> message)
+        public MessageReceivedEventArgs(Message message)
         {
             Message = message;
         }
@@ -37,6 +37,6 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// Gets or sets the received message.
         /// </summary>
-        public Message<TMessageChannel> Message;
+        public Message Message;
     }
 }

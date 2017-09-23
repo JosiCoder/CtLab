@@ -27,9 +27,9 @@ namespace CtLab.Messages.Standard.Specs
     public abstract class MessageSpecs
         : SpecsFor<object>
     {
-        protected Message<MessageChannel> _message = new Message<MessageChannel>
+        protected Message _message = new Message
                             {
-                                Channel = new MessageChannel(7),
+                                Channel = new SpecsMessageChannel(7),
                                 RawValue = "0",
                                 Description = "DSCR"
                             };

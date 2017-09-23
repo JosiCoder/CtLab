@@ -23,8 +23,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Represents a message received from a certain message channel.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class Message<TMessageChannel>
+    public class Message
     {
         /// <summary>
         /// Determines whether the value of the message is equal to that of
@@ -32,7 +31,7 @@ namespace CtLab.Messages.Interfaces
         /// </summary>
         /// <param name="otherMessage">The message to compare with.</param>
         /// <returns>A value indicating whether the message values are equal.</returns>
-        public bool ValueEquals (Message<TMessageChannel> otherMessage)
+        public bool ValueEquals (Message otherMessage)
         {
             return RawValue == otherMessage.RawValue;
         }
@@ -40,7 +39,7 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// The channel the message comes from.
         /// </summary>
-        public TMessageChannel Channel;
+        public IMessageChannel Channel;
 
         /// <summary>
         /// The raw (unconverted) message value.

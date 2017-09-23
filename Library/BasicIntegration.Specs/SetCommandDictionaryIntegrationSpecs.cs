@@ -58,8 +58,8 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_get_the_same_instance()
         {
-            var instance1 = SUT.GetInstance<ISetCommandClassDictionary<MessageChannel>>();
-            var instance2 = SUT.GetInstance<ISetCommandClassDictionary<MessageChannel>>();
+            var instance1 = SUT.GetInstance<ISetCommandClassDictionary>();
+            var instance2 = SUT.GetInstance<ISetCommandClassDictionary>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -70,8 +70,8 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary<MessageChannel>>();
-            var setCommandClass = new SetCommandClass<MessageChannel>(new MessageChannel(1, 11));
+            var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary>();
+            var setCommandClass = new SetCommandClass(new MessageChannel(1, 11));
             setCommandCLassDict.Add(setCommandClass);
             setCommandClass.SetValue(15);
             setCommandCLassDict.SendCommandsForModifiedValues();

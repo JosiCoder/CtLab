@@ -25,7 +25,7 @@ namespace CtLab.CtLabProtocol.Standard
     /// <summary>
     /// Builds strings from commands that can be be sent to c't Lab devices.
     /// </summary>
-    public class CommandStringBuilder : ISetCommandStringBuilder<MessageChannel>, IQueryCommandStringBuilder<MessageChannel>
+    public class CommandStringBuilder : ISetCommandStringBuilder, IQueryCommandStringBuilder
     {
         private const string _setCommandWithChannelFormatString = "{0}:{1}={2}";
         private const string _setCommandWithoutChannelFormatString = "{1}={2}";
@@ -71,7 +71,7 @@ namespace CtLab.CtLabProtocol.Standard
         /// </summary>
         /// <param name="commandClass">The command class to build the command string for.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(SetCommandClass<MessageChannel> commandClass)
+        public string BuildCommand(SetCommandClass commandClass)
         {
             return BuildCommand(commandClass, false, false);
         }
@@ -83,31 +83,36 @@ namespace CtLab.CtLabProtocol.Standard
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
         /// <param name="requestAcknowledge">true to request an acknowledge from the receiver; otherwiese, false.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(SetCommandClass<MessageChannel> commandClass, bool generateChecksum, bool requestAcknowledge)
+        public string BuildCommand(SetCommandClass commandClass, bool generateChecksum, bool requestAcknowledge)
         {
-            string formatString;
+            var messageChannel = commandClass.Channel as MessageChannel;
+            if (messageChannel == null)
+            {
+                throw new InvalidOperationException ("Message channel is not supported");
+            }
 
-            if (commandClass.Channel.Main == DefaultChannel)
+            string formatString;
+            if (messageChannel.Main == DefaultChannel)
                 formatString = _setCommandWithoutChannelFormatString;
             else
-                formatString = (commandClass.Channel.Main == BroadcastChannel)
+                formatString = (messageChannel.Main == BroadcastChannel)
                     ? _setCommandWithBroadcastChannelFormatString
                     : _setCommandWithChannelFormatString;
 
             // Generate basic command string.
             var commandString = String.Format(CultureInfo.InvariantCulture, formatString,
-                                                 commandClass.Channel.Main, commandClass.Channel.Sub, commandClass.RawValue);
+                messageChannel.Main, messageChannel.Sub, commandClass.RawValue);
 
             // Optionally add acknowledge request.
             commandString = requestAcknowledge
-                                ? String.Format(_commandWithAcknowledgeRequestFormatString, commandString)
-                                : commandString;
+                ? String.Format(_commandWithAcknowledgeRequestFormatString, commandString)
+                : commandString;
 
             // Optionally add checksum.
             commandString = generateChecksum
-                                ? String.Format(_commandWithChecksumFormatString, commandString,
-                                                ChecksumCalculator.Calculate(commandString))
-                                : commandString;
+                ? String.Format(_commandWithChecksumFormatString, commandString,
+                    ChecksumCalculator.Calculate(commandString))
+                : commandString;
 
             return commandString;
         }
@@ -117,7 +122,7 @@ namespace CtLab.CtLabProtocol.Standard
         /// </summary>
         /// <param name="commandClass">The command class to build the command string for.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(QueryCommandClass<MessageChannel> commandClass)
+        public string BuildCommand(QueryCommandClass commandClass)
         {
             return BuildCommand(commandClass, false);
         }
@@ -128,26 +133,31 @@ namespace CtLab.CtLabProtocol.Standard
         /// <param name="commandClass">The command class to build the string for.</param>
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
         /// <returns>The built command string.</returns>
-        public string BuildCommand(QueryCommandClass<MessageChannel> commandClass, bool generateChecksum)
+        public string BuildCommand(QueryCommandClass commandClass, bool generateChecksum)
         {
-            string formatString;
+            var messageChannel = commandClass.Channel as MessageChannel;
+            if (messageChannel == null)
+            {
+                throw new InvalidOperationException ("Message channel is not supported");
+            }
 
-            if (commandClass.Channel.Main == DefaultChannel)
+            string formatString;
+            if (messageChannel.Main == DefaultChannel)
                 formatString = _queryCommandWithoutChannelFormatString;
             else
-                formatString = (commandClass.Channel.Main == BroadcastChannel)
+                formatString = (messageChannel.Main == BroadcastChannel)
                     ? _queryCommandWithBroadcastChannelFormatString
                     : _queryCommandWithChannelFormatString;
 
             // Generate basic command string.
             var commandString = String.Format(CultureInfo.InvariantCulture,
-                formatString, commandClass.Channel.Main, commandClass.Channel.Sub);
+                formatString, messageChannel.Main, messageChannel.Sub);
 
             // Optionally add checksum.
             commandString = generateChecksum
-                                ? String.Format(_commandWithChecksumFormatString, commandString,
-                                                ChecksumCalculator.Calculate(commandString))
-                                : commandString;
+                ? String.Format(_commandWithChecksumFormatString, commandString,
+                    ChecksumCalculator.Calculate(commandString))
+                : commandString;
 
             return commandString;
         }

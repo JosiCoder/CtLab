@@ -21,8 +21,7 @@ namespace CtLab.Messages.Interfaces
     /// Provides facilities to schedule query commands contained in a query command
     /// dictionary, i.e. to send them periodically.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface IQueryCommandScheduler<TMessageChannel>
+    public interface IQueryCommandScheduler
     {
         /// <summary>
         /// Gets an object that can be used to synchronize access to the current object
@@ -35,7 +34,7 @@ namespace CtLab.Messages.Interfaces
         /// When scheduling is activated, this dictionary will be periodically accessed
         /// asynchronously, i.e. from a different thread.
         /// </summary>
-        IQueryCommandClassDictionary<TMessageChannel> CommandClassDictionary { get ; }
+        IQueryCommandClassDictionary CommandClassDictionary { get ; }
 
         /// <summary>
         /// Sends all scheduled commands immediately.

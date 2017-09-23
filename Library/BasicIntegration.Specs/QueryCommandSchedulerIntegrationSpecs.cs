@@ -58,8 +58,8 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_return_the_same_instance()
         {
-            var instance1 = SUT.GetInstance<IQueryCommandScheduler<MessageChannel>>();
-            var instance2 = SUT.GetInstance<IQueryCommandScheduler<MessageChannel>>();
+            var instance1 = SUT.GetInstance<IQueryCommandScheduler>();
+            var instance2 = SUT.GetInstance<IQueryCommandScheduler>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -70,11 +70,11 @@ namespace CtLab.BasicIntegration.Specs
     {
         protected override void When()
         {
-            var queryCommandDictionary = SUT.GetInstance<IQueryCommandClassDictionary<MessageChannel>>();
-            var queryCommand = new QueryCommandClass<MessageChannel>(new MessageChannel(1, 11));
+            var queryCommandDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
+            var queryCommand = new QueryCommandClass(new MessageChannel(1, 11));
             queryCommandDictionary.Add(queryCommand);
             
-            var queryCommandScheduler = SUT.With(queryCommandDictionary).GetInstance<IQueryCommandScheduler<MessageChannel>>();
+            var queryCommandScheduler = SUT.With(queryCommandDictionary).GetInstance<IQueryCommandScheduler>();
             queryCommandScheduler.SendImmediately();
         }
 

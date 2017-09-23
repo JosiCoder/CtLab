@@ -24,14 +24,13 @@ namespace CtLab.Messages.Standard
     /// Maintains a unique query command class for each channel.
     /// Sends some or all query commands to get the devices in sync.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class QueryCommandClassDictionary<TMessageChannel> : CommandClassDictionaryBase<QueryCommandClass<TMessageChannel>, TMessageChannel>, IQueryCommandClassDictionary<TMessageChannel>
+    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(ICommandSender<QueryCommandClass<TMessageChannel>, TMessageChannel> commandSender)
+        public QueryCommandClassDictionary(ICommandSender<QueryCommandClass> commandSender)
             : base(commandSender)
         {
         }

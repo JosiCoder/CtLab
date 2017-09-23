@@ -22,13 +22,12 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides the base functionality for command classes.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public abstract class CommandClassBase<TMessageChannel>
+    public abstract class CommandClassBase
     {
         /// <summary>
         /// The channel the commands are sent to.
         /// </summary>
-        public TMessageChannel Channel;
+        public IMessageChannel Channel;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -36,7 +35,7 @@ namespace CtLab.Messages.Interfaces
         /// <param name="channel">
         /// The channel the commands are sent to.
         /// </param>
-        protected CommandClassBase(TMessageChannel channel)
+        protected CommandClassBase(IMessageChannel channel)
         {
             Channel = channel;
         }

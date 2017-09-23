@@ -25,18 +25,17 @@ namespace CtLab.Messages.Standard
     /// <summary>
     /// Holds the most-recently received messages for sources registered for message caching.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public class ReceivedMessagesCache<TMessageChannel> : IMessageCache<TMessageChannel>
+    public class ReceivedMessagesCache : IMessageCache
     {
-        private readonly IMessageReceiver<TMessageChannel> _messageReceiver;
-        private readonly Dictionary<TMessageChannel, MessageContainer<TMessageChannel>> _messageDictionary
-            = new Dictionary<TMessageChannel, MessageContainer<TMessageChannel>>();
+        private readonly IMessageReceiver _messageReceiver;
+        private readonly Dictionary<IMessageChannel, MessageContainer> _messageDictionary
+            = new Dictionary<IMessageChannel, MessageContainer>();
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="messageReceiver">The message receiver used to receive the messages.</param>
-        public ReceivedMessagesCache(IMessageReceiver<TMessageChannel> messageReceiver)
+        public ReceivedMessagesCache(IMessageReceiver messageReceiver)
         {
             _messageReceiver = messageReceiver;
             _messageReceiver.MessageReceived += (sender, e) => UpdateMessage(e.Message);
@@ -50,10 +49,10 @@ namespace CtLab.Messages.Standard
         /// The message channel to register.
         /// </param>
         /// <returns>The message container for the specified message channel.</returns>
-        public IMessageContainer<TMessageChannel> Register(TMessageChannel messageChannel)
+        public IMessageContainer Register(IMessageChannel messageChannel)
         {
             // Add a container holding a default message to the dictionary.
-            var container = new MessageContainer<TMessageChannel>(messageChannel);
+            var container = new MessageContainer(messageChannel);
             _messageDictionary.Add(messageChannel, container);
             return container;
         }
@@ -62,7 +61,7 @@ namespace CtLab.Messages.Standard
         /// Unregisters all message channels that meet the specified predicate from caching.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void UnregisterMessageChannels(Func<TMessageChannel, bool> predicate)
+        public void UnregisterMessageChannels(Func<IMessageChannel, bool> predicate)
         {
             var affectedKeys = (from key in _messageDictionary.Keys
                                 where predicate(key)
@@ -82,7 +81,7 @@ namespace CtLab.Messages.Standard
         /// The message channel to get the message container for.
         /// </param>
         /// <returns>The message container.</returns>
-        public IMessageContainer<TMessageChannel> GetMessageContainer(TMessageChannel messageChannel)
+        public IMessageContainer GetMessageContainer(IMessageChannel messageChannel)
         {
             return _messageDictionary[messageChannel];
         }
@@ -95,7 +94,7 @@ namespace CtLab.Messages.Standard
         /// <returns>
         /// The container of the updated message or null for unregistered message channels.
         /// </returns>
-        public IMessageContainer<TMessageChannel> UpdateMessage(Message<TMessageChannel> message)
+        public IMessageContainer UpdateMessage(Message message)
         {
             var key = message.Channel;
             if (_messageDictionary.ContainsKey(key))

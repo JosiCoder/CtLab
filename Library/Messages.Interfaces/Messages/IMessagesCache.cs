@@ -22,8 +22,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to access cached messages.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface IMessageCache<TMessageChannel>
+    public interface IMessageCache
     {
         /// <summary>
         /// Registers a message channel for caching and returns the message container
@@ -33,13 +32,13 @@ namespace CtLab.Messages.Interfaces
         /// The message channel to register.
         /// </param>
         /// <returns>The message container for the specified message channel.</returns>
-        IMessageContainer<TMessageChannel> Register(TMessageChannel messageChannel);
+        IMessageContainer Register(IMessageChannel messageChannel);
 
         /// <summary>
         /// Unregisters all message channels that meet the specified predicate from caching.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        void UnregisterMessageChannels(Func<TMessageChannel, bool> predicate);
+        void UnregisterMessageChannels(Func<IMessageChannel, bool> predicate);
 
         /// <summary>
         /// Gets the message container for the specified message channel.
@@ -48,6 +47,6 @@ namespace CtLab.Messages.Interfaces
         /// The message channel to get the message container for.
         /// </param>
         /// <returns>The message container.</returns>
-        IMessageContainer<TMessageChannel> GetMessageContainer(TMessageChannel messageChannel);
+        IMessageContainer GetMessageContainer(IMessageChannel messageChannel);
     }
 }

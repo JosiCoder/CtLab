@@ -26,20 +26,19 @@ namespace CtLab.Messages.Standard
     /// Provides the base functionality for command class dictionaries.
     /// </summary>
     /// <typeparam name="TCommandClass">The type of the command classes in the dictionary.</typeparam>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public abstract class CommandClassDictionaryBase<TCommandClass, TMessageChannel> : ICommandClassDictionary<TCommandClass, TMessageChannel>
-        where TCommandClass : CommandClassBase<TMessageChannel>
+    public abstract class CommandClassDictionaryBase<TCommandClass> : ICommandClassDictionary<TCommandClass>
+        where TCommandClass : CommandClassBase
     {
         protected struct CommandClassKey
         {
-            public CommandClassKey(CommandClassBase<TMessageChannel> commandClass)
+            public CommandClassKey(CommandClassBase commandClass)
             {
                 Channel = commandClass.Channel;
             }
-            public TMessageChannel Channel;
+            public IMessageChannel Channel;
         }
 
-        protected readonly ICommandSender<TCommandClass, TMessageChannel> _commandSender;
+        protected readonly ICommandSender<TCommandClass> _commandSender;
         protected readonly Dictionary<CommandClassKey, TCommandClass> _commandClassDictionary
             = new Dictionary<CommandClassKey, TCommandClass>();
 
@@ -47,7 +46,7 @@ namespace CtLab.Messages.Standard
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="commandSender">The command sender used to send the commands.</param>
-        protected CommandClassDictionaryBase(ICommandSender<TCommandClass, TMessageChannel> commandSender)
+        protected CommandClassDictionaryBase(ICommandSender<TCommandClass> commandSender)
         {
             _commandSender = commandSender;
         }
@@ -79,7 +78,7 @@ namespace CtLab.Messages.Standard
         /// Removes the commands for all channels that meet the specified predicate.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void RemoveChannelCommands(Func<TMessageChannel, bool> predicate)
+        public void RemoveChannelCommands(Func<IMessageChannel, bool> predicate)
         {
             var affectedKeys = (from key in _commandClassDictionary.Keys
                                 where predicate(key.Channel)

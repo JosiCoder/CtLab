@@ -29,7 +29,7 @@ namespace CtLab.CtLabProtocol.Standard.Specs
     public abstract class MessageParserSpecs
         : SpecsFor<MessageParser>
     {
-        protected Message<MessageChannel>[] _message;
+        protected Message[] _message;
     }
 
     public class When_parsing_a_single_line_message_string
@@ -45,13 +45,9 @@ namespace CtLab.CtLabProtocol.Standard.Specs
         {
             _message.ShouldLookLike(new[]
             {
-                new Message<MessageChannel>  
+                new Message  
                 {
-                    Channel = new MessageChannel
-                    {
-                        Main = 7,
-                        Sub = 255,
-                    },
+                    Channel = new MessageChannel(7, 255),
                     RawValue = "33",
                     Description = "DSCR"
                 }
@@ -73,23 +69,15 @@ namespace CtLab.CtLabProtocol.Standard.Specs
         {
             _message.ShouldLookLike(new[]
             {
-                new Message<MessageChannel>  
+                new Message  
                 {
-                    Channel = new MessageChannel
-                    {
-                        Main = 7,
-                        Sub = 255,
-                    },
+                    Channel = new MessageChannel(7, 255),
                     RawValue = "33",
                     Description = "DSCR"
                 },
-                new Message<MessageChannel>  
+                new Message  
                 {
-                    Channel = new MessageChannel
-                    {
-                        Main = 6,
-                        Sub = 254,
-                    },
+                    Channel = new MessageChannel(6, 254),
                     RawValue = "22",
                     Description = "NEXT"
                 }

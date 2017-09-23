@@ -25,11 +25,11 @@ using CtLab.Messages.Interfaces;
 namespace CtLab.Messages.Standard.Specs
 {
     public abstract class SetCommandClassSpecs
-        : SpecsFor<SetCommandClass<MessageChannel>>
+        : SpecsFor<SetCommandClass>
     {
         protected override void InitializeClassUnderTest()
         {
-            SUT = new SetCommandClass<MessageChannel>(new MessageChannel(7));
+            SUT = new SetCommandClass(new SpecsMessageChannel(7));
         }
     }
 

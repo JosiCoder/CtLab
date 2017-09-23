@@ -20,8 +20,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to operate on a cache holding set command classes.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface ISetCommandClassDictionary<TMessageChannel> : ICommandClassDictionary<SetCommandClass<TMessageChannel>, TMessageChannel>
+    public interface ISetCommandClassDictionary : ICommandClassDictionary<SetCommandClass>
     {
         /// <summary>
         /// Sends commands for all command classes that have modified values.

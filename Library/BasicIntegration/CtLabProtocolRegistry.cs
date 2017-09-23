@@ -35,45 +35,45 @@ namespace CtLab.BasicIntegration
         {
             // === Set commands ===
 
-            For<ISetCommandClassDictionary<MessageChannel>>()
+            For<ISetCommandClassDictionary>()
                 .Singleton()
-                .Use<SetCommandClassDictionary<MessageChannel>>();
+                .Use<SetCommandClassDictionary>();
 
-            For<ISetCommandSender<MessageChannel>>()
+            For<ISetCommandSender>()
                 .Singleton()
                 .Use<SetCommandSender>();
 
-            For<ISetCommandStringBuilder<MessageChannel>>()
+            For<ISetCommandStringBuilder>()
                 .Singleton()
                 .Use<CommandStringBuilder>();
 
 
             // === Query commands ===
 
-            For<IQueryCommandScheduler<MessageChannel>>()
+            For<IQueryCommandScheduler>()
                 .Singleton()
-                .Use<QueryCommandScheduler<MessageChannel>>();
+                .Use<QueryCommandScheduler>();
 
-            For<IQueryCommandClassDictionary<MessageChannel>>()
+            For<IQueryCommandClassDictionary>()
                 .Singleton()
-                .Use<QueryCommandClassDictionary<MessageChannel>>();
+                .Use<QueryCommandClassDictionary>();
             
-            For<IQueryCommandSender<MessageChannel>>()
+            For<IQueryCommandSender>()
                 .Singleton()
                 .Use<QueryCommandSender>();
 
-            For<IQueryCommandStringBuilder<MessageChannel>>()
+            For<IQueryCommandStringBuilder>()
                 .Singleton()
                 .Use<CommandStringBuilder>();
 
 
             // === Received messages ===
 
-            For<IMessageCache<MessageChannel>>()
+            For<IMessageCache>()
                 .Singleton()
-                .Use<ReceivedMessagesCache<MessageChannel>>();
+                .Use<ReceivedMessagesCache>();
 
-            For<IMessageReceiver<MessageChannel>>()
+            For<IMessageReceiver>()
                 .Singleton()
                 .Use<MessageReceiver>();
 

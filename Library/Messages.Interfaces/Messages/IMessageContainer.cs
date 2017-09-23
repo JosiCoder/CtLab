@@ -23,14 +23,13 @@ namespace CtLab.Messages.Interfaces
     /// Provides facilities to hold and return a message received from a certain
     /// message channel.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface IMessageContainer<TMessageChannel>
+    public interface IMessageContainer
     {
         /// <summary>
         /// Gets the message.
         /// </summary>
         /// <returns>The message.</returns>
-        Message<TMessageChannel> Message {get;}
+        Message Message {get;}
 
         /// <summary>
         /// Occurs when the message has been updated.

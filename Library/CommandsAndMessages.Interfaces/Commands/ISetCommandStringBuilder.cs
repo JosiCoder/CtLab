@@ -23,8 +23,7 @@ namespace CtLab.CtLabProtocol.Interfaces
     /// Provides facilities to build strings from set commands that can be be sent
     /// to c't Lab devices.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface ISetCommandStringBuilder<TMessageChannel>
+    public interface ISetCommandStringBuilder
     {
         /// <summary>
         /// Gets a pseudo channel number used to specify that a command is to be sent
@@ -45,7 +44,7 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// </summary>
         /// <param name="commandClass">The command class to send a command for.</param>
         /// <returns>The built command string.</returns>
-        string BuildCommand(SetCommandClass<TMessageChannel> commandClass);
+        string BuildCommand(SetCommandClass commandClass);
 
         /// <summary>
 		/// Builds a set command string using the command classes' channel and subchannel.
@@ -54,6 +53,6 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// <param name="generateChecksum">true to append the checksum; otherwiese, false.</param>
         /// <param name="requestAcknowledge">true to request an acknowledge from the receiver; otherwiese, false.</param>
         /// <returns>The built command string.</returns>
-        string BuildCommand(SetCommandClass<TMessageChannel> commandClass, bool generateChecksum, bool requestAcknowledge);
+        string BuildCommand(SetCommandClass commandClass, bool generateChecksum, bool requestAcknowledge);
     }
 }

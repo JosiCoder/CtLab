@@ -20,8 +20,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to send a command.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface ICommandSender<TCommandClass, TMessageChannel> where TCommandClass : CommandClassBase<TMessageChannel>
+    public interface ICommandSender<TCommandClass> where TCommandClass : CommandClassBase
     {
         /// <summary>
         /// Sends a set command.
@@ -34,8 +33,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to send a command.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface ISetCommandSender<TMessageChannel> : ICommandSender<SetCommandClass<TMessageChannel>, TMessageChannel>
+    public interface ISetCommandSender : ICommandSender<SetCommandClass>
     {
     }
 
@@ -43,8 +41,7 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to send a command.
     /// </summary>
-    /// <typeparam name="TMessageChannel">The type of the message channel.</typeparam>
-    public interface IQueryCommandSender<TMessageChannel> : ICommandSender<QueryCommandClass<TMessageChannel>, TMessageChannel>
+    public interface IQueryCommandSender : ICommandSender<QueryCommandClass>
     {
     }
 }

@@ -84,8 +84,8 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_get_the_same_instance()
         {
-            var instance1 = SUT.GetInstance<IMessageCache<MessageChannel>>();
-            var instance2 = SUT.GetInstance<IMessageCache<MessageChannel>>();
+            var instance1 = SUT.GetInstance<IMessageCache>();
+            var instance2 = SUT.GetInstance<IMessageCache>();
             instance2.ShouldBeSameAs(instance1);
         }
     }
@@ -94,11 +94,11 @@ namespace CtLab.BasicIntegration.Specs
     public class When_signalling_a_received_string
             : ReceivedMessageCacheIntegrationInteractionSpecs
     {
-        private IMessageCache<MessageChannel> _messageCache;
+        private IMessageCache _messageCache;
 
         protected override void When()
         {
-            _messageCache = SUT.GetInstance<IMessageCache<MessageChannel>>();
+            _messageCache = SUT.GetInstance<IMessageCache>();
 
             _messageCache.Register(new MessageChannel(1, 255));
             _messageCache.Register(new MessageChannel(2, 255));
