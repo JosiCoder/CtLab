@@ -113,9 +113,10 @@ namespace CtLab.BasicIntegration.Specs
         [Test]
         public void then_the_SUT_should_update_the_messages_in_the_message_containers()
         {
-            _messageCache.GetMessageContainer(new MessageChannel(1, 255)).Message.RawValue.ShouldEqual("6");
-            _messageCache.GetMessageContainer(new MessageChannel(2, 255)).Message.RawValue.ShouldEqual("7");
-            _messageCache.GetMessageContainer(new MessageChannel(3, 255)).Message.RawValue.ShouldBeNull();
+            var channel = GetMockFor<IMessageChannel>().Object;
+            _messageCache.GetMessageContainer(new MessageChannel(1, 255)).Message.ValueEquals(new Message(channel, "6")).ShouldBeTrue();
+            _messageCache.GetMessageContainer(new MessageChannel(2, 255)).Message.ValueEquals(new Message(channel, "7")).ShouldBeTrue();
+            _messageCache.GetMessageContainer(new MessageChannel(3, 255)).Message.IsEmpty.ShouldBeTrue();
         }
 
         [Test]

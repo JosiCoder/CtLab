@@ -50,13 +50,15 @@ namespace CtLab.CtLabProtocol.Standard
             {
                 var groups = match.Groups;
                 var message = new Message
-                {
-                    Channel = new MessageChannel
                     (
-                        byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
-                        ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture)
-                    ),
-                    RawValue = groups["value"].Value,
+                        new MessageChannel
+                        (
+                            byte.Parse(groups["channel"].Value, CultureInfo.InvariantCulture),
+                            ushort.Parse(groups["subchannel"].Value, CultureInfo.InvariantCulture)
+                        ),
+                        groups["value"].Value
+                    )
+                {
                     Description = groups["description"].Value,
                 };
                 messageList.Add(message);

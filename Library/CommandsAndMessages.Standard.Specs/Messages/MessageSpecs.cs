@@ -21,20 +21,16 @@ using SpecsFor;
 using Should;
 using SpecsFor.ShouldExtensions;
 using CtLab.Messages.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
 
-namespace CtLab.Messages.Standard.Specs
+namespace CtLab.CtLabProtocol.Standard.Specs
 {
     public abstract class MessageSpecs
         : SpecsFor<Message>
     {
-        protected override void InitializeClassUnderTest()
+        protected override void InitializeClassUnderTest ()
         {
-            SUT = new Message
-            {
-                Channel = new SpecsMessageChannel (7),
-                RawValue = "0",
-                Description = "DSCR"
-            };
+            SUT = new Message (GetMockFor<IMessageChannel>().Object, "");
         }
     }
 

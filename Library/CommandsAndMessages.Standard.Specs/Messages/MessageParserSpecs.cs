@@ -45,10 +45,12 @@ namespace CtLab.CtLabProtocol.Standard.Specs
         {
             _message.ShouldLookLike(new[]
             {
-                new Message  
+                new Message
+                    (
+                        new MessageChannel(7, 255),
+                        "33"
+                    )
                 {
-                    Channel = new MessageChannel(7, 255),
-                    RawValue = "33",
                     Description = "DSCR"
                 }
             });
@@ -69,16 +71,20 @@ namespace CtLab.CtLabProtocol.Standard.Specs
         {
             _message.ShouldLookLike(new[]
             {
-                new Message  
+                new Message
+                    (
+                        new MessageChannel(7, 255),
+                        "33"
+                    )
                 {
-                    Channel = new MessageChannel(7, 255),
-                    RawValue = "33",
                     Description = "DSCR"
                 },
-                new Message  
+                new Message
+                    (
+                        new MessageChannel(6, 254),
+                        "22"
+                    )
                 {
-                    Channel = new MessageChannel(6, 254),
-                    RawValue = "22",
                     Description = "NEXT"
                 }
             });

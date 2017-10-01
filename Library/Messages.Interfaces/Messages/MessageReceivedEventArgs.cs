@@ -29,7 +29,7 @@ namespace CtLab.Messages.Interfaces
         /// Initializes a new instance of this class.
         /// </summary>
         /// <param name="message">The received message.</param>
-        public MessageReceivedEventArgs(Message message)
+        public MessageReceivedEventArgs(IMessage message)
         {
             Message = message;
         }
@@ -37,6 +37,6 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// Gets or sets the received message.
         /// </summary>
-        public Message Message;
+        public IMessage Message;
     }
 }

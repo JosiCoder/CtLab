@@ -33,7 +33,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messages\IMessageContainer.cs" />
-    <Compile Include="Messages\Message.cs" />
     <Compile Include="Messages\IMessagesCache.cs" />
     <Compile Include="Messages\MessageReceivedEventArgs.cs" />
     <Compile Include="Messages\IMessageReceiver.cs" />
@@ -48,6 +47,7 @@
     <Compile Include="Miscellaneous\IChannelValueSetter.cs" />
     <Compile Include="Messages\IMessageChannel.cs" />
     <Compile Include="Messages\MessageChannelBase.cs" />
+    <Compile Include="Messages\IMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -94,7 +94,7 @@ namespace CtLab.Messages.Standard
         /// <returns>
         /// The container of the updated message or null for unregistered message channels.
         /// </returns>
-        public IMessageContainer UpdateMessage(Message message)
+        public IMessageContainer UpdateMessage(IMessage message)
         {
             var key = message.Channel;
             if (_messageDictionary.ContainsKey(key))

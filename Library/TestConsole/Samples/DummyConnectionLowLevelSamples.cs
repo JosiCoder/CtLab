@@ -66,11 +66,12 @@ namespace CtLab.TestConsole
             var messageCache = container.GetInstance<IMessageCache>();
             var messageChannel = new MessageChannel(7, 255);
             var messageContainer = messageCache.Register(messageChannel);
+            var typedMessage = messageContainer.Message as Message;
             messageContainer.MessageUpdated +=
                 (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
                     messageChannel.Main,
                     messageChannel.Sub,
-                    messageContainer.Message.RawValue);
+                    typedMessage != null ? typedMessage.RawValue : "?");
 
             // Simulate receiving a message by injecting it into the configured dummy string receiver.
             ((DummyStringReceiver)container.GetInstance<IStringReceiver>())

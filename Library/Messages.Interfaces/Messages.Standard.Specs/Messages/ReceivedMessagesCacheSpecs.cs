@@ -106,7 +106,7 @@ namespace CtLab.Messages.Standard.Specs
             var container = SUT.GetMessageContainer(new SpecsMessageChannel(2));
             var message = container.Message;
             message.Channel.ShouldEqual(new SpecsMessageChannel(2));
-            message.RawValue.ShouldBeNull();
+            message.IsEmpty.ShouldBeTrue();
         }
     }
 
@@ -135,17 +135,17 @@ namespace CtLab.Messages.Standard.Specs
         protected override void When()
         {
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (1), RawValue = "HI!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (1), "HI!")));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (2), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (2), "Hello!")));
         }
 
         [Test]
         public void then_the_SUT_should_update_the_messages_in_the_message_containers()
         {
-            SUT.GetMessageContainer(new SpecsMessageChannel(1)).Message.RawValue.ShouldEqual("HI!");
-            SUT.GetMessageContainer(new SpecsMessageChannel(2)).Message.RawValue.ShouldEqual("Hello!");
-            SUT.GetMessageContainer(new SpecsMessageChannel(3)).Message.RawValue.ShouldBeNull();
+            SUT.GetMessageContainer(new SpecsMessageChannel(1)).Message.ValueEquals(new SpecsMessage("HI!")).ShouldBeTrue();
+            SUT.GetMessageContainer(new SpecsMessageChannel(2)).Message.ValueEquals(new SpecsMessage("Hello!")).ShouldBeTrue();
+            SUT.GetMessageContainer(new SpecsMessageChannel(3)).Message.IsEmpty.ShouldBeTrue();
         }
 
         [Test]
@@ -165,25 +165,25 @@ namespace CtLab.Messages.Standard.Specs
         {
             // Message with one update.
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (1), RawValue = "HI!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (1), "HI!")));
             // Message with two identical (i.e. redudant) updates.
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (2), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (2), "Hello!")));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (2), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (2), "Hello!")));
             // Message with two real (i.e. non-redudant) updates.
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (3), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (3), "Hello!")));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (3), RawValue = "Hello again!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (3), "Hello again!")));
         }
 
         [Test]
         public void then_the_SUTs_message_containers_should_contain_the_most_recently_received_messages()
         {
-            SUT.GetMessageContainer(new SpecsMessageChannel(1)).Message.RawValue.ShouldEqual("HI!");
-            SUT.GetMessageContainer(new SpecsMessageChannel(2)).Message.RawValue.ShouldEqual("Hello!");
-            SUT.GetMessageContainer(new SpecsMessageChannel(3)).Message.RawValue.ShouldEqual("Hello again!");
+            SUT.GetMessageContainer(new SpecsMessageChannel(1)).Message.ValueEquals(new SpecsMessage("HI!")).ShouldBeTrue();
+            SUT.GetMessageContainer(new SpecsMessageChannel(2)).Message.ValueEquals(new SpecsMessage("Hello!")).ShouldBeTrue();
+            SUT.GetMessageContainer(new SpecsMessageChannel(3)).Message.ValueEquals(new SpecsMessage("Hello again!")).ShouldBeTrue();
         }
 
         [Test]
@@ -212,19 +212,19 @@ namespace CtLab.Messages.Standard.Specs
         protected override void When()
         {
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (1), RawValue = "HI!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (1), "HI!")));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (2), RawValue = "Hello!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (2), "Hello!")));
             _messageReceiverMock.Raise (messageReceiver => messageReceiver.MessageReceived += null,
-                new MessageReceivedEventArgs(new Message() { Channel = new SpecsMessageChannel (3), RawValue = "Hello again!" }));
+                new MessageReceivedEventArgs(new SpecsMessage(new SpecsMessageChannel (3), "Hello again!")));
         }
 
         [Test]
         public void then_the_SUT_should_update_the_messages_in_the_message_containers_for_registered_subchannels_but_none_else()
         {
-            _unregisteredMessageContainer.Message.RawValue.ShouldBeNull();
-            SUT.GetMessageContainer(new SpecsMessageChannel(2)).Message.RawValue.ShouldEqual("Hello!");
-            SUT.GetMessageContainer(new SpecsMessageChannel(3)).Message.RawValue.ShouldEqual("Hello again!");
+            _unregisteredMessageContainer.Message.IsEmpty.ShouldBeTrue();
+            SUT.GetMessageContainer(new SpecsMessageChannel(2)).Message.ValueEquals(new SpecsMessage("Hello!")).ShouldBeTrue();
+            SUT.GetMessageContainer(new SpecsMessageChannel(3)).Message.ValueEquals(new SpecsMessage("Hello again!")).ShouldBeTrue();
         }
 
         [Test]

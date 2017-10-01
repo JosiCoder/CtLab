@@ -17,29 +17,50 @@
 
 using System;
 using System.Globalization;
+using CtLab.Messages.Interfaces;
 
-namespace CtLab.Messages.Interfaces
+namespace CtLab.CtLabProtocol.Interfaces
 {
+//Klasse umbenennen?
     /// <summary>
     /// Represents a message received from a certain message channel.
     /// </summary>
-    public class Message
+    public class Message : IMessage
     {
+        /// <summary>
+        /// Initializes an instance of this class.
+        /// </summary>
+        /// <param name="channel">The channel the message belongs to.</param>
+        /// <param name="rawValue">The raw (unconverted) message value.</param>
+        public Message (IMessageChannel channel, string rawValue)
+        {
+            Channel = channel;
+            RawValue = rawValue;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this message is empty.
+        /// </summary>
+        public bool IsEmpty
+        { get { return false; } }
+
         /// <summary>
         /// Determines whether the value of the message is equal to that of
         /// the specified message.
         /// </summary>
         /// <param name="otherMessage">The message to compare with.</param>
         /// <returns>A value indicating whether the message values are equal.</returns>
-        public bool ValueEquals (Message otherMessage)
+        public bool ValueEquals (IMessage otherMessage)
         {
-            return RawValue == otherMessage.RawValue;
+            var other = otherMessage as Message;
+            return other != null && RawValue == other.RawValue;
         }
 
         /// <summary>
-        /// The channel the message comes from.
+        /// Gets the channel the message belongs to.
         /// </summary>
-        public IMessageChannel Channel;
+        public IMessageChannel Channel
+        { get; private set; }
 
         /// <summary>
         /// The raw (unconverted) message value.

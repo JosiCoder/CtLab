@@ -29,7 +29,7 @@ namespace CtLab.Messages.Interfaces
         /// Gets the message.
         /// </summary>
         /// <returns>The message.</returns>
-        Message Message {get;}
+        IMessage Message {get;}
 
         /// <summary>
         /// Occurs when the message has been updated.

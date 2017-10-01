@@ -26,7 +26,7 @@ namespace CtLab.Messages.Standard
     /// </summary>
     public class MessageContainer: IMessageContainer
     {
-        private Message _message = new Message();
+        private IMessage _message;
 
         /// <summary>
         /// Occurs when the message has been updated.
@@ -41,14 +41,14 @@ namespace CtLab.Messages.Standard
         /// </param>
         public MessageContainer(IMessageChannel messageChannel)
         {
-            _message.Channel = messageChannel;
+            _message = new EmptyMessage (messageChannel);
         }
 
         /// <summary>
         /// Gets the contained message.
         /// </summary>
         /// <returns>The message.</returns>
-        public Message Message
+        public IMessage Message
         {
             get { return _message; }
         }
@@ -57,7 +57,7 @@ namespace CtLab.Messages.Standard
         /// Updates the contained message.
         /// </summary>
         /// <param name="message">The new message.</param>
-        public void UpdateMessage(Message message)
+        public void UpdateMessage(IMessage message)
         {
             if (!message.ValueEquals(_message))
             {

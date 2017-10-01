@@ -43,6 +43,7 @@
     <Compile Include="Messages\MessageChannel.cs" />
     <Compile Include="Commands\IQueryCommandStringBuilder.cs" />
     <Compile Include="Commands\ISetCommandStringBuilder.cs" />
+    <Compile Include="Messages\Message.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
