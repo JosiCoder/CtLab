@@ -52,6 +52,8 @@ architecture stdarch of Main is
     -- Constants
     constant address_width: positive := 4; -- max. 8 (for addresses 0..255)
     constant number_of_data_buffers: positive := 2**address_width;
+    constant use_internal_spi: boolean := true;
+    constant use_external_spi: boolean := false;
 
     -- SPI interfaces
     type spi_in_type is record
@@ -97,11 +99,14 @@ begin
 
     -- Select the SPI bus to use.
     -- Note: The microcontroller of the c'Lab FPGA board accesses the SPI bus periodically
-    -- if one of the Param or Value screens is selected on the panel. Thus, while using
-    -- the external bus, set the panel to the file selection screen.
+    -- if one of the Param or Value screens is selected on the panel. Thus, when both
+    -- connections are activated, while using the external connections, set the panel to
+    -- the file selection screen.
     selected_spi_in <=
-        internal_spi_in when (internal_spi_in.ss_address = '0' or internal_spi_in.ss_data = '0') else
-        external_spi_in when (external_spi_in.ss_address = '0' or external_spi_in.ss_data = '0') else
+        internal_spi_in when use_internal_spi and
+                             (internal_spi_in.ss_address = '0' or internal_spi_in.ss_data = '0') else
+        external_spi_in when use_external_spi and
+                             (external_spi_in.ss_address = '0' or external_spi_in.ss_data = '0') else
         inactive_spi_in;
 
 
