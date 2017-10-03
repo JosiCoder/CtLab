@@ -20,7 +20,9 @@ namespace CtLab.Messages.Interfaces
     /// <summary>
     /// Provides facilities to send a command.
     /// </summary>
-    public interface ICommandSender<TCommandClass> where TCommandClass : CommandClassBase
+    /// <typeparam name="TCommandClass">The type of the command class to send.</typeparam>
+    public interface ICommandSender<TCommandClass>
+        where TCommandClass : CommandClassBase
     {
         /// <summary>
         /// Sends a set command.
