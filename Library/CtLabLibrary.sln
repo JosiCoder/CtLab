@@ -1,11 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{BEA875B8-E28A-49C5-8E7E-6512DA65F7E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{90BBC975-0E39-4A17-925A-D61E1D14858E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab Protocol", "ct Lab Protocol", "{12521C72-C17B-4F3F-9E2E-1A07D949D9F4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - ct Lab Protocol", "2 - ct Lab Protocol", "{12521C72-C17B-4F3F-9E2E-1A07D949D9F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ct Lab Message Handling", "ct Lab Message Handling", "{CAEAC26B-494E-47BF-94E3-E5E996638B04}"
 EndProject
@@ -33,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicIntegration", "BasicIn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicIntegration.Specs", "BasicIntegration.Specs\BasicIntegration.Specs.csproj", "{562569ED-CC4D-4AD6-BF94-7C638EFB5874}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FPGA", "FPGA", "{89A904B2-C615-40D8-9A6B-3A61304D23AA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - FPGA", "4 - FPGA", "{89A904B2-C615-40D8-9A6B-3A61304D23AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Signal Generator", "Signal Generator", "{2B80E9AD-D0C8-4884-988D-3C8AA21126B2}"
 EndProject
@@ -51,13 +47,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaConnection.CtLabProtoco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaConnection.SpiDirect", "FpgaConnection.SpiDirect\FpgaConnection.SpiDirect.csproj", "{662B4B2E-58F5-4A75-BD38-813DA4ECC948}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Appliance", "Appliance", "{AB9145E6-B8C3-4E97-8D70-C7D4D6823A5A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Appliance", "5 - Appliance", "{AB9145E6-B8C3-4E97-8D70-C7D4D6823A5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Environment", "Environment\Environment.csproj", "{1081F942-7E2F-416B-BE00-F5DEFF611093}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvironmentIntegration", "EnvironmentIntegration\EnvironmentIntegration.csproj", "{E7BBCA24-D650-4019-BC25-EE9AF25FD654}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generic Message Handling", "Generic Message Handling", "{1D6FB3C4-52C8-497B-B0A0-F574AF5A9314}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Generic Message Handling", "1 - Generic Message Handling", "{1D6FB3C4-52C8-497B-B0A0-F574AF5A9314}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messages", "Messages", "{CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}"
 EndProject
@@ -66,6 +62,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Standard", "Messages.Interfaces\Messages.Standard\Messages.Standard.csproj", "{998169A4-595A-4995-ACFA-010FB9C59191}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages.Standard.Specs", "Messages.Interfaces\Messages.Standard.Specs\Messages.Standard.Specs.csproj", "{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9 - Miscellaneous", "9 - Miscellaneous", "{C1F27D42-04C3-42B0-805B-514AB91861D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{90BBC975-0E39-4A17-925A-D61E1D14858E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - SPI Direct", "3 - SPI Direct", "{E64BC53F-6163-418B-B34D-DC241EED7025}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SPI Message Handling", "SPI Message Handling", "{30E1AF9C-610E-4598-AD45-C387BD9391A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiDirect.Interfaces", "SpiDirect.Interfaces\SpiDirect.Interfaces.csproj", "{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiDirect.Standard", "SpiDirect.Interfaces\SpiDirect.Standard\SpiDirect.Standard.csproj", "{95204BA9-C03C-466A-8998-F25CE02F2AB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiDirect.Standard.Specs", "SpiDirect.Interfaces\SpiDirect.Standard.Specs\SpiDirect.Standard.Specs.csproj", "{14A07C5C-007C-4BFC-AD46-7C41B00D8C3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{BEA875B8-E28A-49C5-8E7E-6512DA65F7E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +97,10 @@ Global
 		{1081F942-7E2F-416B-BE00-F5DEFF611093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1081F942-7E2F-416B-BE00-F5DEFF611093}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1081F942-7E2F-416B-BE00-F5DEFF611093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A07C5C-007C-4BFC-AD46-7C41B00D8C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A07C5C-007C-4BFC-AD46-7C41B00D8C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A07C5C-007C-4BFC-AD46-7C41B00D8C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A07C5C-007C-4BFC-AD46-7C41B00D8C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19AC8F27-095D-4E81-93F6-B32F37F1C975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19AC8F27-095D-4E81-93F6-B32F37F1C975}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19AC8F27-095D-4E81-93F6-B32F37F1C975}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +109,10 @@ Global
 		{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C5AAB9-88ED-43A4-BA90-CE7C7AB6F5A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{403DF8FB-8479-4546-AE27-707FBD5EC4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{403DF8FB-8479-4546-AE27-707FBD5EC4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{403DF8FB-8479-4546-AE27-707FBD5EC4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -129,6 +149,10 @@ Global
 		{90BBC975-0E39-4A17-925A-D61E1D14858E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90BBC975-0E39-4A17-925A-D61E1D14858E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90BBC975-0E39-4A17-925A-D61E1D14858E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95204BA9-C03C-466A-8998-F25CE02F2AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95204BA9-C03C-466A-8998-F25CE02F2AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95204BA9-C03C-466A-8998-F25CE02F2AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95204BA9-C03C-466A-8998-F25CE02F2AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{998169A4-595A-4995-ACFA-010FB9C59191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{998169A4-595A-4995-ACFA-010FB9C59191}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{998169A4-595A-4995-ACFA-010FB9C59191}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -190,6 +214,11 @@ Global
 		{87633C5D-333C-4CCE-899B-45ADB857C856} = {CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}
 		{998169A4-595A-4995-ACFA-010FB9C59191} = {CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}
 		{56B1AF6A-A161-4CD7-B771-0C9C0BD54A52} = {CB58A966-A2FA-4D45-A8B9-2EEF1D65C212}
+		{90BBC975-0E39-4A17-925A-D61E1D14858E} = {C1F27D42-04C3-42B0-805B-514AB91861D1}
+		{30E1AF9C-610E-4598-AD45-C387BD9391A4} = {E64BC53F-6163-418B-B34D-DC241EED7025}
+		{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C} = {30E1AF9C-610E-4598-AD45-C387BD9391A4}
+		{95204BA9-C03C-466A-8998-F25CE02F2AB5} = {30E1AF9C-610E-4598-AD45-C387BD9391A4}
+		{14A07C5C-007C-4BFC-AD46-7C41B00D8C3C} = {30E1AF9C-610E-4598-AD45-C387BD9391A4}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

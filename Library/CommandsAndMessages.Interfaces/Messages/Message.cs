@@ -21,7 +21,6 @@ using CtLab.Messages.Interfaces;
 
 namespace CtLab.CtLabProtocol.Interfaces
 {
-//Klasse umbenennen?
     /// <summary>
     /// Represents a message received from a certain message channel.
     /// </summary>
@@ -63,9 +62,10 @@ namespace CtLab.CtLabProtocol.Interfaces
         { get; private set; }
 
         /// <summary>
-        /// The raw (unconverted) message value.
+        /// Gets or sets the raw (unconverted) message value.
         /// </summary>
-        public string RawValue;
+        public string RawValue
+        { get; set; }
 
         /// <summary>
         /// The message description. This might be empty.

@@ -19,32 +19,22 @@ using System;
 using System.Globalization;
 using CtLab.Messages.Interfaces;
 
-namespace CtLab.Messages.Standard.Specs
+namespace CtLab.SpiDirect.Interfaces
 {
     /// <summary>
-    /// Specifies a message for testing purposes. This can also be used as an example
-    /// for developing own messages.
+    /// Represents a message received from a certain message channel.
     /// </summary>
-    public class SpecsMessage : IMessage
+    public class Message : IMessage
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="channel">The channel the message belongs to.</param>
-        /// <param name="testValue">The test message value.</param>
-        public SpecsMessage (IMessageChannel channel, string testValue)
+        /// <param name="rawValue">The raw (unconverted) message value.</param>
+        public Message (IMessageChannel channel, uint rawValue)
         {
             Channel = channel;
-            TestValue = testValue;
-        }
-
-        /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        /// <param name="testValue">The test message value.</param>
-        public SpecsMessage (string testValue)
-        {
-            TestValue = testValue;
+            RawValue = rawValue;
         }
 
         /// <summary>
@@ -61,8 +51,8 @@ namespace CtLab.Messages.Standard.Specs
         /// <returns>A value indicating whether the message values are equal.</returns>
         public bool ValueEquals (IMessage otherMessage)
         {
-            var other = otherMessage as SpecsMessage;
-            return other != null && TestValue == other.TestValue;
+            var other = otherMessage as Message;
+            return other != null && RawValue == other.RawValue;
         }
 
         /// <summary>
@@ -74,7 +64,7 @@ namespace CtLab.Messages.Standard.Specs
         /// <summary>
         /// Gets or sets the raw (unconverted) message value.
         /// </summary>
-        public string TestValue
+        public uint RawValue
         { get; set; }
 
         /// <summary>
@@ -83,7 +73,7 @@ namespace CtLab.Messages.Standard.Specs
         /// <returns>The converted value.</returns>
         public int ValueToInt32()
         {
-            return int.Parse(TestValue, CultureInfo.InvariantCulture);
+            return (int)RawValue;
         }
 
         /// <summary>
@@ -92,7 +82,7 @@ namespace CtLab.Messages.Standard.Specs
         /// <returns>The converted value.</returns>
         public uint ValueToUInt32()
         {
-            return uint.Parse(TestValue, CultureInfo.InvariantCulture);
+            return RawValue;
         }
     }
 }
