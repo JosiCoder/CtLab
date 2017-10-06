@@ -59,7 +59,7 @@ namespace CtLab.TestConsole
             Console.WriteLine("Sending command, channel {0}/{1}, raw value {2}",
                 setCommandChannel.Main,
                 setCommandChannel.Sub,
-                setCommandClass.RawValue);
+                setCommandClass.RawValueAsString);
             setCommandDictionary.SendCommandsForModifiedValues();
 
             // Prepare to receive messages via the configured dummy string receiver.

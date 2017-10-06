@@ -101,7 +101,7 @@ namespace CtLab.CtLabProtocol.Standard
 
             // Generate basic command string.
             var commandString = String.Format(CultureInfo.InvariantCulture, formatString,
-                messageChannel.Main, messageChannel.Sub, commandClass.RawValue);
+                messageChannel.Main, messageChannel.Sub, commandClass.RawValueAsString);
 
             // Optionally add acknowledge request.
             commandString = requestAcknowledge

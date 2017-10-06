@@ -15,6 +15,7 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
 using System.Globalization;
 
 namespace CtLab.Messages.Interfaces
@@ -24,8 +25,6 @@ namespace CtLab.Messages.Interfaces
     /// </summary>
     public class SetCommandClass : CommandClassBase, IChannelValueSetter
     {
-        private string _rawValue;
-
         /// <summary>
 		/// Gets or sets a value indicating whether the command value has been modified.
         /// </summary>
@@ -39,19 +38,34 @@ namespace CtLab.Messages.Interfaces
             ValueModified = false;
         }
 
+        private object _rawValue;
         /// <summary>
         /// Gets or sets the raw (converted) command value.
         /// </summary>
-        public string RawValue
+        public object RawValue
         {
             get { return _rawValue; }
             set
             {
-                if (_rawValue != value)
+                // We are using boxed values here, thus compare them properly.
+                if ((_rawValue == null && value != null) || !_rawValue.Equals(value))
                 {
                     ValueModified = true;
                 }
                 _rawValue = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the raw (converted) command value.
+        /// </summary>
+        public object RawValueAsString
+        {
+            get
+            {
+                return _rawValue is bool
+                    ? ((bool)_rawValue ? "1" : "0")
+                    : string.Format(CultureInfo.InvariantCulture, "{0}", _rawValue);
             }
         }
 
@@ -71,7 +85,7 @@ namespace CtLab.Messages.Interfaces
         /// </summary>
         public void SetValue(int value)
         {
-            RawValue = value.ToString(CultureInfo.InvariantCulture);
+            RawValue = value;
         }
 
         /// <summary>
@@ -79,7 +93,7 @@ namespace CtLab.Messages.Interfaces
         /// </summary>
         public void SetValue(uint value)
         {
-            RawValue = value.ToString(CultureInfo.InvariantCulture);
+            RawValue = value;
         }
 
         /// <summary>
@@ -87,7 +101,7 @@ namespace CtLab.Messages.Interfaces
         /// </summary>
         public void SetValue(double value)
         {
-            RawValue = value.ToString(CultureInfo.InvariantCulture);
+            RawValue = value;
         }
 
         /// <summary>
@@ -95,7 +109,7 @@ namespace CtLab.Messages.Interfaces
         /// </summary>
         public void SetValue(bool value)
         {
-            RawValue = value ? "1" : "0";
+            RawValue = value;
         }
     }
 }
