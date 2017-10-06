@@ -47,12 +47,6 @@ namespace CtLab.Messages.Standard.Specs
         {
             SUT.RawValue.ShouldEqual(33);
         }
-
-        [Test]
-        public void then_the_SUT_should_return_the_correct_string_representation()
-        {
-            SUT.RawValueAsString.ShouldEqual("33");
-        }
     }
 
 
@@ -68,12 +62,6 @@ namespace CtLab.Messages.Standard.Specs
         public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.RawValue.ShouldEqual(33.3);
-        }
-
-        [Test]
-        public void then_the_SUT_should_return_the_correct_string_representation()
-        {
-            SUT.RawValueAsString.ShouldEqual("33.3");
         }
     }
 
@@ -91,12 +79,6 @@ namespace CtLab.Messages.Standard.Specs
         {
             SUT.RawValue.ShouldEqual(true);
         }
-
-        [Test]
-        public void then_the_SUT_should_return_the_correct_string_representation()
-        {
-            SUT.RawValueAsString.ShouldEqual("1");
-        }
     }
 
 
@@ -112,12 +94,6 @@ namespace CtLab.Messages.Standard.Specs
         public void then_the_SUT_should_return_the_correct_value()
         {
             SUT.RawValue.ShouldEqual(false);
-        }
-
-        [Test]
-        public void then_the_SUT_should_return_the_correct_string_representation()
-        {
-            SUT.RawValueAsString.ShouldEqual("0");
         }
     }
 

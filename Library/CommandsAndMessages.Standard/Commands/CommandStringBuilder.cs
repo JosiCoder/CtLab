@@ -101,7 +101,7 @@ namespace CtLab.CtLabProtocol.Standard
 
             // Generate basic command string.
             var commandString = String.Format(CultureInfo.InvariantCulture, formatString,
-                messageChannel.Main, messageChannel.Sub, commandClass.RawValueAsString);
+                messageChannel.Main, messageChannel.Sub, ConvertRawValueToString(commandClass.RawValue));
 
             // Optionally add acknowledge request.
             commandString = requestAcknowledge
@@ -115,6 +115,16 @@ namespace CtLab.CtLabProtocol.Standard
                 : commandString;
 
             return commandString;
+        }
+
+        /// <summary>
+        /// Returns the raw command value in its string representation.
+        /// </summary>
+        private string ConvertRawValueToString(object rawValue)
+        {
+            return rawValue is bool
+                ? ((bool)rawValue ? "1" : "0")
+                : string.Format(CultureInfo.InvariantCulture, "{0}", rawValue);
         }
 
         /// <summary>

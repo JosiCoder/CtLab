@@ -57,19 +57,6 @@ namespace CtLab.Messages.Interfaces
         }
 
         /// <summary>
-        /// Gets or sets the raw (converted) command value.
-        /// </summary>
-        public object RawValueAsString
-        {
-            get
-            {
-                return _rawValue is bool
-                    ? ((bool)_rawValue ? "1" : "0")
-                    : string.Format(CultureInfo.InvariantCulture, "{0}", _rawValue);
-            }
-        }
-
-        /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="channel">
