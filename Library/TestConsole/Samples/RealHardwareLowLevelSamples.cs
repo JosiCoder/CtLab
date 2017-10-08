@@ -97,12 +97,17 @@ namespace CtLab.TestConsole
                 var messageCache = container.GetInstance<IMessageCache>();
                 var messageChannel = new MessageChannel(_channel, 255);
                 var messageContainer = messageCache.Register(messageChannel);
-                var typedMessage = messageContainer.Message as Message;
                 messageContainer.MessageUpdated +=
-                    (sender, e) => Console.WriteLine("Message received, channel {0}/{1}, raw value {2}",
-                        messageChannel.Main,
-                        messageChannel.Sub,
-                        typedMessage != null ? typedMessage.RawValue : "?");
+                    (sender, e) =>
+                    {
+                        var typedMessage = messageContainer.Message as Message;
+                        Console.WriteLine ("Message received, channel {0}/{1}, raw value {2}, empty: {3}",
+                            messageChannel.Main,
+                            messageChannel.Sub,
+                            typedMessage != null ? typedMessage.RawValue : "?",
+                            messageContainer.Message.IsEmpty
+                        );
+                    };
 
                 Console.WriteLine("For the next seconds, operate the c´t Lab panels to generate messages...");
 
