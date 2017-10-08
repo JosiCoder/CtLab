@@ -22,36 +22,49 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
+using CtLab.Connection.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
+using CtLab.BasicIntegration;
 
-namespace CtLab.BasicIntegration.Specs
+namespace CtLab.CtLabProtocolIntegration.Specs
 {
     public abstract class QueryCommandSchedulerIntegrationSpecs
         : SpecsFor<Container>
     {
+        protected Mock<IStringSender> _stringSenderMock;
+
         protected override void InitializeClassUnderTest()
         {
+            // Use a mock that we can query whether a method has been called.
+            _stringSenderMock = GetMockFor<IStringSender>();
+
             SUT = new Container (expression =>
                 {
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
-                    expression.For<IQueryCommandSender>().Use(GetMockFor<IQueryCommandSender>().Object);
+                    expression.AddRegistry<CtLabProtocolRegistry>();
+                    expression.For<IStringSender>().Use(_stringSenderMock.Object);
                 });
         }
     }
 
 
-    public class When_getting_the_query_command_scheduler_more_than_once
+    public class When_sending_the_scheduled_query_commands_immediately
         : QueryCommandSchedulerIntegrationSpecs
     {
         protected override void When()
         {
+            var queryCommandDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
+            var queryCommand = new QueryCommandClass(new MessageChannel(1, 11));
+            queryCommandDictionary.Add(queryCommand);
+            
+            var queryCommandScheduler = SUT.With(queryCommandDictionary).GetInstance<IQueryCommandScheduler>();
+            queryCommandScheduler.SendImmediately();
         }
 
         [Test]
-        public void then_the_SUT_should_return_the_same_instance()
+        public void then_the_SUT_should_tell_the_underlying_string_sender_to_send_the_command_strings()
         {
-            var instance1 = SUT.GetInstance<IQueryCommandScheduler>();
-            var instance2 = SUT.GetInstance<IQueryCommandScheduler>();
-            instance2.ShouldBeSameAs(instance1);
+            _stringSenderMock.Verify(sender => sender.Send("1:11?$34"), Times.Once);
         }
     }
 }

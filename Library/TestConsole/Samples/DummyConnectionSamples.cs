@@ -24,9 +24,9 @@ using StructureMap;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Dummy;
 using CtLab.CtLabProtocol.Interfaces;
-using CtLab.BasicIntegration;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Environment;
+using CtLab.CtLabProtocolIntegration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole

@@ -22,6 +22,7 @@ using System.Text;
 using System.Diagnostics;
 using StructureMap;
 using CtLab.BasicIntegration;
+using CtLab.CtLabProtocolIntegration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole
@@ -40,11 +41,12 @@ namespace CtLab.TestConsole
         {
             // Configure the IoC container to provide specific implementations for several interfaces.
             var container = new Container(expression =>
-            {
-                expression.AddRegistry<TConnectionRegistry>();
-                expression.AddRegistry<CtLabProtocolRegistry>();
-                expression.AddRegistry<ApplianceRegistry>();
-            });
+                {
+                    expression.AddRegistry<TConnectionRegistry>();
+                    expression.AddRegistry<CommandsAndMessagesRegistry>();
+                    expression.AddRegistry<CtLabProtocolRegistry>();
+                    expression.AddRegistry<ApplianceRegistry>();
+                });
 
             // Display the effecive IoC container configuration.
             // Note: This line is not needed for proper operation, it just provides some information

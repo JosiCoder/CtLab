@@ -24,7 +24,7 @@ using Moq;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Serial;
 
-namespace CtLab.BasicIntegration.Specs
+namespace CtLab.CtLabProtocolIntegration.Specs
 {
     public abstract class SerialConnectionIntegrationSpecs
         : SpecsFor<Container>

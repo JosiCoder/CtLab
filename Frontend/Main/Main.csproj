@@ -47,9 +47,6 @@
     <Reference Include="CtLab.Connection.Dummy">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Dummy.dll</HintPath>
     </Reference>
-    <Reference Include="CtLab.BasicIntegration">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.BasicIntegration.dll</HintPath>
-    </Reference>
     <Reference Include="CtLab.Environment">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.Environment.dll</HintPath>
     </Reference>
@@ -88,6 +85,12 @@
     </Reference>
     <Reference Include="CtLab.Messages.Interfaces">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.Messages.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.CtLabProtocolIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.CtLabProtocolIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="CtLab.BasicIntegration">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.BasicIntegration.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{002AB5C8-B9E2-48CA-8ED6-195119D076EB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CtLab.CtLabProtocolIntegration</RootNamespace>
+    <AssemblyName>CtLab.CtLabProtocolIntegration</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\output\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="StructureMap">
+      <HintPath>..\..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap.Net4">
+      <HintPath>..\..\packages\structuremap.4.1.3.394\lib\net40\StructureMap.Net4.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CtLabProtocolRegistry.cs" />
+    <Compile Include="DummyConnectionRegistry.cs" />
+    <Compile Include="SerialConnectionRegistry.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommandsAndMessages.Interfaces\CtLabProtocol.Interfaces.csproj">
+      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
+      <Name>CtLabProtocol.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CommandsAndMessages.Standard\CtLabProtocol.Standard.csproj">
+      <Project>{057DA3C3-69A0-44E9-910B-33FCFC282058}</Project>
+      <Name>CtLabProtocol.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Messages.Interfaces\Messages.Interfaces.csproj">
+      <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
+      <Name>Messages.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Messages.Interfaces\Messages.Standard\Messages.Standard.csproj">
+      <Project>{998169A4-595A-4995-ACFA-010FB9C59191}</Project>
+      <Name>Messages.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Connection.Dummy\Connection.Dummy.csproj">
+      <Project>{57D63BB0-C30F-47C3-9885-9E0A78A404E2}</Project>
+      <Name>Connection.Dummy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Connection.Interfaces\Connection.Interfaces.csproj">
+      <Project>{43AC2096-9932-4D3B-9F41-8586F71421C8}</Project>
+      <Name>Connection.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Connection.Serial\Connection.Serial.csproj">
+      <Project>{B92D9AB3-1EA4-49DF-B851-36B7D7170430}</Project>
+      <Name>Connection.Serial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

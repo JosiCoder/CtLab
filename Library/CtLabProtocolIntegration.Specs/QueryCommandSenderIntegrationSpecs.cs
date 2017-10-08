@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -22,36 +22,44 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
+using CtLab.Connection.Interfaces;
+using CtLab.CtLabProtocol.Interfaces;
+using CtLab.BasicIntegration;
 
-namespace CtLab.BasicIntegration.Specs
+namespace CtLab.CtLabProtocolIntegration.Specs
 {
-    public abstract class QueryCommandDictionaryIntegrationSpecs
+    public abstract class QueryCommandSenderIntegrationSpecs
         : SpecsFor<Container>
     {
+        protected Mock<IStringSender> _stringSenderMock;
+
         protected override void InitializeClassUnderTest()
         {
+            // Use a mock that we can query whether a method has been called.
+            _stringSenderMock = GetMockFor<IStringSender>();
+
             SUT = new Container (expression =>
                 {
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
-                    expression.For<IQueryCommandSender>().Use(GetMockFor<IQueryCommandSender>().Object);
+                    expression.AddRegistry<CtLabProtocolRegistry>();
+                    expression.For<IStringSender>().Use(_stringSenderMock.Object);
                 });
         }
     }
 
-
-    public class When_getting_the_query_command_class_dictionary_more_than_once
-        : QueryCommandDictionaryIntegrationSpecs
+    public class When_sending_a_query_command
+        : QueryCommandSenderIntegrationSpecs
     {
         protected override void When()
         {
+            var queryCommandSender = SUT.GetInstance<IQueryCommandSender>();
+            queryCommandSender.Send(new QueryCommandClass(new MessageChannel(1, 11)));
         }
 
         [Test]
-        public void then_the_SUT_should_return_the_same_instance()
+        public void then_the_SUT_should_send_the_command_string_including_the_checksum()
         {
-            var instance1 = SUT.GetInstance<IQueryCommandClassDictionary>();
-            var instance2 = SUT.GetInstance<IQueryCommandClassDictionary>();
-            instance2.ShouldBeSameAs(instance1);
+            _stringSenderMock.Verify(sender => sender.Send("1:11?$34"), Times.Once);
         }
     }
 }

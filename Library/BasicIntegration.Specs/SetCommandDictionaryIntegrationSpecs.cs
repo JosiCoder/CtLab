@@ -22,25 +22,18 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
-using CtLab.Connection.Interfaces;
-using CtLab.CtLabProtocol.Interfaces;
 
 namespace CtLab.BasicIntegration.Specs
 {
     public abstract class SetCommandDictionaryIntegrationSpecs
         : SpecsFor<Container>
     {
-        protected Mock<IStringSender> _stringSenderMock;
-
         protected override void InitializeClassUnderTest()
         {
-            // Use a mock that we can query whether a method has been called.
-            _stringSenderMock = GetMockFor<IStringSender>();
-
             SUT = new Container (expression =>
                 {
-                    expression.AddRegistry<CtLabProtocolRegistry>();
-                    expression.For<IStringSender>().Use(_stringSenderMock.Object);
+                    expression.AddRegistry<CommandsAndMessagesRegistry>();
+                    expression.For<ISetCommandSender>().Use(GetMockFor<ISetCommandSender>().Object);
                 });
         }
     }
@@ -59,26 +52,6 @@ namespace CtLab.BasicIntegration.Specs
             var instance1 = SUT.GetInstance<ISetCommandClassDictionary>();
             var instance2 = SUT.GetInstance<ISetCommandClassDictionary>();
             instance2.ShouldBeSameAs(instance1);
-        }
-    }
-
-
-    public class When_sending_a_command_for_a_set_command_class_in_the_dictionary
-        : SetCommandDictionaryIntegrationSpecs
-    {
-        protected override void When()
-        {
-            var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary>();
-            var setCommandClass = new SetCommandClass(new MessageChannel(1, 11));
-            setCommandCLassDict.Add(setCommandClass);
-            setCommandClass.SetValue(15);
-            setCommandCLassDict.SendCommandsForModifiedValues();
-        }
-
-        [Test]
-        public void then_the_SUT_should_send_the_command_string_including_the_checksum_but_without_an_acknowledge_request()
-        {
-            _stringSenderMock.Verify(sender => sender.Send("1:11=15$32"), Times.Once);
         }
     }
 }

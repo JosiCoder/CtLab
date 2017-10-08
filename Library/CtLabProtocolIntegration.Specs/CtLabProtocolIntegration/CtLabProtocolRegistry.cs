@@ -17,11 +17,10 @@
 
 using StructureMap;
 using CtLab.Messages.Interfaces;
-using CtLab.Messages.Standard;
 using CtLab.CtLabProtocol.Interfaces;
 using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.BasicIntegration
+namespace CtLab.CtLabProtocolIntegration
 {
     /// <summary>
     /// Registers required classes with the dependency injection container.
@@ -35,10 +34,6 @@ namespace CtLab.BasicIntegration
         {
             // === Set commands ===
 
-            For<ISetCommandClassDictionary>()
-                .Singleton()
-                .Use<SetCommandClassDictionary>();
-
             For<ISetCommandSender>()
                 .Singleton()
                 .Use<SetCommandSender>();
@@ -50,14 +45,6 @@ namespace CtLab.BasicIntegration
 
             // === Query commands ===
 
-            For<IQueryCommandScheduler>()
-                .Singleton()
-                .Use<QueryCommandScheduler>();
-
-            For<IQueryCommandClassDictionary>()
-                .Singleton()
-                .Use<QueryCommandClassDictionary>();
-            
             For<IQueryCommandSender>()
                 .Singleton()
                 .Use<QueryCommandSender>();
@@ -68,10 +55,6 @@ namespace CtLab.BasicIntegration
 
 
             // === Received messages ===
-
-            For<IMessageCache>()
-                .Singleton()
-                .Use<ReceivedMessagesCache>();
 
             For<IMessageReceiver>()
                 .Singleton()

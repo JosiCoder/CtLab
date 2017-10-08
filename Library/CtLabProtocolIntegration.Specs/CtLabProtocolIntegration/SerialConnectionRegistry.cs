@@ -20,33 +20,33 @@ using System.Collections.Generic;
 using System.Linq;
 using StructureMap;
 using CtLab.Connection.Interfaces;
-using CtLab.Connection.Dummy;
+using CtLab.Connection.Serial;
 
-namespace CtLab.BasicIntegration
+namespace CtLab.CtLabProtocolIntegration
 {
     /// <summary>
     /// Registers required classes with the dependency injection container.
     /// </summary>
-    public class DummyConnectionRegistry : Registry
+    public class SerialConnectionRegistry : Registry
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        public DummyConnectionRegistry()
+        public SerialConnectionRegistry()
         {
-            For<DummyConnection>()
+            For<SerialConnection>()
                 .Singleton()
-                .Use<DummyConnection>();
+                .Use<SerialConnection>();
             For<IConnection>()
-                .Use(c => c.GetInstance<DummyConnection>());
+                .Use(c => c.GetInstance<SerialConnection>());
 
             For<IStringSender>()
                 .Singleton()
-                .Use<DummyStringSender>();
+                .Use<SerialStringSender>();
 
             For<IStringReceiver>()
                 .Singleton()
-                .Use<DummyStringReceiver>();
+                .Use<SerialStringReceiver>();
         }
     }
 }
