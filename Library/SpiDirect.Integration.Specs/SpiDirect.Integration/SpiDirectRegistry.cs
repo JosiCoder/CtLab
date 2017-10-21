@@ -15,24 +15,42 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
+using StructureMap;
 using CtLab.Messages.Interfaces;
+using CtLab.SpiDirect.Interfaces;
+using CtLab.SpiDirect.Standard;
 
-namespace CtLab.Messages.Standard
+namespace CtLab.SpiDirect.Integration
 {
     /// <summary>
-    /// Maintains a unique query command class for each channel.
-    /// Sends some or all query commands to get the devices in sync.
+    /// Registers required classes with the dependency injection container.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    public class SpiDirectRegistry : StructureMap.Registry
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
+        public SpiDirectRegistry()
         {
+            // === Set commands ===
+
+            For<ISetCommandSender>()
+                .Singleton()
+                .Use<SetCommandSender>();
+
+
+            // === Query commands ===
+
+            For<IQueryCommandSender>()
+                .Singleton()
+                .Use<QueryCommandSender>();
+
+
+            // === Received messages ===
+
+            For<IMessageReceiver>()
+                .Singleton()
+                .Use<MessageReceiver>();
         }
     }
 }

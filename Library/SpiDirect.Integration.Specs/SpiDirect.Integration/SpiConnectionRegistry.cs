@@ -16,23 +16,29 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.Messages.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using StructureMap;
+using CtLab.SpiConnection.Interfaces;
+using CtLab.SpiConnection.Standard;
 
-namespace CtLab.Messages.Standard
+namespace CtLab.SpiDirect.Integration
 {
     /// <summary>
-    /// Maintains a unique query command class for each channel.
-    /// Sends some or all query commands to get the devices in sync.
+    /// Registers required classes with the dependency injection container.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    public class SpiConnectionRegistry : Registry
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
+        public SpiConnectionRegistry()
         {
+            For<ISpiSender>()
+                .Singleton()
+                .Use<SpiWrapper>();
+            For<ISpiReceiver>()
+                .Use(c => c.GetInstance<ISpiReceiver>());
         }
     }
 }

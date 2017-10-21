@@ -17,22 +17,36 @@
 
 using System;
 using CtLab.Messages.Interfaces;
+using CtLab.Messages.Standard;
+using CtLab.SpiConnection.Interfaces;
+using CtLab.SpiDirect.Interfaces;
 
-namespace CtLab.Messages.Standard
+namespace CtLab.SpiDirect.Standard
 {
     /// <summary>
-    /// Maintains a unique query command class for each channel.
-    /// Sends some or all query commands to get the devices in sync.
+    /// Converts received SPI values to one or more messages, and raises one event per message.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    public class MessageReceiver : MessageReceiverBase
     {
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
+        /// <param name="spiReceiver">The receiver used to wait for SPI data.</param>
+        public MessageReceiver(ISpiReceiver spiReceiver)
         {
+            spiReceiver.ValueReceived +=
+                (sender, e) =>
+                {
+                    var message = new Message
+                        (
+                            new MessageChannel
+                            (
+                                e.SpiAddress
+                            ),
+                            e.ReceivedValue
+                        );
+                    RaiseMessageReceived(this, new MessageReceivedEventArgs(message));
+                };
         }
     }
 }

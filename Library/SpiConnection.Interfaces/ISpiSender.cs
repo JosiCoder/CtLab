@@ -15,24 +15,18 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
-using System;
-using CtLab.Messages.Interfaces;
-
-namespace CtLab.Messages.Standard
+namespace CtLab.SpiConnection.Interfaces
 {
     /// <summary>
-    /// Maintains a unique query command class for each channel.
-    /// Sends some or all query commands to get the devices in sync.
+    /// Provides facilities to send values to an SPI slave.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    public interface ISpiSender
     {
         /// <summary>
-        /// Initializes an instance of this class.
+        /// Sends a value to an SPI slave.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
-        {
-        }
+        /// <param name="spiAddress">The SPI address to sent the value to.</param>
+        /// <param name="valueToSend">The value to be sent.</param>
+        void Send(byte spiAddress, uint valueToSend);
     }
 }

@@ -63,29 +63,13 @@ namespace CtLab.Messages.Standard.Specs
     public abstract class SetCommandDictionaryInteractionSpecs
         : SetCommandDictionaryWithSampleCommandsSpecs
     {
-        protected Mock<ICommandSender<SetCommandClass>> _setCommandSenderMock;
-
-        protected override void ConfigureContainer (StructureMap.IContainer container)
-        {
-            base.ConfigureContainer (container);
-
-            // There is a more specific 'alias' interface available for the set command sender,
-            // thus make the container use the same instance for both.
-            container.Configure (expression =>
-                {
-                    expression.Forward
-                    <
-                        ICommandSender<SetCommandClass>,
-                        ISetCommandSender
-                    >();
-                });
-        }
+        protected Mock<ISetCommandSender> _setCommandSenderMock;
 
         protected override void Given()
         {
             base.Given();
 
-            _setCommandSenderMock = GetMockFor<ICommandSender<SetCommandClass>>();
+            _setCommandSenderMock = GetMockFor<ISetCommandSender>();
         }
     }
 
@@ -139,7 +123,6 @@ namespace CtLab.Messages.Standard.Specs
         public void then_the_SUT_should_send_the_commands_for_modified_values_exactly_once_but_none_else()
         {
             _setCommandSenderMock.Verify(sender => sender.Send(It.IsAny<SetCommandClass>()), Times.Once);
-
 
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[0]), Times.Once);
             _setCommandSenderMock.Verify(sender => sender.Send(_setCommands[1]), Times.Never);

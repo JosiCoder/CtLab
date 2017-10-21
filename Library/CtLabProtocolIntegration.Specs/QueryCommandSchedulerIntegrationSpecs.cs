@@ -62,7 +62,7 @@ namespace CtLab.CtLabProtocolIntegration.Specs
         }
 
         [Test]
-        public void then_the_SUT_should_tell_the_underlying_string_sender_to_send_the_command_strings()
+        public void then_underlying_string_sender_should_send_the_command_strings()
         {
             _stringSenderMock.Verify(sender => sender.Send("1:11?$34"), Times.Once);
         }

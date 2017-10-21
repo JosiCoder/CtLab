@@ -3,17 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{95204BA9-C03C-466A-8998-F25CE02F2AB5}</ProjectGuid>
+    <ProjectGuid>{AF217948-EB6B-4846-BFE8-D03139C8E016}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CtLab.SpiDirect.Standard</RootNamespace>
-    <AssemblyName>CtLab.SpiDirect.Standard</AssemblyName>
+    <RootNamespace>CtLab.SpiConnection.Interfaces</RootNamespace>
+    <AssemblyName>CtLab.SpiConnection.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\output\Debug\</OutputPath>
+    <OutputPath>..\output\Debug\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\output\Release\</OutputPath>
+    <OutputPath>..\output\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -32,12 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ISpiReceiver.cs" />
+    <Compile Include="ISpiSender.cs" />
+    <Compile Include="SpiReceivedEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\SpiDirect.Interfaces.csproj">
-      <Project>{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}</Project>
-      <Name>SpiDirect.Interfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

@@ -16,23 +16,18 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.Messages.Interfaces;
 
-namespace CtLab.Messages.Standard
+namespace CtLab.SpiConnection.Interfaces
 {
     /// <summary>
-    /// Maintains a unique query command class for each channel.
-    /// Sends some or all query commands to get the devices in sync.
+    /// Provides facilities to handle values received from an SPI slave.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    public interface ISpiReceiver
     {
         /// <summary>
-        /// Initializes an instance of this class.
+        /// Occurs when a value has been received from an SPI slave. Note that
+        /// this event might be called via a background thread.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
-        {
-        }
+        event EventHandler<SpiReceivedEventArgs> ValueReceived;
     }
 }

@@ -30,7 +30,7 @@ namespace CtLab.Messages.Standard
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="commandSender">The command sender used to send the commands.</param>
-        public SetCommandClassDictionary(ICommandSender<SetCommandClass> commandSender)
+        public SetCommandClassDictionary(ISetCommandSender commandSender)
             : base(commandSender)
         {
         }

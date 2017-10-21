@@ -1,4 +1,4 @@
-﻿//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -22,44 +22,47 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using CtLab.Messages.Interfaces;
-using CtLab.Connection.Interfaces;
-using CtLab.CtLabProtocol.Interfaces;
+using CtLab.SpiConnection.Interfaces;
+using CtLab.SpiDirect.Interfaces;
 using CtLab.BasicIntegration;
 
-namespace CtLab.CtLabProtocolIntegration.Specs
+namespace CtLab.SpiDirect.Integration.Specs
 {
-    public abstract class QueryCommandSenderIntegrationSpecs
+    public abstract class QueryCommandDictionaryIntegrationSpecs
         : SpecsFor<Container>
     {
-        protected Mock<IStringSender> _stringSenderMock;
+        protected Mock<ISpiSender> _spiSenderMock;
 
         protected override void InitializeClassUnderTest()
         {
             // Use a mock that we can query whether a method has been called.
-            _stringSenderMock = GetMockFor<IStringSender>();
+            _spiSenderMock = GetMockFor<ISpiSender>();
 
             SUT = new Container (expression =>
                 {
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
-                    expression.AddRegistry<CtLabProtocolRegistry>();
-                    expression.For<IStringSender>().Use(_stringSenderMock.Object);
+                    expression.AddRegistry<SpiDirectRegistry>();
+                    expression.For<ISpiSender>().Use(_spiSenderMock.Object);
                 });
         }
     }
 
-    public class When_sending_a_query_command
-        : QueryCommandSenderIntegrationSpecs
+
+    public class When_sending_a_command_for_a_query_command_class_in_the_dictionary
+        : QueryCommandDictionaryIntegrationSpecs
     {
         protected override void When()
         {
-            var queryCommandSender = SUT.GetInstance<IQueryCommandSender>();
-            queryCommandSender.Send(new QueryCommandClass(new MessageChannel(1, 11)));
+            var queryCommandClassDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
+            var queryCommand = new QueryCommandClass(new MessageChannel(11));
+            queryCommandClassDictionary.Add(queryCommand);
+            queryCommandClassDictionary.SendCommands();
         }
 
         [Test]
-        public void then_underlying_string_sender_should_send_the_command_string_including_the_checksum()
+        public void then_underlying_SPI_sender_should_send_anything_to_the_appropriate_SPI_address()
         {
-            _stringSenderMock.Verify(sender => sender.Send("1:11?$34"), Times.Once);
+            _spiSenderMock.Verify(sender => sender.Send(11, It.IsAny<uint>()), Times.Once);
         }
     }
 }

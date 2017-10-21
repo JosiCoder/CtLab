@@ -61,7 +61,7 @@ namespace CtLab.CtLabProtocolIntegration.Specs
         }
 
         [Test]
-        public void then_the_SUT_should_send_the_command_string_including_the_checksum_but_without_an_acknowledge_request()
+        public void then_underlying_string_sender_should_send_the_command_string_including_the_checksum_but_without_an_acknowledge_request()
         {
             _stringSenderMock.Verify(sender => sender.Send("1:11=15$32"), Times.Once);
         }

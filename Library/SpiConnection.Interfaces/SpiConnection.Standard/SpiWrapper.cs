@@ -16,23 +16,34 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.Messages.Interfaces;
+using CtLab.Utilities;
+using CtLab.SpiConnection.Interfaces;
 
-namespace CtLab.Messages.Standard
+namespace CtLab.SpiConnection.Standard
 {
     /// <summary>
-    /// Maintains a unique query command class for each channel.
-    /// Sends some or all query commands to get the devices in sync.
+    /// Provides a dummy connection that actually isn't a real connection.
     /// </summary>
-    public class QueryCommandClassDictionary : CommandClassDictionaryBase<QueryCommandClass>, IQueryCommandClassDictionary
+    public class SpiWrapper : ISpiSender, ISpiReceiver
     {
         /// <summary>
-        /// Initializes an instance of this class.
+        /// Occurs when a value has been received from an SPI slave. Note that
+        /// this event might be called via a background thread.
         /// </summary>
-        /// <param name="commandSender">The command sender used to send the commands.</param>
-        public QueryCommandClassDictionary(IQueryCommandSender commandSender)
-            : base(commandSender)
+        public event EventHandler<SpiReceivedEventArgs> ValueReceived;
+
+        /// <summary>
+        /// Sends a value to an SPI slave.
+        /// </summary>
+        /// <param name="spiAddress">The SPI address to sent the value to.</param>
+        /// <param name="valueToSend">The value to be sent.</param>
+        public void Send(byte spiAddress, uint valueToSend)
         {
+//TODO: Send and receive from SPI via Interop, then raise received event.
+            throw new NotImplementedException();
+
+            ValueReceived.Raise(this, new SpiReceivedEventArgs(spiAddress, valueToSend));
         }
     }
 }
+
