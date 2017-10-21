@@ -15,6 +15,8 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
+
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
@@ -27,6 +29,13 @@ namespace CtLab.Messages.Interfaces
     public abstract class MessageChannelBase<TMessageChannel> : IMessageChannel
         where TMessageChannel : class
     {
+        private readonly Func<object, object, bool> _contentComparer;
+
+        public MessageChannelBase (Func<object, object, bool> contentComparer)
+        {
+            _contentComparer = contentComparer;
+        }
+
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
@@ -50,34 +59,24 @@ namespace CtLab.Messages.Interfaces
         {
             if (object.ReferenceEquals(this, other)) { return true; }
             if (other == null) { return false; }
-            return CompareContents(other);
+            return _contentComparer(this, other);
         }
 
         /// <summary>
-        /// Determines whether the references of the specified objects are equal.
+        /// Determines whether the specified objects are equal.
         /// </summary>
         /// <param name="item1">The first object to compare.</param>
         /// <param name="item2">The second object to compare.</param>
         /// <returns>
-        /// A value indicating whether the references of the specified objects are equal.
+        /// A value indicating whether the specified objects are equal.
         /// </returns>
-        protected static bool CompareReferences(TMessageChannel item1, TMessageChannel item2)
+        protected static bool CompareItems(TMessageChannel item1, TMessageChannel item2,
+            Func<object, object, bool> contentComparer)
         {
             if (object.ReferenceEquals(item1, item2)) { return true; }
             if ((object)item1 == null || (object)item2 == null) { return false; }
-            return true;
+            return contentComparer(item1, item2);
         }
-
-        /// <summary>
-        /// Determines whether contents the specified object are equal to contents of the
-        /// current object.
-        /// </summary>
-        /// <param name="other">The object to compare with the current object.</param>
-        /// <returns>
-        /// A value indicating whether contents the specified object are equal to contents
-        /// of the current object.
-        /// </returns>
-        protected abstract bool CompareContents (TMessageChannel other);
     }
     #pragma warning restore 0659
 }

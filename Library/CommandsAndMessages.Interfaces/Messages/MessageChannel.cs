@@ -33,6 +33,7 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// <param name="main">The mainchannel.</param>
         /// <param name="sub">The subchannel.</param>
         public MessageChannel(byte main, ushort sub)
+            : base((i1, i2) => CompareContents((MessageChannel)i1, (MessageChannel)i2))
         {
             Main = main;
             Sub = sub;
@@ -57,19 +58,18 @@ namespace CtLab.CtLabProtocol.Interfaces
         }
 
         /// <summary>
-        /// Determines whether contents the specified object are equal to contents of the
-        /// current object.
+        /// Determines whether contents the specified objects are equal.
         /// </summary>
-        /// <param name="other">The object to compare with the current object.</param>
+        /// <param name="item1">The first object to compare.</param>
+        /// <param name="item2">The second object to compare.</param>
         /// <returns>
-        /// A value indicating whether contents the specified object are equal to contents
-        /// of the current object.
+        /// A value indicating whether contents the specified objects are equal.
         /// </returns>
-        protected override bool CompareContents(MessageChannel other)
+        private static bool CompareContents(MessageChannel item1, MessageChannel item2)
         {
             return
-                this.Main == other.Main &&
-                this.Sub == other.Sub;
+                item1.Main == item2.Main &&
+                item1.Sub == item2.Sub;
         }
 
         /// <summary>
@@ -84,9 +84,8 @@ namespace CtLab.CtLabProtocol.Interfaces
 
         public static bool operator ==(MessageChannel item1, MessageChannel item2)
         {
-            return
-                CompareReferences(item1, item2) &&
-                item1.CompareContents(item2);
+            return CompareItems(item1, item2,
+                (i1, i2) => CompareContents((MessageChannel)i1, (MessageChannel)i2));
         }
 
         public static bool operator !=(MessageChannel item1, MessageChannel item2)

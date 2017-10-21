@@ -31,6 +31,7 @@ namespace CtLab.SpiDirect.Interfaces
         /// </summary>
         /// <param name="id">The SPI address.</param>
         public MessageChannel(byte spiAddress)
+            : base((i1, i2) => CompareContents((MessageChannel)i1, (MessageChannel)i2))
         {
             SpiAddress = spiAddress;
         }
@@ -45,17 +46,16 @@ namespace CtLab.SpiDirect.Interfaces
         }
 
         /// <summary>
-        /// Determines whether contents the specified object are equal to contents of the
-        /// current object.
+        /// Determines whether contents the specified objects are equal.
         /// </summary>
-        /// <param name="other">The object to compare with the current object.</param>
+        /// <param name="item1">The first object to compare.</param>
+        /// <param name="item2">The second object to compare.</param>
         /// <returns>
-        /// A value indicating whether contents the specified object are equal to contents
-        /// of the current object.
+        /// A value indicating whether contents the specified objects are equal.
         /// </returns>
-        protected override bool CompareContents(MessageChannel other)
+        private static bool CompareContents(MessageChannel item1, MessageChannel item2)
         {
-            return this.SpiAddress == other.SpiAddress;
+            return item1.SpiAddress == item2.SpiAddress;
         }
 
         /// <summary>
@@ -69,9 +69,8 @@ namespace CtLab.SpiDirect.Interfaces
 
         public static bool operator ==(MessageChannel item1, MessageChannel item2)
         {
-            return
-                CompareReferences(item1, item2) &&
-                item1.CompareContents(item2);
+            return CompareItems(item1, item2,
+                (i1, i2) => CompareContents((MessageChannel)i1, (MessageChannel)i2));
         }
 
         public static bool operator !=(MessageChannel item1, MessageChannel item2)

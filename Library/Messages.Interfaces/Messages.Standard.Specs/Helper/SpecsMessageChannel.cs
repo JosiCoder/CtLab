@@ -31,6 +31,7 @@ namespace CtLab.Messages.Standard.Specs
         /// </summary>
         /// <param name="id">The channel identifier.</param>
         public SpecsMessageChannel(int id)
+            : base((i1, i2) => CompareContents((SpecsMessageChannel)i1, (SpecsMessageChannel)i2))
         {
             Id = id;
         }
@@ -45,17 +46,16 @@ namespace CtLab.Messages.Standard.Specs
         }
 
         /// <summary>
-        /// Determines whether contents the specified object are equal to contents of the
-        /// current object.
+        /// Determines whether contents the specified objects are equal.
         /// </summary>
-        /// <param name="other">The object to compare with the current object.</param>
+        /// <param name="item1">The first object to compare.</param>
+        /// <param name="item2">The second object to compare.</param>
         /// <returns>
-        /// A value indicating whether contents the specified object are equal to contents
-        /// of the current object.
+        /// A value indicating whether contents the specified objects are equal.
         /// </returns>
-        protected override bool CompareContents(SpecsMessageChannel other)
+        private static bool CompareContents(SpecsMessageChannel item1, SpecsMessageChannel item2)
         {
-            return this.Id == other.Id;
+            return item1.Id == item2.Id;
         }
 
         /// <summary>
@@ -69,9 +69,8 @@ namespace CtLab.Messages.Standard.Specs
 
         public static bool operator ==(SpecsMessageChannel item1, SpecsMessageChannel item2)
         {
-            return
-                CompareReferences(item1, item2) &&
-                item1.CompareContents(item2);
+            return CompareItems(item1, item2,
+                (i1, i2) => CompareContents((SpecsMessageChannel)i1, (SpecsMessageChannel)i2));
         }
 
         public static bool operator !=(SpecsMessageChannel item1, SpecsMessageChannel item2)
