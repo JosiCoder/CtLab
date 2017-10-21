@@ -70,5 +70,13 @@
       <Project>{28C3BA0D-DF2A-4AB3-B780-829137AD3790}</Project>
       <Name>SpiConnection.Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Connection.Interfaces\Connection.Interfaces.csproj">
+      <Project>{43AC2096-9932-4D3B-9F41-8586F71421C8}</Project>
+      <Name>Connection.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Connection.Dummy\Connection.Dummy.csproj">
+      <Project>{57D63BB0-C30F-47C3-9885-9E0A78A404E2}</Project>
+      <Name>Connection.Dummy</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

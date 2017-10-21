@@ -21,6 +21,8 @@ using System.Linq;
 using StructureMap;
 using CtLab.SpiConnection.Interfaces;
 using CtLab.SpiConnection.Standard;
+using CtLab.Connection.Interfaces;
+using CtLab.Connection.Dummy;
 
 namespace CtLab.SpiDirect.Integration
 {
@@ -34,11 +36,19 @@ namespace CtLab.SpiDirect.Integration
         /// </summary>
         public SpiConnectionRegistry()
         {
-            For<ISpiSender>()
+            For<DummyConnection>()
+                .Singleton()
+                .Use<DummyConnection>();
+            For<IConnection>()
+                .Use(c => c.GetInstance<DummyConnection>());
+
+            For<SpiWrapper>()
                 .Singleton()
                 .Use<SpiWrapper>();
+            For<ISpiSender>()
+                .Use(c => c.GetInstance<SpiWrapper>());
             For<ISpiReceiver>()
-                .Use(c => c.GetInstance<ISpiReceiver>());
+                .Use(c => c.GetInstance<SpiWrapper>());
         }
     }
 }

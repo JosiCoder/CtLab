@@ -35,6 +35,12 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Creates and returns a new c't Lab appliance.
         /// </summary>
+        /// <returns>The appliance created.</returns>
+        Appliance CreateSpiAppliance();
+
+        /// <summary>
+        /// Creates and returns a new c't Lab appliance.
+        /// </summary>
         /// <param name="portName">The name of the serial port to use.</param>
         /// <param name="channel">
         /// The number of the channel to send to and receive from.

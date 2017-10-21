@@ -49,18 +49,14 @@ namespace CtLab.Frontend
         /// <summary>
         /// Creates and returns a new c't Lab appliance.
         /// </summary>
-        /// <param name="portName">The name of the serial port to use.</param>
-        /// <param name="channel">
-        /// The number of the channel to send to and receive from.
-        /// </param>
         /// <returns>The appliance created.</returns>
-        public Appliance CreateSpiAppliance(string portName, byte channel)
+        public Appliance CreateSpiAppliance()
         {
             // Each c't Lab appliance instance needs its own IoC container. 
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            DoFinalInitialization(appliance, channel);
+            DoFinalInitialization(appliance, 0);
             return appliance;
         }
 
@@ -149,20 +145,19 @@ namespace CtLab.Frontend
         /// Configures and returns an IoC using the specified connection registry.
         /// </summary>
         /// <returns>The configured IoC.</returns>
-        /// <typeparam name="ConnectionRegistry">The type of the registry responsible for the connections.</typeparam>
+        /// <typeparam name="TConnectionRegistry">The type of the registry responsible for the connection.</typeparam>
+        /// <typeparam name="TProtocolRegistry">The type of the registry responsible for the protocol.</typeparam>
         private StructureMap.Container CreateContainer<TConnectionRegistry, TProtocolRegistry>()
             where TConnectionRegistry : Registry, new()
             where TProtocolRegistry : Registry, new()
         {
-            const bool useCtLabProtocol = false;
-
             // Configure the IoC container to provide specific implementations for several interfaces.
             var container = new StructureMap.Container (expression =>
             {
-                expression.AddRegistry<TConnectionRegistry> ();
                 expression.AddRegistry<CommandsAndMessagesRegistry> ();
-                expression.AddRegistry<TProtocolRegistry> ();
                 expression.AddRegistry<ApplianceRegistry> ();
+                expression.AddRegistry<TConnectionRegistry> ();
+                expression.AddRegistry<TProtocolRegistry> ();
             });
 
             // Display the effecive IoC container configuration.

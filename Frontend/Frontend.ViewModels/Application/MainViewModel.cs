@@ -186,6 +186,7 @@ namespace CtLab.Frontend.ViewModels
             string portName, byte channel)
         {
             Appliance appliance;
+
             switch (connectionType)
             {
                 case ApplianceConnectionType.Serial:
