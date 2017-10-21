@@ -27,7 +27,7 @@ namespace CtLab.Frontend.ViewModels
     /// </summary>
     public class ApplicationSettingsViewModel : ViewModelBase, IApplicationSettingsViewModel
     {
-        private const string dummyConnectionPortName = "Simulated";
+        private const string _dummyConnectionPortName = "Simulated";
         private readonly ApplicationSettings _applicationSettings;
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace CtLab.Frontend.ViewModels
         public ApplicationSettingsViewModel (IEnumerable<string> portNames,
             ApplicationSettings applicationSettings)
         {
-            PortNames = new ObservableCollection<string>(portNames.Concat(new []{dummyConnectionPortName}));
+            PortNames = new ObservableCollection<string>(portNames.Concat(new []{_dummyConnectionPortName}));
             _applicationSettings = applicationSettings;
         }
 
@@ -71,7 +71,7 @@ namespace CtLab.Frontend.ViewModels
             {
                 _applicationSettings.ConnectionType = value;
                 _applicationSettings.PortName = value == ApplianceConnectionType.Dummy
-                    ? dummyConnectionPortName
+                    ? _dummyConnectionPortName
                     : "";
 
                 RaisePropertyChanged ();
@@ -91,7 +91,7 @@ namespace CtLab.Frontend.ViewModels
             set
             {
                 _applicationSettings.PortName = value;
-                _applicationSettings.ConnectionType = value == dummyConnectionPortName
+                _applicationSettings.ConnectionType = value == _dummyConnectionPortName
                     ? ApplianceConnectionType.Dummy
                     : ApplianceConnectionType.Serial;
                 

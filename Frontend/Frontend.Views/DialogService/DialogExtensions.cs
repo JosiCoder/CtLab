@@ -57,7 +57,7 @@ namespace CtLab.Frontend.Views
             {
                 var response = (ResponseType) dialog.Run();
 
-                //TODO: erweitern
+                //TODO: Add other cases as necessary.
                 return
                     response == ResponseType.Ok ? DialogResult.Ok
                         : DialogResult.Cancel;

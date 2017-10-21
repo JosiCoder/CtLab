@@ -28,6 +28,7 @@ using CtLab.Environment;
 using CtLab.Frontend.ViewModels;
 using CtLab.BasicIntegration;
 using CtLab.CtLabProtocol.Integration;
+using CtLab.SpiDirect.Integration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.Frontend
@@ -53,10 +54,29 @@ namespace CtLab.Frontend
         /// The number of the channel to send to and receive from.
         /// </param>
         /// <returns>The appliance created.</returns>
+        public Appliance CreateSpiAppliance(string portName, byte channel)
+        {
+            // Each c't Lab appliance instance needs its own IoC container. 
+            var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
+            var appliance = container.GetInstance<Appliance>();
+
+            DoFinalInitialization(appliance, channel);
+            return appliance;
+        }
+
+
+        /// <summary>
+        /// Creates and returns a new c't Lab appliance.
+        /// </summary>
+        /// <param name="portName">The name of the serial port to use.</param>
+        /// <param name="channel">
+        /// The number of the channel to send to and receive from.
+        /// </param>
+        /// <returns>The appliance created.</returns>
         public Appliance CreateSerialAppliance(string portName, byte channel)
         {
             // Each c't Lab appliance instance needs its own IoC container. 
-            var container = CreateContainer<SerialConnectionRegistry>();
+            var container = CreateContainer<SerialConnectionRegistry, CtLabProtocolRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
@@ -112,7 +132,7 @@ namespace CtLab.Frontend
         private Appliance CreateDummyAppliance(byte channel, Action<Action<string>> injectorAcceptor)
         {
             // Each c't Lab appliance instance needs its own IoC container. 
-            var container = CreateContainer<DummyConnectionRegistry>();
+            var container = CreateContainer<DummyConnectionRegistry, CtLabProtocolRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
             injectorAcceptor (stringToInject =>
@@ -130,15 +150,18 @@ namespace CtLab.Frontend
         /// </summary>
         /// <returns>The configured IoC.</returns>
         /// <typeparam name="ConnectionRegistry">The type of the registry responsible for the connections.</typeparam>
-        private StructureMap.Container CreateContainer<TConnectionRegistry>()
+        private StructureMap.Container CreateContainer<TConnectionRegistry, TProtocolRegistry>()
             where TConnectionRegistry : Registry, new()
+            where TProtocolRegistry : Registry, new()
         {
+            const bool useCtLabProtocol = false;
+
             // Configure the IoC container to provide specific implementations for several interfaces.
             var container = new StructureMap.Container (expression =>
             {
                 expression.AddRegistry<TConnectionRegistry> ();
                 expression.AddRegistry<CommandsAndMessagesRegistry> ();
-                expression.AddRegistry<CtLabProtocolRegistry> ();
+                expression.AddRegistry<TProtocolRegistry> ();
                 expression.AddRegistry<ApplianceRegistry> ();
             });
 
