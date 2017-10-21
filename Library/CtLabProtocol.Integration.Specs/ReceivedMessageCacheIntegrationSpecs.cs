@@ -27,7 +27,7 @@ using CtLab.Connection.Interfaces;
 using CtLab.CtLabProtocol.Interfaces;
 using CtLab.BasicIntegration;
 
-namespace CtLab.CtLabProtocolIntegration.Specs
+namespace CtLab.CtLabProtocol.Integration.Specs
 {
     public interface IMessageUpdatedSink
     {

@@ -20,7 +20,7 @@ using CtLab.Messages.Interfaces;
 using CtLab.CtLabProtocol.Interfaces;
 using CtLab.CtLabProtocol.Standard;
 
-namespace CtLab.CtLabProtocolIntegration
+namespace CtLab.CtLabProtocol.Integration
 {
     /// <summary>
     /// Registers required classes with the dependency injection container.

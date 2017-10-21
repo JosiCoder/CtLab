@@ -27,7 +27,7 @@ using CtLab.Connection.Serial;
 using CtLab.Environment;
 using CtLab.Frontend.ViewModels;
 using CtLab.BasicIntegration;
-using CtLab.CtLabProtocolIntegration;
+using CtLab.CtLabProtocol.Integration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.Frontend

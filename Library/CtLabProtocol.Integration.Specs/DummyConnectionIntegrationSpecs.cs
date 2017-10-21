@@ -24,7 +24,7 @@ using Moq;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Dummy;
 
-namespace CtLab.CtLabProtocolIntegration.Specs
+namespace CtLab.CtLabProtocol.Integration.Specs
 {
     public abstract class DummyConnectionIntegrationSpecs
         : SpecsFor<Container>

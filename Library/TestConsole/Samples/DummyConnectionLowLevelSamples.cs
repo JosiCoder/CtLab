@@ -25,7 +25,7 @@ using CtLab.Connection.Interfaces;
 using CtLab.Connection.Dummy;
 using CtLab.Messages.Interfaces;
 using CtLab.CtLabProtocol.Interfaces;
-using CtLab.CtLabProtocolIntegration;
+using CtLab.CtLabProtocol.Integration;
 
 namespace CtLab.TestConsole
 {

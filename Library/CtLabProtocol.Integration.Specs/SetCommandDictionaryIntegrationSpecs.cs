@@ -26,9 +26,9 @@ using CtLab.Connection.Interfaces;
 using CtLab.CtLabProtocol.Interfaces;
 using CtLab.BasicIntegration;
 
-namespace CtLab.CtLabProtocolIntegration.Specs
+namespace CtLab.CtLabProtocol.Integration.Specs
 {
-    public abstract class QueryCommandDictionaryIntegrationSpecs
+    public abstract class SetCommandDictionaryIntegrationSpecs
         : SpecsFor<Container>
     {
         protected Mock<IStringSender> _stringSenderMock;
@@ -48,21 +48,22 @@ namespace CtLab.CtLabProtocolIntegration.Specs
     }
 
 
-    public class When_sending_a_command_for_a_query_command_class_in_the_dictionary
-        : QueryCommandDictionaryIntegrationSpecs
+    public class When_sending_a_command_for_a_set_command_class_in_the_dictionary
+        : SetCommandDictionaryIntegrationSpecs
     {
         protected override void When()
         {
-            var queryCommandClassDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
-            var queryCommand = new QueryCommandClass(new MessageChannel(1, 11));
-            queryCommandClassDictionary.Add(queryCommand);
-            queryCommandClassDictionary.SendCommands();
+            var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary>();
+            var setCommandClass = new SetCommandClass(new MessageChannel(1, 11));
+            setCommandCLassDict.Add(setCommandClass);
+            setCommandClass.SetValue(15);
+            setCommandCLassDict.SendCommandsForModifiedValues();
         }
 
         [Test]
         public void then_underlying_string_sender_should_send_the_command_string_including_the_checksum_but_without_an_acknowledge_request()
         {
-            _stringSenderMock.Verify(sender => sender.Send("1:11?$34"), Times.Once);
+            _stringSenderMock.Verify(sender => sender.Send("1:11=15$32"), Times.Once);
         }
     }
 }

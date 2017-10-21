@@ -22,7 +22,7 @@ using StructureMap;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Serial;
 
-namespace CtLab.CtLabProtocolIntegration
+namespace CtLab.CtLabProtocol.Integration
 {
     /// <summary>
     /// Registers required classes with the dependency injection container.

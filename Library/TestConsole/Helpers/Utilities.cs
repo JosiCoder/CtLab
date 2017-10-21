@@ -22,7 +22,7 @@ using System.Text;
 using System.Diagnostics;
 using StructureMap;
 using CtLab.BasicIntegration;
-using CtLab.CtLabProtocolIntegration;
+using CtLab.CtLabProtocol.Integration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole

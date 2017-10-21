@@ -26,7 +26,7 @@ using CtLab.Connection.Dummy;
 using CtLab.CtLabProtocol.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Environment;
-using CtLab.CtLabProtocolIntegration;
+using CtLab.CtLabProtocol.Integration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole
