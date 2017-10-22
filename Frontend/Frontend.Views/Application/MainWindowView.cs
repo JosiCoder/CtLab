@@ -129,14 +129,14 @@ namespace CtLab.Frontend.Views
             IEnumerable<Widget> newWidgets = new Widget[0];
             IEnumerable<Widget> oldWidgets = new Widget[0];
 
-            //TODO: Currently only Add und Reset are supported (others aren't used yet).
+            // Currently only Add und Reset are supported (others aren't used yet).
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     newWidgets = CreateApplianceViews(e.NewItems.OfType<IApplianceViewModel>());
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    //TODO: To make "Remove" work, we have to determine the view
+                    // To make "Remove" work, we have to determine the view
                     // instances according to the viewmodel instances. As this
                     // isn't used yet, it's not yet implemented.
                     //oldWidgets = ???;

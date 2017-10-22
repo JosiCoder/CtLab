@@ -28,6 +28,7 @@ namespace CtLab.Frontend.ViewModels
     public class ApplicationSettingsViewModel : ViewModelBase, IApplicationSettingsViewModel
     {
         private const string _dummyConnectionPortName = "Simulated";
+        private const string _spiDirectPortName = "SPI Direct";
         private readonly ApplicationSettings _applicationSettings;
 
         /// <summary>
@@ -37,7 +38,11 @@ namespace CtLab.Frontend.ViewModels
         public ApplicationSettingsViewModel (IEnumerable<string> portNames,
             ApplicationSettings applicationSettings)
         {
-            PortNames = new ObservableCollection<string>(portNames.Concat(new []{_dummyConnectionPortName}));
+            PortNames = new ObservableCollection<string>(portNames.Concat(new []
+            {
+                _spiDirectPortName,
+                _dummyConnectionPortName
+            }));
             _applicationSettings = applicationSettings;
         }
 
@@ -70,8 +75,9 @@ namespace CtLab.Frontend.ViewModels
             set
             {
                 _applicationSettings.ConnectionType = value;
-                _applicationSettings.PortName = value == ApplianceConnectionType.Dummy
-                    ? _dummyConnectionPortName
+                _applicationSettings.PortName =
+                    value == ApplianceConnectionType.SpiDirect ? _spiDirectPortName
+                    : value == ApplianceConnectionType.Dummy ? _dummyConnectionPortName
                     : "";
 
                 RaisePropertyChanged ();
@@ -91,8 +97,9 @@ namespace CtLab.Frontend.ViewModels
             set
             {
                 _applicationSettings.PortName = value;
-                _applicationSettings.ConnectionType = value == _dummyConnectionPortName
-                    ? ApplianceConnectionType.Dummy
+                _applicationSettings.ConnectionType =
+                    value == _spiDirectPortName ? ApplianceConnectionType.SpiDirect
+                    : value == _dummyConnectionPortName ? ApplianceConnectionType.Dummy
                     : ApplianceConnectionType.Serial;
                 
                 RaisePropertyChanged ();

@@ -39,8 +39,7 @@ namespace CtLab.Frontend.ViewModels
     /// </summary>
     public class ApplicationSettingsReaderWriter : IApplicationSettingsWriter
     {
-        private const ApplianceConnectionType _defaultConnectionType =
-            ApplianceConnectionType.Serial;
+        private const ApplianceConnectionType _defaultConnectionType = ApplianceConnectionType.Serial;
         private const string _defaultPortName = "/dev/ttyUSB0";
         private const byte _defaultChannel = 7;
 

@@ -29,6 +29,7 @@ namespace CtLab.Frontend.ViewModels
     /// </summary>
     public enum ApplianceConnectionType
     {
+        SpiDirect,
         Serial,
         Dummy,
     }
@@ -135,7 +136,9 @@ namespace CtLab.Frontend.ViewModels
 
                 // Currently, we have only one appliance, but later we might have more.
                 var portDescriptionFormat = 
-                    connectionType == ApplianceConnectionType.Serial
+                    connectionType == ApplianceConnectionType.SpiDirect
+                    ? "(SPI direct)"
+                    : connectionType == ApplianceConnectionType.Serial
                     ? "(serial port {0}, channel {1})"
                     : connectionType == ApplianceConnectionType.Dummy
                     ? "(simulated, channel {1})"
@@ -187,11 +190,11 @@ namespace CtLab.Frontend.ViewModels
         {
             Appliance appliance;
 
-//TODO Test only
-//            return _applianceFactory.CreateSpiAppliance ();
-
             switch (connectionType)
             {
+                case ApplianceConnectionType.SpiDirect:
+                    appliance = _applianceFactory.CreateSpiAppliance ();
+                    break;
                 case ApplianceConnectionType.Serial:
                     if (_applianceFactory.AvailablePortNames.Contains(portName))
                     {
