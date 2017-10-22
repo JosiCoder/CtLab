@@ -40,13 +40,16 @@ namespace CtLab.SpiConnection.Standard
         public void Send(byte spiAddress, uint valueToSend)
         {
 //TODO: Send and receive from SPI via Interop, then raise received event.
-//            throw new NotImplementedException();
+            //            throw new NotImplementedException();
 
-            System.Console.WriteLine ("{0}, {1}", spiAddress, valueToSend);
+            Console.WriteLine("Value sent to SPI address {0}: {1}", spiAddress, valueToSend);
 
 //TODO Test-only
             spiAddress = 5;
-            ValueReceived.Raise(this, new SpiReceivedEventArgs(spiAddress, valueToSend));
+            var valueReceived = valueToSend;
+
+            Console.WriteLine("Value received from SPI address {0}: {1}", spiAddress, valueReceived);
+            ValueReceived.Raise(this, new SpiReceivedEventArgs(spiAddress, valueReceived));
         }
     }
 }
