@@ -18,6 +18,7 @@
 using System;
 using CtLab.Messages.Interfaces;
 using CtLab.CtLabProtocol.Interfaces;
+//using CtLab.SpiDirect.Interfaces;
 
 namespace CtLab.Device.Base
 {

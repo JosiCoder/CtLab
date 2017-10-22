@@ -17,7 +17,6 @@
 
 using System;
 using CtLab.Device.Base;
-using CtLab.CtLabProtocol.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaConnection.CtLabProtocol

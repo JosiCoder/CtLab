@@ -53,9 +53,5 @@
       <Project>{87633C5D-333C-4CCE-899B-45ADB857C856}</Project>
       <Name>Messages.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CommandsAndMessages.Interfaces\CtLabProtocol.Interfaces.csproj">
-      <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
-      <Name>CtLabProtocol.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

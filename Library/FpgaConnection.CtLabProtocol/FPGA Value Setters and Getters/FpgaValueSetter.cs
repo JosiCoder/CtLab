@@ -16,7 +16,6 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.Messages.Interfaces;
-using CtLab.CtLabProtocol.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaConnection.CtLabProtocol

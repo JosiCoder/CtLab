@@ -18,7 +18,6 @@
 using System;
 using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
-using CtLab.CtLabProtocol.Interfaces;
 using CtLab.Environment;
 
 namespace CtLab.EnvironmentIntegration

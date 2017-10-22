@@ -53,6 +53,10 @@
       <Project>{AB459BFD-3A04-4A5E-B073-4C138F1856EB}</Project>
       <Name>CtLabProtocol.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SpiDirect.Interfaces\SpiDirect.Interfaces.csproj">
+      <Project>{3F5F3123-A6F8-4B7C-9AA7-5640DF14AC7C}</Project>
+      <Name>SpiDirect.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
