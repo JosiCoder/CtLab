@@ -49,16 +49,38 @@ namespace CtLab.EnvironmentIntegration
         }
 
         /// <summary>
-        /// Creates an FPGA-based signal generator.
+        /// Creates an FPGA-based signal generator that can be accessed via the c't Lab protocol.
         /// </summary>
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA module.
         /// </param>
-        public ISignalGenerator CreateSignalGenerator(byte mainchannel)
+        public ISignalGenerator CreateCtLabProtocolSignalGenerator(byte mainchannel)
         {
-            var deviceConnection = new DeviceConnection (mainchannel, _setCommandClassDictionary,
-                _queryCommandScheduler.CommandClassDictionary, _receivedMessagesCache);
+            var deviceConnection = new CtLabProtocolDeviceConnection (mainchannel,
+                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
+                _receivedMessagesCache);
 
+            return CreateSignalGenerator(deviceConnection);
+        }
+
+        /// <summary>
+        /// Creates an FPGA-based signal generator that can be accessed via the SPI interface.
+        /// </summary>
+        public ISignalGenerator CreateSpiDirectSignalGenerator()
+        {
+            var deviceConnection = new SpiDirectDeviceConnection(
+                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
+                _receivedMessagesCache);
+
+            return CreateSignalGenerator(deviceConnection);
+        }
+
+        /// <summary>
+        /// Creates an FPGA-based signal generator.
+        /// </summary>
+        /// <param name="deviceConnection">The connection used to access the signal generator.</param>
+        private ISignalGenerator CreateSignalGenerator(IDeviceConnection deviceConnection)
+        {
             var fpgaConnection = new
                 CtLab.FpgaConnection.CtLabProtocol.FpgaConnection (deviceConnection);
 

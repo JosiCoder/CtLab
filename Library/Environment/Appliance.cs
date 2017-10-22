@@ -65,20 +65,39 @@ namespace CtLab.Environment
         }
 
         /// <summary>
-        /// Initializes or reinitializes a single FPGA Lab device instance
-        /// running the signal generator.
+        /// Initializes or reinitializes a single FPGA Lab device instance running
+        /// the signal generator hat can be accessed via the c't Lab protocol. 
         /// </summary>
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA Lab.
         /// </param>
-        public void InitializeSignalGenerator(byte mainchannel)
+        public void InitializeCtLabProtocolSignalGenerator(byte mainchannel)
         {
             lock (_applianceConnection.SyncRoot)
             {
                 if (_signalGenerator != null)
                     _signalGenerator.Dispose();
 
-                _signalGenerator = _deviceFactory.CreateSignalGenerator(mainchannel);
+                _signalGenerator = _deviceFactory.CreateCtLabProtocolSignalGenerator(mainchannel);
+
+                // Initialize the device.
+                _signalGenerator.Reset();
+                _applianceConnection.FlushModifications();
+            }
+        }
+
+        /// <summary>
+        /// Initializes or reinitializes a single FPGA Lab device instance running
+        /// the signal generator hat can be accessed via the SPI interface.
+        /// </summary>
+        public void InitializeSpiDirectSignalGenerator(byte mainchannel)
+        {
+            lock (_applianceConnection.SyncRoot)
+            {
+                if (_signalGenerator != null)
+                    _signalGenerator.Dispose();
+
+                _signalGenerator = _deviceFactory.CreateSpiDirectSignalGenerator();
 
                 // Initialize the device.
                 _signalGenerator.Reset();

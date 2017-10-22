@@ -26,7 +26,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
     /// </summary>
     public class FpgaConnection : IFpgaConnection
     {
-        private readonly DeviceConnection _deviceConnection;
+        private readonly IDeviceConnection _deviceConnection;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -34,7 +34,7 @@ namespace CtLab.FpgaConnection.CtLabProtocol
         /// <param name="deviceConnection">
         /// The device connection to the c't Lab device.
         /// </param>
-        public FpgaConnection(DeviceConnection deviceConnection)
+        public FpgaConnection(IDeviceConnection deviceConnection)
         {
             _deviceConnection = deviceConnection;
         }

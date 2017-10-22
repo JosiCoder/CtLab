@@ -177,7 +177,7 @@ namespace CtLab.Frontend
         /// </param>
         private void DoFinalInitialization(Appliance appliance, byte channel)
         {
-            appliance.InitializeSignalGenerator(channel);
+            appliance.InitializeCtLabProtocolSignalGenerator(channel);
 
             // Get the signal generator and reset the hardware to cancel
             // settings from previous configurations.

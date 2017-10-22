@@ -59,7 +59,7 @@ namespace CtLab.TestConsole
                 var applianceConnection = appliance.ApplianceConnection;
 
                     // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeSignalGenerator (5);
+                appliance.InitializeCtLabProtocolSignalGenerator (5);
 
                 // Change some sample settings of the signal generator. This results in modifying the values
                 // of set command classes and sending all the commands that have modified values.

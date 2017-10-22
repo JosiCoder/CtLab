@@ -25,11 +25,16 @@ namespace CtLab.Environment
     public interface IDeviceFactory
     {
         /// <summary>
-        /// Creates an FPGA-based signal generator.
+        /// Creates an FPGA-based signal generator that can be accessed via the c't Lab protocol.
         /// </summary>
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA module.
         /// </param>
-        ISignalGenerator CreateSignalGenerator(byte mainchannel);
+        ISignalGenerator CreateCtLabProtocolSignalGenerator(byte mainchannel);
+
+        /// <summary>
+        /// Creates an FPGA-based signal generator that can be accessed via the SPI interface.
+        /// </summary>
+        ISignalGenerator CreateSpiDirectSignalGenerator();
     }
 }

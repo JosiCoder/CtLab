@@ -187,6 +187,8 @@ namespace CtLab.Frontend.ViewModels
         {
             Appliance appliance;
 
+//            return _applianceFactory.CreateSpiAppliance ();
+//TODO
             switch (connectionType)
             {
                 case ApplianceConnectionType.Serial:
