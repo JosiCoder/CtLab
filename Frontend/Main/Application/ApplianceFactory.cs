@@ -56,7 +56,8 @@ namespace CtLab.Frontend
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            DoFinalInitialization(appliance, 0);
+            appliance.InitializeSpiDirectSignalGenerator();
+            ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
 
@@ -77,7 +78,8 @@ namespace CtLab.Frontend
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-            DoFinalInitialization(appliance, channel);
+            appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
 
@@ -137,7 +139,8 @@ namespace CtLab.Frontend
                     .InjectReceivedString(stringToInject);
             });
 
-            DoFinalInitialization(appliance, channel);
+            appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
 
@@ -169,20 +172,14 @@ namespace CtLab.Frontend
         }
 
         /// <summary>
-        /// Performs some final initialization on the specified appliance.
+        /// Applies initial settings to the specified appliance.
         /// </summary>
-        /// <param name="appliance">The appliance it initialize.</param>
-        /// <param name="channel">
-        /// The number of the channel assigned to the FPGA Lab device.
-        /// </param>
-        private void DoFinalInitialization(Appliance appliance, byte channel)
+        /// <param name="appliance">The appliance to apply initial settings to.</param>
+        private void ApplyInitialApplianceSettings(Appliance appliance)
         {
-            appliance.InitializeCtLabProtocolSignalGenerator(channel);
-
             // Get the signal generator and reset the hardware to cancel
             // settings from previous configurations.
-            var signalGenerator = appliance.SignalGenerator;
-            signalGenerator.Reset();
+            appliance.SignalGenerator.Reset();
 
             // Set the generators to a demo configuration so that we can
             // immediately see something and have a starting point.

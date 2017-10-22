@@ -90,7 +90,7 @@ namespace CtLab.Environment
         /// Initializes or reinitializes a single FPGA Lab device instance running
         /// the signal generator hat can be accessed via the SPI interface.
         /// </summary>
-        public void InitializeSpiDirectSignalGenerator(byte mainchannel)
+        public void InitializeSpiDirectSignalGenerator()
         {
             lock (_applianceConnection.SyncRoot)
             {
