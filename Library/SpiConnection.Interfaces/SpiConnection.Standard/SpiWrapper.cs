@@ -111,28 +111,21 @@ namespace CtLab.SpiConnection.Standard
             {
                 Array.Reverse(sendData);
             }
-
             var sendBytesString = ConvertBufferToString(sendData);
             Console.WriteLine("Value sent to SPI address {0}: {1} ({2})",
                 spiAddress, valueToSend, sendBytesString);
 
-//TODO: Send and receive from SPI via Interop, then raise received event.
-//            var receivedData = Transfer(spiAddress, sendData).ToArray();
-var receivedData = sendData;
+            // Send and receive to and from SPI via interop library.
+            var receivedData = Transfer(spiAddress, sendData).ToArray();
 
             var receiveBytesString = ConvertBufferToString(receivedData);
-
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(receivedData);
             }
             var valueReceived = BitConverter.ToUInt32(receivedData, 0);
-
-            Console.WriteLine("Value sent to SPI address {0}: {1} ({2})",
+            Console.WriteLine("Value received from SPI address {0}: {1} ({2})",
                 spiAddress, valueReceived, receiveBytesString);
-
-//TODO Test
-spiAddress = 5;
 
             ValueReceived.Raise(this, new SpiReceivedEventArgs(spiAddress, valueReceived));
         }

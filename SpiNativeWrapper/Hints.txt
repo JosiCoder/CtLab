@@ -1,0 +1,13 @@
+# For more information on shared libraries and P/Invoke, see:
+http://www.cprogramming.com/tutorial/shared-libraries-linux-gcc.html
+http://www.mono-project.com/docs/advanced/pinvoke/
+
+# For loading a shared library, setting the search path might be necessary:
+export LD_LIBRARY_PATH=$PWD:$LD_LIBRARY_PATH
+
+# Check how library dependencies are resolved:
+ldd test
+
+# Create shared libraries with assembler output (alternatively):
+gcc -S -c -Wall -Werror -fpic interop.c
+gcc -c -g -Wall -Werror -fpic -Wa,-a,-ad interop.c > interop.lst

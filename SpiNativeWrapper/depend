@@ -1,0 +1,2 @@
+test.o: test.c interop.h
+interop.o: interop.c interop.h
