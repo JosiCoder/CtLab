@@ -8,6 +8,10 @@ Dependencies
 packages/
 TestResults/
 output/
+*.o
+*.so
+*.exe
+testnative
 
 # globs
 Makefile.in
