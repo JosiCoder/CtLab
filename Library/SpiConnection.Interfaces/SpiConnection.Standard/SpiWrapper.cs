@@ -16,6 +16,10 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using CtLab.Utilities;
 using CtLab.SpiConnection.Interfaces;
 
@@ -26,6 +30,69 @@ namespace CtLab.SpiConnection.Standard
     /// </summary>
     public class SpiWrapper : ISpiSender, ISpiReceiver
     {
+        private const int _receiveBufferSize = 32;
+        private const string _addressDevice = "/dev/spidev0.0";
+        private const string _dataDevice = "/dev/spidev0.1";
+
+        [DllImport ("interop")]
+        private static extern int transfer_spi_data(string device, byte[] tx_buf, byte[] rx_buf,
+            int len, StringBuilder error_string_buffer, int error_string_maxlen);
+
+        /// <summary>
+        /// Transfers data to and from the specified SPI device.
+        /// </summary>
+        /// <param name="device">The SPI device to transfer the data to and from.</param>
+        /// <param name="sendData">The data to send.</param>
+        /// <returns>The data received.</returns>
+        private static IEnumerable<byte> TransferRaw(string device, IEnumerable<byte> sendData)
+        {
+            var receiveBuffer = new byte[_receiveBufferSize];
+
+            int transmissionLength = sendData.Count();
+
+            if (transmissionLength > _receiveBufferSize)
+            {
+                throw new InvalidOperationException("SPI transmission length must not exeed receive buffer size.");
+            }
+
+            var errorStringBuilder = new StringBuilder(100);
+            var ret = transfer_spi_data(device, sendData.ToArray(), receiveBuffer, transmissionLength,
+                errorStringBuilder, errorStringBuilder.Capacity);
+
+            if (ret < 0)
+            {
+                throw new ApplicationException(string.Format("SPI transmission failed: {0}", errorStringBuilder));
+            }
+            return receiveBuffer.Take(transmissionLength);         
+        }
+
+        /// <summary>
+        /// Transfers data to and from the specified SPI address.
+        /// </summary>
+        /// <param name="spiAddress">The SPI address to transfer the data to and from.</param>
+        /// <param name="sendData">The data to send.</param>
+        /// <returns>The data received.</returns>
+        private static IEnumerable<byte> Transfer(byte spiAddress, IEnumerable<byte> sendData)
+        {
+            TransferRaw(_addressDevice, new []{spiAddress});
+            return TransferRaw(_dataDevice, sendData);
+        }
+
+        /// <summary>
+        /// Converts the contents of the specified data buffer to a string representation.
+        /// </summary>
+        /// <param name="buffer">The data buffer to convert the contents from.</param>
+        /// <returns>The string representing the data buffer contents.</returns>
+        private static string ConvertBufferToString(IEnumerable<byte> buffer)
+        {
+            var builder = new StringBuilder();
+            foreach (byte b in buffer)
+            {
+                builder.AppendFormat("{0:X2} ", b);
+            }
+            return builder.ToString().Trim();
+        }
+
         /// <summary>
         /// Occurs when a value has been received from an SPI slave. Note that
         /// this event might be called via a background thread.
@@ -39,16 +106,34 @@ namespace CtLab.SpiConnection.Standard
         /// <param name="valueToSend">The value to be sent.</param>
         public void Send(byte spiAddress, uint valueToSend)
         {
+            var sendData = BitConverter.GetBytes(valueToSend);
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(sendData);
+            }
+
+            var sendBytesString = ConvertBufferToString(sendData);
+            Console.WriteLine("Value sent to SPI address {0}: {1} ({2})",
+                spiAddress, valueToSend, sendBytesString);
+
 //TODO: Send and receive from SPI via Interop, then raise received event.
-            //            throw new NotImplementedException();
+//            var receivedData = Transfer(spiAddress, sendData).ToArray();
+var receivedData = sendData;
 
-            Console.WriteLine("Value sent to SPI address {0}: {1}", spiAddress, valueToSend);
+            var receiveBytesString = ConvertBufferToString(receivedData);
 
-//TODO Test-only
-            spiAddress = 5;
-            var valueReceived = valueToSend;
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(receivedData);
+            }
+            var valueReceived = BitConverter.ToUInt32(receivedData, 0);
 
-            Console.WriteLine("Value received from SPI address {0}: {1}", spiAddress, valueReceived);
+            Console.WriteLine("Value sent to SPI address {0}: {1} ({2})",
+                spiAddress, valueReceived, receiveBytesString);
+
+//TODO Test
+spiAddress = 5;
+
             ValueReceived.Raise(this, new SpiReceivedEventArgs(spiAddress, valueReceived));
         }
     }
