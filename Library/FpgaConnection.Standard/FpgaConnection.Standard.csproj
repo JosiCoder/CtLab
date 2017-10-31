@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CtLab.FpgaConnection.CtLabProtocol</RootNamespace>
-    <AssemblyName>CtLab.FpgaConnection.CtLabProtocol</AssemblyName>
+    <RootNamespace>CtLab.FpgaConnection.Standard</RootNamespace>
+    <AssemblyName>CtLab.FpgaConnection.Standard</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

@@ -18,7 +18,7 @@
 using System;
 using CtLab.Device.Base;
 using CtLab.Messages.Interfaces;
-using CtLab.FpgaConnection.CtLabProtocol;
+using CtLab.FpgaConnection.Standard;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
 using CtLab.Environment;
@@ -82,7 +82,7 @@ namespace CtLab.EnvironmentIntegration
         private ISignalGenerator CreateSignalGenerator(IDeviceConnection deviceConnection)
         {
             var fpgaConnection = new
-                CtLab.FpgaConnection.CtLabProtocol.FpgaConnection (deviceConnection);
+                CtLab.FpgaConnection.Standard.FpgaConnection (deviceConnection);
 
             return new SignalGenerator(fpgaConnection);
         }

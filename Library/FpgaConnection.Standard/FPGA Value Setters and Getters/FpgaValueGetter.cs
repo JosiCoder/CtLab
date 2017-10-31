@@ -19,7 +19,7 @@ using System;
 using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
-namespace CtLab.FpgaConnection.CtLabProtocol
+namespace CtLab.FpgaConnection.Standard
 {
     /// <summary>
     /// Gets FPGA values by evaluating according c't Lab messages.

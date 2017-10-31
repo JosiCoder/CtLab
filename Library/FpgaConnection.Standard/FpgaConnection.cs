@@ -19,7 +19,7 @@ using System;
 using CtLab.Device.Base;
 using CtLab.FpgaConnection.Interfaces;
 
-namespace CtLab.FpgaConnection.CtLabProtocol
+namespace CtLab.FpgaConnection.Standard
 {
     /// <summary>
     /// Provides access to an FPGA Lab device, based on c't Lab set and query commands.

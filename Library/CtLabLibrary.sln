@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connection", "Connection", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaConnection.Interfaces", "FpgaConnection.Interfaces\FpgaConnection.Interfaces.csproj", "{403DF8FB-8479-4546-AE27-707FBD5EC4F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaConnection.CtLabProtocol", "FpgaConnection.CtLabProtocol\FpgaConnection.CtLabProtocol.csproj", "{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpgaConnection.Standard", "FpgaConnection.Standard\FpgaConnection.Standard.csproj", "{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Appliance", "6 - Appliance", "{AB9145E6-B8C3-4E97-8D70-C7D4D6823A5A}"
 EndProject
