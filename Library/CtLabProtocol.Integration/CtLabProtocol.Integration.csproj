@@ -72,6 +72,10 @@
       <Project>{B92D9AB3-1EA4-49DF-B851-36B7D7170430}</Project>
       <Name>Connection.Serial</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

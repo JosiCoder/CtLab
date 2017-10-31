@@ -78,5 +78,9 @@
       <Project>{998169A4-595A-4995-ACFA-010FB9C59191}</Project>
       <Name>Messages.Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

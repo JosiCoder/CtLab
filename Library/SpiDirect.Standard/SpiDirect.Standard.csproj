@@ -54,6 +54,10 @@
       <Project>{AF217948-EB6B-4846-BFE8-D03139C8E016}</Project>
       <Name>SpiConnection.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />

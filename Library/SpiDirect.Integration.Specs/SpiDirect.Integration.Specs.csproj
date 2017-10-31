@@ -93,5 +93,9 @@
       <Project>{57D63BB0-C30F-47C3-9885-9E0A78A404E2}</Project>
       <Name>Connection.Dummy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

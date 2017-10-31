@@ -91,6 +91,10 @@
       <Project>{002AB5C8-B9E2-48CA-8ED6-195119D076EB}</Project>
       <Name>CtLabProtocol.Integration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

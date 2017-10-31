@@ -55,4 +55,10 @@
     <Folder Include="Commands\" />
     <Folder Include="Miscellaneous\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
