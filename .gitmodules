@@ -1,3 +1,6 @@
 [submodule "submodules/Bind"]
 	path = submodules/Bind
 	url = https://github.com/JosiCoder/Bind.git
+[submodule "submodules/ScopeLib"]
+	path = submodules/ScopeLib
+	url = https://github.com/JosiCoder/ScopeLib.git
