@@ -36,6 +36,7 @@ namespace CtLab.Frontend.ViewModels.Specs
                 .Setup (viewModelFactory => viewModelFactory.CreateApplicationSettingsViewModel (It.IsAny<IEnumerable<string>> (), It.IsAny<ApplicationSettings> ()))
                 .Callback<IEnumerable<string>, ApplicationSettings> ((portNames, appSettings) =>
                 {
+                    appSettings.ConnectionType = ApplianceConnectionType.Serial;    
                     appSettings.PortName = portName;
                 });
 
