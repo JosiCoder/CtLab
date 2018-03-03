@@ -124,25 +124,25 @@ namespace CtLab.FpgaSignalGenerator.Standard
 
             // Four DDS generators.
             _ddsGenerators = new DdsGenerator[4];
-            _ddsGenerators[0] = BuildDdsGenerator(16);
-            _ddsGenerators[1] = BuildDdsGenerator(20);
-            _ddsGenerators[2] = BuildDdsGenerator(24);
-            _ddsGenerators[3] = BuildDdsGenerator(28);
+            _ddsGenerators[0] = BuildDdsGenerator(8);
+            _ddsGenerators[1] = BuildDdsGenerator(12);
+            _ddsGenerators[2] = BuildDdsGenerator(16);
+            _ddsGenerators[3] = BuildDdsGenerator(20);
 
             // The signal selectors for two outputs.
             _outputSourceSelector = new OutputSourceSelector(
-                CreateFpgaValueSetter(3));
+                CreateFpgaValueSetter(7));
 
             // The pulse generator.
             _pulseGenerator = new PulseGenerator(
-                CreateFpgaValueSetter(15),
-                CreateFpgaValueSetter(14));
+                CreateFpgaValueSetter(6),
+                CreateFpgaValueSetter(5));
 
             // The universal counter.
             _universalCounter = new UniversalCounter(
-                CreateFpgaValueSetter(12),
-                CreateFpgaValueGetter(5),
-                CreateFpgaValueGetter(4)
+                CreateFpgaValueSetter(1),
+                CreateFpgaValueGetter(3),
+                CreateFpgaValueGetter(2)
             );
         }
 

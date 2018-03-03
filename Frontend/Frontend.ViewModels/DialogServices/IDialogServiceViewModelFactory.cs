@@ -22,7 +22,7 @@ using CtLab.Environment;
 namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Provides access to a dialog service view model factory.
+    /// Provides access to a dialog service viewmodel factory.
     /// </summary>
     public interface IDialogServiceViewModelFactory
     {

@@ -91,14 +91,14 @@ architecture stdarch of Main is
     type integer_vector is array (natural range <>) of integer;
     -- SPI receiver sub-addresses.
     constant dds_generator_base_subaddr: integer_vector(0 to number_of_dds_generators-1)
-        := (0=>16, 1=>20, 2=>24, 3=>28); -- need n..n+2 each
-    constant peripheral_configuration_subaddr: integer := 3;
-    constant universal_counter_config_subaddr: integer := 12;
-    constant pulse_generator_high_duration_subaddr: integer := 15;
-    constant pulse_generator_low_duration_subaddr: integer := 14;
+        := (0=>8, 1=>12, 2=>16, 3=>20); -- need n..n+2 each
+    constant peripheral_configuration_subaddr: integer := 7;
+    constant universal_counter_config_subaddr: integer := 1;
+    constant pulse_generator_high_duration_subaddr: integer := 6;
+    constant pulse_generator_low_duration_subaddr: integer := 5;
     -- SPI transmitter sub-addresses.
-    constant universal_counter_state_subaddr: integer := 4;
-    constant universal_counter_value_subaddr: integer := 5;
+    constant universal_counter_state_subaddr: integer := 2;
+    constant universal_counter_value_subaddr: integer := 3;
 
     -- Clocks
     signal clk_50mhz: std_logic;
@@ -225,6 +225,7 @@ begin
     transmit_data_x(universal_counter_value_subaddr) <= std_logic_vector(universal_counter_value);
 
     -- Panel values.
+    transmit_data_x(0) <= X"DEADBEEF";
 --    transmit_data_x(0) <= universal_counter_config;
 --    transmit_data_x(1) <= std_logic_vector(dds_generator_phase_increments(0));
 --    transmit_data_x(2) <= std_logic_vector(dds_generator_phase_shifts(0));
