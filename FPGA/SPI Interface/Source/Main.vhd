@@ -115,7 +115,6 @@ begin
     --------------------------------------------------------------------------------
 
     -- Connections to and from internal signals.
-    test_led <= received_data_x(0)(0);
     transmit_data_x <= received_data_x; -- test loop back
 
     -- The SPI slave.
@@ -142,7 +141,10 @@ begin
     --------------------------------------------------------------------------------
     -- Output logic.
     --------------------------------------------------------------------------------
+
+    -- SPI & test LED.
     f_miso <= miso when f_ds = '0' else 'Z';
     ext_miso <= miso when ext_ds = '0' else 'Z';
+    test_led <= received_data_x(0)(0);
 
 end architecture;
