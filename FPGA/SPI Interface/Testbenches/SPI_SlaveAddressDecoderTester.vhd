@@ -84,7 +84,6 @@ begin
             assert (buffer_enable_x = expected_ss_x)
                 report "One or more buffer_enable_x not set correctly."
                 severity error;
-
         end loop;
 
         -- Disable the slave select again and check whether all buffer_enable_x signals

@@ -61,7 +61,7 @@ architecture stdarch of DACController_Tester is
 
     -------------------------------------------------------------------------
     -- Lets the DAC controller cycle through all channels and checks whether
-    -- they´re handled correctly.
+    -- they are handled correctly.
     -------------------------------------------------------------------------
     procedure test_all_adc_channels(channel_0_value: integer;
                                     channel_1_value: integer)
@@ -76,7 +76,7 @@ architecture stdarch of DACController_Tester is
         wait until dac_write = '1';
         
         -- Let the DAC controller cycle through all channels and see whether
-        -- they´re handled correctly. Two clock cycles are necessary for each
+        -- they are handled correctly. Two clock cycles are necessary for each
         -- channel.
         for i in 0 to (2*test_no_of_channels)-1 loop
         
