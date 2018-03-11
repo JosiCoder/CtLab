@@ -16,12 +16,12 @@
 
   <files>
     <file xil_pn:name="../Source/SRAM_Controller.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="Implementation"/>
       <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
     </file>
     <file xil_pn:name="../Testbenches/SRAM_Controller_Tester.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="Implementation"/>
       <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
     </file>
   </files>
 

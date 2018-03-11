@@ -93,7 +93,7 @@ begin
     next_state_logic: process(state, read, write, address, data_in, ram_data) is
         variable do_access: std_logic;-- := '0';
     begin
---    
+    
         -- Defaults.
         next_state <= state;
         next_state.wait_states_counter <= (others => '0');
@@ -102,12 +102,15 @@ begin
         next_state.ram_oe_n <= '1';
         next_state.ram_data <= (others => 'Z');
 
+        -- Detect read mode.
         do_access := '0';
         if (read = '1' and write = '0') then
             next_state.ram_oe_n <= '0';
             do_access := '1';
         end if;
 
+        -- For read and write access, forward the address to the SRAM at the beginning of the access cycle
+        -- and the data from there at the end of the access cycle.
         if (do_access = '1') then
             -- For all clock cycles of the access cycle except the last one.
             if (state.wait_states_counter /= to_unsigned(num_of_wait_states-1, wait_states_counter_width)) then
@@ -123,63 +126,19 @@ begin
                 next_state.wait_states_counter <= (others => '0');
             end if;
         end if;
-        
---        if (do_access = '1') then
---            -- Keep the address at the beginning of the access cycle.
---            if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
---                next_state.ram_address <= address;
---            -- Take the data at the end of the access cycle and pulse the ready flag for one clock cycle.
---            if (state.wait_states_counter = to_unsigned(num_of_wait_states-1, wait_states_counter_width)) then
---                next_state.data_out <= ram_data;
---                next_state.ready <= '1';
---            end if;
---            next_state.wait_states_counter <= state.wait_states_counter + 1;
---        end if;
-        
-        -- Connect SRAM data to input data on write or to 'Z' on read.
---		if (read = '0' and write = '1') then
---			next_state.ram_data <= data_in;
---		else
---			next_state.ram_data <= (others => 'Z');
---		end if;        
---
---        -- Switch to the next channel when the write signal gets deactivated.
---        if (state.dac_write = '1') then
---        
---            -- Switch to the next channel and get this channels value.
---            if state.dac_channel_select = '0' then
---                next_state.dac_channel_select <= '1';
---                next_dac_value := channel_1_value;
---            else
---                next_state.dac_channel_select <= '0';
---                next_dac_value := channel_0_value;
---            end if;
---
---            -- Toggle the sign bit, i.e. convert the signed value to an unsigned value
---            -- with an offset.
---            next_dac_value(data_width-1) := not next_dac_value(data_width-1);
---            next_state.dac_value <= unsigned(next_dac_value);
---
---        end if;
---
---        -- Toggle the write signal.
---        next_state.dac_write <= not state.dac_write;
---        
+
     end process;
     
 
     --------------------------------------------------------------------------------
     -- Output logic.
     --------------------------------------------------------------------------------
---    dac_channel_select <= state.dac_channel_select;
---    dac_write <= state.dac_write;
---    dac_value <= state.dac_value;
 
-        ready <= state.ready;
-        data_out <= state.data_out;
-        ram_we_n <= state.ram_we_n;
-        ram_oe_n <= state.ram_oe_n;
-        ram_address <= state.ram_address;
-        ram_data <= state.ram_data;
+    ready <= state.ready;
+    data_out <= state.data_out;
+    ram_we_n <= state.ram_we_n;
+    ram_oe_n <= state.ram_oe_n;
+    ram_address <= state.ram_address;
+    ram_data <= state.ram_data;
 
 end architecture;
