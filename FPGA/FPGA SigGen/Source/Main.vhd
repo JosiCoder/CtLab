@@ -58,17 +58,13 @@ entity Main is
         dds_sync_out: out std_logic_vector(number_of_dds_generators-1 downto 0);
         -- The pulse generator output.
         pulse_out: out std_logic;
-        -- The RAMs write enable signal (active low).
+        -- The SRAMs signals.
         ram_we_n: out std_logic;
-        -- The RAMs output enable signal (active low).
         ram_oe_n: out std_logic;
-        -- The DACs clock (single DAC U2 only).
+        -- The DACs signals.
         dac_clk: out std_logic;
-        -- The DACs channel selection signal (dual DAC U5 only).
         dac_channel_select: out std_logic;
-        -- The DACs write signal (dual DAC U5 only, active low).
         dac_write_n: out std_logic;
-        -- The DACs value.
         dac_value: out std_logic_vector(dac_data_width-1 downto 0)
     );
 end entity;

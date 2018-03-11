@@ -44,7 +44,7 @@ entity SRAM_Controller is
         ready: out std_logic;
         -- The address and data towards the client.
         address: in unsigned(address_width-1 downto 0);
-        data_in: in unsigned(data_width-1 downto 0);
+        data_in: in std_logic_vector(data_width-1 downto 0);
         data_out: out std_logic_vector(data_width-1 downto 0);
         -- The control signals towards the SRAM (write enable and output enable, both active low).
         ram_we_n: out std_logic;

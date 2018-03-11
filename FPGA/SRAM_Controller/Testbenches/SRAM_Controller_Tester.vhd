@@ -47,7 +47,7 @@ architecture stdarch of SRAM_Controller_Tester is
     signal read: std_logic;
     signal write: std_logic;
     signal address: unsigned(address_width-1 downto 0);
-    signal data_in: unsigned(data_width-1 downto 0);
+    signal data_in: std_logic_vector(data_width-1 downto 0);
 
     --------------------
     -- Outputs

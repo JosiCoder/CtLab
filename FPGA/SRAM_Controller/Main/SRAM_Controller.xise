@@ -21,7 +21,80 @@
     </file>
     <file xil_pn:name="../Testbenches/SRAM_Controller_Tester.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="PostRouteSimulation"/>
+      <association xil_pn:name="PostMapSimulation"/>
+      <association xil_pn:name="PostTranslateSimulation"/>
+    </file>
+    <file xil_pn:name="../Source/Constraints.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../Source/Main.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/Globals.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../Source/Globals.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_SlaveTransmitterSerializer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_Slave.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_SlaveAddressDecoder.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_SlaveDataBuffer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_SlaveReceiver.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_SlaveReceiverDeserializer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../SPI Interface/Source/SPI_SlaveTransmitter.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SPI_Interface"/>
+    </file>
+    <file xil_pn:name="../../Common/Source/Counter.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="Common"/>
+    </file>
+    <file xil_pn:name="../../Common/Source/EdgeDetector.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="Common"/>
+    </file>
+    <file xil_pn:name="../../Common/Source/Synchronizer.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="Common"/>
+    </file>
+    <file xil_pn:name="../../Common/Source/Toggler.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation"/>
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="Common"/>
     </file>
   </files>
 
@@ -30,8 +103,8 @@
     <property xil_pn:name="Device" xil_pn:value="xc3s400"/>
     <property xil_pn:name="Device Family" xil_pn:value="Spartan3"/>
     <property xil_pn:name="Fitter Report Format" xil_pn:value="HTML"/>
-    <property xil_pn:name="Implementation Top" xil_pn:value="Architecture|SRAM_Controller_Tester|stdarch"/>
-    <property xil_pn:name="Implementation Top Instance Path" xil_pn:value="/SRAM_Controller_Tester"/>
+    <property xil_pn:name="Implementation Top" xil_pn:value="Architecture|Main|stdarch"/>
+    <property xil_pn:name="Implementation Top Instance Path" xil_pn:value="/Main"/>
     <property xil_pn:name="PROP_BehavioralSimTop" xil_pn:value="Architecture|SRAM_Controller_Tester|stdarch"/>
     <property xil_pn:name="PROP_DesignName" xil_pn:value="SRAMController"/>
     <property xil_pn:name="Package" xil_pn:value="tq144"/>
@@ -46,10 +119,13 @@
 
   <bindings/>
 
-  <libraries/>
+  <libraries>
+    <library xil_pn:name="Common"/>
+    <library xil_pn:name="SPI_Interface"/>
+  </libraries>
 
   <partitions>
-    <partition xil_pn:name="/SRAM_Controller_Tester"/>
+    <partition xil_pn:name="/Main"/>
   </partitions>
 
 </project>
