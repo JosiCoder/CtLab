@@ -90,6 +90,15 @@ architecture stdarch of Main is
     );
     signal miso: std_logic;
 
+    -- Memory controller
+    signal memory_clk: std_logic;
+    signal memory_read: std_logic;
+    signal memory_write: std_logic;
+    signal memory_ready: std_logic;
+    signal memory_address: unsigned(ram_address_width-1 downto 0);
+    signal memory_data_in: std_logic_vector(ram_data_width-1 downto 0);
+    signal memory_data_out: std_logic_vector(ram_data_width-1 downto 0);
+
     -- Internals
     signal transmit_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
     signal received_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
@@ -132,12 +141,27 @@ begin
     -- Connections to and from internal signals.
     --------------------------------------------------------------------------------
 
---TODO Test
-    -- Connections to and from internal signals.
---    transmit_data_x <= received_data_x; -- test loop back
+    -- Values shown on panel.
+    --------------------------------------------------------
+    
+    -- Show data read from memory on channel 0.
+    transmit_data_x(0) <= x"000000" & memory_data_out;
+    -- Loopback for channels 1 to 3.
     transmit_data_x(number_of_data_buffers-1 downto 1) <= received_data_x(number_of_data_buffers-1 downto 1);
---    transmit_data_x(0) <= received_data_x(0);
-    transmit_data_x(0) <= x"000000" & ram_data;
+
+    -- Connections to SRAM controller.
+    --------------------------------------------------------
+
+    memory_clk <= sysclk; -- TODO 100 MHz or 5 instead of 10 wait states
+    memory_read <= not received_data_x(0)(0);
+    memory_write <= '0';
+    memory_address <= unsigned(received_data_x(0)(ram_address_width-1 downto 0));
+    memory_data_in <= (others => '0'); -- TODO
+
+
+    --------------------------------------------------------------------------------
+    -- Component instantiation.
+    --------------------------------------------------------------------------------
 
     -- The SPI slave.
     slave: entity SPI_Interface.SPI_Slave
@@ -160,6 +184,31 @@ begin
     );
 
 
+    -- The SRAM controller.
+    sram: entity work.SRAM_Controller
+    generic map
+    (
+        num_of_wait_states => num_of_sram_wait_states,
+        wait_states_counter_width => sram_wait_states_counter_width,
+        data_width => ram_data_width,
+        address_width => ram_address_width
+    )
+    port map
+    (
+        clk => memory_clk,
+        read => memory_read,
+        write => memory_write,
+        ready => memory_ready,
+        address => memory_address,
+        data_in => memory_data_in,
+        data_out => memory_data_out,
+        ram_we_n => ram_we_n,
+        ram_oe_n => ram_oe_n,
+        ram_address => ram_address,
+        ram_data => ram_data
+    );
+ 
+
     --------------------------------------------------------------------------------
     -- Output logic.
     --------------------------------------------------------------------------------
@@ -167,16 +216,7 @@ begin
     -- SPI & test LED.
     f_miso <= miso when f_ds = '0' else 'Z';
     ext_miso <= miso when ext_ds = '0' else 'Z';
-    test_led <= received_data_x(0)(0);
-
---TODO Test
-    -- SRAM.
-    ram_we_n <= '1';
---    ram_oe_n <= '1';
-    ram_oe_n <= received_data_x(0)(0);
---    ram_address <= (others => '0');
-    ram_address <= unsigned(received_data_x(0)(ram_address_width-1 downto 0));
-    ram_data <= (others => 'Z');
+    test_led <= not memory_ready; -- active low
 
     -- Single and dual DAC.
     dac_clk <= '1';

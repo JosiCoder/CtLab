@@ -73,8 +73,9 @@ architecture stdarch of SRAM_Controller is
         ram_we_n => '1',
         ram_oe_n => '1',
         ram_address => (others => '0'),
-        ram_data => (others => 'Z')
+        ram_data => (others => '0')
     );
+    signal drive_data_to_ram: std_logic := '0';
 begin
 
     --------------------------------------------------------------------------------
@@ -91,7 +92,7 @@ begin
     -- Next state logic.
     --------------------------------------------------------------------------------
     next_state_logic: process(state, read, write, address, data_in, ram_data) is
-        variable do_access: std_logic;-- := '0';
+        variable do_access: std_logic;
     begin
     
         -- Defaults.
@@ -100,7 +101,7 @@ begin
         next_state.ready <= '0';
         next_state.ram_we_n <= '1';
         next_state.ram_oe_n <= '1';
-        next_state.ram_data <= (others => 'Z');
+        drive_data_to_ram <= '0';
 
         -- Detect read mode.
         do_access := '0';
@@ -139,6 +140,6 @@ begin
     ram_we_n <= state.ram_we_n;
     ram_oe_n <= state.ram_oe_n;
     ram_address <= state.ram_address;
-    ram_data <= state.ram_data;
+    ram_data <= state.ram_data when drive_data_to_ram = '1' else (others => 'Z');
 
 end architecture;

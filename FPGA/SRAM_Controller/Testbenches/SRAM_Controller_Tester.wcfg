@@ -138,4 +138,8 @@
          </wvobject>
       </wvobject>
    </wvobject>
+   <wvobject fp_name="/sram_controller_tester/uut/drive_data_to_ram" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">drive_data_to_ram</obj_property>
+      <obj_property name="ObjectShortName">drive_data_to_ram</obj_property>
+   </wvobject>
 </wave_config>
