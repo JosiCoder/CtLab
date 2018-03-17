@@ -70,8 +70,13 @@ architecture stdarch of Main is
     constant number_of_data_buffers: positive := 2**address_width;
     constant use_internal_spi: boolean := true;
     constant use_external_spi: boolean := false;
-    constant num_of_sram_wait_states: natural := 10;
+    constant num_of_total_wait_states: natural := 10;
+    constant num_of_write_pulse_wait_states: natural := 6;
     constant sram_wait_states_counter_width: natural := 4;
+
+    -- Clocks
+    signal clk_50mhz: std_logic;
+    signal clk_100mhz: std_logic;
 
     -- SPI interfaces
     type spi_in_type is record
@@ -152,16 +157,27 @@ begin
     -- Connections to SRAM controller.
     --------------------------------------------------------
 
-    memory_clk <= sysclk; -- TODO 100 MHz or 5 instead of 10 wait states
-    memory_read <= not received_data_x(0)(0);
-    memory_write <= '0';
-    memory_address <= unsigned(received_data_x(0)(ram_address_width-1 downto 0));
-    memory_data_in <= (others => '0'); -- TODO
+    memory_clk <= clk_100mhz;
+    -- channel 0: data; channel 1: address; channel 2: mode (0=off, 1=read, 2=write)
+    memory_read <= received_data_x(2)(0);
+    memory_write <= received_data_x(2)(1);
+    memory_address <= unsigned(received_data_x(1)(ram_address_width-1 downto 0));
+    memory_data_in <= received_data_x(0)(ram_data_width-1 downto 0);
 
 
     --------------------------------------------------------------------------------
     -- Component instantiation.
     --------------------------------------------------------------------------------
+
+    -- The clock manager generating the clocks used throughout the system.
+    clock_manager: entity work.ClockManager
+    port map
+    (
+        clk => sysclk,
+        clk_50mhz => clk_50mhz,
+        clk_100mhz => clk_100mhz
+    );
+
 
     -- The SPI slave.
     slave: entity SPI_Interface.SPI_Slave
@@ -172,7 +188,7 @@ begin
     )
     port map
     (
-        clk => sysclk,
+        clk => clk_50mhz,
         sclk => selected_spi_in.sclk, 
         ss_address => selected_spi_in.ss_address, 
         ss_data => selected_spi_in.ss_data,
@@ -188,7 +204,8 @@ begin
     sram: entity work.SRAM_Controller
     generic map
     (
-        num_of_wait_states => num_of_sram_wait_states,
+        num_of_total_wait_states => num_of_total_wait_states,
+        num_of_write_pulse_wait_states => num_of_write_pulse_wait_states,
         wait_states_counter_width => sram_wait_states_counter_width,
         data_width => ram_data_width,
         address_width => ram_address_width
