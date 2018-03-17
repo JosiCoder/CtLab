@@ -26,8 +26,10 @@ entity SRAM_Controller is
     generic
     (
         -- The number of clock cycles to wait before each SRAM access.
-        num_of_wait_states: natural;
-        -- The number of bist used for the wait states counter.
+        num_of_total_wait_states: natural;
+        -- The number of clock cycles the write pulse must be active.
+        num_of_write_pulse_wait_states: natural;
+        -- The number of bits used for the wait states counter.
         wait_states_counter_width: natural;
         -- The width of the data stored in the memory.
         data_width: natural;
@@ -64,6 +66,7 @@ architecture stdarch of SRAM_Controller is
         ram_oe_n: std_logic;
         ram_address: unsigned(address_width-1 downto 0);
         ram_data: std_logic_vector(data_width-1 downto 0);
+        drive_data_to_ram: std_logic;
     end record;
     signal state, next_state: reg_type :=
     (
@@ -73,9 +76,9 @@ architecture stdarch of SRAM_Controller is
         ram_we_n => '1',
         ram_oe_n => '1',
         ram_address => (others => '0'),
-        ram_data => (others => '0')
+        ram_data => (others => '0'),
+        drive_data_to_ram => '0'
     );
-    signal drive_data_to_ram: std_logic := '0';
 begin
 
     --------------------------------------------------------------------------------
@@ -101,27 +104,43 @@ begin
         next_state.ready <= '0';
         next_state.ram_we_n <= '1';
         next_state.ram_oe_n <= '1';
-        drive_data_to_ram <= '0';
+        next_state.drive_data_to_ram <= '0';
 
-        -- Detect read mode.
+        -- Detect read or write mode.
         do_access := '0';
         if (read = '1' and write = '0') then
             next_state.ram_oe_n <= '0';
             do_access := '1';
+        elsif (read = '0' and write = '1') then
+            do_access := '1';
         end if;
 
-        -- For read and write access, forward the address to the SRAM at the beginning of the access cycle
-        -- and the data from there at the end of the access cycle.
+        -- Forward the address and data to the SRAM at the beginning of the access cycle
+        -- and the data from the SRAM at the end of the access cycle.
         if (do_access = '1') then
+
+            -- For write access only.
+            if (write = '1') then
+                next_state.ram_data <= data_in;
+                next_state.drive_data_to_ram <= '1';
+                -- For all clock cycles during which the write happens.
+                if (state.wait_states_counter >= to_unsigned(num_of_total_wait_states - 1 - num_of_write_pulse_wait_states, wait_states_counter_width)
+                    and state.wait_states_counter < to_unsigned(num_of_total_wait_states - 1, wait_states_counter_width)) then
+                    next_state.ram_we_n <= '0';
+                end if;            
+            end if;
+
             -- For all clock cycles of the access cycle except the last one.
-            if (state.wait_states_counter /= to_unsigned(num_of_wait_states-1, wait_states_counter_width)) then
+            if (state.wait_states_counter /= to_unsigned(num_of_total_wait_states - 1, wait_states_counter_width)) then
                 next_state.wait_states_counter <= state.wait_states_counter + 1;
                 -- Take the address at the beginning of the access cycle.
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
                     next_state.ram_address <= address;
                 end if;
-            -- Take the data at the end of the access cycle, pulse the ready flag for one clock cycle.
+            -- For the last clock cycle of the access cycle.
             else
+                -- Take the data at the end of the access cycle, pulse the ready flag for one clock cycle.
+                -- (For write access, the input data are mirrored back as output data.)
                 next_state.data_out <= ram_data;
                 next_state.ready <= '1';
                 next_state.wait_states_counter <= (others => '0');
@@ -140,6 +159,6 @@ begin
     ram_we_n <= state.ram_we_n;
     ram_oe_n <= state.ram_oe_n;
     ram_address <= state.ram_address;
-    ram_data <= state.ram_data when drive_data_to_ram = '1' else (others => 'Z');
+    ram_data <= state.ram_data when state.drive_data_to_ram = '1' else (others => 'Z');
 
 end architecture;
