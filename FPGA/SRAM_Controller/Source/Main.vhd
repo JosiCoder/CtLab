@@ -16,9 +16,12 @@
 ----------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------
--- Provides a loopback test application that simply connects SPI receivers to 
--- transmitters. Thus data received on a specific address are retransmitted on
--- the same address.
+-- Provides a test application that simply writes to and reads from the SRAM.
+-- Data and control signals are passed via SPI registers as follows:
+-- SPI write registers:
+--   0: data to write to SRAM; 1: address; 2: mode (0=off, 1=read, 2=write).
+-- SPI read registers:
+--   0: data read from SRAM; 1-3: loopback from according SPI write registers.
 ----------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -149,16 +152,24 @@ begin
     -- Values shown on panel.
     --------------------------------------------------------
     
-    -- Show data read from memory on channel 0.
+    -- Data and control signals:
+    --   channel 0: data read from SRAM
+    --   channel 1: address loopback
+    --   channel 2: mode (0: off, 1: read, 2: write) + memory state (MSB=0: working, MSB=1: ready)
     transmit_data_x(0) <= x"000000" & memory_data_out;
-    -- Loopback for channels 1 to 3.
-    transmit_data_x(number_of_data_buffers-1 downto 1) <= received_data_x(number_of_data_buffers-1 downto 1);
+    transmit_data_x(1) <= received_data_x(1);
+    transmit_data_x(2) <= memory_ready & received_data_x(2)(received_data_x(2)'high-1 downto 0);
+    -- Loopback for all remaining channels.
+    transmit_data_x(number_of_data_buffers-1 downto 3) <= received_data_x(number_of_data_buffers-1 downto 3);
 
     -- Connections to SRAM controller.
     --------------------------------------------------------
 
     memory_clk <= clk_100mhz;
-    -- channel 0: data; channel 1: address; channel 2: mode (0=off, 1=read, 2=write)
+    -- Data and control signals:
+    --   channel 0: data to write to SRAM
+    --   channel 1: address
+    --   channel 2: mode (0: off, 1: read, 2: write)
     memory_read <= received_data_x(2)(0);
     memory_write <= received_data_x(2)(1);
     memory_address <= unsigned(received_data_x(1)(ram_address_width-1 downto 0));
@@ -233,7 +244,7 @@ begin
     -- SPI & test LED.
     f_miso <= miso when f_ds = '0' else 'Z';
     ext_miso <= miso when ext_ds = '0' else 'Z';
-    test_led <= not memory_ready; -- active low
+    test_led <= not memory_ready; -- LED is active low
 
     -- Single and dual DAC.
     dac_clk <= '1';

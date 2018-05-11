@@ -145,6 +145,6 @@ begin
     -- SPI & test LED.
     f_miso <= miso when f_ds = '0' else 'Z';
     ext_miso <= miso when ext_ds = '0' else 'Z';
-    test_led <= received_data_x(0)(0);
+    test_led <= received_data_x(0)(0); -- LED is active low
 
 end architecture;
