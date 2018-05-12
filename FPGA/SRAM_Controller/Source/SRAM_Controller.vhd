@@ -43,7 +43,6 @@ entity SRAM_Controller is
         -- The control signals towards the client.
         read: in std_logic; 
         write: in std_logic;
-        burst_mode: in std_logic;
         ready: out std_logic;
         -- The address and data towards the client.
         address: in unsigned(address_width-1 downto 0);
@@ -61,8 +60,8 @@ end entity;
 architecture stdarch of SRAM_Controller is
     type reg_type is record
         wait_states_counter: unsigned(wait_states_counter_width-1 downto 0);
-        prepared: std_logic;
-        ready: std_logic;
+        reading: std_logic;
+        writing: std_logic;
         data_out: std_logic_vector(data_width-1 downto 0);
         ram_we_n: std_logic;
         ram_oe_n: std_logic;
@@ -73,8 +72,8 @@ architecture stdarch of SRAM_Controller is
     signal state, next_state: reg_type :=
     (
         wait_states_counter => (others => '0'),
-        prepared => '0',
-        ready => '0',
+        reading => '0',
+        writing => '0',
         data_out => (others => '0'),
         ram_we_n => '1',
         ram_oe_n => '1',
@@ -97,8 +96,8 @@ begin
     --------------------------------------------------------------------------------
     -- Next state logic.
     --------------------------------------------------------------------------------
-    next_state_logic: process(state, read, write, burst_mode, address, data_in, ram_data) is
-        variable do_access: std_logic;
+    next_state_logic: process(state, read, write, address, data_in, ram_data) is
+        variable do_read, do_write: std_logic;
     begin
     
         -- Defaults.
@@ -108,32 +107,37 @@ begin
         next_state.ram_oe_n <= '1';
         next_state.drive_data_to_ram <= '0';
 
-        -- Pausing for at least one cycle prepares for the next access.
-        if (read = '0' and write = '0') then
-            next_state.prepared <= '1';
+        -- Detect read or write mode.
+        do_read := '0';
+        do_write := '0';
+
+        -- Check whether to enter read or write mode.
+        if (read = '1' and write = '0') then
+            do_read := '1';
+            next_state.reading <= '1';
+        elsif (read = '0' and write = '1') then
+            do_write := '1';
+            next_state.writing <= '1';
         end if;
 
-        -- Detect read or write mode.
-        do_access := '0';
-        if (burst_mode = '1' or state.prepared = '1') then
-            if (read = '1' and write = '0') then
-                next_state.ram_oe_n <= '0';
-                do_access := '1';
-            elsif (read = '0' and write = '1') then
-                do_access := '1';
-            end if;
+        -- Continue read or write mode until the last clock cycle of the access cycle.
+        if (state.reading = '1') then
+            do_read := '1';
+        elsif (state.writing = '1')then
+            do_write := '1';
         end if;
 
         -- Forward the address and data to the SRAM at the beginning of the access cycle
         -- and the data from the SRAM at the end of the access cycle.
-        if (do_access = '1') then
+        if (do_read = '1' or do_write = '1') then
 
-            -- Indicate that an access is in progress.
-            next_state.prepared <= '0';
-            next_state.ready <= '0';
+            -- For read access only.
+            if (do_read = '1') then
+                next_state.ram_oe_n <= '0';
+            end if;
 
             -- For write access only.
-            if (write = '1') then
+            if (do_write = '1') then
                 -- Take the data at the beginning of the access cycle.
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
                     next_state.ram_data <= data_in;
@@ -158,7 +162,8 @@ begin
                 -- Take the data at the end of the access cycle, set the ready flag.
                 -- (For write access, the input data are mirrored back as output data.)
                 next_state.data_out <= ram_data;
-                next_state.ready <= '1';
+                next_state.reading <= '0';
+                next_state.writing <= '0';
                 next_state.wait_states_counter <= (others => '0');
             end if;
         end if;
@@ -170,7 +175,7 @@ begin
     -- Output logic.
     --------------------------------------------------------------------------------
 
-    ready <= state.ready;
+    ready <= not state.reading and not state.writing;
     data_out <= state.data_out;
     ram_we_n <= state.ram_we_n;
     ram_oe_n <= state.ram_oe_n;

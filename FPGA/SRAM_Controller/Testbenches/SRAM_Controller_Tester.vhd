@@ -89,7 +89,6 @@ begin
         clk => clk,
         read => read,
         write => write,
-        burst_mode => '1',
         ready => ready,
         address => address,
         data_in => data_in,
