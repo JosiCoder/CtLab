@@ -102,24 +102,28 @@ begin
 
     --------------------------------------------------------------------------------
     -- UUT stimulation.
+    -------------------------------------------------------------------------
+    -- Reads from and writes to the SRAM, either in non-burst or burst mode.
+    -- For non-burst mode, the read or write signal is active for just the
+    -- first clock cycle of the read or write cycle (this is the minimum,
+    -- longer durations are allowed).
+    -- For burst mode, the read or write signal is active until the entire
+    -- batch of data is transferred.
     --------------------------------------------------------------------------------
 
     -- Generates the system clock.
     clk <= not clk after clk_period/2 when run_test;
 
     -- Stimulates and controls the UUT and the tests at all.
-    -- For non-burst mode, the read or write signal is active for just the first clock cycle
-    -- of the read or write cycle (this is the minimum, longer durations are allowed).
-    -- For burst mode, the read or write signal is active until the entire batch of data is transferred.
     stimulus: process is
         variable burst_mode: boolean;
     begin
     
-        burst_mode := false;
-    
+        burst_mode := true;
+
         wait for ram_output_disable_time; -- wait a little for stabilization
         wait until rising_edge(clk);
-
+        
         -- Read from the SRAM several times.
         write <= '0';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
