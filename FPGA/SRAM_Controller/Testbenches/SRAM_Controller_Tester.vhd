@@ -108,17 +108,28 @@ begin
     clk <= not clk after clk_period/2 when run_test;
 
     -- Stimulates and controls the UUT and the tests at all.
+    -- For non-burst mode, the read or write signal is active for just the first clock cycle
+    -- of the read or write cycle (this is the minimum, longer durations are allowed).
+    -- For burst mode, the read or write signal is active until the entire batch of data is transferred.
     stimulus: process is
+        variable burst_mode: boolean;
     begin
     
+        burst_mode := false;
+    
         wait for ram_output_disable_time; -- wait a little for stabilization
+        wait until rising_edge(clk);
 
         -- Read from the SRAM several times.
         write <= '0';
-        read <= '1';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
             address <= to_unsigned(adr, address_width);
-            wait for num_of_total_wait_states * clk_period;
+            read <= '1';
+            if (not burst_mode) then
+                wait for clk_period;
+                read <= '0';
+            end if;
+            wait until ready = '1';
         end loop;
 
         -- Deactivate SRAM access.
@@ -127,12 +138,16 @@ begin
         wait for clk_period + ram_output_disable_time; -- wait until the SRAM output is disabled
 
         -- Write to the SRAM several times.
-        write <= '1';
         read <= '0';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
             address <= to_unsigned(adr, address_width);
             data_in <= std_logic_vector(to_unsigned(adr - data_offset, data_width));
-            wait for num_of_total_wait_states * clk_period;
+            write <= '1';
+            if (not burst_mode) then
+                wait for clk_period;
+                write <= '0';
+            end if;
+            wait until ready = '1';
         end loop;
 
         -- Deactivate SRAM access.
@@ -183,6 +198,7 @@ begin
             -- Wait until the current read cycle starts.
             if read /= '1' then
                 wait until read = '1';
+                wait until rising_edge(clk);
             end if;
         
             -- Verify that the SRAM controller generates the correct signals for the entire read cycle.
@@ -220,6 +236,7 @@ begin
             -- Wait until the current write cycle starts.
             if write /= '1' then
                 wait until write = '1';
+                wait until rising_edge(clk);
             end if;
         
             -- Verify that the SRAM controller generates the correct signals for the entire write cycle.
