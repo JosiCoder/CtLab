@@ -73,9 +73,9 @@ architecture stdarch of Main is
     constant number_of_data_buffers: positive := 2**address_width;
     constant use_internal_spi: boolean := true;
     constant use_external_spi: boolean := false;
-    constant num_of_total_wait_states: natural := 10;
-    constant num_of_write_pulse_wait_states: natural := 6;
-    constant sram_wait_states_counter_width: natural := 4;
+    constant num_of_total_wait_states: natural := 10; -- 100ns @ 100MHz (min 70ns)
+    constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
+    constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
 
     -- Clocks
     signal clk_50mhz: std_logic;
@@ -217,7 +217,7 @@ begin
     (
         num_of_total_wait_states => num_of_total_wait_states,
         num_of_write_pulse_wait_states => num_of_write_pulse_wait_states,
-        wait_states_counter_width => sram_wait_states_counter_width,
+        num_of_wait_states_before_write_after_read => num_of_wait_states_before_write_after_read,
         data_width => ram_data_width,
         address_width => ram_address_width
     )

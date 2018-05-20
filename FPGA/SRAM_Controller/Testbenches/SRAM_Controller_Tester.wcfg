@@ -70,11 +70,15 @@
          <wvobject fp_name="/sram_controller_tester/uut/state.wait_states_counter" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">.wait_states_counter</obj_property>
             <obj_property name="ObjectShortName">state.wait_states_counter</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
          </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.ready" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ready</obj_property>
-            <obj_property name="ObjectShortName">state.ready</obj_property>
+         <wvobject fp_name="/sram_controller_tester/uut/state.reading" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.reading</obj_property>
+            <obj_property name="ObjectShortName">state.reading</obj_property>
+         </wvobject>
+         <wvobject fp_name="/sram_controller_tester/uut/state.writing" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.writing</obj_property>
+            <obj_property name="ObjectShortName">state.writing</obj_property>
          </wvobject>
          <wvobject fp_name="/sram_controller_tester/uut/state.data_out" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">.data_out</obj_property>
@@ -99,6 +103,10 @@
             <obj_property name="ObjectShortName">state.ram_data</obj_property>
             <obj_property name="Radix">HEXRADIX</obj_property>
          </wvobject>
+         <wvobject fp_name="/sram_controller_tester/uut/state.drive_data_to_ram" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.drive_data_to_ram</obj_property>
+            <obj_property name="ObjectShortName">state.drive_data_to_ram</obj_property>
+         </wvobject>
       </wvobject>
       <wvobject fp_name="/sram_controller_tester/uut/next_state" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">next_state</obj_property>
@@ -107,11 +115,15 @@
          <wvobject fp_name="/sram_controller_tester/uut/next_state.wait_states_counter" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">.wait_states_counter</obj_property>
             <obj_property name="ObjectShortName">next_state.wait_states_counter</obj_property>
-            <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
          </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.ready" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ready</obj_property>
-            <obj_property name="ObjectShortName">next_state.ready</obj_property>
+         <wvobject fp_name="/sram_controller_tester/uut/next_state.reading" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.reading</obj_property>
+            <obj_property name="ObjectShortName">next_state.reading</obj_property>
+         </wvobject>
+         <wvobject fp_name="/sram_controller_tester/uut/next_state.writing" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.writing</obj_property>
+            <obj_property name="ObjectShortName">next_state.writing</obj_property>
          </wvobject>
          <wvobject fp_name="/sram_controller_tester/uut/next_state.data_out" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">.data_out</obj_property>
@@ -136,10 +148,10 @@
             <obj_property name="ObjectShortName">next_state.ram_data</obj_property>
             <obj_property name="Radix">HEXRADIX</obj_property>
          </wvobject>
+         <wvobject fp_name="/sram_controller_tester/uut/next_state.drive_data_to_ram" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.drive_data_to_ram</obj_property>
+            <obj_property name="ObjectShortName">next_state.drive_data_to_ram</obj_property>
+         </wvobject>
       </wvobject>
-   </wvobject>
-   <wvobject fp_name="/sram_controller_tester/uut/drive_data_to_ram" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">drive_data_to_ram</obj_property>
-      <obj_property name="ObjectShortName">drive_data_to_ram</obj_property>
    </wvobject>
 </wave_config>

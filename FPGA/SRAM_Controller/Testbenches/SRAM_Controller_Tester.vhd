@@ -30,10 +30,10 @@ architecture stdarch of SRAM_Controller_Tester is
     --------------------
     -- Constants
     --------------------
-    constant clk_period: time := 10ns; -- 100 MHz
-    constant num_of_total_wait_states: natural := 10;
-    constant num_of_write_pulse_wait_states: natural := 6;
-    constant wait_states_counter_width: natural := 4;
+    constant clk_period: time := 10ns; -- 100MHz
+    constant num_of_total_wait_states: natural := 10; -- 100ns @ 100MHz (min 70ns)
+    constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
+    constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
     constant data_width: natural := 8;
     constant address_width: natural := 16;
     constant start_address: natural := 16#110#;
@@ -80,7 +80,7 @@ begin
     (
         num_of_total_wait_states => num_of_total_wait_states,
         num_of_write_pulse_wait_states => num_of_write_pulse_wait_states,
-        wait_states_counter_width => wait_states_counter_width,
+        num_of_wait_states_before_write_after_read => num_of_wait_states_before_write_after_read,
         data_width => data_width,
         address_width => address_width
     )
@@ -119,7 +119,12 @@ begin
         variable burst_mode: boolean;
     begin
     
-        burst_mode := true;
+        -- This configures whether we test single operation or burst mode.
+        -- In single operation mode, we activate the read or write signal just for
+        -- one clock cycle. The according operation is completed anyway. In burst
+        -- mode, we keep the read or write signal active all the time, thus reading
+        -- or writing continuously.
+        burst_mode := false;
 
         wait for ram_output_disable_time; -- wait a little for stabilization
         wait until rising_edge(clk);
@@ -139,7 +144,6 @@ begin
         -- Deactivate SRAM access.
         write <= '0';
         read <= '0';
-        wait for clk_period + ram_output_disable_time; -- wait until the SRAM output is disabled
 
         -- Write to the SRAM several times.
         read <= '0';

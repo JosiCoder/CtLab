@@ -21,6 +21,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.all;
 
 entity SRAM_Controller is
     generic
@@ -29,8 +30,9 @@ entity SRAM_Controller is
         num_of_total_wait_states: natural;
         -- The number of clock cycles the write pulse must be active.
         num_of_write_pulse_wait_states: natural;
-        -- The number of bits used for the wait states counter.
-        wait_states_counter_width: natural;
+        -- The number of clock cycles to wait before writing after reading (to
+        -- provide the SRAM's data bus enough time to get high impedance).
+        num_of_wait_states_before_write_after_read: natural;
         -- The width of the data stored in the memory.
         data_width: natural;
         -- The width of the address bus of the memory.
@@ -58,6 +60,8 @@ entity SRAM_Controller is
 end entity;
 
 architecture stdarch of SRAM_Controller is
+    -- This generates enough bits for maximum number of wait states - 1.
+    constant wait_states_counter_width : natural := integer(ceil(log2(real(num_of_total_wait_states + num_of_wait_states_before_write_after_read))));
     type reg_type is record
         wait_states_counter: unsigned(wait_states_counter_width-1 downto 0);
         reading: std_logic;
@@ -98,6 +102,7 @@ begin
     --------------------------------------------------------------------------------
     next_state_logic: process(state, read, write, address, data_in, ram_data) is
         variable do_read, do_write: std_logic;
+        variable last_wait_state, first_drive_data_to_ram_wait_state, first_write_pulse_wait_state: natural;
     begin
     
         -- Defaults.
@@ -106,7 +111,7 @@ begin
         next_state.ram_we_n <= '1';
         next_state.ram_oe_n <= '1';
         next_state.drive_data_to_ram <= '0';
-
+        
         -- Detect read or write mode.
         do_read := '0';
         do_write := '0';
@@ -127,6 +132,15 @@ begin
             do_write := '1';
         end if;
 
+        -- Determine the timing necessary.
+        first_drive_data_to_ram_wait_state := 0;
+        last_wait_state := num_of_total_wait_states - 1;
+        if (do_write = '1') then
+            first_drive_data_to_ram_wait_state := first_drive_data_to_ram_wait_state + num_of_wait_states_before_write_after_read;
+            last_wait_state := last_wait_state + num_of_wait_states_before_write_after_read;
+        end if;
+        first_write_pulse_wait_state := last_wait_state - num_of_write_pulse_wait_states;
+
         -- Forward the address and data to the SRAM at the beginning of the access cycle
         -- and the data from the SRAM at the end of the access cycle.
         if (do_read = '1' or do_write = '1') then
@@ -142,16 +156,18 @@ begin
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
                     next_state.ram_data <= data_in;
                 end if;
-                next_state.drive_data_to_ram <= '1';
+                if (state.wait_states_counter >= to_unsigned(first_drive_data_to_ram_wait_state, wait_states_counter_width)) then
+                    next_state.drive_data_to_ram <= '1';
+                end if;
                 -- For all clock cycles during which the write happens.
-                if (state.wait_states_counter >= to_unsigned(num_of_total_wait_states - 1 - num_of_write_pulse_wait_states, wait_states_counter_width)
-                    and state.wait_states_counter < to_unsigned(num_of_total_wait_states - 1, wait_states_counter_width)) then
+                if (state.wait_states_counter >= to_unsigned(first_write_pulse_wait_state, wait_states_counter_width)
+                    and state.wait_states_counter < to_unsigned(last_wait_state, wait_states_counter_width)) then
                     next_state.ram_we_n <= '0';
                 end if;            
             end if;
 
             -- For all clock cycles of the access cycle except the last one.
-            if (state.wait_states_counter /= to_unsigned(num_of_total_wait_states - 1, wait_states_counter_width)) then
+            if (state.wait_states_counter /= to_unsigned(last_wait_state, wait_states_counter_width)) then
                 next_state.wait_states_counter <= state.wait_states_counter + 1;
                 -- Take the address at the beginning of the access cycle.
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
