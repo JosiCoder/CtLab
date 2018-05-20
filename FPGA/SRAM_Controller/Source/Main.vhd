@@ -73,7 +73,7 @@ architecture stdarch of Main is
     constant number_of_data_buffers: positive := 2**address_width;
     constant use_internal_spi: boolean := true;
     constant use_external_spi: boolean := false;
-    constant num_of_total_wait_states: natural := 10; -- 100ns @ 100MHz (min 70ns)
+    constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
     constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
     constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
 

@@ -31,7 +31,7 @@ architecture stdarch of SRAM_Controller_Tester is
     -- Constants
     --------------------
     constant clk_period: time := 10ns; -- 100MHz
-    constant num_of_total_wait_states: natural := 10; -- 100ns @ 100MHz (min 70ns)
+    constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
     constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
     constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
     constant data_width: natural := 8;
@@ -116,7 +116,7 @@ begin
 
     -- Stimulates and controls the UUT and the tests at all.
     stimulus: process is
-        variable burst_mode: boolean;
+        variable burst_mode, sync_on_ready: boolean;
     begin
     
         -- This configures whether we test single operation or burst mode.
@@ -124,7 +124,12 @@ begin
         -- one clock cycle. The according operation is completed anyway. In burst
         -- mode, we keep the read or write signal active all the time, thus reading
         -- or writing continuously.
-        burst_mode := false;
+        burst_mode := true;
+        
+        -- This configures whether to use the ready signal asynchronously or to sync on it.
+        -- Note: Due to insufficent behaviour of the sram stimulus process (see below), this
+        -- doesn't work correctly yet.
+        sync_on_ready := false;
 
         wait for ram_output_disable_time; -- wait a little for stabilization
         wait until rising_edge(clk);
@@ -139,6 +144,9 @@ begin
                 read <= '0';
             end if;
             wait until ready = '1';
+            if (sync_on_ready) then
+                wait until rising_edge(clk);
+            end if;
         end loop;
 
         -- Deactivate SRAM access.
@@ -156,6 +164,9 @@ begin
                 write <= '0';
             end if;
             wait until ready = '1';
+            if (sync_on_ready) then
+                wait until rising_edge(clk);
+            end if;
         end loop;
 
         -- Deactivate SRAM access.
@@ -171,6 +182,7 @@ begin
     end process;
 
     -- Simulates the external SRAM (worst timing conditions).
+    -- Note that signal events are lost as long as one of the "wait for <time>" statements is pending.
     sram: process is
     begin
 
