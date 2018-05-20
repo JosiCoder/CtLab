@@ -66,6 +66,7 @@ architecture stdarch of SRAM_Controller is
         wait_states_counter: unsigned(wait_states_counter_width-1 downto 0);
         reading: std_logic;
         writing: std_logic;
+        last_access_cycle_was_a_write: std_logic;
         data_out: std_logic_vector(data_width-1 downto 0);
         ram_we_n: std_logic;
         ram_oe_n: std_logic;
@@ -78,6 +79,7 @@ architecture stdarch of SRAM_Controller is
         wait_states_counter => (others => '0'),
         reading => '0',
         writing => '0',
+        last_access_cycle_was_a_write => '0',
         data_out => (others => '0'),
         ram_we_n => '1',
         ram_oe_n => '1',
@@ -116,26 +118,28 @@ begin
         do_read := '0';
         do_write := '0';
 
-        -- Check whether to enter read or write mode.
-        if (read = '1' and write = '0') then
-            do_read := '1';
-            next_state.reading <= '1';
-        elsif (read = '0' and write = '1') then
-            do_write := '1';
-            next_state.writing <= '1';
-        end if;
-
-        -- Continue read or write mode until the last clock cycle of the access cycle.
+        -- Enter read or write mode or continue the current mode until it is
+        -- finished during the last clock cycle of the access cycle.
         if (state.reading = '1') then
             do_read := '1';
-        elsif (state.writing = '1')then
+        elsif (state.writing = '1') then
             do_write := '1';
+        else
+            -- Check whether to enter read or write mode.
+            if (read = '1' and write = '0') then
+                do_read := '1';
+                next_state.reading <= '1';
+            elsif (read = '0' and write = '1') then
+                do_write := '1';
+                next_state.writing <= '1';
+            end if;
         end if;
 
-        -- Determine the timing necessary.
+        -- Determine the timing necessary (we have to wait a little before writing
+        -- immediately after reading).
         first_drive_data_to_ram_wait_state := 0;
         last_wait_state := num_of_total_wait_states - 1;
-        if (do_write = '1') then
+        if (do_write = '1' and state.last_access_cycle_was_a_write = '0') then
             first_drive_data_to_ram_wait_state := first_drive_data_to_ram_wait_state + num_of_wait_states_before_write_after_read;
             last_wait_state := last_wait_state + num_of_wait_states_before_write_after_read;
         end if;
@@ -148,6 +152,7 @@ begin
             -- For read access only.
             if (do_read = '1') then
                 next_state.ram_oe_n <= '0';
+                next_state.last_access_cycle_was_a_write <= '0';
             end if;
 
             -- For write access only.
@@ -175,6 +180,11 @@ begin
                 end if;
             -- For the last clock cycle of the access cycle.
             else
+                -- Remember that this cycle was a write, so the next write can follow immediately.
+                if (state.writing = '1') then
+                    next_state.last_access_cycle_was_a_write <= '1';
+                end if;
+
                 -- Take the data at the end of the access cycle, set the ready flag.
                 -- (For write access, the input data are mirrored back as output data.)
                 next_state.data_out <= ram_data;

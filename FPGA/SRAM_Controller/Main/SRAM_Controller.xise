@@ -96,9 +96,6 @@
       <association xil_pn:name="Implementation"/>
       <library xil_pn:name="Common"/>
     </file>
-    <file xil_pn:name="../Source/ClockManager.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="Implementation"/>
-    </file>
   </files>
 
   <properties>

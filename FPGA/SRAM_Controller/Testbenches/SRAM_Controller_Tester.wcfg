@@ -5,6 +5,7 @@
    <db_ref_list>
       <db_ref path="/media/sf_FPGA/SRAM_Controller/Main/SRAM_Controller_Tester_isim_beh.wdb" id="1" type="auto">
          <top_modules>
+            <top_module name="math_real" />
             <top_module name="numeric_std" />
             <top_module name="sram_controller_tester" />
             <top_module name="std_logic_1164" />
@@ -93,6 +94,10 @@
             <obj_property name="ElementShortName">.ram_oe_n</obj_property>
             <obj_property name="ObjectShortName">state.ram_oe_n</obj_property>
          </wvobject>
+         <wvobject fp_name="/sram_controller_tester/uut/state.ram_data_can_be_driven" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.ram_data_can_be_driven</obj_property>
+            <obj_property name="ObjectShortName">state.ram_data_can_be_driven</obj_property>
+         </wvobject>
          <wvobject fp_name="/sram_controller_tester/uut/state.ram_address" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">.ram_address</obj_property>
             <obj_property name="ObjectShortName">state.ram_address</obj_property>
@@ -137,6 +142,10 @@
          <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_oe_n" type="logic" db_ref_id="1">
             <obj_property name="ElementShortName">.ram_oe_n</obj_property>
             <obj_property name="ObjectShortName">next_state.ram_oe_n</obj_property>
+         </wvobject>
+         <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_data_can_be_driven" type="logic" db_ref_id="1">
+            <obj_property name="ElementShortName">.ram_data_can_be_driven</obj_property>
+            <obj_property name="ObjectShortName">next_state.ram_data_can_be_driven</obj_property>
          </wvobject>
          <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_address" type="array" db_ref_id="1">
             <obj_property name="ElementShortName">.ram_address</obj_property>
