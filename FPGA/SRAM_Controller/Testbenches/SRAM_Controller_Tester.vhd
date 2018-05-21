@@ -127,7 +127,7 @@ begin
         -- or writing continuously.
         -- Burst mode cannot be used when synchronizing the ready signal to the clock
         -- (see below).
-        burst_mode := true;
+        burst_mode := false;
         
         -- This configures the test bench whether it uses the ready signal asynchronously
         -- or syncs it to the clock.
@@ -137,7 +137,7 @@ begin
         -- When synchronized to the clock, the next address and input data are applied
         -- with a latency of one clock cycle. This is one clock cycle too late for burst
         -- mode (see above).
-        sync_ready_to_clk := true;
+        sync_ready_to_clk := false;
 
         wait for ram_output_disable_time; -- wait a little for stabilization
         wait until rising_edge(clk);
