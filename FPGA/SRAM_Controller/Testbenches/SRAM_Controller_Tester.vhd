@@ -116,20 +116,28 @@ begin
 
     -- Stimulates and controls the UUT and the tests at all.
     stimulus: process is
-        variable burst_mode, sync_on_ready: boolean;
+        variable burst_mode, sync_ready_to_clk: boolean;
     begin
     
-        -- This configures whether we test single operation or burst mode.
+        -- This configures the test bench whether it tests in single operation or
+        -- burst mode.
         -- In single operation mode, we activate the read or write signal just for
         -- one clock cycle. The according operation is completed anyway. In burst
         -- mode, we keep the read or write signal active all the time, thus reading
         -- or writing continuously.
+        -- Burst mode cannot be used when synchronizing the ready signal to the clock
+        -- (see below).
         burst_mode := true;
         
-        -- This configures whether to use the ready signal asynchronously or to sync on it.
-        -- Note: Due to insufficent behaviour of the sram stimulus process (see below), this
-        -- doesn't work correctly yet.
-        sync_on_ready := false;
+        -- This configures the test bench whether it uses the ready signal asynchronously
+        -- or syncs it to the clock.
+        -- When used asynchronously, the next address and input data are applied
+        -- immediately and thus are available to the SRAM controller on the next clock
+        -- cycle.
+        -- When synchronized to the clock, the next address and input data are applied
+        -- with a latency of one clock cycle. This is one clock cycle too late for burst
+        -- mode (see above).
+        sync_ready_to_clk := true;
 
         wait for ram_output_disable_time; -- wait a little for stabilization
         wait until rising_edge(clk);
@@ -144,7 +152,7 @@ begin
                 read <= '0';
             end if;
             wait until ready = '1';
-            if (sync_on_ready) then
+            if (sync_ready_to_clk) then
                 wait until rising_edge(clk);
             end if;
         end loop;
@@ -164,7 +172,7 @@ begin
                 write <= '0';
             end if;
             wait until ready = '1';
-            if (sync_on_ready) then
+            if (sync_ready_to_clk) then
                 wait until rising_edge(clk);
             end if;
         end loop;
@@ -182,17 +190,15 @@ begin
     end process;
 
     -- Simulates the external SRAM (worst timing conditions).
-    -- Note that signal events are lost as long as one of the "wait for <time>" statements is pending.
     sram: process is
     begin
 
         wait on ram_we_n, ram_oe_n, ram_address;
         if (ram_we_n = '1' and ram_oe_n = '0') then
-            wait for ram_access_time;
-            ram_data <= std_logic_vector(to_unsigned(to_integer(ram_address) - data_offset, data_width));
+            ram_data <= inertial std_logic_vector(to_unsigned(to_integer(ram_address) - data_offset, data_width))
+                        after ram_access_time;
         else
-            wait for ram_output_disable_time;
-            ram_data <= (others => 'Z');
+            ram_data <= inertial (others => 'Z') after ram_output_disable_time;
         end if;
     
     end process;
