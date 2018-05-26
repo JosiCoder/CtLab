@@ -85,6 +85,14 @@
       <Project>{7E224EF1-0B0B-40C7-AF66-D938A80DF24B}</Project>
       <Name>FpgaConnection.Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FpgaScope.Standard\FpgaScope.Standard.csproj">
+      <Project>{46FE81B4-ACBC-4790-B6CA-178E134E4CE8}</Project>
+      <Name>FpgaScope.Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FpgaScope.Interfaces\FpgaScope.Interfaces.csproj">
+      <Project>{F2951C41-6319-47F2-B9E6-494F1BCDD114}</Project>
+      <Name>FpgaScope.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

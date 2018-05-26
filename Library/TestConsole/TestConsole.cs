@@ -34,26 +34,25 @@ namespace CtLab.TestConsole
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
-            RunLowLevelSamples();
+            RunDummyConnectionLowLevelSamples();
+            RunRealHardwareLowLevelSamples();
 
-            RunFpgaSignalGeneratorSamples();
+            RunDummyConnectionSignalGeneratorSamples();
+            RunRealHardwareSignalGeneratorSamples();
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
         }
 
         /// <summary>
-        /// The entry point of the application.
+        /// Runs samples that use a dummy connection and thus don't need real c't Lab hardware.
+        /// Communication via the dummy connection will be reported to the console to get a better
+        /// understanding of what's going on.
         /// </summary>
-        private static void RunLowLevelSamples()
+        private static void RunDummyConnectionLowLevelSamples()
         {
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
-
-
-            // ===== Samples that use a dummy connection and thus don't need real c't Lab hardware.
-            // ===== Communication via the dummy connection will be reported to the console to get
-            // ===== a better understanding of what's going on.
 
             // The following low-level samples are useful to understand how the CtLab library works
             // internally, developers just using this library can safely ignore these samples.
@@ -63,10 +62,15 @@ namespace CtLab.TestConsole
 
             // Sample: Send periodic query commands via a simulated dummy connection.
             DummyConnectionLowLevelSamples.SendPeriodicQueryCommands();
+        }
 
-
-            // ===== Samples that need real c't Lab hardware connected via a (physical or emulated)
-            // ===== serial port.
+        /// <summary>
+        /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
+        /// </summary>
+        private static void RunRealHardwareLowLevelSamples()
+        {
+            //== Here you can activate or deactivate one or more of the samples below. They don't
+            //== dependent on each other.
 
             // The following low-level samples are useful to understand how the CtLab library works
             // internally, developers just using this library can safely ignore these samples.
@@ -79,39 +83,41 @@ namespace CtLab.TestConsole
         }
 
         /// <summary>
-        /// The entry point of the application.
+        /// Runs samples that use a dummy connection and thus don't need real c't Lab hardware.
+        /// Communication via the dummy connection will be reported to the console to get a better
+        /// understanding of what's going on.
         /// </summary>
-        public static void RunFpgaSignalGeneratorSamples()
+        public static void RunDummyConnectionSignalGeneratorSamples()
         {
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
 
-
-            // ===== Samples that use a dummy connection and thus don't need real c't Lab hardware.
-            // ===== Communication via the dummy connection will be reported to the console to get
-            // ===== a better understanding of what's going on.
-
             // Sample: Handle a specific c't Lab appliance via a simulated dummy connection.
-            DummyConnectionSamples.HandleSampleCtLabAppliance();
+            DummyConnectionSignalGeneratorSamples.HandleSampleCtLabAppliance();
+        }
 
-
-            // ===== Samples that need real c't Lab hardware connected via a (physical or emulated)
-            // ===== serial port.
+        /// <summary>
+        /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
+        /// </summary>
+        public static void RunRealHardwareSignalGeneratorSamples()
+        {
+            //== Here you can activate or deactivate one or more of the samples below. They don't
+            //== dependent on each other.
 
             // Sample: Configure the signal generator to create an amplitude-modulated signal.
-            RealHardwareSamples.SetupAmplitudeModulatedSignal();
+            RealHardwareSignalGeneratorSamples.SetupAmplitudeModulatedSignal();
 
             // Sample: Configure the signal generator to create a frequency-modulated signal.
-            RealHardwareSamples.SetupFrequencyModulatedSignal();
+            RealHardwareSignalGeneratorSamples.SetupFrequencyModulatedSignal();
 
             // Sample: Configure the signal generator to create signals that can be displayed as a Lissajous figure.
-            RealHardwareSamples.SetupLissajousFigure();
+            RealHardwareSignalGeneratorSamples.SetupLissajousFigure();
 
             // Sample: Configure the signal generator to create a pulse signal. 
-            RealHardwareSamples.SetupPulseSignal();
+            RealHardwareSignalGeneratorSamples.SetupPulseSignal();
 
             // Sample: Configure the signal generator to measure the frequency of an internal signal.
-            RealHardwareSamples.SetupUniversalCounterToMeasureFrequencyOfInternalSignal();
+            RealHardwareSignalGeneratorSamples.SetupUniversalCounterToMeasureFrequencyOfInternalSignal();
         }
     }
 }

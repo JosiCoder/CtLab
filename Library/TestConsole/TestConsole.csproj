@@ -94,8 +94,8 @@
     </Compile>
     <Compile Include="Samples\DummyConnectionLowLevelSamples.cs" />
     <Compile Include="Samples\RealHardwareLowLevelSamples.cs" />
-    <Compile Include="Samples\DummyConnectionSamples.cs" />
-    <Compile Include="Samples\RealHardwareSamples.cs" />
+    <Compile Include="Samples\DummyConnectionSignalGeneratorSamples.cs" />
+    <Compile Include="Samples\RealHardwareSignalGeneratorSamples.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

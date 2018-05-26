@@ -28,7 +28,7 @@ using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard.Specs
 {
-    public abstract class FpgaLabDeviceSpecs
+    public abstract class SignalGeneratorSpecs
         : SpecsFor<SignalGenerator>
     {
         protected override void ConfigureContainer (IContainer container)
@@ -54,7 +54,7 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
 
 
     public class When_using_an_AM_modulator
-        : FpgaLabDeviceSpecs
+        : SignalGeneratorSpecs
     {
         protected override void When()
         {
@@ -72,7 +72,7 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
 
 
     public class When_selecting_the_carrier_as_its_own_AM_modulator
-        : FpgaLabDeviceSpecs
+        : SignalGeneratorSpecs
     {
         protected override void When()
         {
@@ -89,7 +89,7 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
 
 
     public class When_using_an_FM_modulator
-        : FpgaLabDeviceSpecs
+        : SignalGeneratorSpecs
     {
         protected override void When()
         {
@@ -109,7 +109,7 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
 
 
     public class When_selecting_the_carrier_as_its_own_FM_modulator
-        : FpgaLabDeviceSpecs
+        : SignalGeneratorSpecs
     {
         protected override void When()
         {

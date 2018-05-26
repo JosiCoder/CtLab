@@ -35,7 +35,7 @@ namespace CtLab.TestConsole
     /// Provides some samples using real c´t Lab hardware connected via a (physical or emulated) serial
     /// port.
     /// </summary>
-    public static class RealHardwareSamples
+    public static class RealHardwareSignalGeneratorSamples
     {
 		private const string _portName = "/dev/ttyUSB0";
         private const byte _channel = 7;

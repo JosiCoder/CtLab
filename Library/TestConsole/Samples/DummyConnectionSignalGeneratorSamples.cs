@@ -35,7 +35,7 @@ namespace CtLab.TestConsole
     /// Provides some samples for a simulated dummy connection.
     /// No real c´t Lab hardware is necessary to run these samples.
     /// </summary>
-    public static class DummyConnectionSamples
+    public static class DummyConnectionSignalGeneratorSamples
     {
         private const int _queryCommandSendPeriod = 500; // ms
 
