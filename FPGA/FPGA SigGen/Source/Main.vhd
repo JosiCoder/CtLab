@@ -29,7 +29,12 @@ use work.ModulatedGenerator_Declarations.all;
 entity Main is
     generic
     (
-        -- The width of the DAC.
+        -- The width of the shared SRAM address and DAC data.
+        ram_addr_dac_data_width: natural := 19;
+        -- The width of the SRAM address and data.
+        ram_address_width: natural := 19;
+        ram_data_width: natural := 8;
+        -- The width of the DAC data.
         dac_data_width: natural := modulated_generator_sample_width;
         -- The number of DDS generators.
         number_of_dds_generators: natural := 4
@@ -58,14 +63,16 @@ entity Main is
         dds_sync_out: out std_logic_vector(number_of_dds_generators-1 downto 0);
         -- The pulse generator output.
         pulse_out: out std_logic;
-        -- The SRAMs signals.
+        -- The shared output for SRAM address and DAC data.
+        ram_addr_dac_data: out std_logic_vector(ram_addr_dac_data_width-1 downto 0);
+        -- The SRAM data and control signals.
         ram_we_n: out std_logic;
         ram_oe_n: out std_logic;
-        -- The DACs signals.
+        ram_data: inout std_logic_vector(ram_data_width-1 downto 0);
+        -- The DAC control signals.
         dac_clk: out std_logic;
         dac_channel_select: out std_logic;
-        dac_write_n: out std_logic;
-        dac_value: out std_logic_vector(dac_data_width-1 downto 0)
+        dac_write_n: out std_logic
     );
 end entity;
 
@@ -145,13 +152,17 @@ architecture stdarch of Main is
     signal universal_counter_state: data_buffer;
     signal update_universal_counter_output: std_logic;
 
-    -- DAC controller
+    -- DAC
     signal dac_channel_select_int: std_logic;
     signal dac_write_int: std_logic;
     subtype dac_channel_value is signed(dac_data_width-1 downto 0);
     type dac_channel_value_vector is array (natural range <>) of dac_channel_value;
     signal dac_channel_values: dac_channel_value_vector(1 downto 0);
-    signal prepared_dac_value: unsigned(dac_data_width-1 downto 0);
+    signal dac_value: unsigned(dac_data_width-1 downto 0);
+    signal dac_data: std_logic_vector(dac_data_width-1 downto 0);
+    
+    -- SRAM
+    signal ram_address: unsigned(ram_address_width-1 downto 0);
 
     -- Peripheral (I/O) configuration
     signal peripheral_config_raw: data_buffer;
@@ -209,7 +220,7 @@ begin
     peripheral_configuration.dac_channel_sources(0) <= unsigned(peripheral_config_raw(dac_source_selector_width-1 downto 0));
     peripheral_configuration.dac_channel_sources(1) <= unsigned(peripheral_config_raw(2*dac_source_selector_width-1 downto dac_source_selector_width));
 
-    -- Panel parameters.
+    -- Panel parameters (example only).
 --    dac_channel_1_value <= signed(received_data_x(1)(dac_data_width-1 downto 0));
 
 
@@ -240,6 +251,11 @@ begin
     -- Freeze counter output while transmitting counter state or value.
     update_universal_counter_output <= ready_x(4) and ready_x(5);
     
+    -- Provide the inverted DAC value to compensate the hardware inverter.
+    invert_dac_value: for i in dac_data'range generate
+        dac_data(i) <= not dac_value(i);
+    end generate;
+
 
     --------------------------------------------------------------------------------
     -- SPI input selection logic.
@@ -374,7 +390,7 @@ begin
         channel_1_value => dac_channel_values(1),
         dac_channel_select => dac_channel_select_int,
         dac_write => dac_write_int,
-        dac_value => prepared_dac_value
+        dac_value => dac_value
     );
 
 
@@ -438,18 +454,34 @@ begin
     ext_miso <= miso when ext_ds = '0' else 'Z';
     test_led <= received_data_x(0)(0); -- LED is active low
 
-    -- SRAM.
-    ram_we_n <= '1';
-    ram_oe_n <= '1';
+    -- SRAM address or DAC data.
+    -----------------------------------------------------------------------------
+    
+    -- Apply SRAM address.
+    ----------------------
+    
+    -- ram_addr_dac_data <= ram_address;
+    -- dac_clk <= '1';
+    -- dac_channel_select <= '1';
+    -- dac_write_n <= '1';
+    -- ram_we_n <= ??; -- TODO: internal_ram_we_n
+    -- ram_oe_n <= ??; -- TODO: internal_ram_oe_n
 
-    -- Single and dual DAC. For the single DAC U2, we use dac_channel_select as the
-    -- clock. Thus, U2 always uses the value of channel 0.
+    -- Apply DAC data.
+    ------------------
+    
+    -- Apply data in reverse bit order, padded on the left.
+    generate_dac_data: for i in 0 to dac_data_width-1 generate
+        ram_addr_dac_data(i) <= dac_data(dac_data_width-1-i);
+    end generate;
+    ram_addr_dac_data(ram_addr_dac_data_width-1 downto dac_data_width) <= (others => '0');
+    
+    -- Apply control signals for single or dual DAC. For the single DAC U2, we use
+    -- dac_channel_select as the clock. Thus, U2 always uses the value of channel 0.
     dac_clk <= dac_channel_select_int; -- (single DAC U2 only)
     dac_channel_select <= dac_channel_select_int; -- (dual DAC U5 only)
     dac_write_n <= not dac_write_int; -- (dual DAC U5 only)
-    -- Invert the DAC value to compensate the hardwares inverter.
-    invert_dac_value: for i in dac_value'range generate
-        dac_value(i) <= not prepared_dac_value(i);
-    end generate;
+    ram_we_n <= '1';
+    ram_oe_n <= '1';
 
 end architecture;
