@@ -91,17 +91,17 @@ namespace CtLab.TestConsole
             var scope = appliance.Scope;
 
             // Finish any pending access, wait until mode becomes 'non-writing', i.e. 'reading' or 'ready'.
-            SetModeAndWaitForState(appliance, 0, mode => mode != 2, "non-writing");
+            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state != StorageState.Writing, "non-writing");
 
             // Set address and value.
             scope.StorageController.PrepareWriteAccess(address, value);
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             // Start writing, wait until mode becomes 'writing'.
-            SetModeAndWaitForState(appliance, 2, mode => mode == 2, "writing");
+            SetModeAndWaitForState(appliance, StorageMode.Write, state => state == StorageState.Writing, "writing");
 
             // Finish access, wait until mode becomes 'ready' (MSB set, all other bits reset).
-            SetModeAndWaitForState(appliance, 0, mode => mode == int.MinValue, "ready");
+            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "ready");
 
             Console.WriteLine ("------------------------------");
         }
@@ -120,10 +120,10 @@ namespace CtLab.TestConsole
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             // Start reading, wait until mode becomes 'reading'.
-            SetModeAndWaitForState(appliance, 1, mode => mode == 1, "reading");
+            SetModeAndWaitForState(appliance, StorageMode.Read, state => state == StorageState.Reading, "reading");
 
             // Finish access, wait until mode becomes 'ready' (MSB set, all other bits reset).
-            SetModeAndWaitForState(appliance, 0, mode => mode == int.MinValue, "ready");
+            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "ready");
 
             // Get value.
             var value = scope.StorageController.Value;
@@ -134,7 +134,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Sets the storage mode and waits until the state satisfies the specified predicate.
         /// </summary>
-        private static void SetModeAndWaitForState(Appliance appliance, short mode, Predicate<int> statePredicate, string statePredicateCaption)
+        private static void SetModeAndWaitForState(Appliance appliance, StorageMode mode, Predicate<StorageState> statePredicate, string statePredicateCaption)
         {
             var scope = appliance.Scope;
 

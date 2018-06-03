@@ -46,11 +46,11 @@ namespace CtLab.FpgaScope.Interfaces
         /// <summary>
         /// Sets the storage mode.
         /// </summary>
-        void SetMode(short mode);
+        void SetMode(StorageMode mode);
 
         /// <summary>
         /// Gets the current storage state.
         /// </summary>
-        int State { get; }
+        StorageState State { get; }
     }
 }

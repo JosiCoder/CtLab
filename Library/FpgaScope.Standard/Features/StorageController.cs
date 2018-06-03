@@ -97,17 +97,17 @@ namespace CtLab.FpgaScope.Standard
         /// <summary>
         /// Sets the storage mode.
         /// </summary>
-        public  void SetMode(short mode)
+        public  void SetMode(StorageMode mode)
         {
-            _modeSetter.SetValue (mode);
+            _modeSetter.SetValue ((ushort)mode);
         }
 
         /// <summary>
         /// Gets the current storage state.
         /// </summary>
-        public int State
+        public StorageState State
         {
-            get { return _stateGetter.ValueAsInt32; }
+            get { return (StorageState)_stateGetter.ValueAsInt32; }
         }
     }
 }
