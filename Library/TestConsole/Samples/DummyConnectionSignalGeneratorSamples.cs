@@ -70,7 +70,7 @@ namespace CtLab.TestConsole
                 signalGenerator.DdsGenerators [1].AmplitudeModulationSource = ModulationAndSynchronizationSource.DdsGenerator2;
                 signalGenerator.DdsGenerators [0].Amplitude = 1000;
                 signalGenerator.DdsGenerators [1].Amplitude = 100;
-                applianceConnection.FlushModifications ();
+                applianceConnection.SendSetCommandsForModifiedValues ();
 
                 // Display some values resulting from the current settings.
                 Console.WriteLine ("DDS channel 0: AM {0}%, {1}overmodulated",
@@ -78,9 +78,9 @@ namespace CtLab.TestConsole
                     signalGenerator.DdsGeneratorsAMInformationSets [0].Overmodulated ? "" : "not ");
 
                 // Send query commands periodically for some seconds.
-                applianceConnection.StartPolling (_queryCommandSendPeriod);
+                applianceConnection.StartSendingQueryCommands (_queryCommandSendPeriod);
                 Thread.Sleep (5 * _queryCommandSendPeriod);
-                applianceConnection.StopPolling ();
+                applianceConnection.StopSendingQueryCommands ();
                 Thread.Sleep (2 * _queryCommandSendPeriod); // wait for all pending 
 
                 Utilities.WriteFooterAndWaitForKeyPress ();

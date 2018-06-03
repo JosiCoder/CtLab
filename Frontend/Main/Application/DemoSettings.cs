@@ -67,7 +67,7 @@ namespace CtLab.Frontend
             signalGenerator.UniversalCounter.PrescalerMode = PrescalerMode.GatePeriod_100ms;
 
             // Flush all modifications, i.e. send all set commands that have modified values.
-            appliance.ApplianceConnection.FlushModifications();
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
         }
     }
 }

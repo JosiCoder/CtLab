@@ -95,7 +95,7 @@ namespace CtLab.Environment
 
                 // Initialize the device.
                 _signalGenerator.Reset();
-                _applianceConnection.FlushModifications();
+                _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }
 
@@ -114,7 +114,7 @@ namespace CtLab.Environment
 
                 // Initialize the device.
                 _signalGenerator.Reset();
-                _applianceConnection.FlushModifications();
+                _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }
 
@@ -136,7 +136,7 @@ namespace CtLab.Environment
 
                 // Initialize the device.
                 _scope.Reset();
-                _applianceConnection.FlushModifications();
+                _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }
 
@@ -155,7 +155,7 @@ namespace CtLab.Environment
 
                 // Initialize the device.
                 _scope.Reset();
-                _applianceConnection.FlushModifications();
+                _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }
 

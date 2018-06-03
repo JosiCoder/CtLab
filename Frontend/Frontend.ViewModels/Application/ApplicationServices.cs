@@ -41,7 +41,7 @@ namespace CtLab.Frontend.ViewModels
         /// </summary>
         public void Flush ()
         {
-            _appliance.ApplianceConnection.FlushModifications();
+            _appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
         }
     }
 }

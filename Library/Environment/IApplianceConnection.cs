@@ -36,24 +36,24 @@ namespace CtLab.Environment
         { get; }
 
         /// <summary>
-        /// Flushes any modifications to the hardware.
+        /// Sends all set commands that have modified values.
         /// </summary>
-        void FlushModifications();
+        void SendSetCommandsForModifiedValues();
 
         /// <summary>
-        /// Starts polling the hardware for new values.
+        /// Starts sending the scheduled query commands periodically using the specified period.
         /// </summary>
         /// <param name="period">The period in milliseconds.</param>
-        void StartPolling(long period);
+        void StartSendingQueryCommands(long period);
 
         /// <summary>
-        /// Starts polling the hardware for new values.
+        /// Stops sending the scheduled query commands periodically.
         /// </summary>
-        void StopPolling();
+        void StopSendingQueryCommands();
 
         /// <summary>
-        /// Polls the hardware once for new values.
+        /// Sends all query commands immediately.
         /// </summary>
-        void PollOnce();
+        void SendQueryCommandsImmediately();
     }
 }

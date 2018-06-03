@@ -90,42 +90,9 @@ namespace CtLab.EnvironmentIntegration
         }
 
         /// <summary>
-        /// Flushes any modifications to the hardware.
-        /// </summary>
-        public void FlushModifications()
-        {
-            SendSetCommandsForModifiedValues ();
-        }
-
-        /// <summary>
-        /// Starts polling the hardware for new values.
-        /// </summary>
-        /// <param name="period">The period in milliseconds.</param>
-        public void StartPolling(long period)
-        {
-            StartSendingQueryCommands (period);
-        }
-
-        /// <summary>
-        /// Starts polling the hardware for new values.
-        /// </summary>
-        public void StopPolling()
-        {
-            StopSendingQueryCommands ();
-        }
-
-        /// <summary>
-        /// Polls the hardware once for new values.
-        /// </summary>
-        public void PollOnce()
-        {
-            SendQueryCommandsImmediately ();
-        }
-
-        /// <summary>
         /// Sends all set commands that have modified values.
         /// </summary>
-        private void SendSetCommandsForModifiedValues()
+        public void SendSetCommandsForModifiedValues()
         {
             _setCommandClassDictionary.SendCommandsForModifiedValues();
         }
@@ -134,7 +101,7 @@ namespace CtLab.EnvironmentIntegration
         /// Starts sending the scheduled query commands periodically using the specified period.
         /// </summary>
         /// <param name="period">The period in milliseconds.</param>
-        private void StartSendingQueryCommands(long period)
+        public void StartSendingQueryCommands(long period)
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.StartSending(period);
@@ -143,7 +110,7 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Stops sending the scheduled query commands periodically.
         /// </summary>
-        private void StopSendingQueryCommands()
+        public void StopSendingQueryCommands()
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.StopSending();
@@ -152,7 +119,7 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Sends all query commands immediately.
         /// </summary>
-        private void SendQueryCommandsImmediately()
+        public void SendQueryCommandsImmediately()
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.SendImmediately();

@@ -95,7 +95,7 @@ namespace CtLab.TestConsole
 
             // Set address and value.
             scope.StorageController.PrepareWriteAccess(address, value);
-            appliance.ApplianceConnection.FlushModifications();
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             // Start writing, wait until mode becomes 'writing'.
             SetModeAndWaitForState(appliance, 2, mode => mode == 2, "writing");
@@ -117,7 +117,7 @@ namespace CtLab.TestConsole
 
             // Set address.
             scope.StorageController.PrepareReadAccess(address);
-            appliance.ApplianceConnection.FlushModifications();
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             // Start reading, wait until mode becomes 'reading'.
             SetModeAndWaitForState(appliance, 1, mode => mode == 1, "reading");
@@ -139,12 +139,12 @@ namespace CtLab.TestConsole
             var scope = appliance.Scope;
 
             scope.StorageController.SetMode(mode);
-            appliance.ApplianceConnection.FlushModifications();
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             int i = 0;
             while (!statePredicate(scope.StorageController.State))
             {
-                appliance.ApplianceConnection.PollOnce();
+                appliance.ApplianceConnection.SendQueryCommandsImmediately();
                 Thread.Sleep (10);
                 i++;
             }

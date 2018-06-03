@@ -312,7 +312,7 @@ namespace CtLab.Frontend.ViewModels
 
             // Start sending the query commands periodically.
             const int queryCommandSendPeriodMilliseconds = 500;
-            appliance.ApplianceConnection.StartPolling (queryCommandSendPeriodMilliseconds);
+            appliance.ApplianceConnection.StartSendingQueryCommands (queryCommandSendPeriodMilliseconds);
 
             return applianceViewModel;
         }
