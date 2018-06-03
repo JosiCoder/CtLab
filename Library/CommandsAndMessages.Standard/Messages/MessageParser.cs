@@ -30,7 +30,7 @@ namespace CtLab.CtLabProtocol.Standard
     {
         private Regex regularExpression =
             new Regex(
-                @"^#(?<channel>\d+)\s*:\s*(?<subchannel>\d+)\s*=\s*(?<value>\d+)\s*(\[(?<description>.*)\])?\s*$",
+                @"^#(?<channel>\d+)\s*:\s*(?<subchannel>\d+)\s*=\s*(?<value>[-\d]+)\s*(\[(?<description>.*)\])?\s*$",
                 RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         /// <summary>

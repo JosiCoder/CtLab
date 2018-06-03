@@ -33,8 +33,9 @@ namespace CtLab.TestConsole
         {
             Console.WriteLine("=== Begin of regular expression evaluation. ===");
 
-            string text = "#7:255=0[OK]\n#8:254=1 [FAIL]";
-            string pat = @"^#(?<channel>\d+)\s*:\s*(?<subchannel>\d+)\s*=\s*(?<value>\d+)\s*(\[(?<description>.*)\])?\s*$";
+            string text = "#7:255=0[OK]\n#8:254=1 [FAIL]\n#9:254=-1 [OK]";
+            string pat = @"^#(?<channel>\d+)\s*:\s*(?<subchannel>\d+)\s*=\s*(?<value>[-\d]+)\s*(\[(?<description>.*)\])?\s*$";
+
             // Compile the regular expression.
             Regex r = new Regex(pat, RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Multiline);
             // Match the regular expression pattern against a text string.

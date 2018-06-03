@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using CtLab.FpgaSignalGenerator.Interfaces;
+using CtLab.FpgaScope.Interfaces;
 
 namespace CtLab.Environment
 {
@@ -36,5 +37,18 @@ namespace CtLab.Environment
         /// Creates an FPGA-based signal generator that can be accessed via the SPI interface.
         /// </summary>
         ISignalGenerator CreateSpiDirectSignalGenerator();
+
+        /// <summary>
+        /// Creates an FPGA-based scope that can be accessed via the c't Lab protocol.
+        /// </summary>
+        /// <param name="mainchannel">
+        /// The number of the mainchannel assigned to the FPGA module.
+        /// </param>
+        IScope CreateCtLabProtocolScope(byte mainchannel);
+
+        /// <summary>
+        /// Creates an FPGA-based scope that can be accessed via the SPI interface.
+        /// </summary>
+        IScope CreateSpiDirectScope();
     }
 }

@@ -21,6 +21,8 @@ using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Standard;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
+using CtLab.FpgaScope.Interfaces;
+using CtLab.FpgaScope.Standard;
 using CtLab.Environment;
 
 namespace CtLab.EnvironmentIntegration
@@ -76,6 +78,33 @@ namespace CtLab.EnvironmentIntegration
         }
 
         /// <summary>
+        /// Creates an FPGA-based scope that can be accessed via the c't Lab protocol.
+        /// </summary>
+        /// <param name="mainchannel">
+        /// The number of the mainchannel assigned to the FPGA module.
+        /// </param>
+        public IScope CreateCtLabProtocolScope(byte mainchannel)
+        {
+            var deviceConnection = new CtLabProtocolDeviceConnection (mainchannel,
+                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
+                _receivedMessagesCache);
+
+            return CreateScope(deviceConnection);
+        }
+
+        /// <summary>
+        /// Creates an FPGA-based scope that can be accessed via the SPI interface.
+        /// </summary>
+        public IScope CreateSpiDirectScope()
+        {
+            var deviceConnection = new SpiDirectDeviceConnection(
+                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
+                _receivedMessagesCache);
+
+            return CreateScope(deviceConnection);
+        }
+
+        /// <summary>
         /// Creates an FPGA-based signal generator.
         /// </summary>
         /// <param name="deviceConnection">The connection used to access the signal generator.</param>
@@ -85,6 +114,18 @@ namespace CtLab.EnvironmentIntegration
                 CtLab.FpgaConnection.Standard.FpgaConnection (deviceConnection);
 
             return new SignalGenerator(fpgaConnection);
+        }
+
+        /// <summary>
+        /// Creates an FPGA-based scope.
+        /// </summary>
+        /// <param name="deviceConnection">The connection used to access the scope.</param>
+        private IScope CreateScope(IDeviceConnection deviceConnection)
+        {
+            var fpgaConnection = new
+                CtLab.FpgaConnection.Standard.FpgaConnection (deviceConnection);
+
+            return new Scope(fpgaConnection);
         }
     }
 }

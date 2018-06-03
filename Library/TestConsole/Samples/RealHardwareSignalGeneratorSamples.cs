@@ -33,7 +33,8 @@ namespace CtLab.TestConsole
 {
     /// <summary>
     /// Provides some samples using real c´t Lab hardware connected via a (physical or emulated) serial
-    /// port.
+    /// port. For these tests, a proper configuration supporting a signal generator must be loaded into
+    /// the FPGA.
     /// </summary>
     public static class RealHardwareSignalGeneratorSamples
     {

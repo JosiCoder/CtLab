@@ -27,84 +27,10 @@ namespace CtLab.FpgaScope.Standard
     public class Scope : IScope
     {
         private readonly IFpgaConnection _fpgaConnection;
-//        private readonly DdsGenerator[] _ddsGenerators;
-//        private readonly OutputSourceSelector _outputSourceSelector;
-//        private readonly PulseGenerator _pulseGenerator;
-//        private readonly UniversalCounter _universalCounter;
-//
-//        public IDdsGenerator[] DdsGenerators
-//        { get { return (DdsGenerator[])_ddsGenerators.Clone(); } }
-//
-//        public IOutputSourceSelector OutputSourceSelector
-//        { get { return _outputSourceSelector; } }
-//
-//        public IPulseGenerator PulseGenerator
-//        { get { return _pulseGenerator; } }
-//
-//        public IUniversalCounter UniversalCounter
-//        { get { return _universalCounter; } }
-//
-//        /// <summary>
-//        /// Gets the amplitude modulation values for all DDS generators.
-//        /// </summary>
-//        public AmplitudeModulationInformationSet[] DdsGeneratorsAMInformationSets
-//        {
-//            get
-//            {
-//                var infoSetList = new List<AmplitudeModulationInformationSet>();
-//
-//                foreach (var carrierGenerator in _ddsGenerators)
-//                {
-//                    // The enum is coded using the indices.
-//                    var index = (ushort)carrierGenerator.AmplitudeModulationSource;
-//
-//                    var informer =
-//                        new AmplitudeModulationInformer(carrierGenerator);
-//
-//                    // Use the according modulator. If the carrier references itself,
-//                    // don't use modulation.
-//                    informer.ModulatorSource =
-//                        carrierGenerator == _ddsGenerators[index]
-//                            ? null
-//                            : _ddsGenerators[index];
-//
-//                    infoSetList.Add(informer.ModulationInformation);
-//                }
-//
-//                return infoSetList.ToArray();
-//            }
-//        }
-//
-//        /// <summary>
-//        /// Gets the frequency modulation values for all DDS generators.
-//        /// </summary>
-//        public FrequencyModulationInformationSet[] DdsGeneratorsFMInformationSets
-//        {
-//            get
-//            {
-//                var infoSetList = new List<FrequencyModulationInformationSet>();
-//
-//                foreach (var carrierGenerator in _ddsGenerators)
-//                {
-//                    // The enum is coded using the indices.
-//                    var index = (ushort)carrierGenerator.FrequencyModulationSource;
-//
-//                    var informer =
-//                        new FrequencyModulationInformer(carrierGenerator);
-//
-//                    // Use the according modulator. If the carrier references itself,
-//                    // don't use modulation.
-//                    informer.ModulatorSource =
-//                        carrierGenerator == _ddsGenerators[index]
-//                            ? null
-//                            : _ddsGenerators[index];
-//
-//                    infoSetList.Add(informer.ModulationInformation);
-//                }
-//
-//                return infoSetList.ToArray();
-//            }
-//        }
+        private readonly StorageController _storageController;
+
+        public IStorageController StorageController
+        { get { return _storageController; } }
 
         /// <summary>
         /// Releases all resource used by this instance.
@@ -122,28 +48,14 @@ namespace CtLab.FpgaScope.Standard
         {
             _fpgaConnection = deviceConnection;
 
-//            // Four DDS generators.
-//            _ddsGenerators = new DdsGenerator[4];
-//            _ddsGenerators[0] = BuildDdsGenerator(8);
-//            _ddsGenerators[1] = BuildDdsGenerator(12);
-//            _ddsGenerators[2] = BuildDdsGenerator(16);
-//            _ddsGenerators[3] = BuildDdsGenerator(20);
-//
-//            // The signal selectors for two outputs.
-//            _outputSourceSelector = new OutputSourceSelector(
-//                CreateFpgaValueSetter(7));
-//
-//            // The pulse generator.
-//            _pulseGenerator = new PulseGenerator(
-//                CreateFpgaValueSetter(6),
-//                CreateFpgaValueSetter(5));
-//
-//            // The universal counter.
-//            _universalCounter = new UniversalCounter(
-//                CreateFpgaValueSetter(1),
-//                CreateFpgaValueGetter(3),
-//                CreateFpgaValueGetter(2)
-//            );
+            // The universal counter.
+            _storageController = new StorageController(
+                CreateFpgaValueSetter(0),
+                CreateFpgaValueGetter(0),
+                CreateFpgaValueSetter(1),
+                CreateFpgaValueSetter(2),
+                CreateFpgaValueGetter(2)
+            );
         }
 
         /// <summary>
@@ -151,38 +63,9 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         public void Reset()
         {
-//            OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator0;
-//            OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator1;
-//
-//            PulseGenerator.PulseDuration = 0;
-//            PulseGenerator.PauseDuration = 0;
-//
-//            for (var index = 0; index < DdsGenerators.Length; index++)
-//            {
-//                var ddsGenerator = DdsGenerators[index];
-//                ddsGenerator.Frequency = 0;
-//                ddsGenerator.Amplitude = 0;
-//                ddsGenerator.Phase = 0;
-//                ddsGenerator.Waveform = Waveform.Sine;
-//                ddsGenerator.AmplitudeModulationSource = (ModulationAndSynchronizationSource)index;
-//                ddsGenerator.FrequencyModulationSource = (ModulationAndSynchronizationSource)index;
-//                ddsGenerator.PhaseModulationSource = (ModulationAndSynchronizationSource)index;
-//                ddsGenerator.SynchronizationSource = (ModulationAndSynchronizationSource)index;
-//                ddsGenerator.MaximumFrequencyModulationRange = 0;
-//            }
-//
-//            UniversalCounter.InputSource = UniversalCounterSource.DdsGenerator0;
-//            UniversalCounter.PrescalerMode = PrescalerMode.GatePeriod_1s;
+            // e.g.:
+            // StorageController.XXX = ???;
         }
-
-//        private DdsGenerator BuildDdsGenerator(ushort baseRegisterNumber)
-//        {
-//            return new DdsGenerator(
-//                CreateFpgaValueSetter(baseRegisterNumber),
-//                CreateFpgaValueSetter((ushort)(baseRegisterNumber + 1)),
-//                CreateFpgaValueSetter((ushort)(baseRegisterNumber + 2))
-//            );
-//        }
 
         private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {

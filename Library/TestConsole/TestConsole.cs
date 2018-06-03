@@ -34,11 +34,14 @@ namespace CtLab.TestConsole
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
+//TODO
             RunDummyConnectionLowLevelSamples();
             RunRealHardwareLowLevelSamples();
 
             RunDummyConnectionSignalGeneratorSamples();
             RunRealHardwareSignalGeneratorSamples();
+
+//            RunRealHardwareScopeSamples();
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
@@ -98,6 +101,7 @@ namespace CtLab.TestConsole
 
         /// <summary>
         /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
+        /// For these tests, a proper configuration supporting a signal generator must be loaded into the FPGA.
         /// </summary>
         public static void RunRealHardwareSignalGeneratorSamples()
         {
@@ -118,6 +122,19 @@ namespace CtLab.TestConsole
 
             // Sample: Configure the signal generator to measure the frequency of an internal signal.
             RealHardwareSignalGeneratorSamples.SetupUniversalCounterToMeasureFrequencyOfInternalSignal();
+        }
+
+        /// <summary>
+        /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
+        /// For these tests, a proper configuration supporting a scope must be loaded into the FPGA.
+        /// </summary>
+        public static void RunRealHardwareScopeSamples()
+        {
+            //== Here you can activate or deactivate one or more of the samples below. They don't
+            //== dependent on each other.
+
+            // Sample: Write sample values to the storage and reads them.
+            RealHardwareScopeSamples.WriteAndReadStorageValues();
         }
     }
 }

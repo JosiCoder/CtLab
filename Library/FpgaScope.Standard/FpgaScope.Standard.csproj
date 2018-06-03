@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scope.cs" />
+    <Compile Include="Features\StorageController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -48,5 +49,8 @@
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\" />
   </ItemGroup>
 </Project>

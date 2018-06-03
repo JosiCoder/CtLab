@@ -57,6 +57,8 @@ namespace CtLab.Frontend
             var appliance = container.GetInstance<Appliance>();
 
             appliance.InitializeSpiDirectSignalGenerator();
+            //TODO: activate after scope integration
+            //appliance.InitializeSpiDirectScope();
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -79,6 +81,8 @@ namespace CtLab.Frontend
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
             appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            //TODO: activate after scope integration
+            //appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -140,6 +144,8 @@ namespace CtLab.Frontend
             });
 
             appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            //TODO: activate after scope integration
+            //appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -177,9 +183,11 @@ namespace CtLab.Frontend
         /// <param name="appliance">The appliance to apply initial settings to.</param>
         private void ApplyInitialApplianceSettings(Appliance appliance)
         {
-            // Get the signal generator and reset the hardware to cancel
+            // Get the signal generator and scope and reset the hardware to cancel
             // settings from previous configurations.
             appliance.SignalGenerator.Reset();
+            //TODO: activate after scope integration
+            //appliance.Scope.Reset();
 
             // Set the generators to a demo configuration so that we can
             // immediately see something and have a starting point.

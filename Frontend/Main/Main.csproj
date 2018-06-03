@@ -95,6 +95,9 @@
     <Reference Include="CtLab.SpiDirect.Integration">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.SpiDirect.Integration.dll</HintPath>
     </Reference>
+    <Reference Include="CtLab.FpgaScope.Interfaces">
+      <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaScope.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

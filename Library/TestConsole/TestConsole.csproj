@@ -96,6 +96,7 @@
     <Compile Include="Samples\RealHardwareLowLevelSamples.cs" />
     <Compile Include="Samples\DummyConnectionSignalGeneratorSamples.cs" />
     <Compile Include="Samples\RealHardwareSignalGeneratorSamples.cs" />
+    <Compile Include="Samples\RealHardwareScopeSamples.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -162,6 +163,10 @@
     <ProjectReference Include="..\CtLabProtocol.Integration\CtLabProtocol.Integration.csproj">
       <Project>{002AB5C8-B9E2-48CA-8ED6-195119D076EB}</Project>
       <Name>CtLabProtocol.Integration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FpgaScope.Interfaces\FpgaScope.Interfaces.csproj">
+      <Project>{F2951C41-6319-47F2-B9E6-494F1BCDD114}</Project>
+      <Name>FpgaScope.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

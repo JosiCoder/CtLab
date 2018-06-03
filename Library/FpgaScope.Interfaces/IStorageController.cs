@@ -20,18 +20,37 @@ using System;
 namespace CtLab.FpgaScope.Interfaces
 {
     /// <summary>
-    /// Provides facilities to communicate with a scope.
+    /// Provides facilities to communicate with a storage controller implemented within a c't Lab FPGA
+    /// device configured as an FPGA Lab.
     /// </summary>
-    public interface IScope : IDisposable
+    public interface IStorageController
     {
         /// <summary>
-        /// Gets the storage controller.
+        /// Gets the value read from the storage.
         /// </summary>
-        IStorageController StorageController { get; }
+        int Value { get; }
 
         /// <summary>
-        /// Resets the scope. 
+        /// Prepares read access.
         /// </summary>
-        void Reset();
+        /// <param name="address">The address to read from.</param>
+        void PrepareReadAccess(int address);
+
+        /// <summary>
+        /// Prepares write access.
+        /// </summary>
+        /// <param name="address">The address to write to.</param>
+        /// <param name="value">The value to write to the storage.</param>
+        void PrepareWriteAccess(int address, int value);
+
+        /// <summary>
+        /// Sets the storage mode.
+        /// </summary>
+        void SetMode(short mode);
+
+        /// <summary>
+        /// Gets the current storage state.
+        /// </summary>
+        int State { get; }
     }
 }

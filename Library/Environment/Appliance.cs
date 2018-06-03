@@ -17,6 +17,7 @@
 
 using System;
 using CtLab.FpgaSignalGenerator.Interfaces;
+using CtLab.FpgaScope.Interfaces;
 
 namespace CtLab.Environment
 {
@@ -28,6 +29,7 @@ namespace CtLab.Environment
         private readonly IApplianceConnection _applianceConnection;
         private readonly IDeviceFactory _deviceFactory;
         private ISignalGenerator _signalGenerator;
+        private IScope _scope;
 
         /// <summary>
         /// Gets the appliance connection used by this instance.
@@ -51,6 +53,17 @@ namespace CtLab.Environment
             }
         }
 
+        /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        public IScope Scope
+        {
+            get
+            {
+                return _scope;
+            }
+        }
+
         // More parts might go here (additional FPGA Lab instances or other c´t Lab devices).
 
         /// <summary>
@@ -66,7 +79,7 @@ namespace CtLab.Environment
 
         /// <summary>
         /// Initializes or reinitializes a single FPGA Lab device instance running
-        /// the signal generator hat can be accessed via the c't Lab protocol. 
+        /// the signal generator that can be accessed via the c't Lab protocol. 
         /// </summary>
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA Lab.
@@ -88,7 +101,7 @@ namespace CtLab.Environment
 
         /// <summary>
         /// Initializes or reinitializes a single FPGA Lab device instance running
-        /// the signal generator hat can be accessed via the SPI interface.
+        /// the signal generator that can be accessed via the SPI interface.
         /// </summary>
         public void InitializeSpiDirectSignalGenerator()
         {
@@ -105,10 +118,54 @@ namespace CtLab.Environment
             }
         }
 
+        /// <summary>
+        /// Initializes or reinitializes a single FPGA Lab device instance running
+        /// the scope that can be accessed via the c't Lab protocol. 
+        /// </summary>
+        /// <param name="mainchannel">
+        /// The number of the mainchannel assigned to the FPGA Lab.
+        /// </param>
+        public void InitializeCtLabProtocolScope(byte mainchannel)
+        {
+            lock (_applianceConnection.SyncRoot)
+            {
+                if (_scope != null)
+                    _scope.Dispose();
+
+                _scope = _deviceFactory.CreateCtLabProtocolScope(mainchannel);
+
+                // Initialize the device.
+                _scope.Reset();
+                _applianceConnection.FlushModifications();
+            }
+        }
+
+        /// <summary>
+        /// Initializes or reinitializes a single FPGA Lab device instance running
+        /// the scope that can be accessed via the SPI interface.
+        /// </summary>
+        public void InitializeSpiDirectScope()
+        {
+            lock (_applianceConnection.SyncRoot)
+            {
+                if (_scope != null)
+                    _scope.Dispose();
+
+                _scope = _deviceFactory.CreateSpiDirectScope();
+
+                // Initialize the device.
+                _scope.Reset();
+                _applianceConnection.FlushModifications();
+            }
+        }
+
         public void Dispose()
         {
             if (_signalGenerator != null)
                 _signalGenerator.Dispose();
+
+            if (_scope != null)
+                _scope.Dispose();
 
             if (_applianceConnection != null)
                 _applianceConnection.Dispose();
