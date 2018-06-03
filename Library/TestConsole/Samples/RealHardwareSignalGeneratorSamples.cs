@@ -38,9 +38,6 @@ namespace CtLab.TestConsole
     /// </summary>
     public static class RealHardwareSignalGeneratorSamples
     {
-		private const string _portName = "/dev/ttyUSB0";
-        private const byte _channel = 7;
-
         private const int _queryCommandSendPeriod = 500; // ms
 
         /// <summary>
@@ -53,7 +50,7 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
+            using (var appliance = new ApplianceFactory().CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -97,7 +94,7 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
+            using (var appliance = new ApplianceFactory().CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -145,7 +142,7 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
+            using (var appliance = new ApplianceFactory().CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -182,7 +179,7 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
+            using (var appliance = new ApplianceFactory().CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -212,7 +209,7 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
+            using (var appliance = new ApplianceFactory().CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.

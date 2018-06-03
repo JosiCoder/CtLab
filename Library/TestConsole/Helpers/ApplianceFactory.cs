@@ -37,13 +37,16 @@ namespace CtLab.TestConsole
     /// </summary>
     public class ApplianceFactory
     {
+        private const string _portName = "/dev/ttyUSB0";
+        private const byte _channel = 7;
+
         /// <summary>
         /// Configures and returns an IoC using the specified connection registry.
         /// </summary>
         /// <returns>The configured IoC.</returns>
         /// <typeparam name="TConnectionRegistry">The type of the registry responsible for the connection.</typeparam>
         /// <typeparam name="TProtocolRegistry">The type of the registry responsible for the protocol.</typeparam>
-        public static StructureMap.Container CreateContainer<TConnectionRegistry, TProtocolRegistry>()
+        public static Container CreateContainer<TConnectionRegistry, TProtocolRegistry>()
             where TConnectionRegistry : Registry, new()
             where TProtocolRegistry : Registry, new()
         {
@@ -70,6 +73,15 @@ namespace CtLab.TestConsole
         public IEnumerable<string> AvailablePortNames
         {
             get { return SerialPort.GetPortNames (); }
+        }
+
+        /// <summary>
+        /// Creates and returns a new c't Lab appliance used for testing.
+        /// </summary>
+        /// <returns>The appliance created.</returns>
+        public Appliance CreateTestAppliance()
+        {
+            return CreateSerialAppliance(_portName, _channel);
         }
 
         /// <summary>
