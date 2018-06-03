@@ -22,7 +22,6 @@ using System.Text;
 using System.Diagnostics;
 using StructureMap;
 using CtLab.BasicIntegration;
-using CtLab.CtLabProtocol.Integration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole
@@ -37,15 +36,18 @@ namespace CtLab.TestConsole
         /// </summary>
         /// <returns>The configured IoC.</returns>
         /// <typeparam name="TConnectionRegistry">The type of the registry responsible for the connections.</typeparam>
-        public static Container ConfigureIoC<TConnectionRegistry>() where TConnectionRegistry : Registry, new()
+        /// <typeparam name="TProtocolRegistry">The type of the registry responsible for the protocol.</typeparam>
+        public static Container ConfigureIoC<TConnectionRegistry, TProtocolRegistry>()
+            where TConnectionRegistry : Registry, new()
+            where TProtocolRegistry : Registry, new()
         {
             // Configure the IoC container to provide specific implementations for several interfaces.
             var container = new Container(expression =>
                 {
-                    expression.AddRegistry<TConnectionRegistry>();
                     expression.AddRegistry<CommandsAndMessagesRegistry>();
-                    expression.AddRegistry<CtLabProtocolRegistry>();
                     expression.AddRegistry<ApplianceRegistry>();
+                    expression.AddRegistry<TConnectionRegistry>();
+                    expression.AddRegistry<TProtocolRegistry>();
                 });
 
             // Display the effecive IoC container configuration.
