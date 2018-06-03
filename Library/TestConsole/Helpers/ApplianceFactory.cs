@@ -82,6 +82,7 @@ namespace CtLab.TestConsole
         public Appliance CreateTestAppliance()
         {
             return CreateSerialAppliance(_portName, _channel);
+//            return CreateSpiAppliance();
         }
 
         /// <summary>
@@ -199,10 +200,6 @@ namespace CtLab.TestConsole
             appliance.SignalGenerator.Reset();
             //TODO: activate after scope integration
             //appliance.Scope.Reset();
-
-            // Set the generators to a demo configuration so that we can
-            // immediately see something and have a starting point.
-//            new DemoSettings().ApplyDemoSettings(appliance);
         }
     }
 }
