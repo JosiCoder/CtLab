@@ -124,7 +124,7 @@ namespace CtLab.TestConsole
         /// </summary>
         private static Container ConfigureIoC()
         {
-            return Utilities.ConfigureIoC<SerialConnectionRegistry, CtLabProtocolRegistry>();
+            return ApplianceFactory.CreateContainer<SerialConnectionRegistry, CtLabProtocolRegistry>();
         }
     }
 }

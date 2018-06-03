@@ -23,10 +23,8 @@ using System.Threading;
 using StructureMap;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Serial;
-using CtLab.CtLabProtocol.Interfaces;
 using CtLab.FpgaScope.Interfaces;
 using CtLab.Environment;
-using CtLab.CtLabProtocol.Integration;
 using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole
@@ -51,16 +49,8 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            // Each c't Lab appliance and associated connection needs its own IoC container. 
-            var container = ConfigureIoC();
-
-            using (var appliance = container.GetInstance<Appliance>())
+            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
             {
-                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
-
-                // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeCtLabProtocolScope(_channel);
-
                 // Get the scope and reset the hardware to cancel settings from previous
                 // configurations.
                 var scope = appliance.Scope;
@@ -149,15 +139,6 @@ namespace CtLab.TestConsole
                 i++;
             }
             Console.WriteLine("Polled {0} times while waiting for '{1}' state", i, statePredicateCaption);
-        }
-
-        /// <summary>
-        /// Configures and returns an IoC using a serial connection. The resulting configuration can be used for tests
-        /// and samples that need real c´t Lab hardware connected to a (physical or emulated) serial port.
-        /// </summary>
-        private static Container ConfigureIoC()
-        {
-            return Utilities.ConfigureIoC<SerialConnectionRegistry, CtLabProtocolRegistry>();
         }
     }
 }

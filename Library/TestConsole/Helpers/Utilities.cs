@@ -32,33 +32,6 @@ namespace CtLab.TestConsole
     public static class Utilities
     {
         /// <summary>
-        /// Configures and returns an IoC using the specified connection registry.
-        /// </summary>
-        /// <returns>The configured IoC.</returns>
-        /// <typeparam name="TConnectionRegistry">The type of the registry responsible for the connections.</typeparam>
-        /// <typeparam name="TProtocolRegistry">The type of the registry responsible for the protocol.</typeparam>
-        public static Container ConfigureIoC<TConnectionRegistry, TProtocolRegistry>()
-            where TConnectionRegistry : Registry, new()
-            where TProtocolRegistry : Registry, new()
-        {
-            // Configure the IoC container to provide specific implementations for several interfaces.
-            var container = new Container(expression =>
-                {
-                    expression.AddRegistry<CommandsAndMessagesRegistry>();
-                    expression.AddRegistry<ApplianceRegistry>();
-                    expression.AddRegistry<TConnectionRegistry>();
-                    expression.AddRegistry<TProtocolRegistry>();
-                });
-
-            // Display the effecive IoC container configuration.
-            // Note: This line is not needed for proper operation, it just provides some information
-            // that helps to understand how the IoC container works. Thus this line may be deactivated.
-            //Console.WriteLine(container.WhatDoIHave());
-
-            return container;
-        }
-
-        /// <summary>
         /// Writes a header containing the name of the calling method.
         /// </summary>
         public static void WriteHeader()

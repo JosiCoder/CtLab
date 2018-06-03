@@ -53,16 +53,8 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            // Each c't Lab appliance and associated connection needs its own IoC container. 
-            var container = ConfigureIoC();
-
-            using (var appliance = container.GetInstance<Appliance>())
+            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
             {
-                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
-
-                // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeCtLabProtocolSignalGenerator(_channel);
-
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
                 var signalGenerator = appliance.SignalGenerator;
@@ -105,16 +97,8 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            // Each c't Lab appliance and associated connection needs its own IoC container. 
-            var container = ConfigureIoC();
-
-            using (var appliance = container.GetInstance<Appliance>())
+            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
             {
-                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
-
-                // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeCtLabProtocolSignalGenerator(_channel);
-
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
                 var signalGenerator = appliance.SignalGenerator;
@@ -161,16 +145,8 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            // Each c't Lab appliance and associated connection needs its own IoC container. 
-            var container = ConfigureIoC();
-
-            using (var appliance = container.GetInstance<Appliance>())
+            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
             {
-                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
-
-                // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeCtLabProtocolSignalGenerator(_channel);
-
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
                 var signalGenerator = appliance.SignalGenerator;
@@ -206,16 +182,8 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            // Each c't Lab appliance and associated connection needs its own IoC container. 
-            var container = ConfigureIoC();
-
-            using (var appliance = container.GetInstance<Appliance>())
+            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
             {
-                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
-
-                // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeCtLabProtocolSignalGenerator(_channel);
-
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
                 var signalGenerator = appliance.SignalGenerator;
@@ -244,16 +212,8 @@ namespace CtLab.TestConsole
         {
             Utilities.WriteHeader();
 
-            // Each c't Lab appliance and associated connection needs its own IoC container. 
-            var container = ConfigureIoC();
-
-            using (var appliance = container.GetInstance<Appliance>())
+            using (var appliance = new ApplianceFactory().CreateSerialAppliance(_portName, _channel))
             {
-                ((SerialConnection)appliance.ApplianceConnection.Connection).Open(_portName);
-
-                // Set the channel of the appliance´s only FPGA lab.
-                appliance.InitializeCtLabProtocolSignalGenerator(_channel);
-
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
                 var signalGenerator = appliance.SignalGenerator;
@@ -293,15 +253,6 @@ namespace CtLab.TestConsole
             }
 
             Utilities.WriteFooterAndWaitForKeyPress();
-        }
-
-        /// <summary>
-        /// Configures and returns an IoC using a serial connection. The resulting configuration can be used for tests
-        /// and samples that need real c´t Lab hardware connected to a (physical or emulated) serial port.
-        /// </summary>
-        private static Container ConfigureIoC()
-        {
-            return Utilities.ConfigureIoC<SerialConnectionRegistry, CtLabProtocolRegistry>();
         }
 
         private static void SetDds0FrequencyAndWait(Appliance appliance, int frequency, int millisecondsToWait)
