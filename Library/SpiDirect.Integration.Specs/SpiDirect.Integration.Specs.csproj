@@ -81,10 +81,6 @@
       <Project>{AF217948-EB6B-4846-BFE8-D03139C8E016}</Project>
       <Name>SpiConnection.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="SpiDirect.Integration\SpiDirect.Integration.csproj">
-      <Project>{F9B12BAF-5385-4AB4-B87A-8C24EE8F916C}</Project>
-      <Name>SpiDirect.Integration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Connection.Interfaces\Connection.Interfaces.csproj">
       <Project>{43AC2096-9932-4D3B-9F41-8586F71421C8}</Project>
       <Name>Connection.Interfaces</Name>
@@ -96,6 +92,10 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{90BBC975-0E39-4A17-925A-D61E1D14858E}</Project>
       <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpiDirect.Integration\SpiDirect.Integration.csproj">
+      <Project>{F9B12BAF-5385-4AB4-B87A-8C24EE8F916C}</Project>
+      <Name>SpiDirect.Integration</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

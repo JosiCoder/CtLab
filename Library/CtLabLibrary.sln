@@ -81,7 +81,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiDirect.Integration.Specs", "SpiDirect.Integration.Specs\SpiDirect.Integration.Specs.csproj", "{B4468D72-712F-4F59-9CFD-42BC67AC0AB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiDirect.Integration", "SpiDirect.Integration.Specs\SpiDirect.Integration\SpiDirect.Integration.csproj", "{F9B12BAF-5385-4AB4-B87A-8C24EE8F916C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiDirect.Integration", "SpiDirect.Integration\SpiDirect.Integration.csproj", "{F9B12BAF-5385-4AB4-B87A-8C24EE8F916C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connections", "Connections", "{5EA5265A-C604-46BE-B0D9-B2E5EEFFDBFA}"
 EndProject
