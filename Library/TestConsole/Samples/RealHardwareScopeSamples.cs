@@ -37,39 +37,44 @@ namespace CtLab.TestConsole
     public static class RealHardwareScopeSamples
     {
         /// <summary>
-        /// Writes sample values to the storage and reads them.
+        /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.
+        /// Note: No handshake is usually necessary for writing as the storage controller (VHDL) is much faster
+        /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
+        /// to be considered, especially when using the c't Lab protocol. 
         /// TODO: The current protocol is very low-level, this might be changed.
         /// </summary>
         public static void WriteAndReadStorageValues()
         {
+            const bool writeWithHandshake = true;
+            const bool readWithHandshake = true;
+
             Utilities.WriteHeader();
 
             using (var appliance = new ApplianceFactory().CreateTestAppliance())
             {
-                // Get the scope and reset the hardware to cancel settings from previous
-                // configurations.
+                // Get the scope and reset the hardware to cancel settings from previous configurations.
                 var scope = appliance.Scope;
                 scope.Reset();
 
-                var memoryAdresses = new [] {3, 4, 5};
+                var adresses = new [] {3, 4, 5};
                 var random = new Random ();
-                var memoryItems = memoryAdresses.ToDictionary(address => address, address => random.Next (255));
+                var items = adresses.ToDictionary(address => address, address => random.Next (255));
 
-                foreach (var memoryItem in memoryItems)
+                foreach (var storageItem in items)
                 {
-                    DoWrite(appliance, memoryItem.Key, memoryItem.Value);
+                    DoWrite(appliance, storageItem.Key, storageItem.Value, writeWithHandshake);
                 }
 
                 Console.WriteLine ("========================================");
 
                 // Trigger all reads immediately and await any async 'String received' comments.
-                var readValues = memoryItems.Select(memoryItem => DoRead(appliance, memoryItem.Key)).ToList();
+                var readValues = items.Select(item => DoRead(appliance, item.Key, readWithHandshake)).ToList();
                 Thread.Sleep (100);
 
                 Console.WriteLine ("========================================");
 
                 Console.Write ("Written:");
-                foreach (var value in memoryItems.Values)
+                foreach (var value in items.Values)
                 {
                     Console.Write(" {0} (x{0:X2})", value);
                 }
@@ -87,73 +92,134 @@ namespace CtLab.TestConsole
         }
 
         /// <summary>
-        /// Writes to the memory using the low-level SRAM controller protocol.
+        /// Writes to the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private static void DoWrite(Appliance appliance, int address, int value)
+        private static void DoWrite(Appliance appliance, int address, int value, bool withHandshake)
         {
             Console.WriteLine ("** Writing {0}={1} **", address, value);
 
-            var scope = appliance.Scope;
-
-            // Finish any pending access, wait until mode becomes 'non-writing', i.e. 'reading' or 'ready'.
-            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state != StorageState.Writing, "any non-'writing'");
+            // Finish any pending access.
+            SetMode(appliance, StorageMode.Idle);
+            if (withHandshake) AwaitState(appliance, state => state != StorageState.Writing, "any non-'writing' state");
 
             // Set address and value.
-            scope.StorageController.PrepareWriteAccess(address, value);
-            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
+            PrepareWriteAccess(appliance, address, value);
 
-            // Start writing, wait until mode becomes 'writing'.
-            SetModeAndWaitForState(appliance, StorageMode.Write, state => state == StorageState.Writing, "'writing'");
+            // Start writing.
+            SetMode(appliance, StorageMode.Write);
+            if (withHandshake) AwaitState(appliance, StorageState.Writing);
 
-            // Finish access, wait until mode becomes 'ready' (MSB set, all other bits reset).
-            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "'ready'");
+            // Finish access.
+            SetMode(appliance, StorageMode.Idle);
+            if (withHandshake) AwaitState(appliance, StorageState.Ready);
 
             Console.WriteLine ("------------------------------");
         }
 
         /// <summary>
-        /// Reads from the memory the low-level SRAM controller protocol.
+        /// Reads from the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private static int DoRead(Appliance appliance, int address)
+        private static int DoRead(Appliance appliance, int address, bool readWithStrictHandshake)
         {
             Console.WriteLine ("------------------------------");
 
-            var scope = appliance.Scope;
-
             // Set address.
-            scope.StorageController.PrepareReadAccess(address);
-            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
+            PrepareReadAccess(appliance, address);
 
-            // Start reading, wait until mode becomes 'reading'.
-            SetModeAndWaitForState(appliance, StorageMode.Read, state => state == StorageState.Reading, "'reading'");
+            // Start reading.
+            SetMode(appliance, StorageMode.Read);
+            if (readWithStrictHandshake) AwaitState(appliance, StorageState.Reading);
 
-            // Finish access, wait until mode becomes 'ready' (MSB set, all other bits reset).
-            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "'ready'");
+            // Finish access.
+            if (readWithStrictHandshake)
+            {
+                SetMode(appliance, StorageMode.Idle);
+                AwaitState(appliance, StorageState.Ready);
+            }
+            else
+            {
+                AwaitValueAvailabilityTime(appliance);
+            }
 
             // Get value.
-            var value = scope.StorageController.Value;
+            var value = appliance.Scope.StorageController.Value;
             Console.WriteLine ("** Read {0}={1} **", address, value);
             return value;
         }
 
         /// <summary>
-        /// Sets the storage mode and waits until the state satisfies the specified predicate.
+        /// Prepares write access.
         /// </summary>
-        private static void SetModeAndWaitForState(Appliance appliance, StorageMode mode, Predicate<StorageState> statePredicate, string statePredicateCaption)
+        private static void PrepareWriteAccess(Appliance appliance, int address, int value)
         {
-            var scope = appliance.Scope;
+            appliance.Scope.StorageController.PrepareWriteAccess(address, value);
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
+            Console.WriteLine("=> Prepared write access.");
+        }
 
-            scope.StorageController.SetMode(mode);
+        /// <summary>
+        /// Prepares read access.
+        /// </summary>
+        private static void PrepareReadAccess(Appliance appliance, int address)
+        {
+            appliance.Scope.StorageController.PrepareReadAccess(address);
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
+            Console.WriteLine("=> Prepared read access.");
+        }
+
+        /// <summary>
+        /// Sets the storage mode.
+        /// </summary>
+        private static void SetMode(Appliance appliance, StorageMode mode)
+        {
+            appliance.Scope.StorageController.SetMode(mode);
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
+            Console.WriteLine("=> Set mode to {0}.", mode);
+        }
+
+        /// <summary>
+        /// Waits until the specified state is achieved. The value is supposed to be available as
+        /// soon as the state matches.
+        /// </summary>
+        private static void AwaitState(Appliance appliance, StorageState state)
+        {
+            AwaitState(appliance, st => st == state, string.Format("{0} state", state.ToString()));
+        }
+
+        /// <summary>
+        /// Waits until the state satisfies the specified predicate. The value is supposed to be available as
+        /// soon as the state matches.
+        /// </summary>
+        private static void AwaitState(Appliance appliance, Predicate<StorageState> statePredicate, string statePredicateCaption)
+        {
             int i = 0;
-            while (!statePredicate(scope.StorageController.State))
+            while (!statePredicate(appliance.Scope.StorageController.State))
             {
-                appliance.ApplianceConnection.SendQueryCommandsImmediately();
-                Thread.Sleep (10);
+                GetValue(appliance);
+                Thread.Sleep (10); //TODO: Which value is needed for direct SPI access?
                 i++;
             }
-            Console.WriteLine("Polled {0} times while waiting for {1} state", i, statePredicateCaption);
+            Console.WriteLine("=> Achieved {1} after polling {0} times.", i, statePredicateCaption);
+        }
+
+        /// <summary>
+        /// Waits until the value read from the storage is supposed to be available.
+        /// </summary>
+        private static void AwaitValueAvailabilityTime(Appliance appliance)
+        {
+            GetValue(appliance);
+            // Wait until the value is (hopefully) available, especially when using the c't Lab protocol.
+            Thread.Sleep (100); //TODO: Which value is needed for direct SPI access?
+        }
+
+        /// <summary>
+        /// Gets the value read from the storage.
+        /// </summary>
+        private static void GetValue(Appliance appliance)
+        {
+            //TODO: Improvement: Don't send all query commands here, only those for state and value.
+            appliance.ApplianceConnection.SendQueryCommandsImmediately();
         }
     }
 }
