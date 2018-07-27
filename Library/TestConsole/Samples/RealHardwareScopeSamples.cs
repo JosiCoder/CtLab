@@ -36,11 +36,9 @@ namespace CtLab.TestConsole
     /// </summary>
     public static class RealHardwareScopeSamples
     {
-        private const int _queryCommandSendPeriod = 500; // ms
-
         /// <summary>
         /// Writes sample values to the storage and reads them.
-        /// TODO: The current protocol is a very low-level implementation, this might be changed.
+        /// TODO: The current protocol is very low-level, this might be changed.
         /// </summary>
         public static void WriteAndReadStorageValues()
         {
@@ -53,16 +51,36 @@ namespace CtLab.TestConsole
                 var scope = appliance.Scope;
                 scope.Reset();
 
+                var memoryAdresses = new [] {3, 4, 5};
                 var random = new Random ();
-                DoWrite(appliance, 1, random.Next(255));
-                DoWrite(appliance, 2, random.Next(255));
-                DoWrite(appliance, 3, random.Next(255));
+                var memoryItems = memoryAdresses.ToDictionary(address => address, address => random.Next (255));
+
+                foreach (var memoryItem in memoryItems)
+                {
+                    DoWrite(appliance, memoryItem.Key, memoryItem.Value);
+                }
 
                 Console.WriteLine ("========================================");
 
-                DoRead(appliance, 1);
-                DoRead(appliance, 2);
-                DoRead(appliance, 3);
+                // Trigger all reads immediately and await any async 'String received' comments.
+                var readValues = memoryItems.Select(memoryItem => DoRead(appliance, memoryItem.Key)).ToList();
+                Thread.Sleep (100);
+
+                Console.WriteLine ("========================================");
+
+                Console.Write ("Written:");
+                foreach (var value in memoryItems.Values)
+                {
+                    Console.Write(" {0} (x{0:X2})", value);
+                }
+                Console.WriteLine();
+
+                Console.Write ("Read:   ");
+                foreach (var value in readValues)
+                {
+                    Console.Write(" {0} (x{0:X2})", value);
+                }
+                Console.WriteLine();
            }
 
             Utilities.WriteFooterAndWaitForKeyPress();
@@ -73,22 +91,22 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void DoWrite(Appliance appliance, int address, int value)
         {
-            Console.WriteLine ("Writing {0}={1}", address, value);
+            Console.WriteLine ("** Writing {0}={1} **", address, value);
 
             var scope = appliance.Scope;
 
             // Finish any pending access, wait until mode becomes 'non-writing', i.e. 'reading' or 'ready'.
-            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state != StorageState.Writing, "non-writing");
+            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state != StorageState.Writing, "any non-'writing'");
 
             // Set address and value.
             scope.StorageController.PrepareWriteAccess(address, value);
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             // Start writing, wait until mode becomes 'writing'.
-            SetModeAndWaitForState(appliance, StorageMode.Write, state => state == StorageState.Writing, "writing");
+            SetModeAndWaitForState(appliance, StorageMode.Write, state => state == StorageState.Writing, "'writing'");
 
             // Finish access, wait until mode becomes 'ready' (MSB set, all other bits reset).
-            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "ready");
+            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "'ready'");
 
             Console.WriteLine ("------------------------------");
         }
@@ -107,14 +125,14 @@ namespace CtLab.TestConsole
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             // Start reading, wait until mode becomes 'reading'.
-            SetModeAndWaitForState(appliance, StorageMode.Read, state => state == StorageState.Reading, "reading");
+            SetModeAndWaitForState(appliance, StorageMode.Read, state => state == StorageState.Reading, "'reading'");
 
             // Finish access, wait until mode becomes 'ready' (MSB set, all other bits reset).
-            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "ready");
+            SetModeAndWaitForState(appliance, StorageMode.Idle, state => state == StorageState.Ready, "'ready'");
 
             // Get value.
             var value = scope.StorageController.Value;
-            Console.WriteLine ("Read {0}={1}", address, value);
+            Console.WriteLine ("** Read {0}={1} **", address, value);
             return value;
         }
 
@@ -135,7 +153,7 @@ namespace CtLab.TestConsole
                 Thread.Sleep (10);
                 i++;
             }
-            Console.WriteLine("Polled {0} times while waiting for '{1}' state", i, statePredicateCaption);
+            Console.WriteLine("Polled {0} times while waiting for {1} state", i, statePredicateCaption);
         }
     }
 }
