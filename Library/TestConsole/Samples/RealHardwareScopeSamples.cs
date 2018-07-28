@@ -36,6 +36,10 @@ namespace CtLab.TestConsole
     /// </summary>
     public static class RealHardwareScopeSamples
     {
+        const bool writeWithHandshake = true;
+        const bool readWithHandshake = true;
+        const bool waitForAsynchronousReads = true;
+
         /// <summary>
         /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.
         /// Note: No handshake is usually necessary for writing as the storage controller (VHDL) is much faster
@@ -45,9 +49,6 @@ namespace CtLab.TestConsole
         /// </summary>
         public static void WriteAndReadStorageValues()
         {
-            const bool writeWithHandshake = true;
-            const bool readWithHandshake = true;
-
             Utilities.WriteHeader();
 
             using (var appliance = new ApplianceFactory().CreateTestAppliance())
@@ -196,8 +197,14 @@ namespace CtLab.TestConsole
             int i = 0;
             while (!statePredicate(appliance.Scope.StorageController.State))
             {
-                GetValue(appliance);
-                Thread.Sleep (10); //TODO: Which value is needed for direct SPI access?
+                QueryStateAndValue(appliance);
+                // When using the c't Lab protocol, state and value are returned asynchronously. Wait a little
+                // before polling another time.
+                // When using direct SPI access, as it is synchronous, waiting can be skipped completely.
+                if (waitForAsynchronousReads)
+                {
+                    Thread.Sleep (10); //TODO: Which value is needed for direct SPI access?
+                }
                 i++;
             }
             Console.WriteLine("=> Achieved {0} after polling {1} times.", statePredicateCaption, i);
@@ -209,15 +216,20 @@ namespace CtLab.TestConsole
         private static void AwaitValueAvailabilityTime(Appliance appliance)
         {
             Console.WriteLine("=> Waiting for value availability...");
-            GetValue(appliance);
-            // Wait until the value is (hopefully) available, especially when using the c't Lab protocol.
-            Thread.Sleep (100); //TODO: Which value is needed for direct SPI access?
+            QueryStateAndValue(appliance);
+            // When using the c't Lab protocol, the value is returned asynchronously. Wait until the value is
+            // (hopefully) available.
+            // When using direct SPI access, as it is synchronous, waiting can be skipped completely.
+            if (waitForAsynchronousReads)
+            {
+                Thread.Sleep (100);
+            }
         }
 
         /// <summary>
-        /// Gets the value read from the storage.
+        /// Initiates transfer of the storage state and the value read from the storage.
         /// </summary>
-        private static void GetValue(Appliance appliance)
+        private static void QueryStateAndValue(Appliance appliance)
         {
             //TODO: Improvement: Don't send all query commands here, only those for state and value.
             appliance.ApplianceConnection.SendQueryCommandsImmediately();
