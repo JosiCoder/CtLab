@@ -31,14 +31,14 @@ namespace CtLab.TestConsole
 {
     /// <summary>
     /// Provides some samples using real c´t Lab hardware connected via a (physical or emulated) serial
-    /// port. For these tests, a proper configuration supporting a scope must be loaded into
-    /// the FPGA.
+    /// port or a direct SPI connection.
+    /// For these tests, a proper configuration supporting a scope must be loaded into the FPGA.
     /// </summary>
     public static class RealHardwareScopeSamples
     {
-        const bool writeWithHandshake = true;
-        const bool readWithHandshake = true;
-        const bool waitForAsynchronousReads = true;
+        const bool writeWithHandshake = false; // usually not needed
+        const bool readWithHandshake = true; // needed for c't Lab protocol, not needed for SPI
+        const bool waitForAsynchronousReads = true; // needed for c't Lab protocol, not needed for SPI
 
         /// <summary>
         /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.
@@ -120,7 +120,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Reads from the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private static int DoRead(Appliance appliance, int address, bool readWithStrictHandshake)
+        private static int DoRead(Appliance appliance, int address, bool readWithHandshake)
         {
             Console.WriteLine ("------------------------------");
 
@@ -129,17 +129,17 @@ namespace CtLab.TestConsole
 
             // Start reading.
             SetMode(appliance, StorageMode.Read);
-            if (readWithStrictHandshake) AwaitState(appliance, StorageState.Reading);
+            if (readWithHandshake) AwaitState(appliance, StorageState.Reading);
 
             // Finish access.
-            if (readWithStrictHandshake)
+            if (readWithHandshake)
             {
                 SetMode(appliance, StorageMode.Idle);
                 AwaitState(appliance, StorageState.Ready);
             }
             else
             {
-                AwaitValueAvailabilityTime(appliance);
+                GetStateAndValue(appliance);
             }
 
             // Get value.
@@ -200,10 +200,10 @@ namespace CtLab.TestConsole
                 QueryStateAndValue(appliance);
                 // When using the c't Lab protocol, state and value are returned asynchronously. Wait a little
                 // before polling another time.
-                // When using direct SPI access, as it is synchronous, waiting can be skipped completely.
+                // When using direct SPI access, as it is synchronous, waiting is not necessary at all.
                 if (waitForAsynchronousReads)
                 {
-                    Thread.Sleep (10); //TODO: Which value is needed for direct SPI access?
+                    Thread.Sleep (10);
                 }
                 i++;
             }
@@ -211,19 +211,12 @@ namespace CtLab.TestConsole
         }
 
         /// <summary>
-        /// Waits until the value read from the storage is supposed to be available.
+        /// Read value directly.
         /// </summary>
-        private static void AwaitValueAvailabilityTime(Appliance appliance)
+        private static void GetStateAndValue(Appliance appliance)
         {
             Console.WriteLine("=> Waiting for value availability...");
             QueryStateAndValue(appliance);
-            // When using the c't Lab protocol, the value is returned asynchronously. Wait until the value is
-            // (hopefully) available.
-            // When using direct SPI access, as it is synchronous, waiting can be skipped completely.
-            if (waitForAsynchronousReads)
-            {
-                Thread.Sleep (100);
-            }
         }
 
         /// <summary>
