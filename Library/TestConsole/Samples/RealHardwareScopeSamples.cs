@@ -152,9 +152,9 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void PrepareWriteAccess(Appliance appliance, int address, int value)
         {
+            Console.WriteLine("=> Prepare write access...");
             appliance.Scope.StorageController.PrepareWriteAccess(address, value);
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
-            Console.WriteLine("=> Prepared write access.");
         }
 
         /// <summary>
@@ -162,9 +162,9 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void PrepareReadAccess(Appliance appliance, int address)
         {
+            Console.WriteLine("=> Prepare read access...");
             appliance.Scope.StorageController.PrepareReadAccess(address);
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
-            Console.WriteLine("=> Prepared read access.");
         }
 
         /// <summary>
@@ -172,10 +172,9 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void SetMode(Appliance appliance, StorageMode mode)
         {
+            Console.WriteLine("=> Set mode to {0}...", mode);
             appliance.Scope.StorageController.SetMode(mode);
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
-
-            Console.WriteLine("=> Set mode to {0}.", mode);
         }
 
         /// <summary>
@@ -193,6 +192,7 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void AwaitState(Appliance appliance, Predicate<StorageState> statePredicate, string statePredicateCaption)
         {
+            Console.WriteLine("=> Waiting for {0}...", statePredicateCaption);
             int i = 0;
             while (!statePredicate(appliance.Scope.StorageController.State))
             {
@@ -200,7 +200,7 @@ namespace CtLab.TestConsole
                 Thread.Sleep (10); //TODO: Which value is needed for direct SPI access?
                 i++;
             }
-            Console.WriteLine("=> Achieved {1} after polling {0} times.", i, statePredicateCaption);
+            Console.WriteLine("=> Achieved {0} after polling {1} times.", statePredicateCaption, i);
         }
 
         /// <summary>
@@ -208,6 +208,7 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void AwaitValueAvailabilityTime(Appliance appliance)
         {
+            Console.WriteLine("=> Waiting for value availability...");
             GetValue(appliance);
             // Wait until the value is (hopefully) available, especially when using the c't Lab protocol.
             Thread.Sleep (100); //TODO: Which value is needed for direct SPI access?

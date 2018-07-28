@@ -32,18 +32,21 @@ namespace CtLab.SpiDirect.Integration
         /// </summary>
         public SpiDirectRegistry()
         {
+            For<CommandSender>()
+                .Singleton()
+                .Use<CommandSender>();
+
+
             // === Set commands ===
 
             For<ISetCommandSender>()
-                .Singleton()
-                .Use<SetCommandSender>();
+                .Use(c => c.GetInstance<CommandSender>());
 
 
             // === Query commands ===
 
             For<IQueryCommandSender>()
-                .Singleton()
-                .Use<QueryCommandSender>();
+                .Use(c => c.GetInstance<CommandSender>());
 
 
             // === Received messages ===

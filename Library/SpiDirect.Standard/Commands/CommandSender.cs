@@ -16,6 +16,8 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using CtLab.Messages.Interfaces;
 using CtLab.SpiConnection.Interfaces;
 using CtLab.SpiDirect.Interfaces;
@@ -23,19 +25,37 @@ using CtLab.SpiDirect.Interfaces;
 namespace CtLab.SpiDirect.Standard
 {
     /// <summary>
-    /// Creates the SPI data for a query command class and sends that data.
+    /// Creates the SPI data for a set or query command class and sends that data.
     /// </summary>
-    public class QueryCommandSender : IQueryCommandSender
+    public class CommandSender : ISetCommandSender, IQueryCommandSender
     {
-        private ISpiSender _spiSender;
+        private readonly ISpiSender _spiSender;
+        private readonly Dictionary<byte, uint> _spiValues = new Dictionary<byte, uint> ();
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="spiSender">The sender used to send the data.</param>
-        public QueryCommandSender(ISpiSender spiSender)
+        public CommandSender(ISpiSender spiSender)
         {
             _spiSender = spiSender;
+        }
+
+        /// <summary>
+        /// Sends a set command including to a c't Lab device.
+        /// </summary>
+        /// <param name="commandClass">The command class to send a command for.</param>
+        public void Send(SetCommandClass commandClass)
+        {
+            var messageChannel = commandClass.Channel as MessageChannel;
+            if (messageChannel == null)
+            {
+                throw new InvalidOperationException ("Message channel is not supported");
+            }
+
+            var spiValue = Convert.ToUInt32(commandClass.RawValue, CultureInfo.InvariantCulture);
+            _spiValues [messageChannel.SpiAddress] = spiValue;
+            _spiSender.Send(messageChannel.SpiAddress, spiValue);
         }
 
         /// <summary>
@@ -50,8 +70,11 @@ namespace CtLab.SpiDirect.Standard
                 throw new InvalidOperationException ("Message channel is not supported");
             }
 
-            // Send any value to receive a value from the same channel.
-            _spiSender.Send(messageChannel.SpiAddress, 0);
+            // Send any value to receive a value from the same channel. To avoid destroying the value
+            // previously sent, resend the previous value whenever possible.
+            uint spiValue = 0;
+            _spiValues.TryGetValue (messageChannel.SpiAddress, out spiValue);
+            _spiSender.Send(messageChannel.SpiAddress, spiValue);
         }
     }
 }
