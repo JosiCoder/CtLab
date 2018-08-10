@@ -49,11 +49,11 @@ namespace CtLab.FpgaScope.Standard
             _fpgaConnection = deviceConnection;
 
             _storageController = new StorageController(
-                CreateFpgaValueSetter(0),
-                CreateFpgaValueGetter(0),
-                CreateFpgaValueSetter(1),
-                CreateFpgaValueSetter(2),
-                CreateFpgaValueGetter(2)
+                CreateFpgaValueSetter(24),
+                CreateFpgaValueGetter(24),
+                CreateFpgaValueSetter(25),
+                CreateFpgaValueSetter(26),
+                CreateFpgaValueGetter(26)
             );
         }
 

@@ -69,10 +69,10 @@ end entity;
 architecture stdarch of Main is
 
     -- Constants
-    constant address_width: positive := 4; -- max. 8 (for addresses 0..255)
+    constant address_width: positive := 5; -- max. 8 (for addresses 0..255)
     constant number_of_data_buffers: positive := 2**address_width;
     constant use_internal_spi: boolean := true;
-    constant use_external_spi: boolean := false;
+    constant use_external_spi: boolean := true;
     constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
     constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
     constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
@@ -153,27 +153,25 @@ begin
     --------------------------------------------------------
     
     -- Data and control signals:
-    --   channel 0: data read from SRAM
-    --   channel 1: address loopback
-    --   channel 2: mode (0: off, 1: read, 2: write) + memory state (MSB=0: working, MSB=1: ready)
-    transmit_data_x(0) <= x"000000" & memory_data_out;
-    transmit_data_x(1) <= received_data_x(1);
-    transmit_data_x(2) <= memory_ready & received_data_x(2)(received_data_x(2)'high-1 downto 0);
-    -- Loopback for all remaining channels.
-    transmit_data_x(number_of_data_buffers-1 downto 3) <= received_data_x(number_of_data_buffers-1 downto 3);
+    --   channel 24: data read from SRAM
+    --   channel 25: address loopback
+    --   channel 26: mode (0: off, 1: read, 2: write) + memory state (MSB=0: working, MSB=1: ready)
+    transmit_data_x(24) <= x"000000" & memory_data_out;
+    transmit_data_x(25) <= received_data_x(25);
+    transmit_data_x(26) <= memory_ready & received_data_x(26)(received_data_x(26)'high-1 downto 0);
 
     -- Connections to SRAM controller.
     --------------------------------------------------------
 
     memory_clk <= clk_100mhz;
     -- Data and control signals:
-    --   channel 0: data to write to SRAM
-    --   channel 1: address
-    --   channel 2: mode (0: off, 1: read, 2: write)
-    memory_read <= received_data_x(2)(0);
-    memory_write <= received_data_x(2)(1);
-    memory_address <= unsigned(received_data_x(1)(ram_address_width-1 downto 0));
-    memory_data_in <= received_data_x(0)(ram_data_width-1 downto 0);
+    --   channel 24: data to write to SRAM
+    --   channel 25: address
+    --   channel 26: mode (0: off, 1: read, 2: write)
+    memory_data_in <= received_data_x(24)(ram_data_width-1 downto 0);
+    memory_address <= unsigned(received_data_x(25)(ram_address_width-1 downto 0));
+    memory_read <= received_data_x(26)(0);
+    memory_write <= received_data_x(26)(1);
 
 
     --------------------------------------------------------------------------------
