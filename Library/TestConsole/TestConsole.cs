@@ -34,14 +34,14 @@ namespace CtLab.TestConsole
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
-            RunDummyConnectionLowLevelSamples();
-            RunRealHardwareLowLevelSamples();
-
-            RunDummyConnectionSignalGeneratorSamples();
-            RunRealHardwareSignalGeneratorSamples();
+//            RunDummyConnectionLowLevelSamples();
+//            RunRealHardwareLowLevelSamples();
+//
+//            RunDummyConnectionSignalGeneratorSamples();
+//            RunRealHardwareSignalGeneratorSamples();
 
             //TODO: activate after scope integration
-            //RunRealHardwareScopeSamples();
+            RunRealHardwareScopeSamples();
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
