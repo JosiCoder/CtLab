@@ -81,6 +81,7 @@ namespace CtLab.TestConsole
         /// <returns>The appliance created.</returns>
         public Appliance CreateTestAppliance()
         {
+            //TODO: set according to interface used
             return CreateSerialAppliance(_portName, _channel);
 //            return CreateSpiAppliance();
         }

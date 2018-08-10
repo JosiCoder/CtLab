@@ -48,7 +48,6 @@ namespace CtLab.FpgaScope.Standard
         {
             _fpgaConnection = deviceConnection;
 
-            // The universal counter.
             _storageController = new StorageController(
                 CreateFpgaValueSetter(0),
                 CreateFpgaValueGetter(0),
