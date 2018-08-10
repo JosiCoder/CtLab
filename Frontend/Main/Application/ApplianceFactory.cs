@@ -56,7 +56,7 @@ namespace CtLab.Frontend
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            appliance.InitializeSpiDirectSignalGenerator();
+            appliance.InitializeSpiDirect(true, false);
             //TODO: activate after scope integration
             //appliance.InitializeSpiDirectScope();
             ApplyInitialApplianceSettings(appliance);
@@ -80,7 +80,7 @@ namespace CtLab.Frontend
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-            appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            appliance.InitializeCtLabProtocol(channel, true, false);
             //TODO: activate after scope integration
             //appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
@@ -143,7 +143,7 @@ namespace CtLab.Frontend
                     .InjectReceivedString(stringToInject);
             });
 
-            appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            appliance.InitializeCtLabProtocol(channel, true, false);
             //TODO: activate after scope integration
             //appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);

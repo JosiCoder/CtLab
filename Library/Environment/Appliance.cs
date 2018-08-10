@@ -78,83 +78,68 @@ namespace CtLab.Environment
         }
 
         /// <summary>
-        /// Initializes or reinitializes a single FPGA Lab device instance running
-        /// the signal generator that can be accessed via the c't Lab protocol. 
+        /// Initializes or reinitializes a single FPGA Lab device instance that
+        /// can be accessed via the c't Lab protocol. 
         /// </summary>
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA Lab.
         /// </param>
-        public void InitializeCtLabProtocolSignalGenerator(byte mainchannel)
-        {
-            lock (_applianceConnection.SyncRoot)
-            {
-                if (_signalGenerator != null)
-                    _signalGenerator.Dispose();
-
-                _signalGenerator = _deviceFactory.CreateCtLabProtocolSignalGenerator(mainchannel);
-
-                // Initialize the device.
-                _signalGenerator.Reset();
-                _applianceConnection.SendSetCommandsForModifiedValues();
-            }
-        }
-
-        /// <summary>
-        /// Initializes or reinitializes a single FPGA Lab device instance running
-        /// the signal generator that can be accessed via the SPI interface.
-        /// </summary>
-        public void InitializeSpiDirectSignalGenerator()
-        {
-            lock (_applianceConnection.SyncRoot)
-            {
-                if (_signalGenerator != null)
-                    _signalGenerator.Dispose();
-
-                _signalGenerator = _deviceFactory.CreateSpiDirectSignalGenerator();
-
-                // Initialize the device.
-                _signalGenerator.Reset();
-                _applianceConnection.SendSetCommandsForModifiedValues();
-            }
-        }
-
-        /// <summary>
-        /// Initializes or reinitializes a single FPGA Lab device instance running
-        /// the scope that can be accessed via the c't Lab protocol. 
-        /// </summary>
-        /// <param name="mainchannel">
-        /// The number of the mainchannel assigned to the FPGA Lab.
+        /// <param name="useSignalGenerator">
+        /// A value indicating whether to use a signal generator.
         /// </param>
-        public void InitializeCtLabProtocolScope(byte mainchannel)
+        /// <param name="useScope">
+        /// A value indicating whether to use a scope.
+        /// </param>
+        public void InitializeCtLabProtocol(byte mainchannel, bool useSignalGenerator, bool useScope)
         {
             lock (_applianceConnection.SyncRoot)
             {
-                if (_scope != null)
-                    _scope.Dispose();
+                if (_signalGenerator != null) _signalGenerator.Dispose();
+                if (useSignalGenerator)
+                {
+                    _signalGenerator = _deviceFactory.CreateCtLabProtocolSignalGenerator (mainchannel);
+                    _signalGenerator.Reset ();
+                }
 
-                _scope = _deviceFactory.CreateCtLabProtocolScope(mainchannel);
+                if (_scope != null) _scope.Dispose();
+                if (useScope)
+                {
+                    _scope = _deviceFactory.CreateCtLabProtocolScope (mainchannel);
+                    _scope.Reset ();
+                }
 
-                // Initialize the device.
-                _scope.Reset();
                 _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }
 
         /// <summary>
-        /// Initializes or reinitializes a single FPGA Lab device instance running
-        /// the scope that can be accessed via the SPI interface.
+        /// Initializes or reinitializes a single FPGA Lab device instance that
+        /// can be accessed via the SPI interface. 
         /// </summary>
-        public void InitializeSpiDirectScope()
+        /// <param name="useSignalGenerator">
+        /// A value indicating whether to use a signal generator.
+        /// </param>
+        /// <param name="useScope">
+        /// A value indicating whether to use a scope.
+        /// </param>
+        public void InitializeSpiDirect(bool useSignalGenerator, bool useScope)
         {
             lock (_applianceConnection.SyncRoot)
             {
-                if (_scope != null)
-                    _scope.Dispose();
+                if (_signalGenerator != null) _signalGenerator.Dispose();
+                if (useSignalGenerator)
+                {
+                    _signalGenerator = _deviceFactory.CreateSpiDirectSignalGenerator ();
+                    _signalGenerator.Reset ();
+                }
 
-                _scope = _deviceFactory.CreateSpiDirectScope();
+                if (_scope != null) _scope.Dispose();
+                if (useScope)
+                {
+                    _scope = _deviceFactory.CreateSpiDirectScope ();
+                    _scope.Reset ();
+                }
 
-                // Initialize the device.
-                _scope.Reset();
                 _applianceConnection.SendSetCommandsForModifiedValues();
             }
         }

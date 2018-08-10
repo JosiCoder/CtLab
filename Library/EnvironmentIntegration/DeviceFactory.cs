@@ -16,8 +16,10 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using CtLab.Device.Base;
 using CtLab.Messages.Interfaces;
+using CtLab.FpgaConnection.Interfaces;
 using CtLab.FpgaConnection.Standard;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
@@ -35,6 +37,9 @@ namespace CtLab.EnvironmentIntegration
         private readonly ISetCommandClassDictionary _setCommandClassDictionary;
         private readonly IQueryCommandScheduler _queryCommandScheduler;
         private readonly IMessageCache _receivedMessagesCache;
+        private readonly Dictionary<object, IFpgaConnection> _connections =
+            new Dictionary<object, IFpgaConnection>();
+        private readonly object _spiConnectionKey = new object();
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -50,6 +55,35 @@ namespace CtLab.EnvironmentIntegration
             _receivedMessagesCache = receivedMessagesCache;
         }
 
+        private IFpgaConnection GetConnection(object connectionKey)
+        {
+            IFpgaConnection fpgaConnection;
+            if (!_connections.TryGetValue (connectionKey, out fpgaConnection))
+            {
+                IDeviceConnection deviceConnection;
+                if (connectionKey is byte)
+                {
+                    deviceConnection =
+                        new CtLabProtocolDeviceConnection ((byte)connectionKey,
+                        _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
+                        _receivedMessagesCache);
+                }
+                else
+                {
+                    deviceConnection =
+                        new SpiDirectDeviceConnection (_setCommandClassDictionary,
+                            _queryCommandScheduler.CommandClassDictionary,
+                            _receivedMessagesCache);
+                }
+
+                fpgaConnection = new
+                    CtLab.FpgaConnection.Standard.FpgaConnection (deviceConnection);
+                
+                _connections.Add (connectionKey, fpgaConnection);
+            }
+            return fpgaConnection;
+        }
+
         /// <summary>
         /// Creates an FPGA-based signal generator that can be accessed via the c't Lab protocol.
         /// </summary>
@@ -58,11 +92,7 @@ namespace CtLab.EnvironmentIntegration
         /// </param>
         public ISignalGenerator CreateCtLabProtocolSignalGenerator(byte mainchannel)
         {
-            var deviceConnection = new CtLabProtocolDeviceConnection (mainchannel,
-                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
-                _receivedMessagesCache);
-
-            return CreateSignalGenerator(deviceConnection);
+            return CreateSignalGenerator(GetConnection(mainchannel));
         }
 
         /// <summary>
@@ -70,11 +100,7 @@ namespace CtLab.EnvironmentIntegration
         /// </summary>
         public ISignalGenerator CreateSpiDirectSignalGenerator()
         {
-            var deviceConnection = new SpiDirectDeviceConnection(
-                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
-                _receivedMessagesCache);
-
-            return CreateSignalGenerator(deviceConnection);
+            return CreateSignalGenerator(GetConnection(_spiConnectionKey));
         }
 
         /// <summary>
@@ -85,11 +111,7 @@ namespace CtLab.EnvironmentIntegration
         /// </param>
         public IScope CreateCtLabProtocolScope(byte mainchannel)
         {
-            var deviceConnection = new CtLabProtocolDeviceConnection (mainchannel,
-                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
-                _receivedMessagesCache);
-
-            return CreateScope(deviceConnection);
+            return CreateScope(GetConnection(mainchannel));
         }
 
         /// <summary>
@@ -97,34 +119,24 @@ namespace CtLab.EnvironmentIntegration
         /// </summary>
         public IScope CreateSpiDirectScope()
         {
-            var deviceConnection = new SpiDirectDeviceConnection(
-                _setCommandClassDictionary, _queryCommandScheduler.CommandClassDictionary,
-                _receivedMessagesCache);
-
-            return CreateScope(deviceConnection);
+            return CreateScope(GetConnection(_spiConnectionKey));
         }
 
         /// <summary>
         /// Creates an FPGA-based signal generator.
         /// </summary>
-        /// <param name="deviceConnection">The connection used to access the signal generator.</param>
-        private ISignalGenerator CreateSignalGenerator(IDeviceConnection deviceConnection)
+        /// <param name="fpgaConnection">The connection used to access the signal generator.</param>
+        private ISignalGenerator CreateSignalGenerator(IFpgaConnection fpgaConnection)
         {
-            var fpgaConnection = new
-                CtLab.FpgaConnection.Standard.FpgaConnection (deviceConnection);
-
             return new SignalGenerator(fpgaConnection);
         }
 
         /// <summary>
         /// Creates an FPGA-based scope.
         /// </summary>
-        /// <param name="deviceConnection">The connection used to access the scope.</param>
-        private IScope CreateScope(IDeviceConnection deviceConnection)
+        /// <param name="fpgaConnection">The connection used to access the scope.</param>
+        private IScope CreateScope(IFpgaConnection fpgaConnection)
         {
-            var fpgaConnection = new
-                CtLab.FpgaConnection.Standard.FpgaConnection (deviceConnection);
-
             return new Scope(fpgaConnection);
         }
     }

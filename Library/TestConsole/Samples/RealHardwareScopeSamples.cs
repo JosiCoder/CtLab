@@ -38,14 +38,13 @@ namespace CtLab.TestConsole
     {
         const bool writeWithHandshake = false; // usually not needed
         const bool readWithHandshake = true; // needed for c't Lab protocol, not needed for SPI
-        const bool waitForAsynchronousReads = true; // needed for c't Lab protocol, not needed for SPI
+        const int millisecondsToWaitForAsynchronousReads = 1000; // needed for c't Lab protocol, not needed for SPI
 
         /// <summary>
         /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.
         /// Note: No handshake is usually necessary for writing as the storage controller (VHDL) is much faster
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
         /// to be considered, especially when using the c't Lab protocol. 
-        /// TODO: The current protocol is very low-level, this might be changed.
         /// </summary>
         public static void WriteAndReadStorageValues()
         {
@@ -201,9 +200,9 @@ namespace CtLab.TestConsole
                 // When using the c't Lab protocol, state and value are returned asynchronously. Wait a little
                 // before polling another time.
                 // When using direct SPI access, as it is synchronous, waiting is not necessary at all.
-                if (waitForAsynchronousReads)
+                if (millisecondsToWaitForAsynchronousReads != 0)
                 {
-                    Thread.Sleep (10);
+                    Thread.Sleep (millisecondsToWaitForAsynchronousReads);
                 }
                 i++;
             }

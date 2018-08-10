@@ -81,7 +81,7 @@ namespace CtLab.TestConsole
         /// <returns>The appliance created.</returns>
         public Appliance CreateTestAppliance()
         {
-            //TODO: set according to interface used
+            //TODO: set interface to use
             return CreateSerialAppliance(_portName, _channel);
 //            return CreateSpiAppliance();
         }
@@ -96,10 +96,8 @@ namespace CtLab.TestConsole
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            appliance.InitializeSpiDirectSignalGenerator();
-            //TODO: activate after scope integration
-//            appliance.InitializeSpiDirectScope();
-            ApplyInitialApplianceSettings(appliance);
+            //TODO: set device to use
+            appliance.InitializeSpiDirect(true, false);
             return appliance;
         }
 
@@ -120,10 +118,8 @@ namespace CtLab.TestConsole
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-            appliance.InitializeCtLabProtocolSignalGenerator(channel);
-            //TODO: activate after scope integration
-//            appliance.InitializeCtLabProtocolScope(channel);
-            ApplyInitialApplianceSettings(appliance);
+            //TODO: set device to use
+            appliance.InitializeCtLabProtocol(channel, true, false);
             return appliance;
         }
 
@@ -183,24 +179,8 @@ namespace CtLab.TestConsole
                         .InjectReceivedString(stringToInject);
                 });
 
-            appliance.InitializeCtLabProtocolSignalGenerator(channel);
-            //TODO: activate after scope integration
-//            appliance.InitializeCtLabProtocolScope(channel);
-            ApplyInitialApplianceSettings(appliance);
+            appliance.InitializeCtLabProtocol(channel, true, false);
             return appliance;
-        }
-
-        /// <summary>
-        /// Applies initial settings to the specified appliance.
-        /// </summary>
-        /// <param name="appliance">The appliance to apply initial settings to.</param>
-        private void ApplyInitialApplianceSettings(Appliance appliance)
-        {
-            // Get the signal generator and scope and reset the hardware to cancel
-            // settings from previous configurations.
-            appliance.SignalGenerator.Reset();
-            //TODO: activate after scope integration
-//            appliance.Scope.Reset();
         }
     }
 }
