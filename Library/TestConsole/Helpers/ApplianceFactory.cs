@@ -95,9 +95,9 @@ namespace CtLab.TestConsole
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-//            appliance.InitializeSpiDirectSignalGenerator();
+            appliance.InitializeSpiDirectSignalGenerator();
             //TODO: activate after scope integration
-            appliance.InitializeSpiDirectScope();
+//            appliance.InitializeSpiDirectScope();
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -119,9 +119,9 @@ namespace CtLab.TestConsole
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-//            appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            appliance.InitializeCtLabProtocolSignalGenerator(channel);
             //TODO: activate after scope integration
-            appliance.InitializeCtLabProtocolScope(channel);
+//            appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -182,9 +182,9 @@ namespace CtLab.TestConsole
                         .InjectReceivedString(stringToInject);
                 });
 
-//            appliance.InitializeCtLabProtocolSignalGenerator(channel);
+            appliance.InitializeCtLabProtocolSignalGenerator(channel);
             //TODO: activate after scope integration
-            appliance.InitializeCtLabProtocolScope(channel);
+//            appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -197,9 +197,9 @@ namespace CtLab.TestConsole
         {
             // Get the signal generator and scope and reset the hardware to cancel
             // settings from previous configurations.
-//            appliance.SignalGenerator.Reset();
+            appliance.SignalGenerator.Reset();
             //TODO: activate after scope integration
-            appliance.Scope.Reset();
+//            appliance.Scope.Reset();
         }
     }
 }
