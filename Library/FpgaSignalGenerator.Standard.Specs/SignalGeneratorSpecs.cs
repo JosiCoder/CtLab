@@ -41,7 +41,7 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
                 .Returns (new Mock<IFpgaValueSetter>().Object);
 
             GetMockFor<IFpgaConnection> ()
-                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>(), It.IsAny<QueryMode>()))
+                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>(), It.IsAny<SendMode>()))
                 .Returns (() =>
                     {
                         var valueGetterMock = new Mock<IFpgaValueGetter>();

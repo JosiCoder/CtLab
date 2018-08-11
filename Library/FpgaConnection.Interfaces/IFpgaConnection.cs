@@ -40,10 +40,10 @@ namespace CtLab.FpgaConnection.Interfaces
         /// <param name="registerNumber">
         /// The number of the FPGA register to read from.
         /// </param>
-        /// <param name="queryMode">
-        /// The query mode used.
+        /// <param name="sendMode">
+        /// The send mode used.
         /// </param>
         /// <returns>The created FPGA value getter.</returns>
-        IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, QueryMode queryMode);
+        IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, SendMode sendMode);
     }
 }

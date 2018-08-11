@@ -54,7 +54,7 @@ namespace CtLab.TestConsole
             var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary>();
             var setCommandChannel = new MessageChannel(1, 11);
             var setCommandClass = new SetCommandClass(setCommandChannel);
-            setCommandDictionary.Add(setCommandClass, QueryMode.Unspecified);
+            setCommandDictionary.Add(setCommandClass, SendMode.Unspecified);
             setCommandClass.SetValue(15);
             Console.WriteLine("Sending command, channel {0}/{1}, raw value {2}",
                 setCommandChannel.Main,
@@ -100,7 +100,7 @@ namespace CtLab.TestConsole
             // by the scheduler.
             var commandScheduler = container.GetInstance<IQueryCommandScheduler>();
             var queryCommandClass = new QueryCommandClass(new MessageChannel(1, 4));
-            commandScheduler.CommandClassDictionary.Add(queryCommandClass, QueryMode.Unspecified);
+            commandScheduler.CommandClassDictionary.Add(queryCommandClass, SendMode.Unspecified);
 
             // Start sending query commands periodically via the configured dummy string
             // sender. Sending is done asynchronously on a separate thread.

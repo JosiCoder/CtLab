@@ -188,7 +188,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
 
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, QueryMode.Periodic);
+            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, SendMode.Periodic);
         }
     }
 }

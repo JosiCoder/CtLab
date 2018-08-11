@@ -55,7 +55,7 @@ namespace CtLab.SpiDirect.Integration.Specs
         {
             var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary>();
             var setCommandClass = new SetCommandClass(new MessageChannel(11));
-            setCommandCLassDict.Add(setCommandClass, QueryMode.Unspecified);
+            setCommandCLassDict.Add(setCommandClass, SendMode.Unspecified);
             setCommandClass.SetValue(15);
             setCommandCLassDict.SendCommandsForModifiedValues();
         }

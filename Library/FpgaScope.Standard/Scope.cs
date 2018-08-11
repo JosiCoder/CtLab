@@ -74,7 +74,7 @@ namespace CtLab.FpgaScope.Standard
 
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, QueryMode.Storage);
+            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, SendMode.Storage);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace CtLab.TestConsole
     {
         const bool writeWithHandshake = false; // usually not needed
         const bool readWithHandshake = true; // needed for c't Lab protocol, not needed for SPI
-        const int millisecondsToWaitForAsynchronousReads = 1000; // 10 or more needed for c't Lab protocol, not needed for SPI
+        const int millisecondsToWaitForAsynchronousReads = 100; // 10 or more needed for c't Lab protocol, not needed for SPI
 
         /// <summary>
         /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.

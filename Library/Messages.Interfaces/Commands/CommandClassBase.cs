@@ -20,6 +20,16 @@ using System;
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
+    /// Specifies the send modes.
+    /// </summary>
+    public enum SendMode : ushort
+    {
+        Unspecified = 0,
+        Periodic = 1,
+        Storage = 2,
+    }
+
+    /// <summary>
     /// Provides the base functionality for command classes.
     /// </summary>
     public abstract class CommandClassBase

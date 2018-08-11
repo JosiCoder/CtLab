@@ -42,7 +42,7 @@ namespace CtLab.Messages.Interfaces
         /// Sends all scheduled commands immediately.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        void SendImmediately(Predicate<QueryMode> predicate);
+        void SendImmediately(Predicate<SendMode> predicate);
 
         /// <summary>
         /// Starts sending the scheduled commands periodically using the specified period.
@@ -51,7 +51,7 @@ namespace CtLab.Messages.Interfaces
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
         /// <param name="period">The period in milliseconds.</param>
-        void StartSending(Predicate<QueryMode> predicate, long period);
+        void StartSending(Predicate<SendMode> predicate, long period);
 
 
         /// <summary>

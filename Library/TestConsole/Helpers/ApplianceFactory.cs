@@ -88,7 +88,7 @@ namespace CtLab.TestConsole
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            appliance.InitializeSpiDirect(true, true); //TODO: set device to use
+            appliance.InitializeSpiDirect(true, true); //TODO: set devices to use
             return appliance;
         }
 
@@ -109,7 +109,7 @@ namespace CtLab.TestConsole
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-            appliance.InitializeCtLabProtocol(channel, true, true); //TODO: set device to use
+            appliance.InitializeCtLabProtocol(channel, true, true); //TODO: set devices to use
             return appliance;
         }
 

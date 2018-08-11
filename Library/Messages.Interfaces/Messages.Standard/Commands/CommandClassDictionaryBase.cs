@@ -40,13 +40,13 @@ namespace CtLab.Messages.Standard
 
         public class CommandClassContainer
         {
-            public CommandClassContainer(TCommandClass commandClass, QueryMode queryMode)
+            public CommandClassContainer(TCommandClass commandClass, SendMode sendMode)
             {
                 CommandClass = commandClass;
-                QueryMode = queryMode;
+                SendMode = sendMode;
             }
             public readonly TCommandClass CommandClass;
-            public readonly QueryMode QueryMode;
+            public readonly SendMode SendMode;
         }
 
         protected readonly ICommandSender<TCommandClass> _commandSender;
@@ -66,29 +66,29 @@ namespace CtLab.Messages.Standard
 		/// Adds a command class to the dictionary unless there is already one for the command
         /// classes' combination of channel and subchannel.
         /// </summary>
-        /// <param name="queryMode">
-        /// The query mode used.
+        /// <param name="sendMode">
+        /// The send mode used.
         /// </param>
         /// <param name="commandClass">The command class to add to the dictionary.</param>
-        public void Add(TCommandClass commandClass, QueryMode queryMode)
+        public void Add(TCommandClass commandClass, SendMode sendMode)
         {
             _containerDictionary.Add(new CommandClassKey(commandClass),
-                new CommandClassContainer(commandClass, queryMode));
+                new CommandClassContainer(commandClass, sendMode));
         }
 
         /// <summary>
         /// For a list of command classes, adds each one to the dictionary unless there is
         /// already one for the command classes' combination of channel and subchannel.
         /// </summary>
-        /// <param name="queryMode">
-        /// The query mode used.
+        /// <param name="sendMode">
+        /// The send mode used.
         /// </param>
         /// <param name="commandClasses">A list of command classes to add to the dictionary.</param>
-        public void Add(TCommandClass[] commandClasses, QueryMode queryMode)
+        public void Add(TCommandClass[] commandClasses, SendMode sendMode)
         {
             foreach (var command in commandClasses)
             {
-                Add(command, queryMode);
+                Add(command, sendMode);
             }
         }
 
@@ -113,10 +113,10 @@ namespace CtLab.Messages.Standard
         /// Sends commands for all command classes.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void SendCommands(Predicate<QueryMode> predicate)
+        public void SendCommands(Predicate<SendMode> predicate)
         {
             foreach (var container in _containerDictionary.Values
-                .Where(container => predicate(container.QueryMode)))
+                .Where(container => predicate(container.SendMode)))
             {
                 var commandClass = container.CommandClass;
                 _commandSender.Send(commandClass);
