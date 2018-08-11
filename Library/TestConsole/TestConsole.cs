@@ -40,7 +40,7 @@ namespace CtLab.TestConsole
             RunDummyConnectionSignalGeneratorSamples();
             RunRealHardwareSignalGeneratorSamples();
 
-            //TODO: activate after scope integration
+            //TODO: activate after VHDL scope integration
 //            RunRealHardwareScopeSamples();
 
             Console.WriteLine("Test console finished, press any key.");

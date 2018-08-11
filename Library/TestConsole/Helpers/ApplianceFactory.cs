@@ -68,14 +68,6 @@ namespace CtLab.TestConsole
         }
 
         /// <summary>
-        /// Gets the names of the available serial ports.
-        /// </summary>
-        public IEnumerable<string> AvailablePortNames
-        {
-            get { return SerialPort.GetPortNames (); }
-        }
-
-        /// <summary>
         /// Creates and returns a new c't Lab appliance used for testing.
         /// </summary>
         /// <returns>The appliance created.</returns>
@@ -96,8 +88,7 @@ namespace CtLab.TestConsole
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            //TODO: set device to use
-            appliance.InitializeSpiDirect(true, true);
+            appliance.InitializeSpiDirect(true, true); //TODO: set device to use
             return appliance;
         }
 
@@ -118,8 +109,7 @@ namespace CtLab.TestConsole
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-            //TODO: set device to use
-            appliance.InitializeCtLabProtocol(channel, true, true);
+            appliance.InitializeCtLabProtocol(channel, true, true); //TODO: set device to use
             return appliance;
         }
 

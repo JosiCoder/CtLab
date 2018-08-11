@@ -39,6 +39,33 @@ namespace CtLab.Frontend
     public class ApplianceFactory : IApplianceFactory
     {
         /// <summary>
+        /// Configures and returns an IoC using the specified connection registry.
+        /// </summary>
+        /// <returns>The configured IoC.</returns>
+        /// <typeparam name="TConnectionRegistry">The type of the registry responsible for the connection.</typeparam>
+        /// <typeparam name="TProtocolRegistry">The type of the registry responsible for the protocol.</typeparam>
+        private StructureMap.Container CreateContainer<TConnectionRegistry, TProtocolRegistry>()
+            where TConnectionRegistry : Registry, new()
+            where TProtocolRegistry : Registry, new()
+        {
+            // Configure the IoC container to provide specific implementations for several interfaces.
+            var container = new StructureMap.Container (expression =>
+            {
+                expression.AddRegistry<CommandsAndMessagesRegistry> ();
+                expression.AddRegistry<ApplianceRegistry> ();
+                expression.AddRegistry<TConnectionRegistry> ();
+                expression.AddRegistry<TProtocolRegistry> ();
+            });
+
+            // Display the effecive IoC container configuration.
+            // Note: This line is not needed for proper operation, it just provides some information
+            // that helps to understand how the IoC container works. Thus this line may be deactivated.
+            //System.Diagnostics.Debug.WriteLine(container.WhatDoIHave());
+
+            return container;
+        }
+
+        /// <summary>
         /// Gets the names of the available serial ports.
         /// </summary>
         public IEnumerable<string> AvailablePortNames
@@ -145,44 +172,11 @@ namespace CtLab.Frontend
         }
 
         /// <summary>
-        /// Configures and returns an IoC using the specified connection registry.
-        /// </summary>
-        /// <returns>The configured IoC.</returns>
-        /// <typeparam name="TConnectionRegistry">The type of the registry responsible for the connection.</typeparam>
-        /// <typeparam name="TProtocolRegistry">The type of the registry responsible for the protocol.</typeparam>
-        private StructureMap.Container CreateContainer<TConnectionRegistry, TProtocolRegistry>()
-            where TConnectionRegistry : Registry, new()
-            where TProtocolRegistry : Registry, new()
-        {
-            // Configure the IoC container to provide specific implementations for several interfaces.
-            var container = new StructureMap.Container (expression =>
-            {
-                expression.AddRegistry<CommandsAndMessagesRegistry> ();
-                expression.AddRegistry<ApplianceRegistry> ();
-                expression.AddRegistry<TConnectionRegistry> ();
-                expression.AddRegistry<TProtocolRegistry> ();
-            });
-
-            // Display the effecive IoC container configuration.
-            // Note: This line is not needed for proper operation, it just provides some information
-            // that helps to understand how the IoC container works. Thus this line may be deactivated.
-            //System.Diagnostics.Debug.WriteLine(container.WhatDoIHave());
-
-            return container;
-        }
-
-        /// <summary>
         /// Applies initial settings to the specified appliance.
         /// </summary>
         /// <param name="appliance">The appliance to apply initial settings to.</param>
         private void ApplyInitialApplianceSettings(Appliance appliance)
         {
-            // Get the signal generator and scope and reset the hardware to cancel
-            // settings from previous configurations.
-            appliance.SignalGenerator.Reset();
-            //TODO: activate after scope integration
-            //appliance.Scope.Reset();
-
             // Set the generators to a demo configuration so that we can
             // immediately see something and have a starting point.
             new DemoSettings().ApplyDemoSettings(appliance);
