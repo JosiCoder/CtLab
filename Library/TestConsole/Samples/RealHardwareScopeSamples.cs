@@ -223,8 +223,7 @@ namespace CtLab.TestConsole
         /// </summary>
         private static void QueryStateAndValue(Appliance appliance)
         {
-            //TODO: Improvement: Don't send all query commands here, only those for state and value.
-            appliance.ApplianceConnection.SendQueryCommandsImmediately();
+            appliance.ApplianceConnection.SendStorageQueryCommands();
         }
     }
 }

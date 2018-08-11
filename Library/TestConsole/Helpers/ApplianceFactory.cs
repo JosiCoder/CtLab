@@ -97,7 +97,7 @@ namespace CtLab.TestConsole
             var appliance = container.GetInstance<Appliance>();
 
             //TODO: set device to use
-            appliance.InitializeSpiDirect(true, false);
+            appliance.InitializeSpiDirect(true, true);
             return appliance;
         }
 
@@ -119,7 +119,7 @@ namespace CtLab.TestConsole
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
             //TODO: set device to use
-            appliance.InitializeCtLabProtocol(channel, true, false);
+            appliance.InitializeCtLabProtocol(channel, true, true);
             return appliance;
         }
 

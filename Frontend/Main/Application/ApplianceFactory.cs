@@ -57,8 +57,6 @@ namespace CtLab.Frontend
             var appliance = container.GetInstance<Appliance>();
 
             appliance.InitializeSpiDirect(true, false);
-            //TODO: activate after scope integration
-            //appliance.InitializeSpiDirectScope();
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -81,8 +79,6 @@ namespace CtLab.Frontend
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
             appliance.InitializeCtLabProtocol(channel, true, false);
-            //TODO: activate after scope integration
-            //appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -144,8 +140,6 @@ namespace CtLab.Frontend
             });
 
             appliance.InitializeCtLabProtocol(channel, true, false);
-            //TODO: activate after scope integration
-            //appliance.InitializeCtLabProtocolScope(channel);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }

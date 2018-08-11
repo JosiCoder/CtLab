@@ -104,7 +104,7 @@ namespace CtLab.EnvironmentIntegration
         public void StartSendingQueryCommands(long period)
         {
             if (_queryCommandScheduler != null)
-                _queryCommandScheduler.StartSending(commandClass => true, period);
+                _queryCommandScheduler.StartSending(commandClass => true, period); //TODO: Don't send all query commands here, only for periodic query.
         }
 
         /// <summary>
@@ -117,12 +117,13 @@ namespace CtLab.EnvironmentIntegration
         }
 
         /// <summary>
-        /// Sends all query commands immediately.
+        /// Sends the storage query commands.
         /// </summary>
-        public void SendQueryCommandsImmediately()
+        public void SendStorageQueryCommands()
         {
             if (_queryCommandScheduler != null)
-                _queryCommandScheduler.SendImmediately(commandClass => true);
+                _queryCommandScheduler.SendImmediately(commandClass => true); //TODO: Don't send all query commands here, only those for state and value.
+            
         }
 
         public void Dispose()

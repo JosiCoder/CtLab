@@ -52,8 +52,8 @@ namespace CtLab.Environment
         void StopSendingQueryCommands();
 
         /// <summary>
-        /// Sends all query commands immediately.
+        /// Sends the storage query commands.
         /// </summary>
-        void SendQueryCommandsImmediately();
+        void SendStorageQueryCommands();
     }
 }
