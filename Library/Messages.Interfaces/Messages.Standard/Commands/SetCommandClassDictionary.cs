@@ -36,31 +36,24 @@ namespace CtLab.Messages.Standard
         }
 
         /// <summary>
-        /// Sends commands for all set command classes.
-        /// </summary>
-        public override void SendCommands()
-        {
-            foreach (var command in _commandClassDictionary.Values)
-            {
-                _commandSender.Send(command);
-                command.ResetValueModified();
-            }
-        }
-
-        /// <summary>
         /// Sends commands for all set command classes that have modified values to
         /// get the devices in sync.
         /// </summary>
         public void SendCommandsForModifiedValues()
         {
-            foreach (var command in _commandClassDictionary.Values)
+            foreach (var commandClass in _commandClassDictionary.Values)
             {
-                if (command.ValueModified)
+                if (commandClass.ValueModified)
                 {
-                    _commandSender.Send(command);
-                    command.ResetValueModified();
+                    _commandSender.Send(commandClass);
+                    PostSendCommandHook(commandClass);
                 }
             }
+        }
+
+        protected override void PostSendCommandHook(SetCommandClass commandClass)
+        {
+            commandClass.ResetValueModified();
         }
     }
 }

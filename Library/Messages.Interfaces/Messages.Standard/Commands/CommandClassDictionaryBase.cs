@@ -94,12 +94,17 @@ namespace CtLab.Messages.Standard
         /// <summary>
         /// Sends commands for all command classes.
         /// </summary>
-        public virtual void SendCommands()
+        public void SendCommands()
         {
             foreach (var commandClass in _commandClassDictionary.Values)
             {
                 _commandSender.Send(commandClass);
+                PostSendCommandHook(commandClass);
             }
+        }
+
+        protected virtual void PostSendCommandHook(TCommandClass commandClass)
+        {
         }
     }
 }
