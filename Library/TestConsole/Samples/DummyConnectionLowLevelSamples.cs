@@ -105,7 +105,7 @@ namespace CtLab.TestConsole
             // Start sending query commands periodically via the configured dummy string
             // sender. Sending is done asynchronously on a separate thread.
             Console.WriteLine("Start sending query commands.");
-            commandScheduler.StartSending(_queryCommandSendPeriod);
+            commandScheduler.StartSending(commandClass => true, _queryCommandSendPeriod);
 
             // Wait a little.
             Thread.Sleep(10 * _queryCommandSendPeriod);

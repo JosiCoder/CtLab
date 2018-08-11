@@ -35,7 +35,7 @@ namespace CtLab.Messages.Standard
             {
                 Channel = commandClass.Channel;
             }
-            public IMessageChannel Channel;
+            public readonly IMessageChannel Channel;
         }
 
         protected readonly ICommandSender<TCommandClass> _commandSender;
@@ -94,9 +94,10 @@ namespace CtLab.Messages.Standard
         /// <summary>
         /// Sends commands for all command classes.
         /// </summary>
-        public void SendCommands()
+        /// <param name="predicate">The predicate that must be met.</param>
+        public void SendCommands(Predicate<TCommandClass> predicate)
         {
-            foreach (var commandClass in _commandClassDictionary.Values)
+            foreach (var commandClass in _commandClassDictionary.Values.Where(commandClass => predicate(commandClass)))
             {
                 _commandSender.Send(commandClass);
                 PostSendCommandHook(commandClass);

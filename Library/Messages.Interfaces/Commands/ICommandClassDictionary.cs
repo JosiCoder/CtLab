@@ -46,6 +46,7 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// Sends all commands.
         /// </summary>
-        void SendCommands();
+        /// <param name="predicate">The predicate that must be met.</param>
+        void SendCommands(Predicate<TCommandClass> predicate);
     }
 }

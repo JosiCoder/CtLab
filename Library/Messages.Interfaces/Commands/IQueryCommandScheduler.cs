@@ -15,6 +15,8 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
+
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
@@ -39,15 +41,17 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// Sends all scheduled commands immediately.
         /// </summary>
-        void SendImmediately();
+        /// <param name="predicate">The predicate that must be met.</param>
+        void SendImmediately(Predicate<QueryCommandClass> predicate);
 
         /// <summary>
         /// Starts sending the scheduled commands periodically using the specified period.
         /// This will periodically access the underlying command dictionary asynchronously,
         /// i.e. from a different thread.
         /// </summary>
+        /// <param name="predicate">The predicate that must be met.</param>
         /// <param name="period">The period in milliseconds.</param>
-        void StartSending(long period);
+        void StartSending(Predicate<QueryCommandClass> predicate, long period);
 
 
         /// <summary>

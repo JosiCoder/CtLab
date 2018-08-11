@@ -181,7 +181,7 @@ namespace CtLab.Messages.Standard.Specs
             _setCommands[0].SetValue(2);
             _setCommands[1].SetValue(2);
             SUT.RemoveChannelCommands(ch => ch.Equals(_messageChannels[0]));
-            SUT.SendCommands();
+            SUT.SendCommands(commandClass => true);
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace CtLab.Messages.Standard.Specs
         protected override void When()
         {
             _setCommands[0].SetValue(2);
-            SUT.SendCommands();
+            SUT.SendCommands(commandClass => true);
             SUT.SendCommandsForModifiedValues();
         }
 

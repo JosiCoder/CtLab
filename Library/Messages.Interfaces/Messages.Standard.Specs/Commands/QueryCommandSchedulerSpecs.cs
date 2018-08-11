@@ -52,13 +52,13 @@ namespace CtLab.Messages.Standard.Specs
     {
         protected override void When()
         {
-            SUT.SendImmediately();
+            SUT.SendImmediately(commandClass => true);
         }
 
         [Test]
         public void then_the_SUT_should_immediately_tell_the_associated_dictionary_exactly_once_to_send_the_commands()
         {
-            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(), Times.Once);
+            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(commandClass => true), Times.Once);
         }
     }
 
@@ -72,14 +72,14 @@ namespace CtLab.Messages.Standard.Specs
         protected override void When()
         {
             _startTime = DateTime.Now;
-            SUT.StartSending(_period);
+            SUT.StartSending(commandClass => true, _period);
         }
 
         [Test]
         public void then_the_SUT_should_tell_the_associated_dictionary_exactly_once_almost_immediately_to_send_the_commands()
         {
             Thread.Sleep(_period/2);
-            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(), Times.Once);
+            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(commandClass => true), Times.Once);
         }
 
 
@@ -90,7 +90,7 @@ namespace CtLab.Messages.Standard.Specs
             {
                 Thread.Sleep(_period/5);
             }
-            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(), Times.Between(5, 6, Range.Inclusive));
+            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(commandClass => true), Times.Between(5, 6, Range.Inclusive));
         }
     }
 }

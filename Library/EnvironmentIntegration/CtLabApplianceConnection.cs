@@ -104,7 +104,7 @@ namespace CtLab.EnvironmentIntegration
         public void StartSendingQueryCommands(long period)
         {
             if (_queryCommandScheduler != null)
-                _queryCommandScheduler.StartSending(period);
+                _queryCommandScheduler.StartSending(commandClass => true, period);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace CtLab.EnvironmentIntegration
         public void SendQueryCommandsImmediately()
         {
             if (_queryCommandScheduler != null)
-                _queryCommandScheduler.SendImmediately();
+                _queryCommandScheduler.SendImmediately(commandClass => true);
         }
 
         public void Dispose()
