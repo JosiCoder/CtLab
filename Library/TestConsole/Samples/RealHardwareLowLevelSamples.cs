@@ -85,7 +85,7 @@ namespace CtLab.TestConsole
                 var setCommandDictionary = container.GetInstance<ISetCommandClassDictionary>();
                 var setCommandChannel = new MessageChannel(_channel, 1);
                 var setCommandClass = new SetCommandClass(setCommandChannel);
-                setCommandDictionary.Add(setCommandClass);
+                setCommandDictionary.Add(setCommandClass, QueryMode.Unspecified);
                 setCommandClass.SetValue(128);
                 Console.WriteLine("Sending command, channel {0}/{1}, raw value {2}",
                     setCommandChannel.Main,

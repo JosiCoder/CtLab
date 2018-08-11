@@ -55,7 +55,7 @@ namespace CtLab.SpiDirect.Integration.Specs
         {
             var queryCommandDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
             var queryCommand = new QueryCommandClass(new MessageChannel(11));
-            queryCommandDictionary.Add(queryCommand);
+            queryCommandDictionary.Add(queryCommand, QueryMode.Unspecified);
             
             var queryCommandScheduler = SUT.With(queryCommandDictionary).GetInstance<IQueryCommandScheduler>();
             queryCommandScheduler.SendImmediately(commandClass => true);

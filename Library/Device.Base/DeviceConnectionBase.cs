@@ -90,7 +90,7 @@ namespace CtLab.Device.Base
         public SetCommandClass BuildAndRegisterSetCommandClass(ushort registerNumber)
         {
             var commandClass = new SetCommandClass(CreateMessageChannel(registerNumber));
-            _setCommandClassDictionary.Add(commandClass);
+            _setCommandClassDictionary.Add(commandClass, QueryMode.Unspecified);
             return commandClass;
         }
 
@@ -100,11 +100,14 @@ namespace CtLab.Device.Base
         /// <param name="registerNumber">
         /// The FPGA register number corresponding to the commands sent.
         /// </param>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <returns>The query command class.</returns>
-        public QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber)
+        public QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber, QueryMode queryMode)
         {
             var commandClass = new QueryCommandClass(CreateMessageChannel(registerNumber));
-            _queryCommandClassDictionary.Add(commandClass);
+            _queryCommandClassDictionary.Add(commandClass, queryMode);
             return commandClass;
         }
 

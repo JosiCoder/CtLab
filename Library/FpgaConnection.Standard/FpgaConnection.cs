@@ -17,6 +17,7 @@
 
 using System;
 using CtLab.Device.Base;
+using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaConnection.Standard
@@ -58,10 +59,13 @@ namespace CtLab.FpgaConnection.Standard
         /// <param name="registerNumber">
         /// The number of the FPGA register to read from.
         /// </param>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <returns>The created FPGA value getter.</returns>
-        public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
+        public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, QueryMode queryMode)
         {
-            _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber);
+            _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber, queryMode);
             return new FpgaValueGetter (
                 _deviceConnection.RegisterMessage(registerNumber)
             );

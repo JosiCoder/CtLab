@@ -27,15 +27,21 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// Adds a command class to the dictionary unless there is already a matching one.
         /// </summary>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <param name="commandClass">The command class to add to the cache.</param>
-        void Add(TCommandClass commandClass);
+        void Add(TCommandClass commandClass, QueryMode queryMode);
 
         /// <summary>
         /// For a list of command classes, adds each one to the dictionary unless there is already
         /// a matching one.
         /// </summary>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <param name="commandClasses">A list of command classes to add to the cache.</param>
-        void Add(TCommandClass[] commandClasses);
+        void Add(TCommandClass[] commandClasses, QueryMode queryMode);
 
         /// <summary>
         /// Removes the commands for all channels that meet the specified predicate.
@@ -47,6 +53,6 @@ namespace CtLab.Messages.Interfaces
         /// Sends all commands.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        void SendCommands(Predicate<TCommandClass> predicate);
+        void SendCommands(Predicate<QueryMode> predicate);
     }
 }

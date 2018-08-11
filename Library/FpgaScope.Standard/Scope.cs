@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using CtLab.FpgaScope.Interfaces;
+using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaScope.Standard
@@ -73,7 +74,7 @@ namespace CtLab.FpgaScope.Standard
 
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _fpgaConnection.CreateFpgaValueGetter(registerNumber);
+            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, QueryMode.Storage);
         }
     }
 }

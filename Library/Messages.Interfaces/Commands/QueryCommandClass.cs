@@ -18,6 +18,16 @@
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
+    /// Specifies the query modes.
+    /// </summary>
+    public enum QueryMode : ushort
+    {
+        Unspecified = 0,
+        Periodic = 1,
+        Storage = 2,
+    }
+
+    /// <summary>
     /// Represents query commands that can be sent e.g. to retrieve values or settings.
     /// </summary>
     public class QueryCommandClass : CommandClassBase

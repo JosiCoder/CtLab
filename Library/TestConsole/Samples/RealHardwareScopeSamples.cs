@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using StructureMap;
+using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
 using CtLab.Connection.Serial;
 using CtLab.FpgaScope.Interfaces;
@@ -38,7 +39,7 @@ namespace CtLab.TestConsole
     {
         const bool writeWithHandshake = false; // usually not needed
         const bool readWithHandshake = true; // needed for c't Lab protocol, not needed for SPI
-        const int millisecondsToWaitForAsynchronousReads = 10; // 10-1000 needed for c't Lab protocol, not needed for SPI
+        const int millisecondsToWaitForAsynchronousReads = 1000; // 10 or more needed for c't Lab protocol, not needed for SPI
 
         /// <summary>
         /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.

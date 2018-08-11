@@ -38,9 +38,20 @@ namespace CtLab.Messages.Standard
             public readonly IMessageChannel Channel;
         }
 
+        public class CommandClassContainer
+        {
+            public CommandClassContainer(TCommandClass commandClass, QueryMode queryMode)
+            {
+                CommandClass = commandClass;
+                QueryMode = queryMode;
+            }
+            public readonly TCommandClass CommandClass;
+            public readonly QueryMode QueryMode;
+        }
+
         protected readonly ICommandSender<TCommandClass> _commandSender;
-        protected readonly Dictionary<CommandClassKey, TCommandClass> _commandClassDictionary
-            = new Dictionary<CommandClassKey, TCommandClass>();
+        protected readonly Dictionary<CommandClassKey, CommandClassContainer> _containerDictionary
+            = new Dictionary<CommandClassKey, CommandClassContainer>();
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -55,22 +66,29 @@ namespace CtLab.Messages.Standard
 		/// Adds a command class to the dictionary unless there is already one for the command
         /// classes' combination of channel and subchannel.
         /// </summary>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <param name="commandClass">The command class to add to the dictionary.</param>
-        public void Add(TCommandClass commandClass)
+        public void Add(TCommandClass commandClass, QueryMode queryMode)
         {
-            _commandClassDictionary.Add(new CommandClassKey(commandClass), commandClass);
+            _containerDictionary.Add(new CommandClassKey(commandClass),
+                new CommandClassContainer(commandClass, queryMode));
         }
 
         /// <summary>
         /// For a list of command classes, adds each one to the dictionary unless there is
         /// already one for the command classes' combination of channel and subchannel.
         /// </summary>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <param name="commandClasses">A list of command classes to add to the dictionary.</param>
-        public void Add(TCommandClass[] commandClasses)
+        public void Add(TCommandClass[] commandClasses, QueryMode queryMode)
         {
             foreach (var command in commandClasses)
             {
-                Add(command);
+                Add(command, queryMode);
             }
         }
 
@@ -80,14 +98,14 @@ namespace CtLab.Messages.Standard
         /// <param name="predicate">The predicate that must be met.</param>
         public void RemoveChannelCommands(Func<IMessageChannel, bool> predicate)
         {
-            var affectedKeys = (from key in _commandClassDictionary.Keys
+            var affectedKeys = (from key in _containerDictionary.Keys
                                 where predicate(key.Channel)
                                 select key
                            ).ToArray();
 
             foreach (var key in affectedKeys)
             {
-                _commandClassDictionary.Remove(key);
+                _containerDictionary.Remove(key);
             }
         }
 
@@ -95,10 +113,12 @@ namespace CtLab.Messages.Standard
         /// Sends commands for all command classes.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void SendCommands(Predicate<TCommandClass> predicate)
+        public void SendCommands(Predicate<QueryMode> predicate)
         {
-            foreach (var commandClass in _commandClassDictionary.Values.Where(commandClass => predicate(commandClass)))
+            foreach (var container in _containerDictionary.Values
+                .Where(container => predicate(container.QueryMode)))
             {
+                var commandClass = container.CommandClass;
                 _commandSender.Send(commandClass);
                 PostSendCommandHook(commandClass);
             }

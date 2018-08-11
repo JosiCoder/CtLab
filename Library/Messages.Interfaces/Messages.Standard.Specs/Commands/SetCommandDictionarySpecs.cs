@@ -55,7 +55,7 @@ namespace CtLab.Messages.Standard.Specs
                 new SetCommandClass(_messageChannels[2])
             };
 
-            SUT.Add(_setCommands);
+            SUT.Add(_setCommands, QueryMode.Unspecified);
         }
     }
 
@@ -81,7 +81,7 @@ namespace CtLab.Messages.Standard.Specs
 
         protected override void When()
         {
-            _theAssertion = () => SUT.Add(new SetCommandClass(new SpecsMessageChannel(1)));
+            _theAssertion = () => SUT.Add(new SetCommandClass(new SpecsMessageChannel(1)), QueryMode.Unspecified);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace CtLab.Messages.Standard.Specs
 
         protected override void When()
         {
-            _theAssertion = () => SUT.Add(_setCommands[0]);
+            _theAssertion = () => SUT.Add(_setCommands[0], QueryMode.Unspecified);
         }
 
         [Test]

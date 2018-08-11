@@ -22,6 +22,7 @@ using Should;
 using SpecsFor.ShouldExtensions;
 using Moq;
 using StructureMap;
+using CtLab.Messages.Interfaces;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaSignalGenerator.Standard;
 using CtLab.FpgaConnection.Interfaces;
@@ -40,7 +41,7 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
                 .Returns (new Mock<IFpgaValueSetter>().Object);
 
             GetMockFor<IFpgaConnection> ()
-                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>()))
+                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>(), It.IsAny<QueryMode>()))
                 .Returns (() =>
                     {
                         var valueGetterMock = new Mock<IFpgaValueGetter>();

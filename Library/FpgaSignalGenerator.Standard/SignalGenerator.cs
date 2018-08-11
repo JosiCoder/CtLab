@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using CtLab.FpgaSignalGenerator.Interfaces;
+using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaSignalGenerator.Standard
@@ -187,7 +188,7 @@ namespace CtLab.FpgaSignalGenerator.Standard
 
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _fpgaConnection.CreateFpgaValueGetter(registerNumber);
+            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, QueryMode.Periodic);
         }
     }
 }

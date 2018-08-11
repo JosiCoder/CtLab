@@ -59,7 +59,7 @@ namespace CtLab.Messages.Standard
         /// Sends all scheduled commands immediately.
         /// </summary>
         /// <param name="predicate">The predicate that must be met.</param>
-        public void SendImmediately(Predicate<QueryCommandClass> predicate)
+        public void SendImmediately(Predicate<QueryMode> predicate)
         {
             lock (SyncRoot)
             {
@@ -76,7 +76,7 @@ namespace CtLab.Messages.Standard
         /// The dictionary holding the command classes to send commands for.
         /// </param>
         /// <param name="period">The period in milliseconds.</param>
-        public void StartSending(Predicate<QueryCommandClass> predicate, long period)
+        public void StartSending(Predicate<QueryMode> predicate, long period)
         {
             StopSending();
 

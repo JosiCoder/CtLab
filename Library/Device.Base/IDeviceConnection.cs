@@ -42,8 +42,11 @@ namespace CtLab.Device.Base
         /// <param name="registerNumber">
         /// The FPGA register number corresponding to the commands sent.
         /// </param>
+        /// <param name="queryMode">
+        /// The query mode used.
+        /// </param>
         /// <returns>The query command class.</returns>
-        QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber);
+        QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber, QueryMode queryMode);
 
         /// <summary>
         /// Registers an FPGA register for message caching and returns the message

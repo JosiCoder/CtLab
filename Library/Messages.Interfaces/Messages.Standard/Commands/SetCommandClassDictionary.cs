@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using CtLab.Messages.Interfaces;
 
 namespace CtLab.Messages.Standard
@@ -41,7 +42,7 @@ namespace CtLab.Messages.Standard
         /// </summary>
         public void SendCommandsForModifiedValues()
         {
-            foreach (var commandClass in _commandClassDictionary.Values)
+            foreach (var commandClass in _containerDictionary.Values.Select(container => container.CommandClass))
             {
                 if (commandClass.ValueModified)
                 {
