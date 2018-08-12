@@ -80,6 +80,7 @@ architecture stdarch of Main is
 
     -- Configuration constants
     -----------------------------------------------------------------------------
+    
     -- SPI interface.
     constant use_internal_spi: boolean := true;
     constant use_external_spi: boolean := false;
@@ -95,6 +96,7 @@ architecture stdarch of Main is
 
     -- SPI sub-address constants
     -----------------------------------------------------------------------------
+    
     type integer_vector is array (natural range <>) of integer;
     -- Receiver.
     constant dds_generator_base_subaddr: integer_vector(0 to number_of_dds_generators-1)
@@ -106,6 +108,9 @@ architecture stdarch of Main is
     -- Transmitter.
     constant universal_counter_state_subaddr: integer := 2;
     constant universal_counter_value_subaddr: integer := 3;
+
+    -- Signals
+    -----------------------------------------------------------------------------
 
     -- Clocks
     signal clk_50mhz: std_logic;
@@ -127,12 +132,6 @@ architecture stdarch of Main is
         ss_data => '1'
     );
     signal miso: std_logic;
-
-    -- Internals
-    signal transmit_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0)
-            := (others => (others => '0'));
-    signal received_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
-    signal ready_x: std_logic_vector(number_of_data_buffers-1 downto 0);
 
     -- DDS signal generators
     signal dds_generator_configs_raw: data_buffer_vector(number_of_dds_generators-1 downto 0);
@@ -179,6 +178,12 @@ architecture stdarch of Main is
     (
         dac_channel_sources => (others => (others => '0'))
     );
+
+    -- Interconnection
+    signal transmit_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0)
+            := (others => (others => '0'));
+    signal received_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
+    signal ready_x: std_logic_vector(number_of_data_buffers-1 downto 0);
 
 begin
 
@@ -315,7 +320,7 @@ begin
     )
     port map
     (
-        clk => clk_50mhz, 
+        clk => clk_50mhz,
         sclk => selected_spi_in.sclk, 
         ss_address => selected_spi_in.ss_address, 
         ss_data => selected_spi_in.ss_data,

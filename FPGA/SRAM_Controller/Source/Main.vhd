@@ -65,6 +65,7 @@ architecture stdarch of Main is
 
     -- Configuration constants
     -----------------------------------------------------------------------------
+    
     -- SPI interface.
     constant use_internal_spi: boolean := true;
     constant use_external_spi: boolean := false;
@@ -77,6 +78,7 @@ architecture stdarch of Main is
 
     -- SPI sub-address constants
     -----------------------------------------------------------------------------
+    
     -- Receiver.
     constant sram_data_write_subaddr: integer := 24;
     constant sram_address_subaddr: integer := 25;
@@ -85,6 +87,9 @@ architecture stdarch of Main is
     constant sram_data_read_subaddr: integer := 24;
     constant sram_address_loopback_subaddr: integer := 25;
     constant sram_state_subaddr: integer := 26;
+
+    -- Signals
+    -----------------------------------------------------------------------------
 
     -- Clocks
     signal clk_50mhz: std_logic;
@@ -108,7 +113,6 @@ architecture stdarch of Main is
     signal miso: std_logic;
 
     -- Memory controller
-    signal memory_clk: std_logic;
     signal memory_read: std_logic;
     signal memory_write: std_logic;
     signal memory_ready: std_logic;
@@ -116,20 +120,17 @@ architecture stdarch of Main is
     signal memory_data_in: std_logic_vector(ram_data_width-1 downto 0);
     signal memory_data_out: std_logic_vector(ram_data_width-1 downto 0);
 
-    -- Internals
-    signal transmit_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
+    -- Interconnection
+    signal transmit_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0)
+            := (others => (others => '0'));
     signal received_data_x: data_buffer_vector(number_of_data_buffers-1 downto 0);
     signal ready_x: std_logic_vector(number_of_data_buffers-1 downto 0);
-    
+
 begin
 
     --------------------------------------------------------------------------------
     -- Connections to and from internal signals.
     --------------------------------------------------------------------------------
-
-    
-    memory_clk <= clk_100mhz;
-
 
     -- SPI receiver data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
@@ -226,7 +227,7 @@ begin
     )
     port map
     (
-        clk => memory_clk,
+        clk => clk_100mhz,
         read => memory_read,
         write => memory_write,
         ready => memory_ready,
