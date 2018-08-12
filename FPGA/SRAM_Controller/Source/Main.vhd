@@ -17,11 +17,6 @@
 
 ----------------------------------------------------------------------------------
 -- Provides a test application that simply writes to and reads from the SRAM.
--- Data and control signals are passed via SPI registers as follows:
--- SPI write registers:
---   0: data to write to SRAM; 1: address; 2: mode (0=off, 1=read, 2=write).
--- SPI read registers:
---   0: data read from SRAM; 1-3: loopback from according SPI write registers.
 ----------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -32,7 +27,7 @@ use SPI_Interface.globals.all;
 entity Main is
     generic
     (
-        -- The width of the SRAMs address and data buses.
+        -- The width of the SRAM address and data.
         ram_address_width: natural := 19;
         ram_data_width: natural := 8
     );
@@ -54,12 +49,12 @@ entity Main is
         ext_miso: out std_logic; 
         -- The test LED output.
         test_led: out std_logic;
-        -- The SRAMs signals.
+        -- The SRAM data and control signals.
         ram_we_n: out std_logic;
         ram_oe_n: out std_logic;
         ram_address: out unsigned(ram_address_width-1 downto 0);
         ram_data: inout std_logic_vector(ram_data_width-1 downto 0);
-        -- The DACs signals.
+        -- The DAC control signals.
         dac_clk: out std_logic;
         dac_channel_select: out std_logic;
         dac_write_n: out std_logic
@@ -68,14 +63,28 @@ end entity;
 
 architecture stdarch of Main is
 
-    -- Constants
-    constant address_width: positive := 5; -- max. 8 (for addresses 0..255)
-    constant number_of_data_buffers: positive := 2**address_width;
+    -- Configuration constants
+    -----------------------------------------------------------------------------
+    -- SPI interface.
     constant use_internal_spi: boolean := true;
     constant use_external_spi: boolean := false;
+    constant address_width: positive := 5; -- max. 8 (for addresses 0..255)
+    constant number_of_data_buffers: positive := 2**address_width;
+    -- SRAM controller.
     constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
     constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
     constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
+
+    -- SPI sub-address constants
+    -----------------------------------------------------------------------------
+    -- Receiver.
+    constant sram_data_write_subaddr: integer := 24;
+    constant sram_address_subaddr: integer := 25;
+    constant sram_mode_subaddr: integer := 26;
+    -- Transmitter.
+    constant sram_data_read_subaddr: integer := 24;
+    constant sram_address_loopback_subaddr: integer := 25;
+    constant sram_state_subaddr: integer := 26;
 
     -- Clocks
     signal clk_50mhz: std_logic;
@@ -115,6 +124,31 @@ architecture stdarch of Main is
 begin
 
     --------------------------------------------------------------------------------
+    -- Connections to and from internal signals.
+    --------------------------------------------------------------------------------
+
+    
+    memory_clk <= clk_100mhz;
+
+
+    -- SPI receiver data (index 0 to 3 are also available via the FPGA panel).
+    -----------------------------------------------------------------------------
+
+    -- SRAM controller, data, address and mode (0: off, 1: read, 2: write).
+    memory_data_in <= received_data_x(sram_data_write_subaddr)(ram_data_width-1 downto 0);
+    memory_address <= unsigned(received_data_x(sram_address_subaddr)(ram_address_width-1 downto 0));
+    memory_read <= received_data_x(sram_mode_subaddr)(0);
+    memory_write <= received_data_x(sram_mode_subaddr)(1);
+
+    -- SPI transmitter data (index 0 to 3 are also available via the FPGA panel).
+    -----------------------------------------------------------------------------
+
+    -- SRAM controller data, address and state ((0: off, 1: read, 2: write) + (MSB=0: working, MSB=1: ready))
+    transmit_data_x(sram_data_read_subaddr) <= x"000000" & memory_data_out;
+    transmit_data_x(sram_address_loopback_subaddr) <= received_data_x(sram_address_subaddr);
+    transmit_data_x(sram_state_subaddr) <= memory_ready & received_data_x(sram_mode_subaddr)(received_data_x(sram_mode_subaddr)'high-1 downto 0);
+
+    --------------------------------------------------------------------------------
     -- SPI input selection logic.
     --------------------------------------------------------------------------------
 
@@ -146,35 +180,6 @@ begin
 
 
     --------------------------------------------------------------------------------
-    -- Connections to and from internal signals.
-    --------------------------------------------------------------------------------
-
-    -- Values shown on panel.
-    --------------------------------------------------------
-    
-    -- Data and control signals:
-    --   channel 24: data read from SRAM
-    --   channel 25: address loopback
-    --   channel 26: mode (0: off, 1: read, 2: write) + memory state (MSB=0: working, MSB=1: ready)
-    transmit_data_x(24) <= x"000000" & memory_data_out;
-    transmit_data_x(25) <= received_data_x(25);
-    transmit_data_x(26) <= memory_ready & received_data_x(26)(received_data_x(26)'high-1 downto 0);
-
-    -- Connections to SRAM controller.
-    --------------------------------------------------------
-
-    memory_clk <= clk_100mhz;
-    -- Data and control signals:
-    --   channel 24: data to write to SRAM
-    --   channel 25: address
-    --   channel 26: mode (0: off, 1: read, 2: write)
-    memory_data_in <= received_data_x(24)(ram_data_width-1 downto 0);
-    memory_address <= unsigned(received_data_x(25)(ram_address_width-1 downto 0));
-    memory_read <= received_data_x(26)(0);
-    memory_write <= received_data_x(26)(1);
-
-
-    --------------------------------------------------------------------------------
     -- Component instantiation.
     --------------------------------------------------------------------------------
 
@@ -188,7 +193,7 @@ begin
     );
 
 
-    -- The SPI slave.
+    -- The slave of the SPI interface.
     slave: entity SPI_Interface.SPI_Slave
     generic map
     (

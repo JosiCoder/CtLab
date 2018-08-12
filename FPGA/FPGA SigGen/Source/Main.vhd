@@ -63,11 +63,11 @@ entity Main is
         dds_sync_out: out std_logic_vector(number_of_dds_generators-1 downto 0);
         -- The pulse generator output.
         pulse_out: out std_logic;
-        -- The shared output for SRAM address and DAC data.
-        ram_addr_dac_data: out std_logic_vector(ram_addr_dac_data_width-1 downto 0);
         -- The SRAM data and control signals.
         ram_we_n: out std_logic;
         ram_oe_n: out std_logic;
+        -- The shared output for SRAM address and DAC data.
+        ram_addr_dac_data: out std_logic_vector(ram_addr_dac_data_width-1 downto 0);
         ram_data: inout std_logic_vector(ram_data_width-1 downto 0);
         -- The DAC control signals.
         dac_clk: out std_logic;
@@ -79,27 +79,31 @@ end entity;
 architecture stdarch of Main is
 
     -- Configuration constants
+    -----------------------------------------------------------------------------
+    -- SPI interface.
+    constant use_internal_spi: boolean := true;
+    constant use_external_spi: boolean := false;
     constant address_width: positive := 5; -- max. 8 (for addresses 0..255)
+    constant number_of_data_buffers: positive := 2**address_width;
+    -- Signal generators and counter.
     constant dds_generator_lookup_table_phase_width: natural := 12;
     constant pulse_generator_counter_width: natural := 32;
-    constant number_of_data_buffers: positive := 2**address_width;
     constant dds_generator_phase_width: natural := modulated_generator_phase_width;
     constant dds_generator_level_width: natural := modulated_generator_level_width;
     constant dds_generator_sample_width: natural := dac_data_width;
     constant dac_source_selector_width: natural := 4;
-    constant use_internal_spi: boolean := true;
-    constant use_external_spi: boolean := false;
 
     -- SPI sub-address constants
+    -----------------------------------------------------------------------------
     type integer_vector is array (natural range <>) of integer;
-    -- SPI receiver sub-addresses.
+    -- Receiver.
     constant dds_generator_base_subaddr: integer_vector(0 to number_of_dds_generators-1)
         := (0=>8, 1=>12, 2=>16, 3=>20); -- need n..n+2 each
     constant peripheral_configuration_subaddr: integer := 7;
     constant universal_counter_config_subaddr: integer := 1;
     constant pulse_generator_high_duration_subaddr: integer := 6;
     constant pulse_generator_low_duration_subaddr: integer := 5;
-    -- SPI transmitter sub-addresses.
+    -- Transmitter.
     constant universal_counter_state_subaddr: integer := 2;
     constant universal_counter_value_subaddr: integer := 3;
 

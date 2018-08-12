@@ -37,6 +37,7 @@ namespace CtLab.TestConsole
     /// </summary>
     public static class RealHardwareScopeSamples
     {
+        //TODO adjust according to interface used
         const bool writeWithHandshake = false; // usually not needed
         const bool readWithHandshake = true; // needed for c't Lab protocol, not needed for SPI
         const int millisecondsToWaitForAsynchronousReads = 100; // 10 or more needed for c't Lab protocol, not needed for SPI
