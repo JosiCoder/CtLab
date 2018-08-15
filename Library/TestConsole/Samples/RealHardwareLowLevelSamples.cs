@@ -35,7 +35,7 @@ namespace CtLab.TestConsole
     /// These low-level samples are useful to understand how the CtLab library works internally,
     /// developers just using this library can safely ignore these samples.
     /// </summary>
-    public static class RealHardwareLowLevelSamples
+    public class RealHardwareLowLevelSamples
     {
         private const string _portName = "/dev/ttyUSB0";
         private const byte _channel = 7;
@@ -45,7 +45,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Sends a raw command string to the c't lab.
         /// </summary>
-        public static void SendRawCommandString()
+        public void SendRawCommandString()
         {
             Utilities.WriteHeader();
 
@@ -69,7 +69,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Sends a command to the c't lab.
         /// </summary>
-        public static void SendCommandAndReceiveMessages()
+        public void SendCommandAndReceiveMessages()
         {
             Utilities.WriteHeader();
 

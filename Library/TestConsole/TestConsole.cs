@@ -31,6 +31,8 @@ namespace CtLab.TestConsole
         {
             Console.WriteLine("Test console started.");
 
+            var spiDirect = false;
+
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
@@ -38,10 +40,11 @@ namespace CtLab.TestConsole
             RunRealHardwareLowLevelSamples();
 
             RunDummyConnectionSignalGeneratorSamples();
-            RunRealHardwareSignalGeneratorSamples();
+
+            RunRealHardwareSignalGeneratorSamples(spiDirect);
 
             //TODO: activate after VHDL scope integration
-//            RunRealHardwareScopeSamples();
+//            RunRealHardwareScopeSamples(spiDirect);
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
@@ -61,10 +64,10 @@ namespace CtLab.TestConsole
             // internally, developers just using this library can safely ignore these samples.
 
             // Sample: Send a command and receive a message via a simulated dummy connection.
-            DummyConnectionLowLevelSamples.SendCommandAndReceiveInjectedMessage();
+            new DummyConnectionLowLevelSamples().SendCommandAndReceiveInjectedMessage();
 
             // Sample: Send periodic query commands via a simulated dummy connection.
-            DummyConnectionLowLevelSamples.SendPeriodicQueryCommands();
+            new DummyConnectionLowLevelSamples().SendPeriodicQueryCommands();
         }
 
         /// <summary>
@@ -79,10 +82,10 @@ namespace CtLab.TestConsole
             // internally, developers just using this library can safely ignore these samples.
 
             // Sample: Send a raw command string to the c't lab.
-            RealHardwareLowLevelSamples.SendRawCommandString();
+            new RealHardwareLowLevelSamples().SendRawCommandString();
 
             // Sample: Send a command to the c't lab.
-            RealHardwareLowLevelSamples.SendCommandAndReceiveMessages();
+            new RealHardwareLowLevelSamples().SendCommandAndReceiveMessages();
         }
 
         /// <summary>
@@ -96,45 +99,61 @@ namespace CtLab.TestConsole
             //== dependent on each other.
 
             // Sample: Handle a specific c't Lab appliance via a simulated dummy connection.
-            DummyConnectionSignalGeneratorSamples.HandleSampleCtLabAppliance();
+            new DummyConnectionSignalGeneratorSamples().HandleSampleCtLabAppliance();
         }
 
         /// <summary>
         /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
         /// For these tests, a proper configuration supporting a signal generator must be loaded into the FPGA.
         /// </summary>
-        public static void RunRealHardwareSignalGeneratorSamples()
+        public static void RunRealHardwareSignalGeneratorSamples(bool spiDirect)
         {
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
 
             // Sample: Configure the signal generator to create an amplitude-modulated signal.
-            RealHardwareSignalGeneratorSamples.SetupAmplitudeModulatedSignal();
+            new RealHardwareSignalGeneratorSamples(spiDirect).SetupAmplitudeModulatedSignal();
 
             // Sample: Configure the signal generator to create a frequency-modulated signal.
-            RealHardwareSignalGeneratorSamples.SetupFrequencyModulatedSignal();
+            new RealHardwareSignalGeneratorSamples(spiDirect).SetupFrequencyModulatedSignal();
 
             // Sample: Configure the signal generator to create signals that can be displayed as a Lissajous figure.
-            RealHardwareSignalGeneratorSamples.SetupLissajousFigure();
+            new RealHardwareSignalGeneratorSamples(spiDirect).SetupLissajousFigure();
 
             // Sample: Configure the signal generator to create a pulse signal. 
-            RealHardwareSignalGeneratorSamples.SetupPulseSignal();
+            new RealHardwareSignalGeneratorSamples(spiDirect).SetupPulseSignal();
 
             // Sample: Configure the signal generator to measure the frequency of an internal signal.
-            RealHardwareSignalGeneratorSamples.SetupUniversalCounterToMeasureFrequencyOfInternalSignal();
+            new RealHardwareSignalGeneratorSamples(spiDirect).SetupUniversalCounterToMeasureFrequencyOfInternalSignal();
         }
 
         /// <summary>
         /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
         /// For these tests, a proper configuration supporting a scope must be loaded into the FPGA.
         /// </summary>
-        public static void RunRealHardwareScopeSamples()
+        public static void RunRealHardwareScopeSamples(bool spiDirect)
         {
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
 
+            var ctLabProtocolHardwareSettings = new RealHardwareScopeSamples.HardwareSettings
+            {
+                WriteWithHandshake = false,                   // usually not needed at all
+                ReadWithHandshake = true,                     // needed for c't Lab protocol
+                MillisecondsToWaitForAsynchronousReads = 100  // 10 or more needed for c't Lab protocol
+            };
+
+            var spiDirectHardwareSettings = new RealHardwareScopeSamples.HardwareSettings
+            {
+                WriteWithHandshake = false,                   // usually not needed at all
+                ReadWithHandshake = false,                    // not needed as SPI is much faster than the client code
+                MillisecondsToWaitForAsynchronousReads = 0    // not needed for SPI as it's synchronous
+            };
+
+            var hardwareSettings = spiDirect ? spiDirectHardwareSettings : ctLabProtocolHardwareSettings;
+
             // Sample: Write sample values to the storage and reads them.
-            RealHardwareScopeSamples.WriteAndReadStorageValues();
+            new RealHardwareScopeSamples(spiDirect, hardwareSettings).WriteAndReadStorageValues();
         }
     }
 }

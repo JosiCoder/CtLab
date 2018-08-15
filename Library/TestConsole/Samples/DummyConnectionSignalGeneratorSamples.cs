@@ -35,7 +35,7 @@ namespace CtLab.TestConsole
     /// Provides some samples for a simulated dummy connection.
     /// No real c´t Lab hardware is necessary to run these samples.
     /// </summary>
-    public static class DummyConnectionSignalGeneratorSamples
+    public class DummyConnectionSignalGeneratorSamples
     {
         private const int _queryCommandSendPeriod = 500; // ms
 
@@ -47,7 +47,7 @@ namespace CtLab.TestConsole
         /// FPFA device configured as an FPGA Lab).
         /// No real c´t Lab hardware is necessary to run this sample.
         /// </summary>
-        public static void HandleSampleCtLabAppliance()
+        public void HandleSampleCtLabAppliance()
         {
             Utilities.WriteHeader();
 

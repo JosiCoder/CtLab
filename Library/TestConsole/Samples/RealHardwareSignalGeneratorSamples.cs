@@ -36,9 +36,18 @@ namespace CtLab.TestConsole
     /// port. For these tests, a proper configuration supporting a signal generator must be loaded into
     /// the FPGA.
     /// </summary>
-    public static class RealHardwareSignalGeneratorSamples
+    public class RealHardwareSignalGeneratorSamples
     {
         private const int _queryCommandSendPeriod = 500; // ms
+        private readonly bool _spiDirect;
+
+        /// <summary>
+        /// Initializes an instance of class.
+        /// </summary>
+        public RealHardwareSignalGeneratorSamples (bool spiDirect)
+        {
+            _spiDirect = spiDirect;
+        }
 
         /// <summary>
         /// Configures the FPGA Lab to create an amplitude-modulated signal.
@@ -46,11 +55,11 @@ namespace CtLab.TestConsole
         /// frequency of 100 Hz. Modulation depth is 50%.
         /// DDS-channel 0 generates the carrier modulated by DDS channel 1.
         /// </summary>
-        public static void SetupAmplitudeModulatedSignal()
+        public void SetupAmplitudeModulatedSignal()
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateTestAppliance())
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -90,11 +99,11 @@ namespace CtLab.TestConsole
         /// frequency of 100 Hz. Modulation depth is +/-6.1 kHz, thus we get a slight overmodulation.
         /// DDS-channel 0 generates the carrier modulated by DDS channel 1.
         /// </summary>
-        public static void SetupFrequencyModulatedSignal()
+        public void SetupFrequencyModulatedSignal()
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateTestAppliance())
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -138,11 +147,11 @@ namespace CtLab.TestConsole
         /// channel 2 generates a signal of 1 kHz with phase 0° and DDS channel 3 generates a signal of
         /// 2 kHz.
         /// </summary>
-        public static void SetupLissajousFigure()
+        public void SetupLissajousFigure()
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateTestAppliance())
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -175,11 +184,11 @@ namespace CtLab.TestConsole
         /// Configures the FPGA Lab to create a pulse signal. Pulse duration is 100 us and pause duration
         /// is 1 ms.
         /// </summary>
-        public static void SetupPulseSignal()
+        public void SetupPulseSignal()
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateTestAppliance())
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.
@@ -205,11 +214,11 @@ namespace CtLab.TestConsole
         /// Configures the FPGA Lab to measure the frequency of an internal signal. DDS channel 0 is connected
         /// to the counter as well as to both outputs.
         /// </summary>
-        public static void SetupUniversalCounterToMeasureFrequencyOfInternalSignal()
+        public void SetupUniversalCounterToMeasureFrequencyOfInternalSignal()
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateTestAppliance())
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
                 // Get the signal generator and reset the hardware to cancel settings from previous
                 // configurations.

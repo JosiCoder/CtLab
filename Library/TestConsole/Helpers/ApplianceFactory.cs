@@ -39,6 +39,15 @@ namespace CtLab.TestConsole
     {
         private const string _portName = "/dev/ttyUSB0";
         private const byte _channel = 7;
+        private readonly bool _spiDirect;
+
+        /// <summary>
+        /// Initializes an instance of class.
+        /// </summary>
+        public ApplianceFactory (bool spiDirect)
+        {
+            _spiDirect = spiDirect;
+        }
 
         /// <summary>
         /// Configures and returns an IoC using the specified connection registry.
@@ -73,9 +82,7 @@ namespace CtLab.TestConsole
         /// <returns>The appliance created.</returns>
         public Appliance CreateTestAppliance()
         {
-            //TODO: set interface to use
-            return CreateSerialAppliance(_portName, _channel);
-//            return CreateSpiAppliance();
+            return _spiDirect ? CreateSpiAppliance() : CreateSerialAppliance(_portName, _channel);
         }
 
         /// <summary>

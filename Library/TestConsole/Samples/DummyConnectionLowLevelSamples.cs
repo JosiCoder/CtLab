@@ -35,7 +35,7 @@ namespace CtLab.TestConsole
     /// developers just using this library can safely ignore these samples.
     /// No real c´t Lab hardware is necessary to run these samples.
     /// </summary>
-    public static class DummyConnectionLowLevelSamples
+    public class DummyConnectionLowLevelSamples
     {
         private const int _queryCommandSendPeriod = 500; // ms
 
@@ -43,7 +43,7 @@ namespace CtLab.TestConsole
         /// Simulates sending a command and receiving a message via a simulated dummy connection.
         /// No real c´t Lab hardware is necessary to run this sample.
         /// </summary>
-        public static void SendCommandAndReceiveInjectedMessage()
+        public void SendCommandAndReceiveInjectedMessage()
         {
             Utilities.WriteHeader();
 
@@ -89,7 +89,7 @@ namespace CtLab.TestConsole
         /// Sends periodic query commands via a simulated dummy connection.
         /// No real c´t Lab hardware is necessary to run this sample.
         /// </summary>
-        public static void SendPeriodicQueryCommands()
+        public void SendPeriodicQueryCommands()
         {
             Utilities.WriteHeader();
 

@@ -35,12 +35,26 @@ namespace CtLab.TestConsole
     /// port or a direct SPI connection.
     /// For these tests, a proper configuration supporting a scope must be loaded into the FPGA.
     /// </summary>
-    public static class RealHardwareScopeSamples
+    public class RealHardwareScopeSamples
     {
-        //TODO adjust according to interface used
-        const bool writeWithHandshake = false; // usually not needed
-        const bool readWithHandshake = true; // needed for c't Lab protocol, not needed for SPI
-        const int millisecondsToWaitForAsynchronousReads = 100; // 10 or more needed for c't Lab protocol, not needed for SPI
+        public struct HardwareSettings
+        {
+            public bool WriteWithHandshake; // usually not needed
+            public bool ReadWithHandshake; // needed for c't Lab protocol, not needed for SPI
+            public int MillisecondsToWaitForAsynchronousReads; // 10 or more needed for c't Lab protocol, not needed for SPI
+        }
+
+        private readonly bool _spiDirect;
+        private readonly HardwareSettings _hardwareSettings;
+
+        /// <summary>
+        /// Initializes an instance of class.
+        /// </summary>
+        public RealHardwareScopeSamples (bool spiDirect, HardwareSettings hardwareSettings)
+        {
+            _spiDirect = spiDirect;
+            _hardwareSettings = hardwareSettings;
+        }
 
         /// <summary>
         /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.
@@ -48,11 +62,11 @@ namespace CtLab.TestConsole
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
         /// to be considered, especially when using the c't Lab protocol. 
         /// </summary>
-        public static void WriteAndReadStorageValues()
+        public void WriteAndReadStorageValues()
         {
             Utilities.WriteHeader();
 
-            using (var appliance = new ApplianceFactory().CreateTestAppliance())
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
                 // Get the scope and reset the hardware to cancel settings from previous configurations.
                 var scope = appliance.Scope;
@@ -64,13 +78,15 @@ namespace CtLab.TestConsole
 
                 foreach (var storageItem in items)
                 {
-                    DoWrite(appliance, storageItem.Key, storageItem.Value, writeWithHandshake);
+                    DoWrite(appliance, storageItem.Key, storageItem.Value, _hardwareSettings.WriteWithHandshake);
                 }
 
                 Console.WriteLine ("========================================");
 
-                // Trigger all reads immediately and await any async 'String received' comments.
-                var readValues = items.Select(item => DoRead(appliance, item.Key, readWithHandshake)).ToList();
+                // Trigger all reads immediately.
+                var readValues = items.Select(item => DoRead(appliance, item.Key, _hardwareSettings.ReadWithHandshake)).ToList();
+
+                // Await any async 'String received' comments, just for more beautiful output.
                 Thread.Sleep (100);
 
                 Console.WriteLine ("========================================");
@@ -96,7 +112,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Writes to the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private static void DoWrite(Appliance appliance, int address, int value, bool withHandshake)
+        private void DoWrite(Appliance appliance, int address, int value, bool withHandshake)
         {
             Console.WriteLine ("** Writing {0}={1} **", address, value);
 
@@ -121,7 +137,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Reads from the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private static int DoRead(Appliance appliance, int address, bool readWithHandshake)
+        private int DoRead(Appliance appliance, int address, bool readWithHandshake)
         {
             Console.WriteLine ("------------------------------");
 
@@ -183,7 +199,7 @@ namespace CtLab.TestConsole
         /// Waits until the specified state is achieved. The value is supposed to be available as
         /// soon as the state matches.
         /// </summary>
-        private static void AwaitState(Appliance appliance, StorageState state)
+        private void AwaitState(Appliance appliance, StorageState state)
         {
             AwaitState(appliance, st => st == state, string.Format("{0} state", state.ToString()));
         }
@@ -192,7 +208,7 @@ namespace CtLab.TestConsole
         /// Waits until the state satisfies the specified predicate. The value is supposed to be available as
         /// soon as the state matches.
         /// </summary>
-        private static void AwaitState(Appliance appliance, Predicate<StorageState> statePredicate, string statePredicateCaption)
+        private void AwaitState(Appliance appliance, Predicate<StorageState> statePredicate, string statePredicateCaption)
         {
             Console.WriteLine("=> Waiting for {0}...", statePredicateCaption);
             int i = 0;
@@ -202,9 +218,9 @@ namespace CtLab.TestConsole
                 // When using the c't Lab protocol, state and value are returned asynchronously. Wait a little
                 // before polling another time.
                 // When using direct SPI access, as it is synchronous, waiting is not necessary at all.
-                if (millisecondsToWaitForAsynchronousReads != 0)
+                if (_hardwareSettings.MillisecondsToWaitForAsynchronousReads != 0)
                 {
-                    Thread.Sleep (millisecondsToWaitForAsynchronousReads);
+                    Thread.Sleep (_hardwareSettings.MillisecondsToWaitForAsynchronousReads);
                 }
                 i++;
             }
