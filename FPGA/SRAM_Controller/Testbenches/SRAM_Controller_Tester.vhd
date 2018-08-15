@@ -36,8 +36,8 @@ architecture stdarch of SRAM_Controller_Tester is
     constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
     constant data_width: natural := 8;
     constant address_width: natural := 16;
-    constant start_address: natural := 16#110#;
-    constant data_offset: natural := 16#100#;
+    constant start_address: natural := 16#40#;
+    constant data_offset: natural := 16#10#;
     constant num_of_test_cycles: natural := 5;
     constant ram_access_time: time := 70ns;
     constant ram_output_disable_time: time := 30ns;
@@ -48,6 +48,7 @@ architecture stdarch of SRAM_Controller_Tester is
     signal clk: std_logic := '0';
     signal read: std_logic;
     signal write: std_logic;
+    signal auto_increment_address: std_logic;
     signal address: unsigned(address_width-1 downto 0);
     signal data_in: std_logic_vector(data_width-1 downto 0);
 
@@ -90,6 +91,7 @@ begin
         read => read,
         write => write,
         ready => ready,
+        auto_increment_address => auto_increment_address,
         address => address,
         data_in => data_in,
         data_out => data_out,
@@ -151,7 +153,7 @@ begin
                 wait for clk_period;
                 read <= '0';
             end if;
-            wait until ready = '1';
+            wait on clk,ready until ready = '1';
             if (sync_ready_to_clk) then
                 wait until rising_edge(clk);
             end if;
@@ -171,7 +173,7 @@ begin
                 wait for clk_period;
                 write <= '0';
             end if;
-            wait until ready = '1';
+            wait on clk,ready until ready = '1';
             if (sync_ready_to_clk) then
                 wait until rising_edge(clk);
             end if;
@@ -181,7 +183,7 @@ begin
         write <= '0';
         read <= '0';
         
-        wait for num_of_test_cycles * clk_period; -- wait a little to finish
+        wait for 5 * clk_period; -- wait a little to finish
 
         -- Stop the tests.
         run_test <= false;
@@ -195,7 +197,7 @@ begin
 
         wait on ram_we_n, ram_oe_n, ram_address;
         if (ram_we_n = '1' and ram_oe_n = '0') then
-            ram_data <= inertial std_logic_vector(to_unsigned(to_integer(ram_address) - data_offset, data_width))
+            ram_data <= inertial std_logic_vector(ram_address(data_width-1 downto 0) - data_offset)
                         after ram_access_time;
         else
             ram_data <= inertial (others => 'Z') after ram_output_disable_time;

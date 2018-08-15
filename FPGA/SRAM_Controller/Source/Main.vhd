@@ -78,7 +78,7 @@ architecture stdarch of Main is
 
     -- SPI sub-address constants
     -----------------------------------------------------------------------------
-    
+
     -- Receiver.
     constant sram_data_write_subaddr: integer := 24;
     constant sram_address_subaddr: integer := 25;
@@ -116,6 +116,7 @@ architecture stdarch of Main is
     signal memory_read: std_logic;
     signal memory_write: std_logic;
     signal memory_ready: std_logic;
+    signal memory_auto_increment_address: std_logic;
     signal memory_address: unsigned(ram_address_width-1 downto 0);
     signal memory_data_in: std_logic_vector(ram_data_width-1 downto 0);
     signal memory_data_out: std_logic_vector(ram_data_width-1 downto 0);
@@ -136,18 +137,19 @@ begin
     -----------------------------------------------------------------------------
 
     -- SRAM controller, data, address and mode (0: off, 1: read, 2: write).
-    memory_data_in <= received_data_x(sram_data_write_subaddr)(ram_data_width-1 downto 0);
     memory_address <= unsigned(received_data_x(sram_address_subaddr)(ram_address_width-1 downto 0));
+    memory_data_in <= received_data_x(sram_data_write_subaddr)(ram_data_width-1 downto 0);
     memory_read <= received_data_x(sram_mode_subaddr)(0);
     memory_write <= received_data_x(sram_mode_subaddr)(1);
+    memory_auto_increment_address <= received_data_x(sram_mode_subaddr)(2);
 
     -- SPI transmitter data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
 
     -- SRAM controller data, address and state ((0: off, 1: read, 2: write) + (MSB=0: working, MSB=1: ready))
-    transmit_data_x(sram_data_read_subaddr) <= x"000000" & memory_data_out;
     transmit_data_x(sram_address_loopback_subaddr) <= received_data_x(sram_address_subaddr);
-    transmit_data_x(sram_state_subaddr) <= memory_ready & received_data_x(sram_mode_subaddr)(received_data_x(sram_mode_subaddr)'high-1 downto 0);
+    transmit_data_x(sram_data_read_subaddr) <= x"000000" & memory_data_out;
+    transmit_data_x(sram_state_subaddr) <= memory_ready & received_data_x(sram_mode_subaddr)(data_buffer'high-1 downto 0);
 
     --------------------------------------------------------------------------------
     -- SPI input selection logic.
@@ -231,6 +233,7 @@ begin
         read => memory_read,
         write => memory_write,
         ready => memory_ready,
+        auto_increment_address => memory_auto_increment_address,
         address => memory_address,
         data_in => memory_data_in,
         data_out => memory_data_out,

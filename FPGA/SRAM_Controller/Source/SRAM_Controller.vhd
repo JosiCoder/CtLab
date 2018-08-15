@@ -46,6 +46,7 @@ entity SRAM_Controller is
         read: in std_logic; 
         write: in std_logic;
         ready: out std_logic;
+        auto_increment_address: in std_logic;
         -- The address and data towards the client.
         address: in unsigned(address_width-1 downto 0);
         data_in: in std_logic_vector(data_width-1 downto 0);
@@ -102,7 +103,7 @@ begin
     --------------------------------------------------------------------------------
     -- Next state logic.
     --------------------------------------------------------------------------------
-    next_state_logic: process(state, read, write, address, data_in, ram_data) is
+    next_state_logic: process(state, read, write, auto_increment_address, address, data_in, ram_data) is
         variable do_read, do_write: std_logic;
         variable last_wait_state, first_drive_data_to_ram_wait_state, first_write_pulse_wait_state: natural;
     begin
@@ -176,7 +177,13 @@ begin
                 next_state.wait_states_counter <= state.wait_states_counter + 1;
                 -- Take the address at the beginning of the access cycle.
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
-                    next_state.ram_address <= address;
+                    if (auto_increment_address = '1') then
+                        -- Note that the new address is accessed immediately if the read or write signal
+                        -- is still active.
+                        next_state.ram_address <= state.ram_address + 1;
+                    else
+                        next_state.ram_address <= address;
+                    end if;
                 end if;
             -- For the last clock cycle of the access cycle.
             else
@@ -185,7 +192,7 @@ begin
                     next_state.last_access_cycle_was_a_write <= '1';
                 end if;
 
-                -- Take the data at the end of the access cycle, set the ready flag.
+                -- Take the data at the end of the access cycle, reset the reading/writing state.
                 -- (For write access, the input data are mirrored back as output data.)
                 next_state.data_out <= ram_data;
                 next_state.reading <= '0';
