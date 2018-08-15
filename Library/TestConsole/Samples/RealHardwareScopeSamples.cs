@@ -21,12 +21,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using StructureMap;
-using CtLab.Messages.Interfaces;
-using CtLab.Connection.Interfaces;
-using CtLab.Connection.Serial;
 using CtLab.FpgaScope.Interfaces;
 using CtLab.Environment;
-using CtLab.EnvironmentIntegration;
 
 namespace CtLab.TestConsole
 {
