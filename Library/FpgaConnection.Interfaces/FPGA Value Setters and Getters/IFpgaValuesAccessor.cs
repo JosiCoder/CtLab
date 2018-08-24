@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using CtLab.Messages.Interfaces;
 
 namespace CtLab.FpgaConnection.Interfaces
 {
@@ -33,6 +34,7 @@ namespace CtLab.FpgaConnection.Interfaces
         /// <summary>
         /// Refreshes getter values from the scope.
         /// </summary>
-        void RefreshGetters();
+        /// <param name="predicate">The predicate that must be met.</param>
+        void RefreshGetters(Predicate<SendMode> predicate);
     }
 }

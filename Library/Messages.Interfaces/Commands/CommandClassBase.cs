@@ -19,6 +19,7 @@ using System;
 
 namespace CtLab.Messages.Interfaces
 {
+    // TODO: Generalize this, not just for storage and periodic.
     /// <summary>
     /// Specifies the send modes.
     /// </summary>

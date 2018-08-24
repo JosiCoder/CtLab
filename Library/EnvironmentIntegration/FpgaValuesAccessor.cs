@@ -53,10 +53,10 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Refreshes getter values from the scope.
         /// </summary>
-        public void RefreshGetters()
+        /// <param name="predicate">The predicate that must be met.</param>
+        public void RefreshGetters(Predicate<SendMode> predicate)
         {
-            // TODO: Generalize this, not just for storage.
-            _queryCommandScheduler.SendImmediately(sendMode => sendMode == SendMode.Storage);
+            _queryCommandScheduler.SendImmediately(predicate);
         }
     }
 }

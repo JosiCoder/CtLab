@@ -92,12 +92,17 @@ namespace CtLab.FpgaScope.Standard
             _stateGetter = CreateFpgaValueGetter(26);
         }
 
-
+        /// <summary>
+        /// Creates an FPGA value setter.
+        /// </summary>
         private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
             return _deviceConnection.CreateFpgaValueSetter(registerNumber);
         }
 
+        /// <summary>
+        /// Creates an FPGA value getter.
+        /// </summary>
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
             return _deviceConnection.CreateFpgaValueGetter(registerNumber, SendMode.Storage);
@@ -283,7 +288,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private void QueryStateAndValue()
         {
-            _fpgaValuesAccessor.RefreshGetters();
+            _fpgaValuesAccessor.RefreshGetters(sendMode => sendMode == SendMode.Storage);
         }
     }
 }
