@@ -18,6 +18,7 @@
 using System;
 using CtLab.Messages.Interfaces;
 using CtLab.Connection.Interfaces;
+using CtLab.FpgaConnection.Interfaces;
 using CtLab.Environment;
 
 namespace CtLab.EnvironmentIntegration
@@ -38,11 +39,6 @@ namespace CtLab.EnvironmentIntegration
         /// The command scheduler used to send the query commands.
         /// </summary>
         private readonly IQueryCommandScheduler _queryCommandScheduler;
-
-        /// <summary>
-        /// The message cache used to receive the messages.
-        /// </summary>
-        //private readonly IMessageCache _receivedMessagesCache;
 
         /// <summary>
         /// Gets an object that can be used to synchronize access to the current object
@@ -78,15 +74,12 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="connection">The connection used by this instance.</param>
         /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
-        /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
         public CtLabApplianceConnection(IConnection connection,
-            ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache receivedMessagesCache)
+            ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler)
         {
             _connection = connection;
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;
-            //_receivedMessagesCache = receivedMessagesCache;
         }
 
         /// <summary>
@@ -114,16 +107,6 @@ namespace CtLab.EnvironmentIntegration
         {
             if (_queryCommandScheduler != null)
                 _queryCommandScheduler.StopSending();
-        }
-
-        /// <summary>
-        /// Sends the storage query commands.
-        /// </summary>
-        public void SendStorageQueryCommands()
-        {
-            if (_queryCommandScheduler != null)
-                _queryCommandScheduler.SendImmediately(sendMode => sendMode == SendMode.Storage);
-            
         }
 
         public void Dispose()

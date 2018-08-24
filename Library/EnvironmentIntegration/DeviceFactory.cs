@@ -40,6 +40,7 @@ namespace CtLab.EnvironmentIntegration
         private readonly Dictionary<object, IFpgaConnection> _connections =
             new Dictionary<object, IFpgaConnection>();
         private readonly object _spiConnectionKey = new object();
+        private readonly IFpgaValuesAccessor _fpgaValuesAccessor;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -47,12 +48,14 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
         /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
         /// <param name="receivedMessagesCache">The message cache used to receive the messages.</param>
+        /// <param name="fpgaValuesAccessor">The accessor used to control access to FPGA values.</param>
         public DeviceFactory(ISetCommandClassDictionary setCommandClassDictionary, IQueryCommandScheduler queryCommandScheduler,
-            IMessageCache receivedMessagesCache)
+            IMessageCache receivedMessagesCache, IFpgaValuesAccessor fpgaValuesAccessor)
         {
             _setCommandClassDictionary = setCommandClassDictionary;
             _queryCommandScheduler = queryCommandScheduler;
             _receivedMessagesCache = receivedMessagesCache;
+            _fpgaValuesAccessor = fpgaValuesAccessor;
         }
 
         private IFpgaConnection GetConnection(object connectionKey)
@@ -149,7 +152,7 @@ namespace CtLab.EnvironmentIntegration
         /// </summary>
         private IScope CreateScope(StorageHardwareSettings hardwareSettings, IFpgaConnection fpgaConnection, IApplianceConnection applianceConnection)
         {
-            return new Scope(hardwareSettings, fpgaConnection, new ScopeConnection(applianceConnection));
+            return new Scope(hardwareSettings, fpgaConnection, _fpgaValuesAccessor);
         }
     }
 }

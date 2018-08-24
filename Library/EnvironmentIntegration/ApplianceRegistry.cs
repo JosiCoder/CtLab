@@ -16,8 +16,8 @@
 //--------------------------------------------------------------------------------
 
 using StructureMap;
+using CtLab.FpgaConnection.Interfaces;
 using CtLab.Environment;
-using CtLab.Device.Base;
 
 namespace CtLab.EnvironmentIntegration
 {
@@ -36,6 +36,10 @@ namespace CtLab.EnvironmentIntegration
             For<IApplianceConnection>()
                 .Singleton()
                 .Use<CtLabApplianceConnection>();
+
+            For<IFpgaValuesAccessor>()
+                .Singleton()
+                .Use(c => c.GetInstance<FpgaValuesAccessor>());
 
             For<IDeviceFactory>()
                 .Singleton()

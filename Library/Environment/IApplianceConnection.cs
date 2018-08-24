@@ -50,10 +50,5 @@ namespace CtLab.Environment
         /// Stops sending the scheduled query commands periodically.
         /// </summary>
         void StopSendingQueryCommands();
-
-        /// <summary>
-        /// Sends the storage query commands.
-        /// </summary>
-        void SendStorageQueryCommands();
     }
 }

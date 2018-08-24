@@ -16,41 +16,47 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using CtLab.FpgaScope.Interfaces;
-using CtLab.Environment;
+using CtLab.FpgaConnection.Interfaces;
+using CtLab.Messages.Interfaces;
+//using CtLab.Environment;
 
 namespace CtLab.EnvironmentIntegration
 {
     /// <summary>
-    /// Provides access to a scope.
+    /// Provides access to values within the FPGA.
     /// </summary>
-    internal class ScopeConnection : IScopeConnection
+    internal class FpgaValuesAccessor : IFpgaValuesAccessor
     {
-        private readonly IApplianceConnection _applianceConnection;
+        private readonly ISetCommandClassDictionary _setCommandClassDictionary;
+        private readonly IQueryCommandScheduler _queryCommandScheduler;
 
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
-        /// <param name="applianceConnection">The appliance connection to use.</param>
-        public ScopeConnection (IApplianceConnection applianceConnection)
+        /// <param name="setCommandClassDictionary">The command class dictionary used to send the set commands.</param>
+        /// <param name="queryCommandScheduler">The scheduler used to send the query commands.</param>
+        public FpgaValuesAccessor (ISetCommandClassDictionary setCommandClassDictionary,
+            IQueryCommandScheduler queryCommandScheduler)
         {
-            _applianceConnection = applianceConnection;
+            _setCommandClassDictionary = setCommandClassDictionary;
+            _queryCommandScheduler = queryCommandScheduler;
         }
 
         /// <summary>
-        /// Sends all modified setter values to the scope.
+        /// Sends modified setter values to the scope.
         /// </summary>
         public void FlushSetters()
         {
-            _applianceConnection.SendSetCommandsForModifiedValues ();
+            _setCommandClassDictionary.SendCommandsForModifiedValues();
         }
 
         /// <summary>
-        /// Refreshes all getter values from the scope.
+        /// Refreshes getter values from the scope.
         /// </summary>
         public void RefreshGetters()
         {
-            _applianceConnection.SendStorageQueryCommands ();
+            // TODO: Generalize this, not just for storage.
+            _queryCommandScheduler.SendImmediately(sendMode => sendMode == SendMode.Storage);
         }
     }
 }

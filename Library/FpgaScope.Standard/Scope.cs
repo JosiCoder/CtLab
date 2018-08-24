@@ -63,12 +63,13 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         /// <param name="hardwareSettings">The hardware settings to use for the storage.</param>
         /// <param name="deviceConnection">The connection used to access the device.</param>
+        /// <param name="fpgaValuesAccessor">The accessor used to control access to FPGA values.</param>
         public Scope(StorageHardwareSettings hardwareSettings, IFpgaConnection deviceConnection,
-            IScopeConnection scopeConnection)
+            IFpgaValuesAccessor fpgaValuesAccessor)
         {
             _fpgaConnection = deviceConnection;
 
-            _storageController = new StorageController(hardwareSettings, _fpgaConnection, scopeConnection);
+            _storageController = new StorageController(hardwareSettings, _fpgaConnection, fpgaValuesAccessor);
         }
 
         /// <summary>

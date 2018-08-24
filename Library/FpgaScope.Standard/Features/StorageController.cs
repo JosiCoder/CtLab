@@ -50,7 +50,7 @@ namespace CtLab.FpgaScope.Standard
         private readonly IFpgaValueSetter _addressSetter;
         private readonly IFpgaValueSetter _modeSetter;
         private readonly IFpgaValueGetter _stateGetter;
-        private readonly IScopeConnection _scopeConnection;
+        private readonly IFpgaValuesAccessor _fpgaValuesAccessor;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -59,7 +59,7 @@ namespace CtLab.FpgaScope.Standard
         /// The hardware settings used to access the storage.
         /// </param>
         /// <param name="deviceConnection">The connection used to access the device.</param>
-        /// <param name="scopeConnection">The connection used to access the scope.</param>
+        /// <param name="fpgaValuesAccessor">The accessor used to control access to FPGA values.</param>
         /// <param name="valueSetter">
         /// The setter used to set the value to be written to the storage.
         /// </param>
@@ -78,12 +78,12 @@ namespace CtLab.FpgaScope.Standard
         public StorageController(
             StorageHardwareSettings hardwareSettings,
             IFpgaConnection deviceConnection,
-            IScopeConnection scopeConnection
+            IFpgaValuesAccessor fpgaValuesAccessor
         )
         {
             _hardwareSettings = hardwareSettings;
             _deviceConnection = deviceConnection;
-            _scopeConnection = scopeConnection;
+            _fpgaValuesAccessor = fpgaValuesAccessor;
 
             _valueSetter = CreateFpgaValueSetter(24);
             _valueGetter = CreateFpgaValueGetter(24);
@@ -213,7 +213,7 @@ namespace CtLab.FpgaScope.Standard
         {
             Debug.WriteLine("=> Prepare read access...");
             _addressSetter.SetValue (address);
-            _scopeConnection.FlushSetters();
+            _fpgaValuesAccessor.FlushSetters();
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace CtLab.FpgaScope.Standard
             Debug.WriteLine("=> Prepare write access...");
             _addressSetter.SetValue (address);
             _valueSetter.SetValue (value);
-            _scopeConnection.FlushSetters();
+            _fpgaValuesAccessor.FlushSetters();
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace CtLab.FpgaScope.Standard
         {
             Debug.WriteLine("=> Set mode to {0}...", mode);
             _modeSetter.SetValue ((ushort)mode);
-            _scopeConnection.FlushSetters();
+            _fpgaValuesAccessor.FlushSetters();
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private void QueryStateAndValue()
         {
-            _scopeConnection.RefreshGetters();
+            _fpgaValuesAccessor.RefreshGetters();
         }
     }
 }

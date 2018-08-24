@@ -35,6 +35,7 @@
     <Compile Include="FPGA Value Setters and Getters\IFpgaValueGetter.cs" />
     <Compile Include="FPGA Value Setters and Getters\IFpgaValueSetter.cs" />
     <Compile Include="IFpgaConnection.cs" />
+    <Compile Include="FPGA Value Setters and Getters\IFpgaValuesAccessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
