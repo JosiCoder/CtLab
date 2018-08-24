@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Diagnostics;
 
 namespace CtLab.TestConsole
@@ -28,28 +29,32 @@ namespace CtLab.TestConsole
         /// <summary>
         /// The entry point of the application.
         /// </summary>
-        public static void Main()
+        public static void Main(string[] args)
         {
             // Write debug output to the console as well.
             var consoleTraceListener = new TextWriterTraceListener(System.Console.Out);
             Debug.Listeners.Add(consoleTraceListener);
 
-            Console.WriteLine("Test console started.");
+            Console.WriteLine("Test console started, arguments:.");
+            foreach (var arg in args)
+            {
+                Console.WriteLine(arg);
+            }
 
-            var spiDirect = true;
+            var spiDirect = args.Contains("spi");
 
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
-//            RunDummyConnectionLowLevelSamples();
-//            RunRealHardwareLowLevelSamples();
-//
-//            RunDummyConnectionSignalGeneratorSamples();
-//
-//            RunRealHardwareSignalGeneratorSamples(spiDirect);
+            RunDummyConnectionLowLevelSamples();
+            RunRealHardwareLowLevelSamples();
+
+            RunDummyConnectionSignalGeneratorSamples();
+
+            RunRealHardwareSignalGeneratorSamples(spiDirect);
 
             //TODO: activate after VHDL scope integration
-            RunRealHardwareScopeSamples(spiDirect);
+//            RunRealHardwareScopeSamples(spiDirect);
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
