@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using CtLab.Connection.Interfaces;
 
 namespace CtLab.Connection.Serial
@@ -45,7 +46,7 @@ namespace CtLab.Connection.Serial
             lock (_connection)
             {
                 _connection.Send(stringToSend);
-                Console.WriteLine("String sent: {0}", stringToSend);
+                Debug.WriteLine("String sent: {0}", new []{stringToSend}); // enforce the correct overload
             }
         }
     }

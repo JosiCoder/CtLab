@@ -20,6 +20,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 using CtLab.Utilities;
 using CtLab.SpiConnection.Interfaces;
 
@@ -112,7 +113,7 @@ namespace CtLab.SpiConnection.Standard
                 Array.Reverse(sendData);
             }
             var sendBytesString = ConvertBufferToString(sendData);
-            Console.WriteLine("Value sent to SPI address {0}: {1} ({2})",
+            Debug.WriteLine("Value sent to SPI address {0}: {1} ({2})",
                 spiAddress, valueToSend, sendBytesString);
 
             // Send and receive to and from SPI via interop library.
@@ -124,7 +125,7 @@ namespace CtLab.SpiConnection.Standard
                 Array.Reverse(receivedData);
             }
             var valueReceived = BitConverter.ToUInt32(receivedData, 0);
-            Console.WriteLine("Value received from SPI address {0}: {1} ({2})",
+            Debug.WriteLine("Value received from SPI address {0}: {1} ({2})",
                 spiAddress, valueReceived, receiveBytesString);
 
             ValueReceived.Raise(this, new SpiReceivedEventArgs(spiAddress, valueReceived));

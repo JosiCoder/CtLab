@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using CtLab.Utilities;
 using CtLab.Connection.Interfaces;
 
@@ -69,7 +70,7 @@ namespace CtLab.Connection.Serial
         /// </remarks>
         private void StringReceivedFromConnection(object sender, StringReceivedEventArgs e)
         {
-            Console.WriteLine("String received: {0}", e.ReceivedString);
+            Debug.WriteLine("String received: {0}", new []{e.ReceivedString}); // enforce the correct overload
             _stringReceived.Raise(this, e);
         }
     }
