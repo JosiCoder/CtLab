@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 
 namespace CtLab.FpgaScope.Interfaces
 {
@@ -25,9 +26,19 @@ namespace CtLab.FpgaScope.Interfaces
     public interface IScope : IDisposable
     {
         /// <summary>
-        /// Gets the storage controller.
+        /// Writes the specified values to the storage.
         /// </summary>
-        IStorageController StorageController { get; }
+        /// <param name="address">The address to start writing to.</param>
+        /// <param name="value">The values to write to the storage.</param>
+        void Write (int startAddress, IEnumerable<int> values);
+
+        /// <summary>
+        /// Reads the specified number of values from the storage.
+        /// </summary>
+        /// <param name="address">The address to start reading from.</param>
+        /// <param name="numberOfValues">The number of values to read.</param>
+        /// <returns>The values read.</returns>
+        IEnumerable<int> Read (int startAddress, int numberOfValues);
 
         /// <summary>
         /// Resets the scope. 

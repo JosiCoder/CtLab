@@ -16,41 +16,23 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 
 namespace CtLab.FpgaScope.Interfaces
 {
     /// <summary>
-    /// Provides facilities to communicate with a storage controller implemented within a c't Lab FPGA
-    /// device configured as an FPGA Lab.
+    /// Provides facilities to access a scope.
     /// </summary>
-    public interface IStorageController
+    public interface IScopeConnection
     {
         /// <summary>
-        /// Gets the value read from the storage.
+        /// Sends all modified setter values to the scope.
         /// </summary>
-        int Value { get; }
+        void FlushSetters();
 
         /// <summary>
-        /// Prepares read access.
+        /// Refreshes all getter values from the scope.
         /// </summary>
-        /// <param name="address">The address to read from.</param>
-        void PrepareReadAccess(int address);
-
-        /// <summary>
-        /// Prepares write access.
-        /// </summary>
-        /// <param name="address">The address to write to.</param>
-        /// <param name="value">The value to write to the storage.</param>
-        void PrepareWriteAccess(int address, int value);
-
-        /// <summary>
-        /// Sets the storage mode.
-        /// </summary>
-        void SetMode(StorageMode mode);
-
-        /// <summary>
-        /// Gets the current storage state.
-        /// </summary>
-        StorageState State { get; }
+        void RefreshGetters();
     }
 }

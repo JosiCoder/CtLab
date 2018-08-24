@@ -136,24 +136,8 @@ namespace CtLab.TestConsole
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
 
-            var ctLabProtocolHardwareSettings = new RealHardwareScopeSamples.HardwareSettings
-            {
-                WriteWithHandshake = false,                   // usually not needed at all
-                ReadWithHandshake = true,                     // needed for c't Lab protocol
-                MillisecondsToWaitForAsynchronousReads = 100  // 10 or more needed for c't Lab protocol
-            };
-
-            var spiDirectHardwareSettings = new RealHardwareScopeSamples.HardwareSettings
-            {
-                WriteWithHandshake = false,                   // usually not needed at all
-                ReadWithHandshake = false,                    // not needed as SPI is much faster than the client code
-                MillisecondsToWaitForAsynchronousReads = 0    // not needed for SPI as it's synchronous
-            };
-
-            var hardwareSettings = spiDirect ? spiDirectHardwareSettings : ctLabProtocolHardwareSettings;
-
             // Sample: Write sample values to the storage and reads them.
-            new RealHardwareScopeSamples(spiDirect, hardwareSettings).WriteAndReadStorageValues();
+            new RealHardwareScopeSamples(spiDirect).WriteAndReadStorageValues();
         }
     }
 }

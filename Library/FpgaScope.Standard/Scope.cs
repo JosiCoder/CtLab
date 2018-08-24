@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using CtLab.FpgaScope.Interfaces;
-using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaScope.Standard
@@ -30,8 +29,26 @@ namespace CtLab.FpgaScope.Standard
         private readonly IFpgaConnection _fpgaConnection;
         private readonly StorageController _storageController;
 
-        public IStorageController StorageController
-        { get { return _storageController; } }
+        /// <summary>
+        /// Writes the specified values to the storage.
+        /// </summary>
+        /// <param name="address">The address to start writing to.</param>
+        /// <param name="value">The values to write to the storage.</param>
+        public void Write (int startAddress, IEnumerable<int> values)
+        {
+            _storageController.Write (startAddress, values);
+        }
+
+        /// <summary>
+        /// Reads the specified number of values from the storage.
+        /// </summary>
+        /// <param name="address">The address to start reading from.</param>
+        /// <param name="numberOfValues">The number of values to read.</param>
+        /// <returns>The values read.</returns>
+        public IEnumerable<int> Read (int startAddress, int numberOfValues)
+        {
+            return _storageController.Read (startAddress, numberOfValues);
+        }
 
         /// <summary>
         /// Releases all resource used by this instance.
@@ -44,18 +61,14 @@ namespace CtLab.FpgaScope.Standard
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
+        /// <param name="hardwareSettings">The hardware settings to use for the storage.</param>
         /// <param name="deviceConnection">The connection used to access the device.</param>
-        public Scope(IFpgaConnection deviceConnection)
+        public Scope(StorageHardwareSettings hardwareSettings, IFpgaConnection deviceConnection,
+            IScopeConnection scopeConnection)
         {
             _fpgaConnection = deviceConnection;
 
-            _storageController = new StorageController(
-                CreateFpgaValueSetter(24),
-                CreateFpgaValueGetter(24),
-                CreateFpgaValueSetter(25),
-                CreateFpgaValueSetter(26),
-                CreateFpgaValueGetter(26)
-            );
+            _storageController = new StorageController(hardwareSettings, _fpgaConnection, scopeConnection);
         }
 
         /// <summary>
@@ -65,16 +78,6 @@ namespace CtLab.FpgaScope.Standard
         {
             // e.g.:
             // StorageController.XXX = ???;
-        }
-
-        private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
-        {
-            return _fpgaConnection.CreateFpgaValueSetter(registerNumber);
-        }
-
-        private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
-        {
-            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, SendMode.Storage);
         }
     }
 }

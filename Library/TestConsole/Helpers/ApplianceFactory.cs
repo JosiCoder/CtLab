@@ -44,6 +44,7 @@ namespace CtLab.TestConsole
         /// <summary>
         /// Initializes an instance of class.
         /// </summary>
+        /// <param name="spiDirect">A value indicating whether the hardware is directly accessed via the SPI interface.</param>
         public ApplianceFactory (bool spiDirect)
         {
             _spiDirect = spiDirect;

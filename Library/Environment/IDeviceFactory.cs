@@ -44,11 +44,13 @@ namespace CtLab.Environment
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA module.
         /// </param>
-        IScope CreateCtLabProtocolScope(byte mainchannel);
+        /// <param name="applianceConnection">The connection used to access the appliance.</param>
+        IScope CreateCtLabProtocolScope(byte mainchannel, IApplianceConnection applianceConnection);
 
         /// <summary>
         /// Creates an FPGA-based scope that can be accessed via the SPI interface.
         /// </summary>
-        IScope CreateSpiDirectScope();
+        /// <param name="applianceConnection">The connection used to access the appliance.</param>
+        IScope CreateSpiDirectScope(IApplianceConnection applianceConnection);
     }
 }

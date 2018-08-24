@@ -109,23 +109,36 @@ namespace CtLab.EnvironmentIntegration
         /// <param name="mainchannel">
         /// The number of the mainchannel assigned to the FPGA module.
         /// </param>
-        public IScope CreateCtLabProtocolScope(byte mainchannel)
+        /// <param name="applianceConnection">The connection used to access the appliance.</param>
+        public IScope CreateCtLabProtocolScope(byte mainchannel, IApplianceConnection applianceConnection)
         {
-            return CreateScope(GetConnection(mainchannel));
+            var hardwareSettings = new StorageHardwareSettings
+            {
+                WriteWithHandshake = false,                   // usually not needed at all
+                ReadWithHandshake = true,                     // needed for c't Lab protocol
+                MillisecondsToWaitForAsynchronousReads = 100  // 10 or more needed for c't Lab protocol
+            };
+            return CreateScope(hardwareSettings, GetConnection(mainchannel), applianceConnection);
         }
 
         /// <summary>
         /// Creates an FPGA-based scope that can be accessed via the SPI interface.
         /// </summary>
-        public IScope CreateSpiDirectScope()
+        /// <param name="applianceConnection">The connection used to access the appliance.</param>
+        public IScope CreateSpiDirectScope(IApplianceConnection applianceConnection)
         {
-            return CreateScope(GetConnection(_spiConnectionKey));
+            var hardwareSettings = new StorageHardwareSettings
+            {
+                WriteWithHandshake = false,                   // usually not needed at all
+                ReadWithHandshake = false,                    // not needed as SPI is much faster than the client code
+                MillisecondsToWaitForAsynchronousReads = 0    // not needed for SPI as it's synchronous
+            };
+            return CreateScope(hardwareSettings, GetConnection(_spiConnectionKey), applianceConnection);
         }
 
         /// <summary>
         /// Creates an FPGA-based signal generator.
         /// </summary>
-        /// <param name="fpgaConnection">The connection used to access the signal generator.</param>
         private ISignalGenerator CreateSignalGenerator(IFpgaConnection fpgaConnection)
         {
             return new SignalGenerator(fpgaConnection);
@@ -134,10 +147,9 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Creates an FPGA-based scope.
         /// </summary>
-        /// <param name="fpgaConnection">The connection used to access the scope.</param>
-        private IScope CreateScope(IFpgaConnection fpgaConnection)
+        private IScope CreateScope(StorageHardwareSettings hardwareSettings, IFpgaConnection fpgaConnection, IApplianceConnection applianceConnection)
         {
-            return new Scope(fpgaConnection);
+            return new Scope(hardwareSettings, fpgaConnection, new ScopeConnection(applianceConnection));
         }
     }
 }

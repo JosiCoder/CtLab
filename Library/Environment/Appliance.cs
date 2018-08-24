@@ -104,7 +104,7 @@ namespace CtLab.Environment
                 if (_scope != null) _scope.Dispose();
                 if (useScope)
                 {
-                    _scope = _deviceFactory.CreateCtLabProtocolScope (mainchannel);
+                    _scope = _deviceFactory.CreateCtLabProtocolScope (mainchannel, _applianceConnection);
                     _scope.Reset ();
                 }
 
@@ -136,7 +136,7 @@ namespace CtLab.Environment
                 if (_scope != null) _scope.Dispose();
                 if (useScope)
                 {
-                    _scope = _deviceFactory.CreateSpiDirectScope ();
+                    _scope = _deviceFactory.CreateSpiDirectScope (_applianceConnection);
                     _scope.Reset ();
                 }
 
