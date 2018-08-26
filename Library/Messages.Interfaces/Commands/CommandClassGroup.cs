@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // Copyright (C) 2016 Josi Coder
 
 // This program is free software: you can redistribute it and/or modify it
@@ -20,24 +20,17 @@ using System;
 namespace CtLab.Messages.Interfaces
 {
     /// <summary>
-    /// Provides the base functionality for command classes.
+    /// Marks command class groups for commands that are sent periodically.
     /// </summary>
-    public abstract class CommandClassBase
+    public interface IPeriodicCommandClassGroup
     {
-        /// <summary>
-        /// The channel the commands are sent to.
-        /// </summary>
-        public IMessageChannel Channel;
+    }
 
-        /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        /// <param name="channel">
-        /// The channel the commands are sent to.
-        /// </param>
-        protected CommandClassBase(IMessageChannel channel)
-        {
-            Channel = channel;
-        }
+    /// <summary>
+    /// Represents a group of command classes.
+    /// </summary>
+    public class CommandClassGroup
+    {
     }
 }
+

@@ -53,8 +53,8 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Refreshes getter values from the scope.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
-        public void RefreshGetters(Predicate<SendMode> predicate)
+        /// <param name="predicate">The predicate the underlying command class' group must meet.</param>
+        public void RefreshGetters(Predicate<CommandClassGroup> predicate)
         {
             _queryCommandScheduler.SendImmediately(predicate);
         }

@@ -31,8 +31,9 @@ namespace CtLab.FpgaConnection.Interfaces
         /// <param name="registerNumber">
         /// The number of the FPGA register to write to.
         /// </param>
+        /// <param name="group">The group the underlying command class is related to.</param>
         /// <returns>The created FPGA value setter.</returns>
-        IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber);
+        IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber, CommandClassGroup group);
 
         /// <summary>
         /// Creates an FPGA value getter.
@@ -40,10 +41,8 @@ namespace CtLab.FpgaConnection.Interfaces
         /// <param name="registerNumber">
         /// The number of the FPGA register to read from.
         /// </param>
-        /// <param name="sendMode">
-        /// The send mode used.
-        /// </param>
+        /// <param name="group">The group the underlying command class is related to.</param>
         /// <returns>The created FPGA value getter.</returns>
-        IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, SendMode sendMode);
+        IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, CommandClassGroup group);
     }
 }

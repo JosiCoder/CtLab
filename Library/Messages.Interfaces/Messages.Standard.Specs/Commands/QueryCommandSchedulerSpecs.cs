@@ -58,7 +58,7 @@ namespace CtLab.Messages.Standard.Specs
         [Test]
         public void then_the_SUT_should_immediately_tell_the_associated_dictionary_exactly_once_to_send_the_commands()
         {
-            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(It.IsAny<Predicate<SendMode>>()), Times.Once);
+            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(It.IsAny<Predicate<CommandClassGroup>>()), Times.Once);
         }
     }
 
@@ -79,7 +79,7 @@ namespace CtLab.Messages.Standard.Specs
         public void then_the_SUT_should_tell_the_associated_dictionary_exactly_once_almost_immediately_to_send_the_commands()
         {
             Thread.Sleep(_period/2);
-            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(It.IsAny<Predicate<SendMode>>()), Times.Once);
+            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(It.IsAny<Predicate<CommandClassGroup>>()), Times.Once);
         }
 
 
@@ -90,7 +90,7 @@ namespace CtLab.Messages.Standard.Specs
             {
                 Thread.Sleep(_period/5);
             }
-            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(It.IsAny<Predicate<SendMode>>()), Times.Between(5, 6, Range.Inclusive));
+            _queryCommandDictionaryMock.Verify(sender => sender.SendCommands(It.IsAny<Predicate<CommandClassGroup>>()), Times.Between(5, 6, Range.Inclusive));
         }
     }
 }

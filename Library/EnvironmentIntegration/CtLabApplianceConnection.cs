@@ -97,7 +97,7 @@ namespace CtLab.EnvironmentIntegration
         public void StartSendingQueryCommands(long period)
         {
             if (_queryCommandScheduler != null)
-                _queryCommandScheduler.StartSending(sendMode => sendMode == SendMode.Periodic, period);
+                _queryCommandScheduler.StartSending(classGroup => classGroup is IPeriodicCommandClassGroup, period);
         }
 
         /// <summary>

@@ -40,6 +40,7 @@
     <Compile Include="Commands\SetCommandClassDictionary.cs" />
     <Compile Include="Commands\QueryCommandScheduler.cs" />
     <Compile Include="Messages\EmptyMessage.cs" />
+    <Compile Include="Commands\CommandClassContainer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

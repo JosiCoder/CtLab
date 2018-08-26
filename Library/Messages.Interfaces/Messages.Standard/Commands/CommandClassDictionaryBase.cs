@@ -38,20 +38,9 @@ namespace CtLab.Messages.Standard
             public readonly IMessageChannel Channel;
         }
 
-        public class CommandClassContainer
-        {
-            public CommandClassContainer(TCommandClass commandClass, SendMode sendMode)
-            {
-                CommandClass = commandClass;
-                SendMode = sendMode;
-            }
-            public readonly TCommandClass CommandClass;
-            public readonly SendMode SendMode;
-        }
-
         protected readonly ICommandSender<TCommandClass> _commandSender;
-        protected readonly Dictionary<CommandClassKey, CommandClassContainer> _containerDictionary
-            = new Dictionary<CommandClassKey, CommandClassContainer>();
+        protected readonly Dictionary<CommandClassKey, CommandClassContainer<TCommandClass>> _containerDictionary
+            = new Dictionary<CommandClassKey, CommandClassContainer<TCommandClass>>();
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -70,10 +59,11 @@ namespace CtLab.Messages.Standard
         /// The send mode used.
         /// </param>
         /// <param name="commandClass">The command class to add to the dictionary.</param>
-        public void Add(TCommandClass commandClass, SendMode sendMode)
+        /// <param name="group">The group the command class is related to.</param>
+        public void Add(TCommandClass commandClass, CommandClassGroup group)
         {
             _containerDictionary.Add(new CommandClassKey(commandClass),
-                new CommandClassContainer(commandClass, sendMode));
+                new CommandClassContainer<TCommandClass>(commandClass, group));
         }
 
         /// <summary>
@@ -84,11 +74,12 @@ namespace CtLab.Messages.Standard
         /// The send mode used.
         /// </param>
         /// <param name="commandClasses">A list of command classes to add to the dictionary.</param>
-        public void Add(TCommandClass[] commandClasses, SendMode sendMode)
+        /// <param name="group">The group the command classes are related to.</param>
+        public void Add(TCommandClass[] commandClasses, CommandClassGroup group)
         {
             foreach (var command in commandClasses)
             {
-                Add(command, sendMode);
+                Add(command, group);
             }
         }
 
@@ -112,11 +103,11 @@ namespace CtLab.Messages.Standard
         /// <summary>
         /// Sends commands for all command classes.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
-        public void SendCommands(Predicate<SendMode> predicate)
+        /// <param name="predicate">The predicate the commands' class groups must meet.</param>
+        public void SendCommands(Predicate<CommandClassGroup> predicate)
         {
             foreach (var container in _containerDictionary.Values
-                .Where(container => predicate(container.SendMode)))
+                .Where(container => predicate(container.CommandClassGroup)))
             {
                 var commandClass = container.CommandClass;
                 _commandSender.Send(commandClass);

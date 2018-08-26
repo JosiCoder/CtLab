@@ -55,7 +55,7 @@ namespace CtLab.CtLabProtocol.Integration.Specs
         {
             var setCommandCLassDict = SUT.GetInstance<ISetCommandClassDictionary>();
             var setCommandClass = new SetCommandClass(new MessageChannel(1, 11));
-            setCommandCLassDict.Add(setCommandClass, SendMode.Unspecified);
+            setCommandCLassDict.Add(setCommandClass, new CommandClassGroup());
             setCommandClass.SetValue(15);
             setCommandCLassDict.SendCommandsForModifiedValues();
         }

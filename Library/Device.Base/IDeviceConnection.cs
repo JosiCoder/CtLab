@@ -33,8 +33,9 @@ namespace CtLab.Device.Base
         /// <param name="registerNumber">
         /// The FPGA register number corresponding to the commands sent.
         /// </param>
+        /// <param name="group">The group the command class is related to.</param>
         /// <returns>The set command class.</returns>
-        SetCommandClass BuildAndRegisterSetCommandClass(ushort registerNumber);
+        SetCommandClass BuildAndRegisterSetCommandClass(ushort registerNumber, CommandClassGroup group);
 
         /// <summary>
         /// Builds a query command class and adds it to the dictionary.
@@ -42,11 +43,9 @@ namespace CtLab.Device.Base
         /// <param name="registerNumber">
         /// The FPGA register number corresponding to the commands sent.
         /// </param>
-        /// <param name="sendMode">
-        /// The send mode used.
-        /// </param>
+        /// <param name="group">The group the command class is related to.</param>
         /// <returns>The query command class.</returns>
-        QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber, SendMode sendMode);
+        QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber, CommandClassGroup group);
 
         /// <summary>
         /// Registers an FPGA register for message caching and returns the message

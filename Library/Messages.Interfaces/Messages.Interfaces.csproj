@@ -48,6 +48,7 @@
     <Compile Include="Messages\IMessageChannel.cs" />
     <Compile Include="Messages\MessageChannelBase.cs" />
     <Compile Include="Messages\IMessage.cs" />
+    <Compile Include="Commands\CommandClassGroup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

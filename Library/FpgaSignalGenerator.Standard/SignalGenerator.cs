@@ -27,11 +27,20 @@ namespace CtLab.FpgaSignalGenerator.Standard
     /// </summary>
     public class SignalGenerator : ISignalGenerator
     {
+        /// <summary>
+        /// Represents a group of command classes used for querying signal generator values.
+        /// </summary>
+        private class SignalGeneratorQueryCommandClassGroup : CommandClassGroup, IPeriodicCommandClassGroup
+        {
+        }
+
         private readonly IFpgaConnection _fpgaConnection;
         private readonly DdsGenerator[] _ddsGenerators;
         private readonly OutputSourceSelector _outputSourceSelector;
         private readonly PulseGenerator _pulseGenerator;
         private readonly UniversalCounter _universalCounter;
+
+        private readonly CommandClassGroup _queryCommandClassGroup = new SignalGeneratorQueryCommandClassGroup();
 
         public IDdsGenerator[] DdsGenerators
         { get { return (DdsGenerator[])_ddsGenerators.Clone(); } }
@@ -183,12 +192,12 @@ namespace CtLab.FpgaSignalGenerator.Standard
 
         private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
-            return _fpgaConnection.CreateFpgaValueSetter(registerNumber);
+            return _fpgaConnection.CreateFpgaValueSetter(registerNumber, new CommandClassGroup());
         }
 
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, SendMode.Periodic);
+            return _fpgaConnection.CreateFpgaValueGetter(registerNumber, _queryCommandClassGroup);
         }
     }
 }

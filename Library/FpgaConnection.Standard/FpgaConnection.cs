@@ -46,11 +46,12 @@ namespace CtLab.FpgaConnection.Standard
         /// <param name="registerNumber">
         /// The number of the FPGA register to write to.
         /// </param>
+        /// <param name="group">The group the underlying command class is related to.</param>
         /// <returns>The created FPGA value setter.</returns>
-        public IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
+        public IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber, CommandClassGroup group)
         {
             return new FpgaValueSetter (
-                _deviceConnection.BuildAndRegisterSetCommandClass (registerNumber));
+                _deviceConnection.BuildAndRegisterSetCommandClass (registerNumber, group));
         }
 
         /// <summary>
@@ -59,13 +60,11 @@ namespace CtLab.FpgaConnection.Standard
         /// <param name="registerNumber">
         /// The number of the FPGA register to read from.
         /// </param>
-        /// <param name="sendMode">
-        /// The send mode used.
-        /// </param>
+        /// <param name="group">The group the underlying command class is related to.</param>
         /// <returns>The created FPGA value getter.</returns>
-        public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, SendMode sendMode)
+        public IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber, CommandClassGroup group)
         {
-            _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber, sendMode);
+            _deviceConnection.BuildAndRegisterQueryCommandClass (registerNumber, group);
             return new FpgaValueGetter (
                 _deviceConnection.RegisterMessage(registerNumber)
             );

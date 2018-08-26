@@ -39,19 +39,19 @@ namespace CtLab.Messages.Interfaces
         IQueryCommandClassDictionary CommandClassDictionary { get ; }
 
         /// <summary>
-        /// Sends all scheduled commands immediately.
+        /// Sends scheduled commands immediately.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
-        void SendImmediately(Predicate<SendMode> predicate);
+        /// <param name="predicate">The predicate the command's class group must meet.</param>
+        void SendImmediately(Predicate<CommandClassGroup> predicate);
 
         /// <summary>
-        /// Starts sending the scheduled commands periodically using the specified period.
+        /// Starts sending scheduled commands periodically using the specified period.
         /// This will periodically access the underlying command dictionary asynchronously,
         /// i.e. from a different thread.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
+        /// <param name="predicate">The predicate the command's class group must meet.</param>
         /// <param name="period">The period in milliseconds.</param>
-        void StartSending(Predicate<SendMode> predicate, long period);
+        void StartSending(Predicate<CommandClassGroup> predicate, long period);
 
 
         /// <summary>

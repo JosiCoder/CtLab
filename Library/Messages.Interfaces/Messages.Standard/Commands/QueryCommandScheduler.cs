@@ -56,10 +56,10 @@ namespace CtLab.Messages.Standard
         }
 
         /// <summary>
-        /// Sends all scheduled commands immediately.
+        /// Sends scheduled commands immediately.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
-        public void SendImmediately(Predicate<SendMode> predicate)
+        /// <param name="predicate">The predicate the command's class group must meet.</param>
+        public void SendImmediately(Predicate<CommandClassGroup> predicate)
         {
             lock (SyncRoot)
             {
@@ -68,15 +68,13 @@ namespace CtLab.Messages.Standard
         }
 
         /// <summary>
-        /// Starts sending the scheduled commands periodically using the specified period.
+        /// Starts sending scheduled commands periodically using the specified period.
         /// This will periodically access the underlying command class dictionary asynchronously,
         /// i.e. from a different thread.
         /// </summary>
-        /// <param name="commandClassDictionary">
-        /// The dictionary holding the command classes to send commands for.
-        /// </param>
+        /// <param name="predicate">The predicate the command's class group must meet.</param>
         /// <param name="period">The period in milliseconds.</param>
-        public void StartSending(Predicate<SendMode> predicate, long period)
+        public void StartSending(Predicate<CommandClassGroup> predicate, long period)
         {
             StopSending();
 

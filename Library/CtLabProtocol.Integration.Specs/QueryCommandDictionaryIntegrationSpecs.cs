@@ -55,7 +55,7 @@ namespace CtLab.CtLabProtocol.Integration.Specs
         {
             var queryCommandClassDictionary = SUT.GetInstance<IQueryCommandClassDictionary>();
             var queryCommand = new QueryCommandClass(new MessageChannel(1, 11));
-            queryCommandClassDictionary.Add(queryCommand, SendMode.Unspecified);
+            queryCommandClassDictionary.Add(queryCommand, new CommandClassGroup());
             queryCommandClassDictionary.SendCommands(commandClass => true);
         }
 

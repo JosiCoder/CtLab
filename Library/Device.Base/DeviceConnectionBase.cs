@@ -86,11 +86,12 @@ namespace CtLab.Device.Base
         /// <param name="registerNumber">
         /// The FPGA register number corresponding to the commands sent.
         /// </param>
+        /// <param name="group">The group the command class is related to.</param>
         /// <returns>The set command class.</returns>
-        public SetCommandClass BuildAndRegisterSetCommandClass(ushort registerNumber)
+        public SetCommandClass BuildAndRegisterSetCommandClass(ushort registerNumber, CommandClassGroup group)
         {
             var commandClass = new SetCommandClass(CreateMessageChannel(registerNumber));
-            _setCommandClassDictionary.Add(commandClass, SendMode.Unspecified);
+            _setCommandClassDictionary.Add(commandClass, group);
             return commandClass;
         }
 
@@ -100,14 +101,12 @@ namespace CtLab.Device.Base
         /// <param name="registerNumber">
         /// The FPGA register number corresponding to the commands sent.
         /// </param>
-        /// <param name="sendMode">
-        /// The send mode used.
-        /// </param>
+        /// <param name="group">The group the command class is related to.</param>
         /// <returns>The query command class.</returns>
-        public QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber, SendMode sendMode)
+        public QueryCommandClass BuildAndRegisterQueryCommandClass(ushort registerNumber, CommandClassGroup group)
         {
             var commandClass = new QueryCommandClass(CreateMessageChannel(registerNumber));
-            _queryCommandClassDictionary.Add(commandClass, sendMode);
+            _queryCommandClassDictionary.Add(commandClass, group);
             return commandClass;
         }
 

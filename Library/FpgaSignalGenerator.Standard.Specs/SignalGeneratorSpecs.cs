@@ -37,11 +37,11 @@ namespace CtLab.FpgaSignalGenerator.Standard.Specs
             base.ConfigureContainer (container);
 
             GetMockFor<IFpgaConnection> ()
-                .Setup (dc => dc.CreateFpgaValueSetter(It.IsAny<ushort>()))
+                .Setup (dc => dc.CreateFpgaValueSetter(It.IsAny<ushort>(), It.IsAny<CommandClassGroup>()))
                 .Returns (new Mock<IFpgaValueSetter>().Object);
 
             GetMockFor<IFpgaConnection> ()
-                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>(), It.IsAny<SendMode>()))
+                .Setup (dc => dc.CreateFpgaValueGetter(It.IsAny<ushort>(), It.IsAny<CommandClassGroup>()))
                 .Returns (() =>
                     {
                         var valueGetterMock = new Mock<IFpgaValueGetter>();

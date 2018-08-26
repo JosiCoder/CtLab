@@ -52,6 +52,8 @@ namespace CtLab.FpgaScope.Standard
         private readonly IFpgaValueGetter _stateGetter;
         private readonly IFpgaValuesAccessor _fpgaValuesAccessor;
 
+        private readonly CommandClassGroup _queryCommandClassGroup = new CommandClassGroup();
+
         /// <summary>
         /// Initializes an instance of this class.
         /// </summary>
@@ -97,7 +99,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
         {
-            return _deviceConnection.CreateFpgaValueSetter(registerNumber);
+            return _deviceConnection.CreateFpgaValueSetter(registerNumber, new CommandClassGroup());
         }
 
         /// <summary>
@@ -105,7 +107,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private IFpgaValueGetter CreateFpgaValueGetter(ushort registerNumber)
         {
-            return _deviceConnection.CreateFpgaValueGetter(registerNumber, SendMode.Storage);
+            return _deviceConnection.CreateFpgaValueGetter(registerNumber, _queryCommandClassGroup);
         }
 
         /// <summary>
@@ -288,7 +290,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private void QueryStateAndValue()
         {
-            _fpgaValuesAccessor.RefreshGetters(sendMode => sendMode == SendMode.Storage);
+            _fpgaValuesAccessor.RefreshGetters(classGroup => classGroup == _queryCommandClassGroup);
         }
     }
 }

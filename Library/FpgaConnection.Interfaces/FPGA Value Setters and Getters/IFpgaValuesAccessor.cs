@@ -34,7 +34,7 @@ namespace CtLab.FpgaConnection.Interfaces
         /// <summary>
         /// Refreshes getter values from the scope.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
-        void RefreshGetters(Predicate<SendMode> predicate);
+        /// <param name="predicate">The predicate the underlying command class' group must meet.</param>
+        void RefreshGetters(Predicate<CommandClassGroup> predicate);
     }
 }

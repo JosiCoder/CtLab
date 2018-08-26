@@ -31,7 +31,8 @@ namespace CtLab.Messages.Interfaces
         /// The send mode used.
         /// </param>
         /// <param name="commandClass">The command class to add to the cache.</param>
-        void Add(TCommandClass commandClass, SendMode sendMode);
+        /// <param name="group">The group the command class is related to.</param>
+        void Add(TCommandClass commandClass, CommandClassGroup group);
 
         /// <summary>
         /// For a list of command classes, adds each one to the dictionary unless there is already
@@ -41,7 +42,8 @@ namespace CtLab.Messages.Interfaces
         /// The send mode used.
         /// </param>
         /// <param name="commandClasses">A list of command classes to add to the cache.</param>
-        void Add(TCommandClass[] commandClasses, SendMode sendMode);
+        /// <param name="group">The group the command classes are related to.</param>
+        void Add(TCommandClass[] commandClasses, CommandClassGroup group);
 
         /// <summary>
         /// Removes the commands for all channels that meet the specified predicate.
@@ -52,7 +54,7 @@ namespace CtLab.Messages.Interfaces
         /// <summary>
         /// Sends all commands.
         /// </summary>
-        /// <param name="predicate">The predicate that must be met.</param>
-        void SendCommands(Predicate<SendMode> predicate);
+        /// <param name="predicate">The predicate the commands' class groups must meet.</param>
+        void SendCommands(Predicate<CommandClassGroup> predicate);
     }
 }
