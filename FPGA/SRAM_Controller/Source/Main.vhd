@@ -136,7 +136,7 @@ begin
     -- SPI receiver data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
 
-    -- SRAM controller, data, address and mode (0: off, 1: read, 2: write).
+    -- SRAM controller, data, address and mode ((0: off, 1: read, 2: write) + (0: single address mode, 4: address auto-increment)).
     memory_address <= unsigned(received_data_x(sram_address_subaddr)(ram_address_width-1 downto 0));
     memory_data_in <= received_data_x(sram_data_write_subaddr)(ram_data_width-1 downto 0);
     memory_read <= received_data_x(sram_mode_subaddr)(0);
