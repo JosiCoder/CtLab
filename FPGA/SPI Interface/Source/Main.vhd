@@ -80,6 +80,34 @@ architecture stdarch of Main is
 begin
 
     --------------------------------------------------------------------------------
+    -- Connections to and from internal signals.
+    --------------------------------------------------------------------------------
+
+    -- NOTE: Reading to and writing from an SPI address always happen together. Each time
+    -- the SPI master reads a value from the slave's transmit register, it also writes a value
+    -- to the slave's receive register of the same address, overwriting any previous value.
+    --
+    -- If the internal SPI connection is used, the microcontroller of the c'Lab FPGA board
+    -- acts as the SPI master. It accesses a particular SPI adress as follows:
+    -- 1) If one of the Param or Value screens is selected on the panel, the microcontroller
+    --    accesses the SPI bus periodically to read the value from and write the parameter to
+    --    the according SPI address.
+    -- 2) When processing a c't Lab protocol set command, the microcontroller writes the 
+    --    according parameter to the SPI slave and ignores the value read from the SPI slave.
+    -- 3) When processing a c't Lab protocol query command, the microcontroller writes an
+    --    arbitrary parameter to the SPI slave and returns the value read from the SPI slave.
+    --    It happens to be that the parameter sent most recently to the same or any other SPI
+    --    address is reused as this arbitrary parameter.
+    --
+    -- If the external SPI connection is used, it's up to the external SPI master how to handle
+    -- values read from the SPI slave and how to generate parameters written to the SPI slave.
+
+
+    -- Test loop back
+    transmit_data_x <= received_data_x;
+
+
+    --------------------------------------------------------------------------------
     -- SPI input selection logic.
     --------------------------------------------------------------------------------
 
@@ -97,11 +125,16 @@ begin
     external_spi_in.ss_address <= ext_rs;
     external_spi_in.ss_data <= ext_ds;
 
-    -- Select the SPI bus to use.
-    -- Note: The microcontroller of the c'Lab FPGA board accesses the SPI bus periodically
-    -- if one of the Param or Value screens is selected on the panel. Thus, when both
-    -- connections are activated, while using the external connections, set the panel to
-    -- the file selection screen.
+    -- Select the SPI connection to use.
+    -- NOTE: If one of the Param or Value screens is selected on the panel, the microcontroller
+    -- of the c'Lab FPGA board accesses the SPI bus periodically to read the value from and write
+    -- the parameter to the according SPI address (SPI reading and writing always happen together).
+    -- Thus, when both connections are activated, while using the *external* connection, set the
+    -- panel to the file selection screen to avoid this interference.
+    -- Also, when both connections are activated, while using the *internal* connection, ensure
+    -- that the selection pins of the external connection (ext_rs and ext_ds) are pulled up properly.
+    -- If they are e.g. connected to the SPI interface of a Raspberry Pi, ensure that the latter is
+    -- switched on. Don't leave the pins unconnected, pull them up instead.
     selected_spi_in <=
         internal_spi_in when use_internal_spi and
                              (internal_spi_in.ss_address = '0' or internal_spi_in.ss_data = '0') else
@@ -113,9 +146,6 @@ begin
     --------------------------------------------------------------------------------
     -- Component instantiation.
     --------------------------------------------------------------------------------
-
-    -- Connections to and from internal signals.
-    transmit_data_x <= received_data_x; -- test loop back
 
     -- The SPI slave.
     slave: entity work.SPI_Slave
