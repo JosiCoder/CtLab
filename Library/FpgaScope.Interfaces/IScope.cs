@@ -30,7 +30,7 @@ namespace CtLab.FpgaScope.Interfaces
         /// </summary>
         /// <param name="address">The address to start writing to.</param>
         /// <param name="value">The values to write to the storage.</param>
-        void Write (int startAddress, IEnumerable<int> values);
+        void Write (uint startAddress, IEnumerable<uint> values);
 
         /// <summary>
         /// Reads the specified number of values from the storage.
@@ -38,7 +38,7 @@ namespace CtLab.FpgaScope.Interfaces
         /// <param name="address">The address to start reading from.</param>
         /// <param name="numberOfValues">The number of values to read.</param>
         /// <returns>The values read.</returns>
-        IEnumerable<int> Read (int startAddress, int numberOfValues);
+        IEnumerable<uint> Read (uint startAddress, int numberOfValues);
 
         /// <summary>
         /// Resets the scope. 

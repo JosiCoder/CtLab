@@ -15,12 +15,15 @@
 // this program. If not, see <http://www.gnu.org/licenses/>.
 //--------------------------------------------------------------------------------
 
+using System;
+
 namespace CtLab.FpgaScope.Interfaces
 {
     /// <summary>
     /// Specifies the access mode of the storage.
     /// </summary>
-    public enum StorageMode : ushort
+    [Flags]
+    public enum StorageMode : byte
     {
         // These values must correspond to the FPGA implementation.
         Idle = 0,
@@ -31,11 +34,12 @@ namespace CtLab.FpgaScope.Interfaces
     /// <summary>
     /// Specifies the state of the storage.
     /// </summary>
-    public enum StorageState : int
+    [Flags]
+    public enum StorageState : byte
     {
         // These values must correspond to the FPGA implementation.
         Reading = 1,
         Writing = 2,
-        Ready = int.MinValue, // MSB set, all other bits reset.
+        Ready = 4,
     }
 }

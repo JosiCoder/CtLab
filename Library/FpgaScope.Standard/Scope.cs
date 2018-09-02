@@ -34,7 +34,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         /// <param name="address">The address to start writing to.</param>
         /// <param name="value">The values to write to the storage.</param>
-        public void Write (int startAddress, IEnumerable<int> values)
+        public void Write (uint startAddress, IEnumerable<uint> values)
         {
             _storageController.Write (startAddress, values);
         }
@@ -45,7 +45,7 @@ namespace CtLab.FpgaScope.Standard
         /// <param name="address">The address to start reading from.</param>
         /// <param name="numberOfValues">The number of values to read.</param>
         /// <returns>The values read.</returns>
-        public IEnumerable<int> Read (int startAddress, int numberOfValues)
+        public IEnumerable<uint> Read (uint startAddress, int numberOfValues)
         {
             return _storageController.Read (startAddress, numberOfValues);
         }

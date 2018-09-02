@@ -78,7 +78,7 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// <returns>The converted value.</returns>
         public int ValueToInt32()
         {
-            return int.Parse(RawValue, CultureInfo.InvariantCulture);
+            return (int)double.Parse(RawValue, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace CtLab.CtLabProtocol.Interfaces
         /// <returns>The converted value.</returns>
         public uint ValueToUInt32()
         {
-            return uint.Parse(RawValue, CultureInfo.InvariantCulture);
+            return (uint)int.Parse(RawValue, CultureInfo.InvariantCulture);
         }
 
         /// <summary>

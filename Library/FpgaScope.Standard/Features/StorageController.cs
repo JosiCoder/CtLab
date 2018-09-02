@@ -43,16 +43,22 @@ namespace CtLab.FpgaScope.Standard
     /// </summary>
     internal class StorageController
     {
+        private const uint _dataMask = 0x000000FF;
+        private const uint _addressMask = 0x1FFFFF00;
+        private const uint _modeAndStateMask = 0xE0000000;
+        private const int _dataLsb = 0;
+        private const int _addressLsb = 8;
+        private const int _modeAndStateLsb = 29;
+
         private readonly StorageHardwareSettings _hardwareSettings;
         private readonly IFpgaConnection _deviceConnection;
-        private readonly IFpgaValueSetter _valueSetter;
-        private readonly IFpgaValueGetter _valueGetter;
-        private readonly IFpgaValueSetter _addressSetter;
-        private readonly IFpgaValueSetter _modeSetter;
-        private readonly IFpgaValueGetter _stateGetter;
+        private readonly IFpgaValueSetter _storageSetter;
+        private readonly IFpgaValueGetter _storageGetter;
         private readonly IFpgaValuesAccessor _fpgaValuesAccessor;
 
         private readonly CommandClassGroup _queryCommandClassGroup = new CommandClassGroup();
+
+        private uint _storageWriteData = 0;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -62,21 +68,6 @@ namespace CtLab.FpgaScope.Standard
         /// </param>
         /// <param name="deviceConnection">The connection used to access the device.</param>
         /// <param name="fpgaValuesAccessor">The accessor used to control access to FPGA values.</param>
-        /// <param name="valueSetter">
-        /// The setter used to set the value to be written to the storage.
-        /// </param>
-        /// <param name="valueGetter">
-        /// The getter used to get the value read from the storage.
-        /// </param>
-        /// <param name="addressSetter">
-        /// The setter used to set the address to write to ar read from.
-        /// </param>
-        /// <param name="modeSetter">
-        /// The setter used to set the storage mode.
-        /// </param>
-        /// <param name="stateGetter">
-        /// The getter used to get the storage state.
-        /// </param>
         public StorageController(
             StorageHardwareSettings hardwareSettings,
             IFpgaConnection deviceConnection,
@@ -87,11 +78,8 @@ namespace CtLab.FpgaScope.Standard
             _deviceConnection = deviceConnection;
             _fpgaValuesAccessor = fpgaValuesAccessor;
 
-            _valueSetter = CreateFpgaValueSetter(24);
-            _valueGetter = CreateFpgaValueGetter(24);
-            _addressSetter = CreateFpgaValueSetter(25);
-            _modeSetter = CreateFpgaValueSetter(26);
-            _stateGetter = CreateFpgaValueGetter(26);
+            _storageSetter = CreateFpgaValueSetter(24);
+            _storageGetter = CreateFpgaValueGetter(24);
         }
 
         /// <summary>
@@ -115,7 +103,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         /// <param name="address">The address to start writing to.</param>
         /// <param name="value">The values to write to the storage.</param>
-        public void Write(int startAddress, IEnumerable<int> values)
+        public void Write(uint startAddress, IEnumerable<uint> values)
         {
             foreach (var value in values)
             {
@@ -129,7 +117,7 @@ namespace CtLab.FpgaScope.Standard
         /// <param name="address">The address to start reading from.</param>
         /// <param name="numberOfValues">The number of values to read.</param>
         /// <returns>The values read.</returns>
-        public IEnumerable<int> Read(int startAddress, int numberOfValues)
+        public IEnumerable<uint> Read(uint startAddress, int numberOfValues)
         {
             while (numberOfValues-- > 0)
             {
@@ -140,9 +128,9 @@ namespace CtLab.FpgaScope.Standard
         /// <summary>
         /// Gets the value read from the storage.
         /// </summary>
-        private int Value
+        private uint Value
         {
-            get { return _valueGetter.ValueAsInt32; }
+            get { return (_storageGetter.ValueAsUInt32 & _dataMask) >> _dataLsb; }
         }
 
         /// <summary>
@@ -150,13 +138,13 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private StorageState State
         {
-            get { return (StorageState)_stateGetter.ValueAsInt32; }
+            get { return (StorageState) ((_storageGetter.ValueAsUInt32 & _modeAndStateMask) >> _modeAndStateLsb); }
         }
 
         /// <summary>
         /// Writes to the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private void Write(int address, int value)
+        private void Write(uint address, uint value)
         {
             Debug.WriteLine ("** Writing {0}={1} **", address, value);
 
@@ -183,7 +171,7 @@ namespace CtLab.FpgaScope.Standard
         /// <summary>
         /// Reads from the storage using the low-level SRAM controller protocol.
         /// </summary>
-        private int Read(int address)
+        private uint Read(uint address)
         {
             Debug.WriteLine ("------------------------------");
 
@@ -216,21 +204,24 @@ namespace CtLab.FpgaScope.Standard
         /// <summary>
         /// Prepares read access.
         /// </summary>
-        private void PrepareReadAccess(int address)
+        private void PrepareReadAccess(uint address)
         {
             Debug.WriteLine("=> Prepare read access...");
-            _addressSetter.SetValue (address);
+            var preservedBits = _storageWriteData & ~_addressMask;
+            _storageWriteData = preservedBits | address << _addressLsb;
+            _storageSetter.SetValue (_storageWriteData);
             _fpgaValuesAccessor.FlushSetters();
         }
 
         /// <summary>
         /// Prepares write access.
         /// </summary>
-        private void PrepareWriteAccess(int address, int value)
+        private void PrepareWriteAccess(uint address, uint value)
         {
             Debug.WriteLine("=> Prepare write access...");
-            _addressSetter.SetValue (address);
-            _valueSetter.SetValue (value);
+            var preservedBits = _storageWriteData & ~(_addressMask | _dataMask);
+            _storageWriteData = preservedBits | address << _addressLsb | value << _dataLsb;
+            _storageSetter.SetValue (_storageWriteData);
             _fpgaValuesAccessor.FlushSetters();
         }
 
@@ -240,7 +231,9 @@ namespace CtLab.FpgaScope.Standard
         private void SetMode(StorageMode mode)
         {
             Debug.WriteLine("=> Set mode to {0}...", mode);
-            _modeSetter.SetValue ((ushort)mode);
+            var preservedBits = _storageWriteData & ~_modeAndStateMask;
+            _storageWriteData = preservedBits | ((uint)(byte)mode) << _modeAndStateLsb;
+            _storageSetter.SetValue (_storageWriteData);
             _fpgaValuesAccessor.FlushSetters();
         }
 
@@ -259,7 +252,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private void AwaitStateAndValue(Predicate<StorageState> statePredicate, string statePredicateCaption)
         {
-            Debug.WriteLine("=> Waiting for {0}...", statePredicateCaption);
+            Debug.WriteLine("=> Waiting for {0}...", new []{statePredicateCaption}); // enforce the correct overload
             int i = 0;
             while (!statePredicate(State))
             {

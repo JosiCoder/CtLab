@@ -79,14 +79,7 @@ architecture stdarch of Main is
     -- SPI sub-address constants
     -----------------------------------------------------------------------------
 
-    -- Receiver.
-    constant sram_data_write_subaddr: integer := 24;
-    constant sram_address_subaddr: integer := 25;
-    constant sram_mode_subaddr: integer := 26;
-    -- Transmitter.
-    constant sram_data_read_subaddr: integer := 24;
-    constant sram_address_loopback_subaddr: integer := 25;
-    constant sram_state_subaddr: integer := 26;
+    constant sram_subaddr: integer := 24;
 
     -- Signals
     -----------------------------------------------------------------------------
@@ -156,21 +149,26 @@ begin
     -- SPI receiver data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
 
-    -- SRAM controller, data, address and mode ((0: off, 1: read, 2: write) + (0: single address mode, 4: address auto-increment)).
-    memory_address <= unsigned(received_data_x(sram_address_subaddr)(ram_address_width-1 downto 0));
-    memory_data_in <= received_data_x(sram_data_write_subaddr)(ram_data_width-1 downto 0);
-    memory_read <= received_data_x(sram_mode_subaddr)(0);
-    memory_write <= received_data_x(sram_mode_subaddr)(1);
-    memory_auto_increment_address <= received_data_x(sram_mode_subaddr)(2);
+    -- Combination of mode (3 bits; (MSB unused) + (0=off, 1=read, 2=write)), address and write data.
+    memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1); -- bit to the right of MSB
+    memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2); -- bit to the right of memory_write
+    memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
+    memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
 
 
     -- SPI transmitter data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
 
-    -- SRAM controller data, address and state ((0: off, 1: read, 2: write) + (MSB=0: working, MSB=1: ready))
-    transmit_data_x(sram_address_loopback_subaddr) <= received_data_x(sram_address_subaddr);
-    transmit_data_x(sram_data_read_subaddr) <= x"000000" & memory_data_out;
-    transmit_data_x(sram_state_subaddr) <= memory_ready & received_data_x(sram_mode_subaddr)(data_buffer'high-1 downto 0);
+    -- Combination of state (3 bits; (0=working, 4=ready) + (0=off, 1=reading, 2=writing)), address and read data.
+    transmit_data_x(sram_subaddr) <= memory_ready
+                                   & received_data_x(sram_subaddr)(data_buffer'high-1 downto ram_data_width)
+                                   & memory_data_out;
+
+
+    -- Miscellaneous.
+    -----------------------------------------------------------------------------
+
+    memory_auto_increment_address <= '0';
 
 
     --------------------------------------------------------------------------------

@@ -60,9 +60,9 @@ namespace CtLab.TestConsole
                 var scope = appliance.Scope;
                 scope.Reset();
 
-                var startAddress = 3;
+                var startAddress = 3u;
                 var random = new Random ();
-                var values = Enumerable.Range(0, 3).Select(item => random.Next (255)).ToArray();
+                var values = Enumerable.Range(0, 3).Select(item => (uint)random.Next (255)).ToArray();
 
                 scope.Write(startAddress, values);
 
