@@ -119,6 +119,7 @@ namespace CtLab.EnvironmentIntegration
             {
                 WriteWithHandshake = false,                   // usually not needed at all
                 ReadWithHandshake = true,                     // needed for c't Lab protocol
+                OptimizeSpiReading = false,                   // only for SPI, considered only when ReadWithHandshake=false
                 MillisecondsToWaitForAsynchronousReads = 100  // 10 or more needed for c't Lab protocol
             };
             return CreateScope(hardwareSettings, GetConnection(mainchannel), applianceConnection);
@@ -134,6 +135,7 @@ namespace CtLab.EnvironmentIntegration
             {
                 WriteWithHandshake = false,                   // usually not needed at all
                 ReadWithHandshake = false,                    // not needed as SPI is much faster than the client code
+                OptimizeSpiReading = true,                    // optional for SPI, considered only when ReadWithHandshake=false
                 MillisecondsToWaitForAsynchronousReads = 0    // not needed for SPI as it's synchronous
             };
             return CreateScope(hardwareSettings, GetConnection(_spiConnectionKey), applianceConnection);

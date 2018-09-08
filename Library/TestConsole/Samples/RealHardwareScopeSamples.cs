@@ -60,20 +60,37 @@ namespace CtLab.TestConsole
                 var scope = appliance.Scope;
                 scope.Reset();
 
-                var startAddress = 3u;
+                var separatorStartAddress = 999u;
+                var separatorValues = new []{99u};
+
+                var startAddress = 10u;
                 var random = new Random ();
-                var values = Enumerable.Range(0, 3).Select(item => (uint)random.Next (255)).ToArray();
+                var values = Enumerable.Range(0, 5).Select(item => (uint)random.Next (255)).ToArray();
+
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Writing values");
+                Console.WriteLine ("=====================================================");
 
                 scope.Write(startAddress, values);
 
-                Console.WriteLine ("========================================");
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Writing separator values (to overwrite SPI registers)");
+                Console.WriteLine ("=====================================================");
+
+                scope.Write(separatorStartAddress, separatorValues);
+
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Reading values");
+                Console.WriteLine ("=====================================================");
 
                 // Read all values eagerly, then await any async 'String received' comments.
                 // This is just for more beautiful output.
                 var readValues = scope.Read(startAddress, values.Length).ToList();
                 Thread.Sleep (100);
 
-                Console.WriteLine ("========================================");
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Summary");
+                Console.WriteLine ("=====================================================");
 
                 Console.Write ("Written:");
                 foreach (var value in values)

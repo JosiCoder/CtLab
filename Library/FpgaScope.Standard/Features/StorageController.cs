@@ -34,6 +34,7 @@ namespace CtLab.FpgaScope.Standard
     {
         public bool WriteWithHandshake; // usually not needed
         public bool ReadWithHandshake; // needed for c't Lab protocol, not needed for SPI
+        public bool OptimizeSpiReading; // optional for SPI, considered only when ReadWithHandshake=false
         public int MillisecondsToWaitForAsynchronousReads; // 10 or more needed for c't Lab protocol, not needed for SPI
     }
 
@@ -129,17 +130,38 @@ namespace CtLab.FpgaScope.Standard
         public IEnumerable<uint> Read(uint startAddress, int numberOfValues)
         {
             var withHandshake = _hardwareSettings.ReadWithHandshake;
+            var optimizeSpiReading = !withHandshake && _hardwareSettings.OptimizeSpiReading;
 
             // Finish any pending write access.
             if (GetLastMode() == StorageMode.Write)
             {
-                SetMode(StorageMode.Read); // We use Read here (instead of Idle) as we are going to use Read all the time.
+                // We use Read here already (instead of Idle) as we are going use Read afterwards.
+                SetMode(StorageMode.Read);
             }
             if (withHandshake) AwaitStateAndValue(state => state != StorageState.Writing, "any non-'writing' state");
 
+            // Return all values in a well-defined order. For optimized SPI reading, skip the value that
+            // we have got for the first read.
+            var itemSkipped = false;
+            var address = startAddress;
             while (numberOfValues-- > 0)
             {
-                yield return Read(startAddress++, withHandshake);
+                var readValue = Read(address++, withHandshake, optimizeSpiReading);
+                if (optimizeSpiReading & !itemSkipped)
+                {
+                    itemSkipped = true;
+                }
+                else
+                {
+                    yield return readValue;
+                }
+            }
+
+            // If the value of the first read has been skipped, get the value for the last read by
+            // doing an additional read (to any arbitrary address, the start address in this case).
+            if (itemSkipped)
+            {
+                yield return Read(startAddress, withHandshake, optimizeSpiReading);
             }
         }
 
@@ -169,15 +191,17 @@ namespace CtLab.FpgaScope.Standard
         /// Reads from the storage using the low-level SRAM controller protocol. Before calling this method,
         /// the storage state must be non-writing.
         /// </summary>
-        private uint Read(uint address, bool withHandshake)
+        private uint Read(uint address, bool withHandshake, bool returnPreviousStateAndValue)
         {
             Debug.WriteLine ("------------------------------");
 
             // Prepare read access.
+            // For direct SPI access, as a side effect, this also reads the current state and value from
+            // the SPI slave. This can be used for optimization (see returnPreviousStateAndValue).
             SetAddress(address);
 
             // Start reading.
-            SetMode(StorageMode.Read);
+            SetMode(StorageMode.Read); // Without handshaking, this is actually a no-op.
             if (withHandshake) AwaitStateAndValue(StorageState.Reading);
 
             // Finish access.
@@ -186,7 +210,7 @@ namespace CtLab.FpgaScope.Standard
                 SetMode(StorageMode.Idle);
                 AwaitStateAndValue(StorageState.Ready);
             }
-            else
+            else if (! returnPreviousStateAndValue)
             {
                 GetStateAndValue();
             }
@@ -214,7 +238,8 @@ namespace CtLab.FpgaScope.Standard
         }
 
         /// <summary>
-        /// Sets the address for reading from the SRAM.
+        /// Sets the address for reading from the SRAM. For direct SPI access, as a side effect,
+        /// this also reads the current state and value from the SPI slave.
         /// </summary>
         private void SetAddress(uint address)
         {
@@ -227,7 +252,8 @@ namespace CtLab.FpgaScope.Standard
         }
 
         /// <summary>
-        /// Sets the address and data for writing to the SRAM.
+        /// Sets the address and data for writing to the SRAM. For direct SPI access, as a side effect,
+        /// this also reads the current state and value from the SPI slave.
         /// </summary>
         private void SetAddressAndValue(uint address, uint value)
         {
