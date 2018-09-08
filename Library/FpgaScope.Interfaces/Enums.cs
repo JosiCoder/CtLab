@@ -22,7 +22,6 @@ namespace CtLab.FpgaScope.Interfaces
     /// <summary>
     /// Specifies the access mode of the storage.
     /// </summary>
-    [Flags]
     public enum StorageMode : byte
     {
         // These values must correspond to the FPGA implementation.
@@ -34,7 +33,6 @@ namespace CtLab.FpgaScope.Interfaces
     /// <summary>
     /// Specifies the state of the storage.
     /// </summary>
-    [Flags]
     public enum StorageState : byte
     {
         // These values must correspond to the FPGA implementation.

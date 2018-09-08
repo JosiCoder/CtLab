@@ -58,7 +58,7 @@ namespace CtLab.FpgaScope.Standard
 
         private readonly CommandClassGroup _queryCommandClassGroup = new CommandClassGroup();
 
-        private uint _storageWriteData = 0;
+        private uint _storageSetterData = 0;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -105,9 +105,18 @@ namespace CtLab.FpgaScope.Standard
         /// <param name="value">The values to write to the storage.</param>
         public void Write(uint startAddress, IEnumerable<uint> values)
         {
+            var withHandshake = _hardwareSettings.WriteWithHandshake;
+
+            // Finish any pending write access.
+            if (GetLastMode() == StorageMode.Write)
+            {
+                SetMode(StorageMode.Idle);
+            }
+            if (withHandshake) AwaitStateAndValue(state => state != StorageState.Writing, "any non-'writing' state");
+
             foreach (var value in values)
             {
-                Write(startAddress++, value);
+                Write(startAddress++, value, withHandshake);
             }
         }
 
@@ -119,43 +128,31 @@ namespace CtLab.FpgaScope.Standard
         /// <returns>The values read.</returns>
         public IEnumerable<uint> Read(uint startAddress, int numberOfValues)
         {
+            var withHandshake = _hardwareSettings.ReadWithHandshake;
+
+            // Finish any pending write access.
+            if (GetLastMode() == StorageMode.Write)
+            {
+                SetMode(StorageMode.Read); // We use Read here (instead of Idle) as we are going to use Read all the time.
+            }
+            if (withHandshake) AwaitStateAndValue(state => state != StorageState.Writing, "any non-'writing' state");
+
             while (numberOfValues-- > 0)
             {
-                yield return Read(startAddress++);
+                yield return Read(startAddress++, withHandshake);
             }
         }
 
         /// <summary>
-        /// Gets the value read from the storage.
+        /// Writes to the storage using the low-level SRAM controller protocol. Before calling this method,
+        /// the storage state must be non-writing.
         /// </summary>
-        private uint Value
-        {
-            get { return (_storageGetter.ValueAsUInt32 & _dataMask) >> _dataLsb; }
-        }
-
-        /// <summary>
-        /// Gets the current storage state.
-        /// </summary>
-        private StorageState State
-        {
-            get { return (StorageState) ((_storageGetter.ValueAsUInt32 & _modeAndStateMask) >> _modeAndStateLsb); }
-        }
-
-        /// <summary>
-        /// Writes to the storage using the low-level SRAM controller protocol.
-        /// </summary>
-        private void Write(uint address, uint value)
+        private void Write(uint address, uint value, bool withHandshake)
         {
             Debug.WriteLine ("** Writing {0}={1} **", address, value);
 
-            var withHandshake = _hardwareSettings.WriteWithHandshake;
-
-            // Finish any pending access.
-            SetMode(StorageMode.Idle);
-            if (withHandshake) AwaitStateAndValue(state => state != StorageState.Writing, "any non-'writing' state");
-
-            // Set address and value.
-            PrepareWriteAccess(address, value);
+            // Prepare write access.
+            SetAddressAndValue(address, value);
 
             // Start writing.
             SetMode(StorageMode.Write);
@@ -169,16 +166,15 @@ namespace CtLab.FpgaScope.Standard
         }
 
         /// <summary>
-        /// Reads from the storage using the low-level SRAM controller protocol.
+        /// Reads from the storage using the low-level SRAM controller protocol. Before calling this method,
+        /// the storage state must be non-writing.
         /// </summary>
-        private uint Read(uint address)
+        private uint Read(uint address, bool withHandshake)
         {
             Debug.WriteLine ("------------------------------");
 
-            var withHandshake = _hardwareSettings.ReadWithHandshake;
-
-            // Set address.
-            PrepareReadAccess(address);
+            // Prepare read access.
+            SetAddress(address);
 
             // Start reading.
             SetMode(StorageMode.Read);
@@ -202,26 +198,44 @@ namespace CtLab.FpgaScope.Standard
         }
 
         /// <summary>
-        /// Prepares read access.
+        /// Gets the value read from the storage.
         /// </summary>
-        private void PrepareReadAccess(uint address)
+        private uint Value
         {
-            Debug.WriteLine("=> Prepare read access...");
-            var preservedBits = _storageWriteData & ~_addressMask;
-            _storageWriteData = preservedBits | address << _addressLsb;
-            _storageSetter.SetValue (_storageWriteData);
+            get { return (_storageGetter.ValueAsUInt32 & _dataMask) >> _dataLsb; }
+        }
+
+        /// <summary>
+        /// Gets the current storage state.
+        /// </summary>
+        private StorageState State
+        {
+            get { return (StorageState) ((_storageGetter.ValueAsUInt32 & _modeAndStateMask) >> _modeAndStateLsb); }
+        }
+
+        /// <summary>
+        /// Sets the address for reading from the SRAM.
+        /// </summary>
+        private void SetAddress(uint address)
+        {
+            Debug.WriteLine("=> Set address...");
+            // Replace the old address with the new one.
+            var preservedBits = _storageSetterData & ~_addressMask;
+            _storageSetterData = preservedBits | address << _addressLsb;
+            _storageSetter.SetValue (_storageSetterData);
             _fpgaValuesAccessor.FlushSetters();
         }
 
         /// <summary>
-        /// Prepares write access.
+        /// Sets the address and data for writing to the SRAM.
         /// </summary>
-        private void PrepareWriteAccess(uint address, uint value)
+        private void SetAddressAndValue(uint address, uint value)
         {
-            Debug.WriteLine("=> Prepare write access...");
-            var preservedBits = _storageWriteData & ~(_addressMask | _dataMask);
-            _storageWriteData = preservedBits | address << _addressLsb | value << _dataLsb;
-            _storageSetter.SetValue (_storageWriteData);
+            Debug.WriteLine("=> Set address and data...");
+            // Replace the old address and data with the new ones.
+            var preservedBits = _storageSetterData & ~(_addressMask | _dataMask);
+            _storageSetterData = preservedBits | address << _addressLsb | value << _dataLsb;
+            _storageSetter.SetValue (_storageSetterData);
             _fpgaValuesAccessor.FlushSetters();
         }
 
@@ -231,10 +245,19 @@ namespace CtLab.FpgaScope.Standard
         private void SetMode(StorageMode mode)
         {
             Debug.WriteLine("=> Set mode to {0}...", mode);
-            var preservedBits = _storageWriteData & ~_modeAndStateMask;
-            _storageWriteData = preservedBits | ((uint)(byte)mode) << _modeAndStateLsb;
-            _storageSetter.SetValue (_storageWriteData);
+            // Replace the old mode with the new one.
+            var preservedBits = _storageSetterData & ~_modeAndStateMask;
+            _storageSetterData = preservedBits | ((uint)(byte)mode) << _modeAndStateLsb;
+            _storageSetter.SetValue (_storageSetterData);
             _fpgaValuesAccessor.FlushSetters();
+        }
+
+        /// <summary>
+        /// Returns the storage mode used most recently.
+        /// </summary>
+        private StorageMode GetLastMode()
+        {
+            return (StorageMode)(byte)((_storageSetterData & _modeAndStateMask) >> _modeAndStateLsb);
         }
 
         /// <summary>
