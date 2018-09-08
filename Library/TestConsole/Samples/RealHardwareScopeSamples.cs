@@ -71,7 +71,11 @@ namespace CtLab.TestConsole
                 Console.WriteLine ("Writing values");
                 Console.WriteLine ("=====================================================");
 
+                var start = DateTime.Now;
+
                 scope.Write(startAddress, values);
+
+                Console.WriteLine ("Duration: {0}", DateTime.Now-start);
 
                 Console.WriteLine ("=====================================================");
                 Console.WriteLine ("Writing separator values (to overwrite SPI registers)");
@@ -83,10 +87,14 @@ namespace CtLab.TestConsole
                 Console.WriteLine ("Reading values");
                 Console.WriteLine ("=====================================================");
 
+                start = DateTime.Now;
+
                 // Read all values eagerly, then await any async 'String received' comments.
                 // This is just for more beautiful output.
                 var readValues = scope.Read(startAddress, values.Length).ToList();
                 Thread.Sleep (100);
+
+                Console.WriteLine ("Duration: {0}", DateTime.Now-start);
 
                 Console.WriteLine ("=====================================================");
                 Console.WriteLine ("Summary");
