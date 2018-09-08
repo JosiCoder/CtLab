@@ -171,6 +171,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private void Write(uint address, uint value, bool withHandshake)
         {
+            Debug.WriteLine ("------------------------------");
             Debug.WriteLine ("** Writing {0}={1} **", address, value);
 
             // Prepare write access.
@@ -217,7 +218,10 @@ namespace CtLab.FpgaScope.Standard
 
             // Get value.
             var value = Value;
+
             Debug.WriteLine ("** Read {0}={1} **", address, value);
+            Debug.WriteLine ("------------------------------");
+
             return value;
         }
 
