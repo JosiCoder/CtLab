@@ -179,6 +179,10 @@
     <file xil_pn:name="../Source/Constraints.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation"/>
     </file>
+    <file xil_pn:name="../../SRAM_Controller/Source/SRAM_Controller.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="Implementation"/>
+      <library xil_pn:name="SRAM_Controller"/>
+    </file>
   </files>
 
   <properties>
@@ -193,7 +197,7 @@
     <property xil_pn:name="PROP_DesignName" xil_pn:value="FPGA SigGen"/>
     <property xil_pn:name="Package" xil_pn:value="tq144"/>
     <property xil_pn:name="Preferred Language" xil_pn:value="VHDL"/>
-    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="Architecture|PhaseGenerator_Tester|stdarch"/>
+    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="Architecture|DACController_Tester|stdarch"/>
     <property xil_pn:name="Simulator" xil_pn:value="ISim (VHDL/Verilog)"/>
     <property xil_pn:name="Speed Grade" xil_pn:value="-4"/>
     <property xil_pn:name="Synthesis Tool" xil_pn:value="XST (VHDL/Verilog)"/>
@@ -208,6 +212,7 @@
   <libraries>
     <library xil_pn:name="Common"/>
     <library xil_pn:name="SPI_Interface"/>
+    <library xil_pn:name="SRAM_Controller"/>
   </libraries>
 
   <partitions>

@@ -22,6 +22,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 library SPI_Interface;
+library SRAM_Controller;
 use SPI_Interface.globals.all;
 use work.FunctionGenerator_Declarations.all;
 use work.ModulatedGenerator_Declarations.all;
@@ -67,7 +68,7 @@ entity Main is
         ram_we_n: out std_logic;
         ram_oe_n: out std_logic;
         -- The shared output for SRAM address and DAC data.
-        ram_addr_dac_data: out std_logic_vector(ram_addr_dac_data_width-1 downto 0);
+        ram_addr_dac_data: out unsigned(ram_addr_dac_data_width-1 downto 0);
         ram_data: inout std_logic_vector(ram_data_width-1 downto 0);
         -- The DAC control signals.
         dac_clk: out std_logic;
@@ -93,6 +94,10 @@ architecture stdarch of Main is
     constant dds_generator_level_width: natural := modulated_generator_level_width;
     constant dds_generator_sample_width: natural := dac_data_width;
     constant dac_source_selector_width: natural := 4;
+    -- SRAM controller.
+    constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
+    constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
+    constant num_of_wait_states_before_write_after_read: natural := 4; -- 40ns @ 100MHz (min 30ns)
 
     -- SPI sub-address constants
     -----------------------------------------------------------------------------
@@ -108,6 +113,8 @@ architecture stdarch of Main is
     -- Transmitter.
     constant universal_counter_state_subaddr: integer := 2;
     constant universal_counter_value_subaddr: integer := 3;
+    -- Bidirectional.
+    constant sram_subaddr: integer := 24;
 
     -- Signals
     -----------------------------------------------------------------------------
@@ -164,8 +171,17 @@ architecture stdarch of Main is
     signal dac_value: unsigned(dac_data_width-1 downto 0);
     signal dac_data: std_logic_vector(dac_data_width-1 downto 0);
     
-    -- SRAM
-    signal ram_address: unsigned(ram_address_width-1 downto 0);
+    -- Memory controller
+    signal memory_read: std_logic;
+    signal memory_write: std_logic;
+    signal memory_ready: std_logic;
+    signal memory_auto_increment_address: std_logic;
+    signal memory_address: unsigned(ram_address_width-1 downto 0);
+    signal memory_data_in: std_logic_vector(ram_data_width-1 downto 0);
+    signal memory_data_out: std_logic_vector(ram_data_width-1 downto 0);
+    signal internal_ram_we_n: std_logic;
+    signal internal_ram_oe_n: std_logic;
+    signal internal_ram_address: unsigned(ram_address_width-1 downto 0);
 
     -- Peripheral (I/O) configuration
     signal peripheral_config_raw: data_buffer;
@@ -243,6 +259,13 @@ begin
     peripheral_configuration.dac_channel_sources(0) <= unsigned(peripheral_config_raw(dac_source_selector_width-1 downto 0));
     peripheral_configuration.dac_channel_sources(1) <= unsigned(peripheral_config_raw(2*dac_source_selector_width-1 downto dac_source_selector_width));
 
+    -- Memory controller
+    -- Combination of mode (3 bits; (MSB unused) + (0=off, 1=read, 2=write)), address and write data.
+    memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1); -- bit to the right of MSB
+    memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2); -- bit to the right of memory_write
+    memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
+    memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
+
     -- Panel parameters (example only).
 --    dac_channel_1_value <= signed(received_data_x(1)(dac_data_width-1 downto 0));
 
@@ -253,6 +276,12 @@ begin
     -- Universal counter.
     transmit_data_x(universal_counter_state_subaddr) <= std_logic_vector(universal_counter_state);
     transmit_data_x(universal_counter_value_subaddr) <= std_logic_vector(universal_counter_value);
+
+    -- Memory controller
+    -- Combination of state (3 bits; (0=working, 4=ready) + (0=off, 1=reading, 2=writing)), address and read data.
+    transmit_data_x(sram_subaddr) <= memory_ready
+                                   & received_data_x(sram_subaddr)(data_buffer'high-1 downto ram_data_width)
+                                   & memory_data_out;
 
     -- Panel values.
     transmit_data_x(0) <= X"DEADBEEF";
@@ -278,6 +307,9 @@ begin
     invert_dac_value: for i in dac_data'range generate
         dac_data(i) <= not dac_value(i);
     end generate;
+
+    -- Deactivate the memory controller's automatic address increment.
+    memory_auto_increment_address <= '0';
 
 
     --------------------------------------------------------------------------------
@@ -422,6 +454,33 @@ begin
     );
 
 
+    -- The SRAM controller.
+    sram: entity SRAM_Controller.SRAM_Controller
+    generic map
+    (
+        num_of_total_wait_states => num_of_total_wait_states,
+        num_of_write_pulse_wait_states => num_of_write_pulse_wait_states,
+        num_of_wait_states_before_write_after_read => num_of_wait_states_before_write_after_read,
+        data_width => ram_data_width,
+        address_width => ram_address_width
+    )
+    port map
+    (
+        clk => clk_100mhz,
+        read => memory_read,
+        write => memory_write,
+        ready => memory_ready,
+        auto_increment_address => memory_auto_increment_address,
+        address => memory_address,
+        data_in => memory_data_in,
+        data_out => memory_data_out,
+        ram_we_n => internal_ram_we_n,
+        ram_oe_n => internal_ram_oe_n,
+        ram_address => internal_ram_address,
+        ram_data => ram_data
+    );
+
+
     --------------------------------------------------------------------------------
     -- Internal configuration logic.
     --------------------------------------------------------------------------------
@@ -482,34 +541,35 @@ begin
     ext_miso <= miso when ext_ds = '0' else 'Z';
     test_led <= received_data_x(0)(0); -- LED is active low
 
-    -- SRAM address or DAC data.
+    -- SRAM address or DAC data (share the same pins and thus can only be used
+    -- alternatively).
     -----------------------------------------------------------------------------
     
     -- Apply SRAM address.
     ----------------------
     
-    -- ram_addr_dac_data <= ram_address;
-    -- dac_clk <= '1';
-    -- dac_channel_select <= '1';
-    -- dac_write_n <= '1';
-    -- ram_we_n <= ??; -- TODO: internal_ram_we_n
-    -- ram_oe_n <= ??; -- TODO: internal_ram_oe_n
+    ram_addr_dac_data <= internal_ram_address;
+    dac_clk <= '1';
+    dac_channel_select <= '1';
+    dac_write_n <= '1';
+    ram_we_n <= internal_ram_we_n;
+    ram_oe_n <= internal_ram_oe_n;
 
     -- Apply DAC data.
     ------------------
     
-    -- Apply data in reverse bit order, padded on the left.
-    generate_dac_data: for i in 0 to dac_data_width-1 generate
-        ram_addr_dac_data(i) <= dac_data(dac_data_width-1-i);
-    end generate;
-    ram_addr_dac_data(ram_addr_dac_data_width-1 downto dac_data_width) <= (others => '0');
-    
-    -- Apply control signals for single or dual DAC. For the single DAC U2, we use
-    -- dac_channel_select as the clock. Thus, U2 always uses the value of channel 0.
-    dac_clk <= dac_channel_select_int; -- (single DAC U2 only)
-    dac_channel_select <= dac_channel_select_int; -- (dual DAC U5 only)
-    dac_write_n <= not dac_write_int; -- (dual DAC U5 only)
-    ram_we_n <= '1';
-    ram_oe_n <= '1';
+--    -- Apply data in reverse bit order, padded on the left.
+--    generate_dac_data: for i in 0 to dac_data_width-1 generate
+--        ram_addr_dac_data(i) <= dac_data(dac_data_width-1-i);
+--    end generate;
+--    ram_addr_dac_data(ram_addr_dac_data_width-1 downto dac_data_width) <= (others => '0');
+--    
+--    -- Apply control signals for single or dual DAC. For the single DAC U2, we use
+--    -- dac_channel_select as the clock. Thus, U2 always uses the value of channel 0.
+--    dac_clk <= dac_channel_select_int; -- (single DAC U2 only)
+--    dac_channel_select <= dac_channel_select_int; -- (dual DAC U5 only)
+--    dac_write_n <= not dac_write_int; -- (dual DAC U5 only)
+--    ram_we_n <= '1';
+--    ram_oe_n <= '1';
 
 end architecture;
