@@ -81,6 +81,8 @@ namespace CtLab.FpgaScope.Standard
 
             _storageSetter = CreateFpgaValueSetter(24);
             _storageGetter = CreateFpgaValueGetter(24);
+
+            SetMode (StorageMode.Released);
         }
 
         /// <summary>

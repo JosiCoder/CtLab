@@ -83,7 +83,7 @@ namespace CtLab.Frontend
             var container = CreateContainer<SpiConnectionRegistry, SpiDirectRegistry>();
             var appliance = container.GetInstance<Appliance>();
 
-            appliance.InitializeSpiDirect(true, false);
+            appliance.InitializeSpiDirect(true, true);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
@@ -105,7 +105,7 @@ namespace CtLab.Frontend
 
             ((SerialConnection)appliance.ApplianceConnection.Connection).Open(portName);
 
-            appliance.InitializeCtLabProtocol(channel, true, false);
+            appliance.InitializeCtLabProtocol(channel, true, true);
             ApplyInitialApplianceSettings(appliance);
             return appliance;
         }
