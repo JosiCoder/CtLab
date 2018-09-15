@@ -53,8 +53,7 @@ namespace CtLab.TestConsole
 
             RunRealHardwareSignalGeneratorSamples(spiDirect);
 
-            //TODO: activate after VHDL scope integration
-//            RunRealHardwareScopeSamples(spiDirect);
+            RunRealHardwareScopeSamples(spiDirect);
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
