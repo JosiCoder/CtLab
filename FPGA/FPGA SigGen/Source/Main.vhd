@@ -94,6 +94,8 @@ architecture stdarch of Main is
     constant dds_generator_level_width: natural := modulated_generator_level_width;
     constant dds_generator_sample_width: natural := dac_data_width;
     constant dac_source_selector_width: natural := 4;
+    -- DAC output.
+    constant dac_deactivated_pattern : std_logic_vector (2*dac_source_selector_width-1 downto 0) := (others => '1');
     -- SRAM controller.
     constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
     constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
@@ -179,9 +181,26 @@ architecture stdarch of Main is
     signal memory_address: unsigned(ram_address_width-1 downto 0);
     signal memory_data_in: std_logic_vector(ram_data_width-1 downto 0);
     signal memory_data_out: std_logic_vector(ram_data_width-1 downto 0);
-    signal internal_ram_we_n: std_logic;
-    signal internal_ram_oe_n: std_logic;
-    signal internal_ram_address: unsigned(ram_address_width-1 downto 0);
+
+    -- SRAM/DAC shared lines
+    type sram_dac_lines_type is record
+        ram_addr_dac_data: unsigned(ram_address_width-1 downto 0);
+        dac_clk: std_logic;
+        dac_channel_select: std_logic;
+        dac_write_n: std_logic;
+        ram_we_n: std_logic;
+        ram_oe_n: std_logic;
+    end record;
+    signal selected_sram_dac_lines, sram_lines, dac_lines: sram_dac_lines_type :=
+    (
+        -- Initialize to proper idle values.
+        ram_addr_dac_data => (others => '0'),
+        dac_clk => '1',
+        dac_channel_select => '1',
+        dac_write_n => '1',
+        ram_we_n => '1',
+        ram_oe_n => '1'
+    );
 
     -- Peripheral (I/O) configuration
     signal peripheral_config_raw: data_buffer;
@@ -189,10 +208,12 @@ architecture stdarch of Main is
     type dac_channel_source_vector is array (natural range <>) of dac_channel_source;
     type peripheral_configuration_type is record
         dac_channel_sources: dac_channel_source_vector(0 to 1);
+        use_sram: std_logic;
     end record;
     signal peripheral_configuration: peripheral_configuration_type :=
     (
-        dac_channel_sources => (others => (others => '0'))
+        dac_channel_sources => (others => (others => '0')),
+        use_sram => '0'
     );
 
     -- Interconnection
@@ -258,6 +279,9 @@ begin
     peripheral_config_raw <= received_data_x(peripheral_configuration_subaddr);
     peripheral_configuration.dac_channel_sources(0) <= unsigned(peripheral_config_raw(dac_source_selector_width-1 downto 0));
     peripheral_configuration.dac_channel_sources(1) <= unsigned(peripheral_config_raw(2*dac_source_selector_width-1 downto dac_source_selector_width));
+    peripheral_configuration.use_sram <=
+        '1' when peripheral_config_raw(2*dac_source_selector_width-1 downto 0) = dac_deactivated_pattern else
+        '0';
 
     -- Memory controller
     -- Combination of mode (3 bits; (MSB unused) + (0=off, 1=read, 2=write)), address and write data.
@@ -346,6 +370,41 @@ begin
         external_spi_in when use_external_spi and
                              (external_spi_in.ss_address = '0' or external_spi_in.ss_data = '0') else
         inactive_spi_in;
+
+
+    --------------------------------------------------------------------------------
+    -- SRAM/DAC output selection logic (they share the same pins and thus can only
+    -- be used alternatively).
+    --------------------------------------------------------------------------------
+    
+    -- SRAM lines.
+    ----------------------
+    -- sram_lines.ram_addr_dac_data => Directly connected to SRAM_Controller
+    sram_lines.dac_clk <= '1';
+    sram_lines.dac_channel_select <= '1';
+    sram_lines.dac_write_n <= '1';
+    -- sram_lines.ram_we_n => Directly connected to SRAM_Controller
+    -- sram_lines.ram_oe_n => Directly connected to SRAM_Controller
+
+    -- DAC lines.
+    ----------------------
+    -- Apply data in reverse bit order, padded on the left.
+    generate_dac_data: for i in 0 to dac_data_width-1 generate
+        dac_lines.ram_addr_dac_data(i) <= dac_data(dac_data_width-1-i);
+    end generate;
+    dac_lines.ram_addr_dac_data(ram_addr_dac_data_width-1 downto dac_data_width) <= (others => '0');
+    -- Apply control signals for single or dual DAC. For the single DAC U2, we use
+    -- dac_channel_select as the clock. Thus, U2 always uses the value of channel 0.
+    dac_lines.dac_clk <= dac_channel_select_int; -- (single DAC U2 only)
+    dac_lines.dac_channel_select <= dac_channel_select_int; -- (dual DAC U5 only)
+    dac_lines.dac_write_n <= not dac_write_int; -- (dual DAC U5 only)
+    dac_lines.ram_we_n <= '1';
+    dac_lines.ram_oe_n <= '1';
+
+    -- Select the peripheral (SRAM or DAC) to use.
+    selected_sram_dac_lines <=
+        sram_lines when peripheral_configuration.use_sram = '1' else
+        dac_lines;
 
 
     --------------------------------------------------------------------------------
@@ -474,9 +533,9 @@ begin
         address => memory_address,
         data_in => memory_data_in,
         data_out => memory_data_out,
-        ram_we_n => internal_ram_we_n,
-        ram_oe_n => internal_ram_oe_n,
-        ram_address => internal_ram_address,
+        ram_we_n => sram_lines.ram_we_n,
+        ram_oe_n => sram_lines.ram_oe_n,
+        ram_address => sram_lines.ram_addr_dac_data,
         ram_data => ram_data
     );
 
@@ -541,35 +600,12 @@ begin
     ext_miso <= miso when ext_ds = '0' else 'Z';
     test_led <= received_data_x(0)(0); -- LED is active low
 
-    -- SRAM address or DAC data (share the same pins and thus can only be used
-    -- alternatively).
-    -----------------------------------------------------------------------------
-    
-    -- Apply SRAM address.
-    ----------------------
-    
-    ram_addr_dac_data <= internal_ram_address;
-    dac_clk <= '1';
-    dac_channel_select <= '1';
-    dac_write_n <= '1';
-    ram_we_n <= internal_ram_we_n;
-    ram_oe_n <= internal_ram_oe_n;
-
-    -- Apply DAC data.
-    ------------------
-    
---    -- Apply data in reverse bit order, padded on the left.
---    generate_dac_data: for i in 0 to dac_data_width-1 generate
---        ram_addr_dac_data(i) <= dac_data(dac_data_width-1-i);
---    end generate;
---    ram_addr_dac_data(ram_addr_dac_data_width-1 downto dac_data_width) <= (others => '0');
---    
---    -- Apply control signals for single or dual DAC. For the single DAC U2, we use
---    -- dac_channel_select as the clock. Thus, U2 always uses the value of channel 0.
---    dac_clk <= dac_channel_select_int; -- (single DAC U2 only)
---    dac_channel_select <= dac_channel_select_int; -- (dual DAC U5 only)
---    dac_write_n <= not dac_write_int; -- (dual DAC U5 only)
---    ram_we_n <= '1';
---    ram_oe_n <= '1';
+    -- SRAM address or DAC data.
+    ram_addr_dac_data <= selected_sram_dac_lines.ram_addr_dac_data;
+    dac_clk <= selected_sram_dac_lines.dac_clk;
+    dac_channel_select <= selected_sram_dac_lines.dac_channel_select;
+    dac_write_n <= selected_sram_dac_lines.dac_write_n;
+    ram_we_n <= selected_sram_dac_lines.ram_we_n;
+    ram_oe_n <= selected_sram_dac_lines.ram_oe_n;
 
 end architecture;
