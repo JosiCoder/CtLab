@@ -94,8 +94,6 @@ architecture stdarch of Main is
     constant dds_generator_level_width: natural := modulated_generator_level_width;
     constant dds_generator_sample_width: natural := dac_data_width;
     constant dac_source_selector_width: natural := 4;
-    -- DAC output.
-    constant dac_deactivated_pattern : std_logic_vector (2*dac_source_selector_width-1 downto 0) := (others => '1');
     -- SRAM controller.
     constant num_of_total_wait_states: natural := 9; -- 90ns @ 100MHz (min 70ns)
     constant num_of_write_pulse_wait_states: natural := 6; -- 60ns @ 100MHz (min 50ns)
@@ -174,6 +172,7 @@ architecture stdarch of Main is
     signal dac_data: std_logic_vector(dac_data_width-1 downto 0);
     
     -- Memory controller
+    signal memory_connect: std_logic;
     signal memory_read: std_logic;
     signal memory_write: std_logic;
     signal memory_ready: std_logic;
@@ -208,12 +207,10 @@ architecture stdarch of Main is
     type dac_channel_source_vector is array (natural range <>) of dac_channel_source;
     type peripheral_configuration_type is record
         dac_channel_sources: dac_channel_source_vector(0 to 1);
-        use_sram: std_logic;
     end record;
     signal peripheral_configuration: peripheral_configuration_type :=
     (
-        dac_channel_sources => (others => (others => '0')),
-        use_sram => '0'
+        dac_channel_sources => (others => (others => '0'))
     );
 
     -- Interconnection
@@ -279,14 +276,12 @@ begin
     peripheral_config_raw <= received_data_x(peripheral_configuration_subaddr);
     peripheral_configuration.dac_channel_sources(0) <= unsigned(peripheral_config_raw(dac_source_selector_width-1 downto 0));
     peripheral_configuration.dac_channel_sources(1) <= unsigned(peripheral_config_raw(2*dac_source_selector_width-1 downto dac_source_selector_width));
-    peripheral_configuration.use_sram <=
-        '1' when peripheral_config_raw(2*dac_source_selector_width-1 downto 0) = dac_deactivated_pattern else
-        '0';
 
     -- Memory controller
-    -- Combination of mode (3 bits; (MSB unused) + (0=off, 1=read, 2=write)), address and write data.
-    memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1); -- bit to the right of MSB
-    memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2); -- bit to the right of memory_write
+    -- Combination of mode (3 bits; (0=DAC, 4=SRAM) + (0=off, 1=read, 2=write)), address and write data.
+    memory_connect <= received_data_x(sram_subaddr)(data_buffer'high);
+    memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1);
+    memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2);
     memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
     memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
 
@@ -403,7 +398,7 @@ begin
 
     -- Select the peripheral (SRAM or DAC) to use.
     selected_sram_dac_lines <=
-        sram_lines when peripheral_configuration.use_sram = '1' else
+        sram_lines when memory_connect = '1' else
         dac_lines;
 
 

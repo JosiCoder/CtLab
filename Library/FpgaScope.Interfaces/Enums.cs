@@ -25,9 +25,10 @@ namespace CtLab.FpgaScope.Interfaces
     public enum StorageMode : byte
     {
         // These values must correspond to the FPGA implementation.
-        Idle = 0,
-        Read = 1,
-        Write = 2
+        Released = 0,
+        Idle = 0 + 4,
+        Read = 1 + 4,
+        Write = 2 + 4
     }
 
     /// <summary>

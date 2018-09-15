@@ -119,6 +119,8 @@ namespace CtLab.FpgaScope.Standard
             {
                 Write(startAddress++, value, withHandshake);
             }
+
+            SetMode (StorageMode.Released);
         }
 
         /// <summary>
@@ -163,6 +165,8 @@ namespace CtLab.FpgaScope.Standard
             {
                 yield return Read(startAddress, withHandshake, optimizeSpiReading);
             }
+
+            SetMode (StorageMode.Released);
         }
 
         /// <summary>
