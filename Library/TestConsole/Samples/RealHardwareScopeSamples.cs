@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using StructureMap;
 using CtLab.FpgaScope.Interfaces;
+using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Environment;
 
 namespace CtLab.TestConsole
@@ -56,6 +57,10 @@ namespace CtLab.TestConsole
 
             using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
+                // Setup some signals on the analog outputs so that we can see how accessing the
+                // storage briefly deactivates the analog outputs.
+                SetDemoSignals(appliance);
+
                 // Get the scope and reset the hardware to cancel settings from previous configurations.
                 var scope = appliance.Scope;
                 scope.Reset();
@@ -116,6 +121,32 @@ namespace CtLab.TestConsole
            }
 
             Utilities.WriteFooterAndWaitForKeyPress();
+        }
+
+        private void SetDemoSignals(Appliance appliance)
+        {
+            // Get the signal generator and reset the hardware to cancel settings from previous
+            // configurations.
+            var signalGenerator = appliance.SignalGenerator;
+            signalGenerator.Reset();
+
+            // Set the outputs to DDS channels 2 and 3.
+            signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator2;
+            signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator3;
+
+            // Configure DDS channel 2 (vertical deflection).
+            signalGenerator.DdsGenerators[2].Waveform = Waveform.Sine;
+            signalGenerator.DdsGenerators[2].Frequency = 1000;
+            signalGenerator.DdsGenerators[2].Amplitude = signalGenerator.DdsGenerators[2].MaximumAmplitude;
+
+            // Configure DDS channel 3 (horizontal deflection, synchronized by DDS channel 2).
+            signalGenerator.DdsGenerators[3].Waveform = Waveform.Sine;
+            signalGenerator.DdsGenerators[3].Frequency = 2000;
+            signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
+            signalGenerator.DdsGenerators[3].SynchronizationSource = ModulationAndSynchronizationSource.DdsGenerator2;
+
+            // Flush all modifications, i.e. send all set commands that have modified values.
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
         }
     }
 }
