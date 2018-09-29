@@ -46,12 +46,12 @@ namespace CtLab.TestConsole
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
-            RunDummyConnectionLowLevelSamples();
-            RunRealHardwareLowLevelSamples();
-
-            RunDummyConnectionSignalGeneratorSamples();
-
-            RunRealHardwareSignalGeneratorSamples(spiDirect);
+//            RunDummyConnectionLowLevelSamples();
+//            RunRealHardwareLowLevelSamples();
+//
+//            RunDummyConnectionSignalGeneratorSamples();
+//
+//            RunRealHardwareSignalGeneratorSamples(spiDirect);
 
             RunRealHardwareScopeSamples(spiDirect);
 

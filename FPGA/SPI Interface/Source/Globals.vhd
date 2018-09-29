@@ -24,10 +24,10 @@ use ieee.numeric_std.all;
  
 package Globals is
 
-    -- Constants
+    -- The width of the SPI data buffers.
     constant data_width: natural := 32;
 
-    -- Data types
+    -- The SPI data buffers.
     subtype data_buffer is std_logic_vector(data_width-1 downto 0);
     type data_buffer_vector is array (natural range <>) of data_buffer;
     
