@@ -25,7 +25,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.globals.all;
 
--- Note: It´s not possible to use generics for both the data width and the number
+-- Note: It's not possible to use generics for both the data width and the number
 -- of buffers to be generated. This would need a signal that is an array of
 -- unconstrained arrays which is not yet supported by VHDL. Thus, the data width
 -- is fixed (see Globals package).
