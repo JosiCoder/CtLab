@@ -149,9 +149,10 @@ begin
         write <= '0';
         auto_increment_address <= '0';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
-            address <= to_unsigned(adr, address_width);
             if (use_automatic_address_increment and adr /= start_address) then
                 auto_increment_address <= '1';
+            else
+                address <= to_unsigned(adr, address_width);
             end if;
             read <= '1';
             if (not burst_mode) then
@@ -172,10 +173,11 @@ begin
         read <= '0';
         auto_increment_address <= '0';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
-            address <= to_unsigned(adr, address_width);
             data_in <= std_logic_vector(to_unsigned(adr + address_to_data_offset, data_width));
             if (use_automatic_address_increment and adr /= start_address) then
                 auto_increment_address <= '1';
+            else
+                address <= to_unsigned(adr, address_width);
             end if;
             write <= '1';
             if (not burst_mode) then
