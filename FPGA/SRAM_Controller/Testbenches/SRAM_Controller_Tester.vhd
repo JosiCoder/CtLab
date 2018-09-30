@@ -48,7 +48,7 @@ architecture stdarch of SRAM_Controller_Tester is
     signal clk: std_logic := '0';
     signal read: std_logic;
     signal write: std_logic;
-    signal auto_increment_address: std_logic;
+    signal auto_increment_address: std_logic := '0';
     signal address: unsigned(address_width-1 downto 0);
     signal data_in: std_logic_vector(data_width-1 downto 0);
 
@@ -211,18 +211,20 @@ begin
 
     -- Verifies proper RAM signal generation and overall timing.
     must_create_correct_signals: process is
+            variable expected_address: unsigned(address_width-1 downto 0);
+            variable expected_data: unsigned(data_width-1 downto 0);
     begin
 
         -- Synchronize with the stimulus.
         wait until falling_edge(clk);
 
-        -- Verify that the SRAM is decativated completely at the beginning.
+        -- Verify that the SRAM is deactivated completely at the beginning.
         assert (ram_we_n = '1') report "SRAM WE signal is not initially inactive." severity error;
         assert (ram_oe_n = '1') report "SRAM OE signal is not initially inactive." severity error;
 
         -- For each read access to the SRAM.
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
-        
+
             -- Wait until the current read cycle starts.
             if read /= '1' then
                 wait until read = '1';
@@ -236,8 +238,10 @@ begin
                 wait until falling_edge(clk);
                 assert (ram_we_n = '1') report "SRAM WE signal is not inactive during a read cycle." severity error;
                 assert (ram_oe_n = '0') report "SRAM OE signal is not active during a read cycle." severity error;
-                assert (ram_address = to_unsigned(adr, address_width))
-                    report "SRAM address is wrong during a read cycle." severity error;
+                expected_address := to_unsigned(adr, address_width);
+                assert (ram_address = expected_address)
+                    report "SRAM address is wrong during a read cycle, expected " & integer'image(to_integer(expected_address)) & "."
+                    severity error;
                     
                 -- Verify that the ready signal is active exactly at the end of the read cycle and that the data
                 -- are available then.
@@ -252,14 +256,15 @@ begin
 
         end loop;
 
-        -- Verify that the SRAM is decativated completely after the read.
-        wait until falling_edge(read);
+        -- Verify that the SRAM is deactivated completely after the read.
         wait for clk_period;
         assert (ram_we_n = '1') report "SRAM WE signal is not inactive after the read." severity error;
         assert (ram_oe_n = '1') report "SRAM OE signal is not inactive after the read." severity error;
+        report "Read has finished" severity note;
 
-        -- For each write access to the SRAM.
-        for adr in start_address to start_address + num_of_test_cycles - 1 loop
+        -- For each write access to the SRAM except the first one.
+        -- The first cycle is skipped here because we have missed the according write signal edge.
+        for adr in start_address + 1 to start_address + num_of_test_cycles - 1 loop
         
             -- Wait until the current write cycle starts.
             if write /= '1' then
@@ -279,13 +284,16 @@ begin
                     assert (ram_we_n = '0') report "SRAM WE signal is not active while executing a write cycle." severity error;
                 end if;
                 assert (ram_oe_n = '1') report "SRAM OE signal is not inactive during a write cycle." severity error;
-                assert (ram_address = to_unsigned(adr, address_width))
-                    report "SRAM address is wrong during a write cycle." severity error;
-                assert (ram_data = std_logic_vector(to_unsigned(adr - data_offset, data_width)))
-                    report "SRAM data is wrong during a write cycle." severity error;
+                expected_address := to_unsigned(adr, address_width);
+                assert (ram_address = expected_address)
+                    report "SRAM address is wrong during a write cycle, expected " & integer'image(to_integer(expected_address)) & "."
+                    severity error;
+                expected_data := to_unsigned(adr - data_offset, data_width);
+                assert (ram_data = std_logic_vector(expected_data))
+                    report "SRAM data is wrong during a write cycle, expected " & integer'image(to_integer(expected_data)) & "."
+                    severity error;
                     
-                -- Verify that the ready signal is active exactly at the end of the write cycle and that the data
-                -- are available then.
+                -- Verify that the ready signal is active exactly at the end of the write cycle.
                 if (wait_state < num_of_total_wait_states - 1) then
                     assert (ready = '0') report "The ready signal is not inactive during a write cycle." severity error;
                 else
@@ -297,10 +305,9 @@ begin
         end loop;
 
         -- Verify that the SRAM is decativated completely after the write.
-        wait until falling_edge(write);
-        wait for clk_period;
         assert (ram_we_n = '1') report "SRAM WE signal is not inactive after the write." severity error;
         assert (ram_oe_n = '1') report "SRAM OE signal is not inactive after the write." severity error;
+        report "Write has finished" severity note;
 
         wait;
 
