@@ -24,6 +24,10 @@
       <obj_property name="ElementShortName">write</obj_property>
       <obj_property name="ObjectShortName">write</obj_property>
    </wvobject>
+   <wvobject fp_name="/sram_controller_tester/auto_increment_address" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">auto_increment_address</obj_property>
+      <obj_property name="ObjectShortName">auto_increment_address</obj_property>
+   </wvobject>
    <wvobject fp_name="/sram_controller_tester/address" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">address[15:0]</obj_property>
       <obj_property name="ObjectShortName">address[15:0]</obj_property>
@@ -68,99 +72,11 @@
          <obj_property name="ElementShortName">state</obj_property>
          <obj_property name="ObjectShortName">state</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
-         <wvobject fp_name="/sram_controller_tester/uut/state.wait_states_counter" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.wait_states_counter</obj_property>
-            <obj_property name="ObjectShortName">state.wait_states_counter</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.reading" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.reading</obj_property>
-            <obj_property name="ObjectShortName">state.reading</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.writing" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.writing</obj_property>
-            <obj_property name="ObjectShortName">state.writing</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.data_out" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.data_out</obj_property>
-            <obj_property name="ObjectShortName">state.data_out</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.ram_we_n" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_we_n</obj_property>
-            <obj_property name="ObjectShortName">state.ram_we_n</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.ram_oe_n" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_oe_n</obj_property>
-            <obj_property name="ObjectShortName">state.ram_oe_n</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.ram_data_can_be_driven" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_data_can_be_driven</obj_property>
-            <obj_property name="ObjectShortName">state.ram_data_can_be_driven</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.ram_address" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_address</obj_property>
-            <obj_property name="ObjectShortName">state.ram_address</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.ram_data" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_data</obj_property>
-            <obj_property name="ObjectShortName">state.ram_data</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/state.drive_data_to_ram" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.drive_data_to_ram</obj_property>
-            <obj_property name="ObjectShortName">state.drive_data_to_ram</obj_property>
-         </wvobject>
       </wvobject>
       <wvobject fp_name="/sram_controller_tester/uut/next_state" type="array" db_ref_id="1">
          <obj_property name="ElementShortName">next_state</obj_property>
          <obj_property name="ObjectShortName">next_state</obj_property>
          <obj_property name="Radix">HEXRADIX</obj_property>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.wait_states_counter" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.wait_states_counter</obj_property>
-            <obj_property name="ObjectShortName">next_state.wait_states_counter</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.reading" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.reading</obj_property>
-            <obj_property name="ObjectShortName">next_state.reading</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.writing" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.writing</obj_property>
-            <obj_property name="ObjectShortName">next_state.writing</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.data_out" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.data_out</obj_property>
-            <obj_property name="ObjectShortName">next_state.data_out</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_we_n" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_we_n</obj_property>
-            <obj_property name="ObjectShortName">next_state.ram_we_n</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_oe_n" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_oe_n</obj_property>
-            <obj_property name="ObjectShortName">next_state.ram_oe_n</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_data_can_be_driven" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_data_can_be_driven</obj_property>
-            <obj_property name="ObjectShortName">next_state.ram_data_can_be_driven</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_address" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_address</obj_property>
-            <obj_property name="ObjectShortName">next_state.ram_address</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.ram_data" type="array" db_ref_id="1">
-            <obj_property name="ElementShortName">.ram_data</obj_property>
-            <obj_property name="ObjectShortName">next_state.ram_data</obj_property>
-            <obj_property name="Radix">HEXRADIX</obj_property>
-         </wvobject>
-         <wvobject fp_name="/sram_controller_tester/uut/next_state.drive_data_to_ram" type="logic" db_ref_id="1">
-            <obj_property name="ElementShortName">.drive_data_to_ram</obj_property>
-            <obj_property name="ObjectShortName">next_state.drive_data_to_ram</obj_property>
-         </wvobject>
       </wvobject>
    </wvobject>
 </wave_config>

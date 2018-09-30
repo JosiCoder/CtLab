@@ -37,10 +37,11 @@ architecture stdarch of SRAM_Controller_Tester is
     constant data_width: natural := 8;
     constant address_width: natural := 16;
     constant start_address: natural := 16#40#;
-    constant data_offset: natural := 16#10#;
+    constant address_to_data_offset: natural := 16#10#;
     constant num_of_test_cycles: natural := 5;
     constant ram_access_time: time := 70ns;
     constant ram_output_disable_time: time := 30ns;
+    constant use_automatic_address_increment: boolean := false;
 
     --------------------
     -- Inputs
@@ -48,7 +49,7 @@ architecture stdarch of SRAM_Controller_Tester is
     signal clk: std_logic := '0';
     signal read: std_logic;
     signal write: std_logic;
-    signal auto_increment_address: std_logic := '0';
+    signal auto_increment_address: std_logic;
     signal address: unsigned(address_width-1 downto 0);
     signal data_in: std_logic_vector(data_width-1 downto 0);
 
@@ -146,8 +147,12 @@ begin
         
         -- Read from the SRAM several times.
         write <= '0';
+        auto_increment_address <= '0';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
             address <= to_unsigned(adr, address_width);
+            if (use_automatic_address_increment and adr /= start_address) then
+                auto_increment_address <= '1';
+            end if;
             read <= '1';
             if (not burst_mode) then
                 wait for clk_period;
@@ -165,9 +170,13 @@ begin
 
         -- Write to the SRAM several times.
         read <= '0';
+        auto_increment_address <= '0';
         for adr in start_address to start_address + num_of_test_cycles - 1 loop
             address <= to_unsigned(adr, address_width);
-            data_in <= std_logic_vector(to_unsigned(adr - data_offset, data_width));
+            data_in <= std_logic_vector(to_unsigned(adr + address_to_data_offset, data_width));
+            if (use_automatic_address_increment and adr /= start_address) then
+                auto_increment_address <= '1';
+            end if;
             write <= '1';
             if (not burst_mode) then
                 wait for clk_period;
@@ -197,7 +206,7 @@ begin
 
         wait on ram_we_n, ram_oe_n, ram_address;
         if (ram_we_n = '1' and ram_oe_n = '0') then
-            ram_data <= inertial std_logic_vector(ram_address(data_width-1 downto 0) - data_offset)
+            ram_data <= inertial std_logic_vector(ram_address(data_width-1 downto 0) + address_to_data_offset)
                         after ram_access_time;
         else
             ram_data <= inertial (others => 'Z') after ram_output_disable_time;
@@ -288,7 +297,7 @@ begin
                 assert (ram_address = expected_address)
                     report "SRAM address is wrong during a write cycle, expected " & integer'image(to_integer(expected_address)) & "."
                     severity error;
-                expected_data := to_unsigned(adr - data_offset, data_width);
+                expected_data := to_unsigned(adr + address_to_data_offset, data_width);
                 assert (ram_data = std_logic_vector(expected_data))
                     report "SRAM data is wrong during a write cycle, expected " & integer'image(to_integer(expected_data)) & "."
                     severity error;
