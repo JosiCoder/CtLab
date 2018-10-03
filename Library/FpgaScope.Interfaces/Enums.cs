@@ -26,9 +26,9 @@ namespace CtLab.FpgaScope.Interfaces
     {
         // These values must correspond to the FPGA implementation.
         Released = 0,
-        Idle = 0 + 4,
-        Read = 1 + 4,
-        Write = 2 + 4
+        Idle = 0 + 16,
+        Read = 1 + 16,
+        Write = 2 + 16
     }
 
     /// <summary>
@@ -39,6 +39,6 @@ namespace CtLab.FpgaScope.Interfaces
         // These values must correspond to the FPGA implementation.
         Reading = 1,
         Writing = 2,
-        Ready = 4,
+        Ready = 0 + 16,
     }
 }

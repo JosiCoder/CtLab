@@ -45,11 +45,11 @@ namespace CtLab.FpgaScope.Standard
     internal class StorageController
     {
         private const uint _dataMask = 0x000000FF;
-        private const uint _addressMask = 0x1FFFFF00;
-        private const uint _modeAndStateMask = 0xE0000000;
+        private const uint _addressMask = 0x7FFFF00;
+        private const uint _modeAndStateMask = 0xF8000000;
         private const int _dataLsb = 0;
         private const int _addressLsb = 8;
-        private const int _modeAndStateLsb = 29;
+        private const int _modeAndStateLsb = 27;
 
         private readonly StorageHardwareSettings _hardwareSettings;
         private readonly IFpgaConnection _deviceConnection;
