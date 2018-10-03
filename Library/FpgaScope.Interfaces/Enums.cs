@@ -19,6 +19,17 @@ using System;
 
 namespace CtLab.FpgaScope.Interfaces
 {
+    [Flags]
+    internal enum StorageModeBits : byte
+    {
+        // These values must correspond to the FPGA implementation.
+        Read = 1,
+        Write = 2,
+        //Unused = 4,
+        AutoIncrementAdress = 8,
+        ConnectMemory = 16,
+    }
+
     /// <summary>
     /// Specifies the access mode of the storage.
     /// </summary>
@@ -26,9 +37,21 @@ namespace CtLab.FpgaScope.Interfaces
     {
         // These values must correspond to the FPGA implementation.
         Released = 0,
-        Idle = 0 + 16,
-        Read = 1 + 16,
-        Write = 2 + 16
+        Idle =    StorageModeBits.ConnectMemory,
+        Read =    StorageModeBits.ConnectMemory | StorageModeBits.Read,
+        Write =   StorageModeBits.ConnectMemory | StorageModeBits.Write,
+        //Capture = StorageModeBits.ConnectMemory | StorageModeBits.Write | StorageModeBits.AutoIncrementAdress,
+    }
+
+    [Flags]
+    internal enum StorageStateBits : byte
+    {
+        // These values must correspond to the FPGA implementation.
+        Reading = 1,
+        Writing = 2,
+        //Unused = 4,
+        //Unused = 8,
+        Ready = 16,
     }
 
     /// <summary>
@@ -37,8 +60,8 @@ namespace CtLab.FpgaScope.Interfaces
     public enum StorageState : byte
     {
         // These values must correspond to the FPGA implementation.
-        Reading = 1,
-        Writing = 2,
-        Ready = 0 + 16,
+        Reading =   StorageStateBits.Reading,
+        Writing =   StorageStateBits.Writing,
+        Ready =     StorageStateBits.Ready,
     }
 }

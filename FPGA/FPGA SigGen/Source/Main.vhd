@@ -279,14 +279,17 @@ begin
 
     -- Memory controller
     -- Combination of mode (5 bits), address (19 bits) and write data (8 bits).
-    -- Mode consists of (bus select: 0 = DAC address, 16 = SRAM data) + (memory access: 0 = off, 1 = read, 2 = write).
+    -- Mode is sum of
+    --     bus select: 0 = DAC data, 16 = SRAM address
+    --     automatic address increment: 0 = off, 8 = on
+    --     memory access: 0 = off, 1 = read, 2 = write
     memory_connect <= received_data_x(sram_subaddr)(data_buffer'high);
-    -- Here are 2 unused bits (data_buffer'high-1, data_buffer'high-2).
+    memory_auto_increment_address <= received_data_x(sram_subaddr)(data_buffer'high-1);
+    -- Here is 1 unused bit (data_buffer'high-2).
     memory_write <= received_data_x(sram_subaddr)(data_buffer'high-3);
     memory_read <= received_data_x(sram_subaddr)(data_buffer'high-4);
     memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
     memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
-    memory_auto_increment_address <= '0';
 
     -- Panel parameters (example only).
 --    dac_channel_1_value <= signed(received_data_x(1)(dac_data_width-1 downto 0));
@@ -300,10 +303,14 @@ begin
     transmit_data_x(universal_counter_value_subaddr) <= std_logic_vector(universal_counter_value);
 
     -- Memory controller
-    -- Combination of memory state (1 bit), partial mode loopback (4 bits), address loopback (19 bits) and read data (8 bits).
-    -- State consists of (memory state: 0 = working, 16 = ready) + (mode loopback: 0 = off, 1 = reading, 2 = writing).
+    -- Combination of memory state (1 bit), '00' (2 bits), partial mode loopback (2 bits), address loopback (19 bits) and read data (8 bits).
+    -- State is sum of
+    --     memory state: 0 = working, 16 = ready
+    --     mode loopback: 0 = off, 1 = reading, 2 = writing
     transmit_data_x(sram_subaddr) <= memory_ready
-                                   & received_data_x(sram_subaddr)(data_buffer'high-1 downto ram_data_width)
+                                   & '0'
+                                   & '0'
+                                   & received_data_x(sram_subaddr)(data_buffer'high-3 downto ram_data_width)
                                    & memory_data_out;
 
     -- Panel values.
