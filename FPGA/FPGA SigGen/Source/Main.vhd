@@ -278,11 +278,12 @@ begin
     peripheral_configuration.dac_channel_sources(1) <= unsigned(peripheral_config_raw(2*dac_source_selector_width-1 downto dac_source_selector_width));
 
     -- Memory controller
-    -- Combination of mode (3 bits), address (21 bits) and write data (8 bits).
+    -- Combination of mode (3 bits), unused (2bits), address (19 bits) and write data (8 bits).
     -- Mode consists of (bus select: 0 = DAC address, 4 = SRAM data) + (memory access: 0 = off, 1 = read, 2 = write).
     memory_connect <= received_data_x(sram_subaddr)(data_buffer'high);
     memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1);
     memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2);
+    -- Here is a gap of 2 unused bits (data_buffer'high-3, data_buffer'high-4)
     memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
     memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
     memory_auto_increment_address <= '0';
@@ -299,7 +300,7 @@ begin
     transmit_data_x(universal_counter_value_subaddr) <= std_logic_vector(universal_counter_value);
 
     -- Memory controller
-    -- Combination of state (3 bits), address loopback (21 bits) and read data (8 bits).
+    -- Combination of memory state (1 bit), unused and partial mode loopback (4 bits), address loopback (19 bits) and read data (8 bits).
     -- State consists of (memory state: 0 = working, 4 = ready) + (mode loopback: 0 = off, 1 = reading, 2 = writing).
     transmit_data_x(sram_subaddr) <= memory_ready
                                    & received_data_x(sram_subaddr)(data_buffer'high-1 downto ram_data_width)
