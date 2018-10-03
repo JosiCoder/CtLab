@@ -208,7 +208,7 @@ namespace CtLab.FpgaScope.Standard
             SetAddress(address);
 
             // Start reading.
-            SetMode(StorageMode.Read); // Without handshaking, this is actually a no-op.
+            SetMode(StorageMode.Read); // Without handshaking this is actually a no-op.
             if (withHandshake) AwaitStateAndValue(StorageState.Reading);
 
             // Finish access.

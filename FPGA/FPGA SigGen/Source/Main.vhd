@@ -278,12 +278,14 @@ begin
     peripheral_configuration.dac_channel_sources(1) <= unsigned(peripheral_config_raw(2*dac_source_selector_width-1 downto dac_source_selector_width));
 
     -- Memory controller
-    -- Combination of mode (3 bits; (0=DAC, 4=SRAM) + (0=off, 1=read, 2=write)), address and write data.
+    -- Combination of mode (3 bits), address (21 bits) and write data (8 bits).
+    -- Mode consists of (bus select: 0 = DAC address, 4 = SRAM data) + (memory access: 0 = off, 1 = read, 2 = write).
     memory_connect <= received_data_x(sram_subaddr)(data_buffer'high);
     memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1);
     memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2);
     memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
     memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
+    memory_auto_increment_address <= '0';
 
     -- Panel parameters (example only).
 --    dac_channel_1_value <= signed(received_data_x(1)(dac_data_width-1 downto 0));
@@ -297,7 +299,8 @@ begin
     transmit_data_x(universal_counter_value_subaddr) <= std_logic_vector(universal_counter_value);
 
     -- Memory controller
-    -- Combination of state (3 bits; (0=working, 4=ready) + (0=off, 1=reading, 2=writing)), address and read data.
+    -- Combination of state (3 bits), address loopback (21 bits) and read data (8 bits).
+    -- State consists of (memory state: 0 = working, 4 = ready) + (mode loopback: 0 = off, 1 = reading, 2 = writing).
     transmit_data_x(sram_subaddr) <= memory_ready
                                    & received_data_x(sram_subaddr)(data_buffer'high-1 downto ram_data_width)
                                    & memory_data_out;
@@ -326,9 +329,6 @@ begin
     invert_dac_value: for i in dac_data'range generate
         dac_data(i) <= not dac_value(i);
     end generate;
-
-    -- Deactivate the memory controller's automatic address increment.
-    memory_auto_increment_address <= '0';
 
 
     --------------------------------------------------------------------------------
