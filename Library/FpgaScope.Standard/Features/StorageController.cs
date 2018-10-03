@@ -226,6 +226,10 @@ namespace CtLab.FpgaScope.Standard
             var value = Value;
 
             Debug.WriteLine ("** Read {0}={1} **", address, value);
+            if (returnPreviousStateAndValue)
+            {
+                Debug.WriteLine ("SPI optimization: delayed value, belongs to the previous access.");
+            }
             Debug.WriteLine ("------------------------------");
 
             return value;
