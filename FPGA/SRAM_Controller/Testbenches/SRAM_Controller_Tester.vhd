@@ -37,8 +37,9 @@ architecture stdarch of SRAM_Controller_Tester is
     constant data_width: natural := 8;
     constant address_width: natural := 16;
     constant start_address: natural := 16#40#;
-    constant address_to_data_offset: natural := 16#10#;
     constant num_of_test_cycles: natural := 5;
+    constant end_address: natural := start_address + num_of_test_cycles - 1;
+    constant address_to_data_offset: natural := 16#10#;
     constant ram_access_time: time := 70ns;
     constant ram_output_disable_time: time := 30ns;
     constant use_automatic_address_increment: boolean := false;
@@ -148,9 +149,12 @@ begin
         -- Read from the SRAM several times.
         write <= '0';
         auto_increment_address <= '0';
-        for adr in start_address to start_address + num_of_test_cycles - 1 loop
+        for adr in start_address to end_address loop
             if (use_automatic_address_increment and adr /= start_address) then
+                -- Make the controller automatically increment the address shown to the SRAM, the address
+                -- shown to the controller indicates where the controller shall stop auto-incrementing.
                 auto_increment_address <= '1';
+                address <= to_unsigned(end_address, address_width);
             else
                 address <= to_unsigned(adr, address_width);
             end if;
@@ -172,10 +176,13 @@ begin
         -- Write to the SRAM several times.
         read <= '0';
         auto_increment_address <= '0';
-        for adr in start_address to start_address + num_of_test_cycles - 1 loop
+        for adr in start_address to end_address loop
             data_in <= std_logic_vector(to_unsigned(adr + address_to_data_offset, data_width));
             if (use_automatic_address_increment and adr /= start_address) then
+                -- Make the controller automatically increment the address shown to the SRAM, the address
+                -- shown to the controller indicates where the controller shall stop auto-incrementing.
                 auto_increment_address <= '1';
+                address <= to_unsigned(end_address, address_width);
             else
                 address <= to_unsigned(adr, address_width);
             end if;
@@ -234,7 +241,7 @@ begin
         assert (ram_oe_n = '1') report "SRAM OE signal is not initially inactive." severity error;
 
         -- For each read access to the SRAM.
-        for adr in start_address to start_address + num_of_test_cycles - 1 loop
+        for adr in start_address to end_address loop
 
             -- Wait until the current read cycle starts.
             if read /= '1' then
@@ -275,7 +282,7 @@ begin
 
         -- For each write access to the SRAM except the first one.
         -- The first cycle is skipped here because we have missed the according write signal edge.
-        for adr in start_address + 1 to start_address + num_of_test_cycles - 1 loop
+        for adr in start_address + 1 to end_address loop
         
             -- Wait until the current write cycle starts.
             if write /= '1' then

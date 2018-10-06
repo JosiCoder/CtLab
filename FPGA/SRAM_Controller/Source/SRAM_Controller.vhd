@@ -175,14 +175,20 @@ begin
             -- For all clock cycles of the access cycle except the last one.
             if (state.wait_states_counter /= to_unsigned(last_wait_state, wait_states_counter_width)) then
                 next_state.wait_states_counter <= state.wait_states_counter + 1;
-                -- Take the address at the beginning of the access cycle.
+                -- At the beginning of the access cycle, determine the address to access.
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
-                    if (auto_increment_address = '1') then
+                    if (auto_increment_address = '0') then
+                        -- Auto-increment mode is not used, just the the specified address.
+                        next_state.ram_address <= address;
+                    elsif (state.ram_address < address) then
+                        -- Auto-increment mode is used and we have not reached the specified (end) address,
+                        -- increment the address.
                         -- Note that the new address is accessed immediately if the read or write signal
                         -- is still active.
                         next_state.ram_address <= state.ram_address + 1;
                     else
-                        next_state.ram_address <= address;
+                      -- Auto-increment mode is used but we have reached the specified (end) address,
+                      -- just take the address from the previous cycle.
                     end if;
                 end if;
             -- For the last clock cycle of the access cycle.
