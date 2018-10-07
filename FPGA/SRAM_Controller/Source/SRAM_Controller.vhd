@@ -47,7 +47,9 @@ entity SRAM_Controller is
         write: in std_logic;
         ready: out std_logic;
         auto_increment_address: in std_logic;
+        auto_increment_end_address_reached: out std_logic;
         -- The address and data towards the client.
+        -- For auto_increment_address = '1' the address passed here is the end address.
         address: in unsigned(address_width-1 downto 0);
         data_in: in std_logic_vector(data_width-1 downto 0);
         data_out: out std_logic_vector(data_width-1 downto 0);
@@ -67,6 +69,7 @@ architecture stdarch of SRAM_Controller is
         wait_states_counter: unsigned(wait_states_counter_width-1 downto 0);
         reading: std_logic;
         writing: std_logic;
+        auto_increment_end_address_reached: std_logic;
         last_access_cycle_was_a_write: std_logic;
         data_out: std_logic_vector(data_width-1 downto 0);
         ram_we_n: std_logic;
@@ -80,6 +83,7 @@ architecture stdarch of SRAM_Controller is
         wait_states_counter => (others => '0'),
         reading => '0',
         writing => '0',
+        auto_increment_end_address_reached => '0',
         last_access_cycle_was_a_write => '0',
         data_out => (others => '0'),
         ram_we_n => '1',
@@ -114,6 +118,10 @@ begin
         next_state.ram_we_n <= '1';
         next_state.ram_oe_n <= '1';
         next_state.drive_data_to_ram <= '0';
+        
+        if (auto_increment_address = '0') then
+            next_state.auto_increment_end_address_reached <= '0';
+        end if;
         
         -- Detect read or write mode.
         do_read := '0';
@@ -178,22 +186,23 @@ begin
                 -- At the beginning of the access cycle, determine the address to access.
                 if (state.wait_states_counter = to_unsigned(0, wait_states_counter_width)) then
                     if (auto_increment_address = '0') then
-                        -- Auto-increment mode is not used, just the the specified address.
+                        -- Auto-increment mode is not used, just use the the specified address.
                         next_state.ram_address <= address;
                     elsif (state.ram_address < address) then
                         -- Auto-increment mode is used and we have not reached the specified (end) address,
                         -- increment the address.
-                        -- Note that the new address is accessed immediately if the read or write signal
-                        -- is still active.
+                        -- Note that the new address is accessed immediately in the next cycle if the read
+                        -- or write signal is still active.
                         next_state.ram_address <= state.ram_address + 1;
                     else
                       -- Auto-increment mode is used but we have reached the specified (end) address,
-                      -- just take the address from the previous cycle.
+                      -- keep the address from the previous cycle and set the end flag.
+                      next_state.auto_increment_end_address_reached <= '1';
                     end if;
                 end if;
             -- For the last clock cycle of the access cycle.
             else
-                -- Remember that this cycle was a write, so the next write can follow immediately.
+                -- Memorize if this cycle was a write, so the next write can follow immediately.
                 if (state.writing = '1') then
                     next_state.last_access_cycle_was_a_write <= '1';
                 end if;
@@ -215,6 +224,7 @@ begin
     --------------------------------------------------------------------------------
 
     ready <= not state.reading and not state.writing;
+    auto_increment_end_address_reached <= state.auto_increment_end_address_reached;
     data_out <= state.data_out;
     ram_we_n <= state.ram_we_n;
     ram_oe_n <= state.ram_oe_n;

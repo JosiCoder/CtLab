@@ -42,7 +42,28 @@ architecture stdarch of SRAM_Controller_Tester is
     constant address_to_data_offset: natural := 16#10#;
     constant ram_access_time: time := 70ns;
     constant ram_output_disable_time: time := 30ns;
-    constant use_automatic_address_increment: boolean := false;
+    constant end_address_for_automatic_increment: natural := end_address - 2;
+    constant use_automatic_address_increment: boolean := true;
+
+    -- This configures the test bench whether it tests in single operation or
+    -- burst mode.
+    -- In single operation mode, we activate the read or write signal just for
+    -- one clock cycle. The according operation is completed anyway. In burst
+    -- mode, we keep the read or write signal active all the time, thus reading
+    -- or writing continuously.
+    -- Burst mode cannot be used when synchronizing the ready signal to the clock
+    -- (see below).
+   constant burst_mode: boolean := false;
+        
+    -- This configures the test bench whether it uses the ready signal asynchronously
+    -- or syncs it to the clock.
+    -- When used asynchronously, the next address and input data are applied
+    -- immediately and thus are available to the SRAM controller on the next clock
+    -- cycle.
+    -- When synchronized to the clock, the next address and input data are applied
+    -- with a latency of one clock cycle. This is one clock cycle too late for burst
+    -- mode (see above).
+    constant sync_ready_to_clk: boolean := false;
 
     --------------------
     -- Inputs
@@ -58,6 +79,7 @@ architecture stdarch of SRAM_Controller_Tester is
     -- Outputs
     --------------------
     signal ready: std_logic;
+    signal auto_increment_end_address_reached: std_logic;
     signal data_out: std_logic_vector(data_width-1 downto 0);
     signal ram_we_n: std_logic;
     signal ram_oe_n: std_logic;
@@ -94,6 +116,7 @@ begin
         write => write,
         ready => ready,
         auto_increment_address => auto_increment_address,
+        auto_increment_end_address_reached => auto_increment_end_address_reached,
         address => address,
         data_in => data_in,
         data_out => data_out,
@@ -120,29 +143,8 @@ begin
 
     -- Stimulates and controls the UUT and the tests at all.
     stimulus: process is
-        variable burst_mode, sync_ready_to_clk: boolean;
     begin
     
-        -- This configures the test bench whether it tests in single operation or
-        -- burst mode.
-        -- In single operation mode, we activate the read or write signal just for
-        -- one clock cycle. The according operation is completed anyway. In burst
-        -- mode, we keep the read or write signal active all the time, thus reading
-        -- or writing continuously.
-        -- Burst mode cannot be used when synchronizing the ready signal to the clock
-        -- (see below).
-        burst_mode := false;
-        
-        -- This configures the test bench whether it uses the ready signal asynchronously
-        -- or syncs it to the clock.
-        -- When used asynchronously, the next address and input data are applied
-        -- immediately and thus are available to the SRAM controller on the next clock
-        -- cycle.
-        -- When synchronized to the clock, the next address and input data are applied
-        -- with a latency of one clock cycle. This is one clock cycle too late for burst
-        -- mode (see above).
-        sync_ready_to_clk := false;
-
         wait for ram_output_disable_time; -- wait a little for stabilization
         wait until rising_edge(clk);
         
@@ -154,7 +156,7 @@ begin
                 -- Make the controller automatically increment the address shown to the SRAM, the address
                 -- shown to the controller indicates where the controller shall stop auto-incrementing.
                 auto_increment_address <= '1';
-                address <= to_unsigned(end_address, address_width);
+                address <= to_unsigned(end_address_for_automatic_increment, address_width);
             else
                 address <= to_unsigned(adr, address_width);
             end if;
@@ -162,8 +164,10 @@ begin
             if (not burst_mode) then
                 wait for clk_period;
                 read <= '0';
+                wait on clk,ready until ready = '1';
+            else
+                wait for num_of_total_wait_states * clk_period;
             end if;
-            wait on clk,ready until ready = '1';
             if (sync_ready_to_clk) then
                 wait until rising_edge(clk);
             end if;
@@ -182,7 +186,7 @@ begin
                 -- Make the controller automatically increment the address shown to the SRAM, the address
                 -- shown to the controller indicates where the controller shall stop auto-incrementing.
                 auto_increment_address <= '1';
-                address <= to_unsigned(end_address, address_width);
+                address <= to_unsigned(end_address_for_automatic_increment, address_width);
             else
                 address <= to_unsigned(adr, address_width);
             end if;
@@ -190,6 +194,9 @@ begin
             if (not burst_mode) then
                 wait for clk_period;
                 write <= '0';
+                wait on clk,ready until ready = '1';
+            else
+                wait for num_of_total_wait_states * clk_period;
             end if;
             wait on clk,ready until ready = '1';
             if (sync_ready_to_clk) then
@@ -231,6 +238,7 @@ begin
     must_create_correct_signals: process is
             variable expected_address: unsigned(address_width-1 downto 0);
             variable expected_data: unsigned(data_width-1 downto 0);
+            variable effective_start_address: natural;
     begin
 
         -- Synchronize with the stimulus.
@@ -241,7 +249,8 @@ begin
         assert (ram_oe_n = '1') report "SRAM OE signal is not initially inactive." severity error;
 
         -- For each read access to the SRAM.
-        for adr in start_address to end_address loop
+        effective_start_address := start_address;
+        for adr in effective_start_address to end_address loop
 
             -- Wait until the current read cycle starts.
             if read /= '1' then
@@ -256,7 +265,12 @@ begin
                 wait until falling_edge(clk);
                 assert (ram_we_n = '1') report "SRAM WE signal is not inactive during a read cycle." severity error;
                 assert (ram_oe_n = '0') report "SRAM OE signal is not active during a read cycle." severity error;
-                expected_address := to_unsigned(adr, address_width);
+
+                if (use_automatic_address_increment and adr > end_address_for_automatic_increment) then
+                    expected_address := to_unsigned(end_address_for_automatic_increment, address_width);
+                else
+                    expected_address := to_unsigned(adr, address_width);
+                end if;
                 assert (ram_address = expected_address)
                     report "SRAM address is wrong during a read cycle, expected " & integer'image(to_integer(expected_address)) & "."
                     severity error;
@@ -280,16 +294,24 @@ begin
         assert (ram_oe_n = '1') report "SRAM OE signal is not inactive after the read." severity error;
         report "Read has finished" severity note;
 
-        -- For each write access to the SRAM except the first one.
-        -- The first cycle is skipped here because we have missed the according write signal edge.
-        for adr in start_address + 1 to end_address loop
-        
+        -- TODO: Consider syncing on ready signal instead of write signal. This would avoid the 
+        -- time-based delay workaround for burst mode below. Also change the same above for reading.
+        if (burst_mode) then
+            effective_start_address := start_address;
+            wait for num_of_wait_states_before_write_after_read * clk_period;
+        else
+            -- For each write access to the SRAM except the first one.
+            -- The first cycle is skipped here because we have missed the according write signal edge.
+            effective_start_address := start_address + 1;
+        end if;
+        for adr in effective_start_address to end_address loop
+
             -- Wait until the current write cycle starts.
             if write /= '1' then
                 wait until write = '1';
                 wait until rising_edge(clk);
             end if;
-        
+            
             -- Verify that the SRAM controller generates the correct signals for the entire write cycle.
             for wait_state in 0 to num_of_total_wait_states - 1 loop
             
@@ -302,7 +324,12 @@ begin
                     assert (ram_we_n = '0') report "SRAM WE signal is not active while executing a write cycle." severity error;
                 end if;
                 assert (ram_oe_n = '1') report "SRAM OE signal is not inactive during a write cycle." severity error;
-                expected_address := to_unsigned(adr, address_width);
+
+                if (use_automatic_address_increment and adr > end_address_for_automatic_increment) then
+                    expected_address := to_unsigned(end_address_for_automatic_increment, address_width);
+                else
+                    expected_address := to_unsigned(adr, address_width);
+                end if;
                 assert (ram_address = expected_address)
                     report "SRAM address is wrong during a write cycle, expected " & integer'image(to_integer(expected_address)) & "."
                     severity error;

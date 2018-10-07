@@ -28,6 +28,10 @@
       <obj_property name="ElementShortName">auto_increment_address</obj_property>
       <obj_property name="ObjectShortName">auto_increment_address</obj_property>
    </wvobject>
+   <wvobject fp_name="/sram_controller_tester/auto_increment_end_address_reached" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">auto_increment_end_address_reached</obj_property>
+      <obj_property name="ObjectShortName">auto_increment_end_address_reached</obj_property>
+   </wvobject>
    <wvobject fp_name="/sram_controller_tester/address" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">address[15:0]</obj_property>
       <obj_property name="ObjectShortName">address[15:0]</obj_property>
