@@ -149,9 +149,15 @@ begin
     -- SPI receiver data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
 
-    -- Combination of mode (3 bits; (MSB unused) + (0=off, 1=read, 2=write)), address and write data.
-    memory_write <= received_data_x(sram_subaddr)(data_buffer'high-1); -- bit to the right of MSB
-    memory_read <= received_data_x(sram_subaddr)(data_buffer'high-2); -- bit to the right of memory_write
+    -- Combination of mode (5 bits), address (19 bits) and write data (8 bits).
+    -- Mode is sum of
+    --     automatic address increment: 0 = off, 8 = on
+    --     memory access: 0 = off, 1 = read, 2 = write
+    -- Here is 1 unused bit (data_buffer'high).
+    memory_auto_increment_address <= received_data_x(sram_subaddr)(data_buffer'high-1);
+    -- Here is 1 unused bit (data_buffer'high-2).
+    memory_write <= received_data_x(sram_subaddr)(data_buffer'high-3);
+    memory_read <= received_data_x(sram_subaddr)(data_buffer'high-4);
     memory_address <= unsigned(received_data_x(sram_subaddr)(ram_address_width-1+ram_data_width downto ram_data_width));
     memory_data_in <= received_data_x(sram_subaddr)(ram_data_width-1 downto 0);
 
@@ -159,16 +165,15 @@ begin
     -- SPI transmitter data (index 0 to 3 are also available via the FPGA panel).
     -----------------------------------------------------------------------------
 
-    -- Combination of state (3 bits; (0=working, 4=ready) + (0=off, 1=reading, 2=writing)), address and read data.
+    -- Combination of memory state (1 bit), '00' (2 bits), partial mode loopback (2 bits), address loopback (19 bits) and read data (8 bits).
+    -- State is sum of
+    --     memory state: 0 = working, 16 = ready
+    --     mode loopback: 0 = off, 1 = reading, 2 = writing
     transmit_data_x(sram_subaddr) <= memory_ready
-                                   & received_data_x(sram_subaddr)(data_buffer'high-1 downto ram_data_width)
+                                   & '0'
+                                   & '0'
+                                   & received_data_x(sram_subaddr)(data_buffer'high-3 downto ram_data_width)
                                    & memory_data_out;
-
-
-    -- Miscellaneous.
-    -----------------------------------------------------------------------------
-
-    memory_auto_increment_address <= '0';
 
 
     --------------------------------------------------------------------------------
