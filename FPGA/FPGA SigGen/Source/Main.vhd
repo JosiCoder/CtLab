@@ -177,6 +177,7 @@ architecture stdarch of Main is
     signal memory_write: std_logic;
     signal memory_ready: std_logic;
     signal memory_auto_increment_address: std_logic;
+    signal memory_auto_increment_end_address_reached: std_logic;
     signal memory_address: unsigned(ram_address_width-1 downto 0);
     signal memory_data_in: std_logic_vector(ram_data_width-1 downto 0);
     signal memory_data_out: std_logic_vector(ram_data_width-1 downto 0);
@@ -303,12 +304,14 @@ begin
     transmit_data_x(universal_counter_value_subaddr) <= std_logic_vector(universal_counter_value);
 
     -- Memory controller
-    -- Combination of memory state (1 bit), '00' (2 bits), partial mode loopback (2 bits), address loopback (19 bits) and read data (8 bits).
+    -- Combination of memory state (1 bit), memory auto-increment state (1 bit), '0' (1 bit),
+    -- partial mode loopback (2 bits), address loopback (19 bits) and read data (8 bits).
     -- State is sum of
     --     memory state: 0 = working, 16 = ready
+    --     memory auto-increment state: 0 = end address not reached, 8 = end address reached
     --     mode loopback: 0 = off, 1 = reading, 2 = writing
     transmit_data_x(sram_subaddr) <= memory_ready
-                                   & '0'
+                                   & memory_auto_increment_end_address_reached
                                    & '0'
                                    & received_data_x(sram_subaddr)(data_buffer'high-3 downto ram_data_width)
                                    & memory_data_out;
@@ -533,6 +536,7 @@ begin
         write => memory_write,
         ready => memory_ready,
         auto_increment_address => memory_auto_increment_address,
+        auto_increment_end_address_reached => memory_auto_increment_end_address_reached,
         address => memory_address,
         data_in => memory_data_in,
         data_out => memory_data_out,
