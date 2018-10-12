@@ -1,6 +1,8 @@
 #Autosave files
 *~
 
+*.zip
+
 #build
 Dependencies
 [Oo]bj/
