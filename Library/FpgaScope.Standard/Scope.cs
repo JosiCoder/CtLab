@@ -30,9 +30,19 @@ namespace CtLab.FpgaScope.Standard
         private readonly StorageController _storageController;
 
         /// <summary>
+        /// Captures values from the specified source to the storage.
+        /// </summary>
+        /// <param name="startAddress">The address to start writing at.</param>
+        /// <param name="endAddress">The address to stop writing at.</param>
+        public void Capture (uint startAddress, uint endAddress)
+        {
+            _storageController.Capture (startAddress, endAddress);
+        }
+
+        /// <summary>
         /// Writes the specified values to the storage.
         /// </summary>
-        /// <param name="address">The address to start writing to.</param>
+        /// <param name="address">The address to start writing at.</param>
         /// <param name="value">The values to write to the storage.</param>
         public void Write (uint startAddress, IEnumerable<uint> values)
         {
@@ -42,7 +52,7 @@ namespace CtLab.FpgaScope.Standard
         /// <summary>
         /// Reads the specified number of values from the storage.
         /// </summary>
-        /// <param name="address">The address to start reading from.</param>
+        /// <param name="address">The address to start reading at.</param>
         /// <param name="numberOfValues">The number of values to read.</param>
         /// <returns>The values read.</returns>
         public IEnumerable<uint> Read (uint startAddress, int numberOfValues)

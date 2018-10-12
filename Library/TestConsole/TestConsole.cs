@@ -145,8 +145,11 @@ namespace CtLab.TestConsole
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
 
-            // Sample: Write sample values to the storage and reads them.
+            // Sample: Write sample values to the storage and read them.
             new RealHardwareScopeSamples(spiDirect).WriteAndReadStorageValues();
+
+            // Sample: Capture sample values to the storage and read them.
+            new RealHardwareScopeSamples(spiDirect).CaptureAndReadStorageValues();
         }
     }
 }

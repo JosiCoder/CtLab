@@ -26,7 +26,7 @@ namespace CtLab.FpgaScope.Interfaces
         Read = 1,
         Write = 2,
         //Unused = 4,
-        AutoIncrementAdress = 8,
+        AutoIncrementAddress = 8,
         ConnectMemory = 16,
     }
 
@@ -36,11 +36,11 @@ namespace CtLab.FpgaScope.Interfaces
     public enum StorageMode : byte
     {
         // These values must correspond to the FPGA implementation.
-        Released = 0,
+        Release = 0,
         Idle =    StorageModeBits.ConnectMemory,
         Read =    StorageModeBits.ConnectMemory | StorageModeBits.Read,
         Write =   StorageModeBits.ConnectMemory | StorageModeBits.Write,
-        //Capture = StorageModeBits.ConnectMemory | StorageModeBits.Write | StorageModeBits.AutoIncrementAdress,
+        Capture = StorageModeBits.ConnectMemory | StorageModeBits.Write | StorageModeBits.AutoIncrementAddress,
     }
 
     [Flags]
@@ -50,7 +50,7 @@ namespace CtLab.FpgaScope.Interfaces
         Reading = 1,
         Writing = 2,
         //Unused = 4,
-        //Unused = 8,
+        AutoIncrementAddressReached = 8,
         Ready = 16,
     }
 
@@ -60,8 +60,9 @@ namespace CtLab.FpgaScope.Interfaces
     public enum StorageState : byte
     {
         // These values must correspond to the FPGA implementation.
-        Reading =   StorageStateBits.Reading,
-        Writing =   StorageStateBits.Writing,
-        Ready =     StorageStateBits.Ready,
+        Reading =           StorageStateBits.Reading,
+        Writing =           StorageStateBits.Writing,
+        CapturingFinished = StorageStateBits.Writing | StorageStateBits.AutoIncrementAddressReached,
+        Ready =             StorageStateBits.Ready,
     }
 }

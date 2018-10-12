@@ -82,7 +82,7 @@ namespace CtLab.FpgaScope.Standard
             _storageSetter = CreateFpgaValueSetter(24);
             _storageGetter = CreateFpgaValueGetter(24);
 
-            SetMode (StorageMode.Released);
+            SetMode (StorageMode.Release);
         }
 
         /// <summary>
@@ -102,33 +102,56 @@ namespace CtLab.FpgaScope.Standard
         }
 
         /// <summary>
+        /// Captures to the storage using the low-level SRAM controller protocol.
+        /// </summary>
+        /// <param name="startAddress">The address to start writing at.</param>
+        /// <param name="endAddress">The address to stop writing at.</param>
+        public void Capture(uint startAddress, uint endAddress)
+        {
+            var withHandshake = _hardwareSettings.WriteWithHandshake;
+
+            // Finish any pending write access.
+            var lastMode = GetLastMode();
+            if (IsWritingMode(lastMode))
+            {
+                SetMode(StorageMode.Idle);
+            }
+            if (withHandshake) AwaitStateAndValue(state => !IsWritingState(state), "any non-'writing' state");
+
+            Capture(startAddress, endAddress, withHandshake);
+
+            SetMode (StorageMode.Release);
+        }
+
+        /// <summary>
         /// Writes to the storage using the low-level SRAM controller protocol.
         /// </summary>
-        /// <param name="address">The address to start writing to.</param>
+        /// <param name="address">The address to start writing at.</param>
         /// <param name="value">The values to write to the storage.</param>
         public void Write(uint startAddress, IEnumerable<uint> values)
         {
             var withHandshake = _hardwareSettings.WriteWithHandshake;
 
             // Finish any pending write access.
-            if (GetLastMode() == StorageMode.Write)
+            var lastMode = GetLastMode();
+            if (IsWritingMode(lastMode))
             {
                 SetMode(StorageMode.Idle);
             }
-            if (withHandshake) AwaitStateAndValue(state => state != StorageState.Writing, "any non-'writing' state");
+            if (withHandshake) AwaitStateAndValue(state => !IsWritingState(state), "any non-'writing' state");
 
             foreach (var value in values)
             {
                 Write(startAddress++, value, withHandshake);
             }
 
-            SetMode (StorageMode.Released);
+            SetMode (StorageMode.Release);
         }
 
         /// <summary>
         /// Reads from the storage using the low-level SRAM controller protocol.
         /// </summary>
-        /// <param name="address">The address to start reading from.</param>
+        /// <param name="address">The address to start reading at.</param>
         /// <param name="numberOfValues">The number of values to read.</param>
         /// <returns>The values read.</returns>
         public IEnumerable<uint> Read(uint startAddress, int numberOfValues)
@@ -137,12 +160,13 @@ namespace CtLab.FpgaScope.Standard
             var optimizeSpiReading = !withHandshake && _hardwareSettings.OptimizeSpiReading;
 
             // Finish any pending write access.
-            if (GetLastMode() == StorageMode.Write)
+            var lastMode = GetLastMode();
+            if (IsWritingMode(lastMode))
             {
                 // We use Read here already (instead of Idle) as we are going use Read afterwards.
                 SetMode(StorageMode.Read);
             }
-            if (withHandshake) AwaitStateAndValue(state => state != StorageState.Writing, "any non-'writing' state");
+            if (withHandshake) AwaitStateAndValue(state => !IsWritingState(state), "any non-'writing' state");
 
             // Return all values in a well-defined order. For optimized SPI reading, skip the value that
             // we have got for the first read.
@@ -168,7 +192,44 @@ namespace CtLab.FpgaScope.Standard
                 yield return Read(startAddress, withHandshake, optimizeSpiReading);
             }
 
-            SetMode (StorageMode.Released);
+            SetMode (StorageMode.Release);
+        }
+
+        /// <summary>
+        /// Captures to the storage using the low-level SRAM controller protocol. Before calling this method,
+        /// the storage state must be non-writing.
+        /// </summary>
+        private void Capture(uint startAddress, uint endAddress, bool withHandshake)
+        {
+            //TODO: replace with hardware values.
+            var random = new Random ();
+            var value = (uint)random.Next(255);
+
+            Debug.WriteLine ("------------------------------");
+            Debug.WriteLine ("** Capturing {0}={1} **", startAddress, value);
+
+            // Prepare write access.
+            SetAddressAndValue(startAddress, value);
+
+            // Start writing, i.e. write the first cell (continuously), this also sets the start address.
+            SetMode(StorageMode.Write);
+            if (withHandshake) AwaitStateAndValue(StorageState.Writing);
+
+            // Initiate capture (doesn't start yet as current address is equal to end address)
+            // TODO: Doesn't set this the "Captured" flag in the FPGA already?
+            SetMode(StorageMode.Capture);
+
+            // Start capturing passing the end address.
+            SetAddressAndValue(endAddress, value);
+
+            // Await capturing to be finished (even if handshaking is deactivated everywhere else).
+            AwaitStateAndValue(StorageState.CapturingFinished);
+
+            // Finish access.
+            SetMode(StorageMode.Idle);
+            if (withHandshake) AwaitStateAndValue(StorageState.Ready);
+
+            Debug.WriteLine ("------------------------------");
         }
 
         /// <summary>
@@ -298,6 +359,22 @@ namespace CtLab.FpgaScope.Standard
         private StorageMode GetLastMode()
         {
             return (StorageMode)(byte)((_storageSetterData & _modeAndStateMask) >> _modeAndStateLsb);
+        }
+
+        /// <summary>
+        /// Determines whether the specified mode is a writing mode.
+        /// </summary>
+        private bool IsWritingMode(StorageMode mode)
+        {
+            return mode == StorageMode.Write || mode == StorageMode.Capture;
+        }
+
+        /// <summary>
+        /// Determines whether the specified state is a writing state.
+        /// </summary>
+        private bool IsWritingState(StorageState state)
+        {
+            return state == StorageState.Writing || state == StorageState.CapturingFinished;
         }
 
         /// <summary>

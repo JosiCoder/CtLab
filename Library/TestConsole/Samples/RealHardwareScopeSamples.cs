@@ -123,6 +123,82 @@ namespace CtLab.TestConsole
             Utilities.WriteFooterAndWaitForKeyPress();
         }
 
+        /// <summary>
+        /// Captures sample values to the storage and reads them using the low-level SRAM controller protocol.
+        /// Note: No handshake is usually necessary for writing as the storage controller (VHDL) is much faster
+        /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
+        /// to be considered, especially when using the c't Lab protocol. 
+        /// </summary>
+        public void CaptureAndReadStorageValues()
+        {
+            Utilities.WriteHeader();
+
+            using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
+            {
+                // Setup some signals on the analog outputs so that we can see how accessing the
+                // storage briefly deactivates the analog outputs.
+                SetDemoSignals(appliance);
+
+                // Get the scope and reset the hardware to cancel settings from previous configurations.
+                var scope = appliance.Scope;
+                scope.Reset();
+
+                var separatorStartAddress = 999u;
+                var separatorValues = new []{99u};
+
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Capturing values");
+                Console.WriteLine ("=====================================================");
+
+                var start = DateTime.Now;
+
+                scope.Capture(10, 20000);
+
+                Console.WriteLine ("Duration: {0}", DateTime.Now - start);
+
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Writing separator values (to overwrite SPI registers)");
+                Console.WriteLine ("=====================================================");
+
+                scope.Write(separatorStartAddress, separatorValues);
+
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Reading values");
+                Console.WriteLine ("=====================================================");
+
+                start = DateTime.Now;
+
+                // Read all values eagerly, then await any async 'String received' comments.
+                // This is just for more beautiful output.
+                var readValueSets = new List<IEnumerable<uint>>();
+                readValueSets.Add(scope.Read(10-5, 20).ToList());
+                readValueSets.Add(scope.Read(1000-5, 10).ToList());
+                readValueSets.Add(scope.Read(5000-5, 10).ToList());
+                readValueSets.Add(scope.Read(10000-5, 10).ToList());
+                readValueSets.Add(scope.Read(20000-5, 10).ToList());
+                readValueSets.Add(scope.Read(30000-5, 10).ToList());
+                Thread.Sleep (100);
+
+                Console.WriteLine ("Duration: {0}", DateTime.Now - start);
+
+                Console.WriteLine ("=====================================================");
+                Console.WriteLine ("Summary");
+                Console.WriteLine ("=====================================================");
+
+                foreach(var readValueSet in readValueSets)
+                {
+                    Console.Write ("Read: ");
+                    foreach (var value in readValueSet)
+                    {
+                        Console.Write(" {0} (x{0:X2})", value);
+                    }
+                    Console.WriteLine();
+                }
+            }
+
+            Utilities.WriteFooterAndWaitForKeyPress();
+        }
+
         private void SetDemoSignals(Appliance appliance)
         {
             // Get the signal generator and reset the hardware to cancel settings from previous
