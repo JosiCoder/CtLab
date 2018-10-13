@@ -42,7 +42,8 @@ entity SRAM_Controller is
     (
         -- The system clock.
         clk: in std_logic;
-        -- The control signals towards the client.
+        -- The control signals towards the client. If read and write are both set to '1',
+        -- the secondary address is stored but no read or write is done.
         read: in std_logic; 
         write: in std_logic;
         ready: out std_logic;
@@ -70,6 +71,7 @@ architecture stdarch of SRAM_Controller is
         reading: std_logic;
         writing: std_logic;
         auto_increment_end_address_reached: std_logic;
+        secondary_address: unsigned(address_width-1 downto 0);
         last_access_cycle_was_a_write: std_logic;
         data_out: std_logic_vector(data_width-1 downto 0);
         ram_we_n: std_logic;
@@ -84,6 +86,7 @@ architecture stdarch of SRAM_Controller is
         reading => '0',
         writing => '0',
         auto_increment_end_address_reached => '0',
+        secondary_address => (others => '0'),
         last_access_cycle_was_a_write => '0',
         data_out => (others => '0'),
         ram_we_n => '1',
@@ -134,13 +137,15 @@ begin
         elsif (state.writing = '1') then
             do_write := '1';
         else
-            -- Check whether to enter read or write mode.
+            -- Check whether to enter read or write mode or just memorize the secondary address.
             if (read = '1' and write = '0') then
                 do_read := '1';
                 next_state.reading <= '1';
             elsif (read = '0' and write = '1') then
                 do_write := '1';
                 next_state.writing <= '1';
+            elsif (read = '1' and write = '1') then
+                next_state.secondary_address <= address;
             end if;
         end if;
 
@@ -188,9 +193,10 @@ begin
                     if (auto_increment_address = '0') then
                         -- Auto-increment mode is not used, just use the the specified address.
                         next_state.ram_address <= address;
-                    elsif (state.ram_address < address) then
+                    elsif (state.ram_address /= state.secondary_address) then
                         -- Auto-increment mode is used and we have not reached the specified (end) address,
-                        -- increment the address.
+                        -- increment the address. By using /= instead of < in the condition, this also works
+                        -- if the address wraps around (i.e. if the start address is higher than the end address).
                         -- Note that the new address is accessed immediately in the next cycle if the read
                         -- or write signal is still active.
                         next_state.ram_address <= state.ram_address + 1;

@@ -43,7 +43,7 @@ architecture stdarch of SRAM_Controller_Tester is
     constant ram_access_time: time := 70ns;
     constant ram_output_disable_time: time := 30ns;
     constant end_address_for_automatic_increment: natural := end_address - 2;
-    constant use_automatic_address_increment: boolean := true;
+    constant use_automatic_address_increment: boolean := false;
 
     -- This configures the test bench whether it tests in single operation or
     -- burst mode.
@@ -145,20 +145,30 @@ begin
     stimulus: process is
     begin
     
-        wait for ram_output_disable_time; -- wait a little for stabilization
+        -- Wait a little for better waveform view.
+        wait until rising_edge(clk); 
+
+        -- Set the end address for automatic address increment.
+        address <= to_unsigned(end_address_for_automatic_increment, address_width);
+        write <= '1';
+        read <= '1';
+        wait until rising_edge(clk);
+        write <= '0';
+        read <= '0';
         wait until rising_edge(clk);
         
         -- Read from the SRAM several times.
         write <= '0';
         auto_increment_address <= '0';
         for adr in start_address to end_address loop
-            if (use_automatic_address_increment and adr /= start_address) then
-                -- Make the controller automatically increment the address shown to the SRAM, the address
-                -- shown to the controller indicates where the controller shall stop auto-incrementing.
-                auto_increment_address <= '1';
-                address <= to_unsigned(end_address_for_automatic_increment, address_width);
-            else
+            if (not use_automatic_address_increment or adr = start_address) then
+                -- We do not use automatic address increment or we are in its first cycle, just
+                -- memorize the current address (start address for automatic address increment).
                 address <= to_unsigned(adr, address_width);
+            else
+                -- We use automatic address increment and we are not in its first cycle, make
+                -- the controller automatically increment the address shown to the SRAM.
+                auto_increment_address <= '1';
             end if;
             read <= '1';
             if (not burst_mode) then
@@ -182,13 +192,14 @@ begin
         auto_increment_address <= '0';
         for adr in start_address to end_address loop
             data_in <= std_logic_vector(to_unsigned(adr + address_to_data_offset, data_width));
-            if (use_automatic_address_increment and adr /= start_address) then
-                -- Make the controller automatically increment the address shown to the SRAM, the address
-                -- shown to the controller indicates where the controller shall stop auto-incrementing.
-                auto_increment_address <= '1';
-                address <= to_unsigned(end_address_for_automatic_increment, address_width);
-            else
+            if (not use_automatic_address_increment or adr = start_address) then
+                -- We do not use automatic address increment or we are in its first cycle, just
+                -- memorize the current address (start address for automatic address increment).
                 address <= to_unsigned(adr, address_width);
+            else
+                -- We use automatic address increment and we are not in its first cycle, make
+                -- the controller automatically increment the address shown to the SRAM.
+                auto_increment_address <= '1';
             end if;
             write <= '1';
             if (not burst_mode) then
@@ -242,6 +253,7 @@ begin
     begin
 
         -- Synchronize with the stimulus.
+        wait until falling_edge(clk);
         wait until falling_edge(clk);
 
         -- Verify that the SRAM is deactivated completely at the beginning.
