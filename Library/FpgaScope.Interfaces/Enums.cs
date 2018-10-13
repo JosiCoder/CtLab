@@ -37,10 +37,11 @@ namespace CtLab.FpgaScope.Interfaces
     {
         // These values must correspond to the FPGA implementation.
         Release = 0,
-        Idle =    StorageModeBits.ConnectMemory,
-        Read =    StorageModeBits.ConnectMemory | StorageModeBits.Read,
-        Write =   StorageModeBits.ConnectMemory | StorageModeBits.Write,
-        Capture = StorageModeBits.ConnectMemory | StorageModeBits.Write | StorageModeBits.AutoIncrementAddress,
+        Idle =          StorageModeBits.ConnectMemory,
+        Read =          StorageModeBits.ConnectMemory | StorageModeBits.Read,
+        Write =         StorageModeBits.ConnectMemory | StorageModeBits.Write,
+        Set2ndAddress = StorageModeBits.ConnectMemory | StorageModeBits.Read | StorageModeBits.Write,
+        Capture =       StorageModeBits.ConnectMemory | StorageModeBits.Write | StorageModeBits.AutoIncrementAddress,
     }
 
     [Flags]
@@ -62,6 +63,7 @@ namespace CtLab.FpgaScope.Interfaces
         // These values must correspond to the FPGA implementation.
         Reading =           StorageStateBits.Reading,
         Writing =           StorageStateBits.Writing,
+        Setting2ndAddress = StorageStateBits.Reading | StorageStateBits.Writing | StorageStateBits.Ready,
         CapturingFinished = StorageStateBits.Writing | StorageStateBits.AutoIncrementAddressReached,
         Ready =             StorageStateBits.Ready,
     }

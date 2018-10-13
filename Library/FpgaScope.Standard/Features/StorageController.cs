@@ -208,21 +208,29 @@ namespace CtLab.FpgaScope.Standard
             Debug.WriteLine ("------------------------------");
             Debug.WriteLine ("** Capturing {0}={1} **", startAddress, value);
 
+            // Prepare setting the end address.
+            SetAddressAndValue(endAddress, value);
+
+            // Set the end address.
+            SetMode(StorageMode.Set2ndAddress);
+            if (withHandshake) AwaitStateAndValue(StorageState.Setting2ndAddress);
+
+            // Finish access.
+            SetMode(StorageMode.Idle);
+            if (withHandshake) AwaitStateAndValue(StorageState.Ready);
+
             // Prepare write access.
             SetAddressAndValue(startAddress, value);
 
-            // Start writing, i.e. write the first cell (continuously), this also sets the start address.
+            // Start writing (the first cell).
             SetMode(StorageMode.Write);
             if (withHandshake) AwaitStateAndValue(StorageState.Writing);
 
-            // Initiate capture (doesn't start yet as current address is equal to end address)
-            // TODO: Doesn't set this the "Captured" flag in the FPGA already?
+            // Initiate capture.
             SetMode(StorageMode.Capture);
 
-            // Start capturing passing the end address.
-            SetAddressAndValue(endAddress, value);
-
-            // Await capturing to be finished (even if handshaking is deactivated everywhere else).
+            // Await end of capture.
+            // This takes a while, thus waiting must be done even if no handshaking is used anywhere else.
             AwaitStateAndValue(StorageState.CapturingFinished);
 
             // Finish access.
