@@ -26,6 +26,11 @@ namespace CtLab.FpgaScope.Interfaces
     public interface IScope : IDisposable
     {
         /// <summary>
+        /// Gets or sets the input source.
+        /// </summary>
+        ScopeSource InputSource { get; set; }
+
+        /// <summary>
         /// Captures values from the specified source to the storage.
         /// </summary>
         /// <param name="startAddress">The address to start writing at.</param>

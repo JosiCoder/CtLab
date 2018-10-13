@@ -57,13 +57,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
-                // Setup some signals on the analog outputs so that we can see how accessing the
-                // storage briefly deactivates the analog outputs.
-                SetDemoSignals(appliance);
-
-                // Get the scope and reset the hardware to cancel settings from previous configurations.
-                var scope = appliance.Scope;
-                scope.Reset();
+                var scope = SetupHardware(appliance);
 
                 var separatorStartAddress = 999u;
                 var separatorValues = new []{99u};
@@ -135,13 +129,7 @@ namespace CtLab.TestConsole
 
             using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
-                // Setup some signals on the analog outputs so that we can see how accessing the
-                // storage briefly deactivates the analog outputs.
-                SetDemoSignals(appliance);
-
-                // Get the scope and reset the hardware to cancel settings from previous configurations.
-                var scope = appliance.Scope;
-                scope.Reset();
+                var scope = SetupHardware(appliance);
 
                 var separatorStartAddress = 999u;
                 var separatorValues = new []{99u};
@@ -199,7 +187,13 @@ namespace CtLab.TestConsole
             Utilities.WriteFooterAndWaitForKeyPress();
         }
 
-        private void SetDemoSignals(Appliance appliance)
+        /// <summary>
+        /// Configures the appliance and returns the scope.
+        /// Configures some signals on the storage inputs and the analog outputs.
+        /// By observing the signals on the analog outputs we can see how accessing the
+        /// storage briefly disconnects the DAC.
+        /// </summary>
+        private IScope SetupHardware(Appliance appliance)
         {
             // Get the signal generator and reset the hardware to cancel settings from previous
             // configurations.
@@ -210,19 +204,28 @@ namespace CtLab.TestConsole
             signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator2;
             signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator3;
 
-            // Configure DDS channel 2 (vertical deflection).
+            // Configure DDS channel 2.
             signalGenerator.DdsGenerators[2].Waveform = Waveform.Sine;
-            signalGenerator.DdsGenerators[2].Frequency = 1000;
+            signalGenerator.DdsGenerators[2].Frequency = 1000000;
             signalGenerator.DdsGenerators[2].Amplitude = signalGenerator.DdsGenerators[2].MaximumAmplitude;
 
-            // Configure DDS channel 3 (horizontal deflection, synchronized by DDS channel 2).
-            signalGenerator.DdsGenerators[3].Waveform = Waveform.Sine;
-            signalGenerator.DdsGenerators[3].Frequency = 2000;
+            // Configure DDS channel 3 (synchronized by DDS channel 2).
+            signalGenerator.DdsGenerators[3].Waveform = Waveform.Sawtooth;
+            signalGenerator.DdsGenerators[3].Frequency = 2000000;
             signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
             signalGenerator.DdsGenerators[3].SynchronizationSource = ModulationAndSynchronizationSource.DdsGenerator2;
 
+            // Get the scope and reset the hardware to cancel settings from previous configurations.
+            var scope = appliance.Scope;
+            scope.Reset();
+
+            // Set the scope input to DDS channel 2.
+            scope.InputSource = ScopeSource.Data;
+
             // Flush all modifications, i.e. send all set commands that have modified values.
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
+
+            return scope;
         }
     }
 }

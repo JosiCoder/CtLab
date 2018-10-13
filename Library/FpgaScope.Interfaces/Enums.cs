@@ -67,4 +67,19 @@ namespace CtLab.FpgaScope.Interfaces
         CapturingFinished = StorageStateBits.Writing | StorageStateBits.AutoIncrementAddressReached,
         Ready =             StorageStateBits.Ready,
     }
+
+    /// <summary>
+    /// Specifies the signal/data sources that can be captured by the scope.
+    /// </summary>
+    public enum ScopeSource : ushort
+    {
+        // These values must correspond to the FPGA implementation.
+        DdsGenerator0 = 0,
+        DdsGenerator1 = 1,
+        DdsGenerator2 = 2,
+        DdsGenerator3 = 3,
+        PulseGenerator = 4,
+        External = 5,
+        Data = 6, // mainly used for testing purposes
+    }
 }

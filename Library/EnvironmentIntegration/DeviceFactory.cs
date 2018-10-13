@@ -122,7 +122,7 @@ namespace CtLab.EnvironmentIntegration
                 OptimizeSpiReading = false,                   // only for SPI, considered only when ReadWithHandshake=false
                 MillisecondsToWaitForAsynchronousReads = 100  // 10 or more needed for c't Lab protocol
             };
-            return CreateScope(hardwareSettings, GetConnection(mainchannel), applianceConnection);
+            return CreateScope(GetConnection(mainchannel), hardwareSettings);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace CtLab.EnvironmentIntegration
                 OptimizeSpiReading = true,                    // optional for SPI, considered only when ReadWithHandshake=false
                 MillisecondsToWaitForAsynchronousReads = 0    // not needed for SPI as it's synchronous
             };
-            return CreateScope(hardwareSettings, GetConnection(_spiConnectionKey), applianceConnection);
+            return CreateScope(GetConnection(_spiConnectionKey), hardwareSettings);
         }
 
         /// <summary>
@@ -152,9 +152,9 @@ namespace CtLab.EnvironmentIntegration
         /// <summary>
         /// Creates an FPGA-based scope.
         /// </summary>
-        private IScope CreateScope(StorageHardwareSettings hardwareSettings, IFpgaConnection fpgaConnection, IApplianceConnection applianceConnection)
+        private IScope CreateScope(IFpgaConnection fpgaConnection, StorageHardwareSettings hardwareSettings)
         {
-            return new Scope(hardwareSettings, fpgaConnection, _fpgaValuesAccessor);
+            return new Scope(fpgaConnection, hardwareSettings, _fpgaValuesAccessor);
         }
     }
 }

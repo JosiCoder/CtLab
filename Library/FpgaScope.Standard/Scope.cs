@@ -17,17 +17,47 @@
 
 using System.Collections.Generic;
 using CtLab.FpgaScope.Interfaces;
+using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaScope.Standard
 {
+    //TODO add more stuff similar to the UniversalCounter class.
+
     /// <summary>
     /// Represents an FPGA Lab scope.
     /// </summary>
     public class Scope : IScope
     {
+        private ScopeConfigurationWriter _configurationWriter;
+
         private readonly IFpgaConnection _fpgaConnection;
         private readonly StorageController _storageController;
+
+        /// <summary>
+        /// Initializes an instance of this class.
+        /// </summary>
+        /// <param name="deviceConnection">The connection used to access the device.</param>
+        /// <param name="hardwareSettings">The hardware settings to use for the storage.</param>
+        /// <param name="fpgaValuesAccessor">The accessor used to control access to FPGA values.</param>
+        public Scope(IFpgaConnection deviceConnection, StorageHardwareSettings hardwareSettings,
+            IFpgaValuesAccessor fpgaValuesAccessor)
+        {
+            _fpgaConnection = deviceConnection;
+            // TODO adjust to FPGA implementation
+            _configurationWriter = new ScopeConfigurationWriter(CreateFpgaValueSetter(99));
+
+            _storageController = new StorageController(hardwareSettings, _fpgaConnection, fpgaValuesAccessor);
+        }
+
+        /// <summary>
+        /// Gets or sets the input source.
+        /// </summary>
+        public ScopeSource InputSource
+        {
+            get { return _configurationWriter.InputSource; }
+            set { _configurationWriter.InputSource = value; }
+        }
 
         /// <summary>
         /// Captures values from the specified source to the storage.
@@ -69,26 +99,17 @@ namespace CtLab.FpgaScope.Standard
         }
 
         /// <summary>
-        /// Initializes an instance of this class.
-        /// </summary>
-        /// <param name="hardwareSettings">The hardware settings to use for the storage.</param>
-        /// <param name="deviceConnection">The connection used to access the device.</param>
-        /// <param name="fpgaValuesAccessor">The accessor used to control access to FPGA values.</param>
-        public Scope(StorageHardwareSettings hardwareSettings, IFpgaConnection deviceConnection,
-            IFpgaValuesAccessor fpgaValuesAccessor)
-        {
-            _fpgaConnection = deviceConnection;
-
-            _storageController = new StorageController(hardwareSettings, _fpgaConnection, fpgaValuesAccessor);
-        }
-
-        /// <summary>
         /// Resets the scope. 
         /// </summary>
         public void Reset()
         {
             // e.g.:
             // StorageController.XXX = ???;
+        }
+
+        private IFpgaValueSetter CreateFpgaValueSetter(ushort registerNumber)
+        {
+            return _fpgaConnection.CreateFpgaValueSetter(registerNumber, new CommandClassGroup());
         }
     }
 }

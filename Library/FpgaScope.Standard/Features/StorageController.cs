@@ -201,7 +201,7 @@ namespace CtLab.FpgaScope.Standard
         /// </summary>
         private void Capture(uint startAddress, uint endAddress, bool withHandshake)
         {
-            //TODO: replace with hardware values.
+            // Prepare a random value that is used when capturing data (instead of hardware signals).
             var random = new Random ();
             var value = (uint)random.Next(255);
 
