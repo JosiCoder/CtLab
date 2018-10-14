@@ -58,8 +58,8 @@ entity Main is
         ext_miso: out std_logic; 
         -- The test LED output.
         test_led: out std_logic;
-        -- The universal counter input.
-        cntr_in: in std_logic;
+        -- The external 1-bit width input.
+        external_in: in std_logic;
         -- The DDS generators synchronization outputs.
         dds_sync_out: out std_logic_vector(number_of_dds_generators-1 downto 0);
         -- The pulse generator output.
@@ -110,6 +110,7 @@ architecture stdarch of Main is
     constant universal_counter_config_subaddr: integer := 1;
     constant pulse_generator_high_duration_subaddr: integer := 6;
     constant pulse_generator_low_duration_subaddr: integer := 5;
+    constant scope_config_subaddr: integer := 25;
     -- Transmitter.
     constant universal_counter_state_subaddr: integer := 2;
     constant universal_counter_value_subaddr: integer := 3;
@@ -161,6 +162,11 @@ architecture stdarch of Main is
     signal universal_counter_value: unsigned(data_width-1 downto 0);
     signal universal_counter_state: data_buffer;
     signal update_universal_counter_output: std_logic;
+    
+    -- Scope
+    signal scope_config: data_buffer;
+    subtype scope_input_value is signed(ram_data_width-1 downto 0);
+    signal scope_input: scope_input_value;
 
     -- DAC
     signal dac_channel_select_int: std_logic;
@@ -272,6 +278,9 @@ begin
 
     -- Universal counter.
     universal_counter_config <= received_data_x(universal_counter_config_subaddr);
+    
+    -- Scope
+    scope_config <= received_data_x(scope_config_subaddr);
 
     -- Peripheral configuration.
     peripheral_config_raw <= received_data_x(peripheral_configuration_subaddr);
@@ -538,7 +547,7 @@ begin
         auto_increment_address => memory_auto_increment_address,
         auto_increment_end_address_reached => memory_auto_increment_end_address_reached,
         address => memory_address,
-        data_in => memory_data_in,
+        data_in => std_logic_vector(scope_input),
         data_out => memory_data_out,
         ram_we_n => sram_lines.ram_we_n,
         ram_oe_n => sram_lines.ram_oe_n,
@@ -550,6 +559,35 @@ begin
     --------------------------------------------------------------------------------
     -- Internal configuration logic.
     --------------------------------------------------------------------------------
+
+    -- Connects the selected signals to the scope input.
+    connect_scope_input: process is
+        constant scope_source_pulse: integer := 4;
+        constant scope_source_external: integer := 5;
+        constant scope_source_data: integer := 6;
+        variable scope_source: integer;
+    begin
+        wait until rising_edge(clk_100mhz);
+        scope_source := to_integer(unsigned(scope_config(10 downto 8)));
+        case (scope_source) is 
+            when scope_source_pulse =>
+                -- Connect a positive signal corresponding to the pulse.
+                scope_input <= (others => pulse_int);
+                scope_input(ram_data_width-1) <= '0';
+            when scope_source_external =>
+                -- Connect a positive signal corresponding to the external signal.
+                scope_input <= (others => external_in);
+                scope_input(ram_data_width-1) <= '0';
+            when scope_source_data =>
+                -- Connect the data.
+                scope_input <= signed(memory_data_in);
+            when others =>
+                -- Connect the DDS signal generator specified.
+                scope_input <= dds_generator_samples(scope_source)
+                    (modulated_generator_sample_width-1 downto modulated_generator_sample_width-ram_data_width);
+        end case;
+    end process;
+
 
     -- Connects the selected signals to the DACs inputs.
     connect_dac_input: process is
@@ -572,7 +610,7 @@ begin
     end process;
 
 
-    -- Connects the selected signals to the universal counters input.
+    -- Connects the selected signals to the universal counter input.
     connect_counter_input: process is
         constant universal_counter_source_pulse: integer := 4;
         constant universal_counter_source_external: integer := 5;
@@ -586,7 +624,7 @@ begin
                 universal_counter_input <= pulse_int;
             when universal_counter_source_external =>
                 -- Connect the external signal.
-                universal_counter_input <= cntr_in;
+                universal_counter_input <= external_in;
             when others =>
                 -- Connect the DDS signal generator specified.
                 universal_counter_input <= dds_sync_int(universal_counter_source);

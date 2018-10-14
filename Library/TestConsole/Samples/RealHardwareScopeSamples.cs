@@ -131,9 +131,6 @@ namespace CtLab.TestConsole
             {
                 var scope = SetupHardware(appliance);
 
-                var separatorStartAddress = 999u;
-                var separatorValues = new []{99u};
-
                 Console.WriteLine ("=====================================================");
                 Console.WriteLine ("Capturing values");
                 Console.WriteLine ("=====================================================");
@@ -143,12 +140,6 @@ namespace CtLab.TestConsole
                 scope.Capture(10, 20000);
 
                 Console.WriteLine ("Duration: {0}", DateTime.Now - start);
-
-                Console.WriteLine ("=====================================================");
-                Console.WriteLine ("Writing separator values (to overwrite SPI registers)");
-                Console.WriteLine ("=====================================================");
-
-                scope.Write(separatorStartAddress, separatorValues);
 
                 Console.WriteLine ("=====================================================");
                 Console.WriteLine ("Reading values");
@@ -204,23 +195,26 @@ namespace CtLab.TestConsole
             signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator2;
             signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator3;
 
+            // Configure the pulse generator.
+            signalGenerator.PulseGenerator.PulseDuration = 50;
+            signalGenerator.PulseGenerator.PauseDuration = 50;
+
             // Configure DDS channel 2.
             signalGenerator.DdsGenerators[2].Waveform = Waveform.Sine;
-            signalGenerator.DdsGenerators[2].Frequency = 1000000;
+            signalGenerator.DdsGenerators[2].Frequency = 2000000;
             signalGenerator.DdsGenerators[2].Amplitude = signalGenerator.DdsGenerators[2].MaximumAmplitude;
 
-            // Configure DDS channel 3 (synchronized by DDS channel 2).
+            // Configure DDS channel 3.
             signalGenerator.DdsGenerators[3].Waveform = Waveform.Sawtooth;
-            signalGenerator.DdsGenerators[3].Frequency = 2000000;
+            signalGenerator.DdsGenerators[3].Frequency = 1000000;
             signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
-            signalGenerator.DdsGenerators[3].SynchronizationSource = ModulationAndSynchronizationSource.DdsGenerator2;
 
             // Get the scope and reset the hardware to cancel settings from previous configurations.
             var scope = appliance.Scope;
             scope.Reset();
 
-            // Set the scope input to DDS channel 2.
-            scope.InputSource = ScopeSource.Data;
+            // Set the scope input to a signal or data source.
+            scope.InputSource = ScopeSource.DdsGenerator2;
 
             // Flush all modifications, i.e. send all set commands that have modified values.
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();

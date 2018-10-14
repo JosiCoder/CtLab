@@ -57,7 +57,6 @@ namespace CtLab.FpgaScope.Standard
 
         private void SetCommandValue()
         {
-            // TODO adjust to FPGA implementation
             var combinedValue =
                 ((uint)_inputSource) << 8;
             _valueSetter.SetValue(combinedValue);

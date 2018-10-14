@@ -44,8 +44,7 @@ namespace CtLab.FpgaScope.Standard
             IFpgaValuesAccessor fpgaValuesAccessor)
         {
             _fpgaConnection = deviceConnection;
-            // TODO adjust to FPGA implementation
-            _configurationWriter = new ScopeConfigurationWriter(CreateFpgaValueSetter(99));
+            _configurationWriter = new ScopeConfigurationWriter(CreateFpgaValueSetter(25));
 
             _storageController = new StorageController(hardwareSettings, _fpgaConnection, fpgaValuesAccessor);
         }
