@@ -5,6 +5,7 @@
 
 #build
 Dependencies
+Deployment
 [Oo]bj/
 [Bb]in/
 packages/
@@ -13,6 +14,8 @@ output/
 *.o
 *.so
 *.exe
+*.dll
+*.mdb
 testnative
 
 # globs
