@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using CtLab.Utilities;
 using CtLab.FpgaScope.Interfaces;
 using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
@@ -44,7 +45,7 @@ namespace CtLab.FpgaScope.Standard
             IFpgaValuesAccessor fpgaValuesAccessor)
         {
             _fpgaConnection = deviceConnection;
-            _configurationWriter = new ScopeConfigurationWriter(CreateFpgaValueSetter(25));
+            _configurationWriter = new ScopeConfigurationWriter(CreateFpgaValueSetter((ushort)SpiRegister.ScopeConfiguration));
 
             _storageController = new StorageController(hardwareSettings, _fpgaConnection, fpgaValuesAccessor);
         }

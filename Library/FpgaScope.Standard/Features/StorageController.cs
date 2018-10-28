@@ -20,8 +20,8 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using CtLab.Messages.Interfaces;
 using CtLab.Utilities;
+using CtLab.Messages.Interfaces;
 using CtLab.FpgaScope.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
 
@@ -79,8 +79,8 @@ namespace CtLab.FpgaScope.Standard
             _deviceConnection = deviceConnection;
             _fpgaValuesAccessor = fpgaValuesAccessor;
 
-            _storageSetter = CreateFpgaValueSetter(24);
-            _storageGetter = CreateFpgaValueGetter(24);
+            _storageSetter = CreateFpgaValueSetter((ushort)SpiRegister.StorageController);
+            _storageGetter = CreateFpgaValueGetter((ushort)SpiRegister.StorageController);
 
             SetMode (StorageMode.Release);
         }

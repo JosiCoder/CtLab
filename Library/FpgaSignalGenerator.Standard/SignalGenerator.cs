@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using CtLab.Utilities;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Messages.Interfaces;
 using CtLab.FpgaConnection.Interfaces;
@@ -133,22 +134,22 @@ namespace CtLab.FpgaSignalGenerator.Standard
             _fpgaConnection = deviceConnection;
 
             _ddsGenerators = new DdsGenerator[4];
-            _ddsGenerators[0] = BuildDdsGenerator(8);
-            _ddsGenerators[1] = BuildDdsGenerator(12);
-            _ddsGenerators[2] = BuildDdsGenerator(16);
-            _ddsGenerators[3] = BuildDdsGenerator(20);
+            _ddsGenerators[0] = BuildDdsGenerator((ushort)SpiRegister.DdsGenerator1Base);
+            _ddsGenerators[1] = BuildDdsGenerator((ushort)SpiRegister.DdsGenerator2Base);
+            _ddsGenerators[2] = BuildDdsGenerator((ushort)SpiRegister.DdsGenerator3Base);
+            _ddsGenerators[3] = BuildDdsGenerator((ushort)SpiRegister.DdsGenerator4Base);
 
             _outputSourceSelector = new OutputSourceSelector(
-                CreateFpgaValueSetter(7));
+                CreateFpgaValueSetter((ushort)SpiRegister.OutputSource));
 
             _pulseGenerator = new PulseGenerator(
-                CreateFpgaValueSetter(6),
-                CreateFpgaValueSetter(5));
+                CreateFpgaValueSetter((ushort)SpiRegister.PulseGeneratorPulseDuration),
+                CreateFpgaValueSetter((ushort)SpiRegister.PulseGeneratorPauseDuration));
 
             _universalCounter = new UniversalCounter(
-                CreateFpgaValueSetter(1),
-                CreateFpgaValueGetter(3),
-                CreateFpgaValueGetter(2)
+                CreateFpgaValueSetter((ushort)SpiRegister.UniversalCounterConfiguration),
+                CreateFpgaValueGetter((ushort)SpiRegister.UniversalCounterRawValue),
+                CreateFpgaValueGetter((ushort)SpiRegister.UniversalCounterStatus)
             );
         }
 
