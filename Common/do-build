@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Builds a Ct-Lab-based component. Intended to be source-invoked by that component's build script.
+# Builds a Ct-Lab-based component.
+# Intended to be source-invoked by that component's build script.
 # That invoking script is expected to provide a "solution" variable.
 
 configPar=""

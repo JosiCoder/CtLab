@@ -2,21 +2,8 @@
 # Performs some post-build steps.
 # $1 is expected to be set to the build output folder.
 
-set -e
-trap "exit" INT TERM EXIT
+deploymentDir="$(dirname "$0")/Deployment"
 
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 <buildFolder>"
-    exit
-fi
-
-projectDir=$(dirname "$0")
-sourceDir="$1"
-deploymentDir="$projectDir/Deployment"
-artifactsDir="$projectDir/Artifacts"
-
-[ ! -d $deploymentDir ] && mkdir $deploymentDir
-cp $sourceDir/* $deploymentDir
-cp $artifactsDir/* $deploymentDir
+. "$(dirname "$0")/../Common/do-deploy"
 
 chmod u+x $deploymentDir/testconsole
