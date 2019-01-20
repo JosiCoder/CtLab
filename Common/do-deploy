@@ -17,5 +17,5 @@ deploymentDir="$projectDir/Deployment"
 artifactsDir="$projectDir/Artifacts"
 
 [ ! -d $deploymentDir ] && mkdir $deploymentDir
-cp $sourceDir/* $deploymentDir
-cp $artifactsDir/* $deploymentDir
+cp --preserve=timestamps $sourceDir/* $deploymentDir
+cp --preserve=timestamps $artifactsDir/* $deploymentDir
