@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # Builds a Ct-Lab-based component.
-# Intended to be source-invoked by that component's build script.
-# That invoking script is expected to provide a "solution" variable.
+# Intended to be invoked by a component's specific build script within
+# that component's root directory.
 
 configPar=""
 cleanall=0
 
-if [ $# -ne 0 ]; then
+if [ $# -eq 2 ]; then
     configPar="$1"
+    solution="$2"
 fi
 
 case "$configPar" in
