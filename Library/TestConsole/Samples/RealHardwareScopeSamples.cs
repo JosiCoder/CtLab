@@ -150,7 +150,7 @@ namespace CtLab.TestConsole
                 // Read all values eagerly, then await any async 'String received' comments.
                 // This is just for more beautiful output.
                 var readValueSets = new List<IEnumerable<uint>>();
-                readValueSets.Add(scope.Read(10-5, 20).ToList());
+                readValueSets.Add(scope.Read(10-5, 10).ToList());
                 readValueSets.Add(scope.Read(1000-5, 10).ToList());
                 readValueSets.Add(scope.Read(5000-5, 10).ToList());
                 readValueSets.Add(scope.Read(10000-5, 10).ToList());
