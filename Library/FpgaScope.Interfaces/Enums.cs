@@ -80,6 +80,6 @@ namespace CtLab.FpgaScope.Interfaces
         DdsGenerator3 = 3,
         PulseGenerator = 4,
         External = 5,
-        TestDatum = 6, // used for testing purposes only
+        WriteValue = 6, // used mainly for testing purposes.
     }
 }

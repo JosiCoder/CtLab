@@ -51,13 +51,13 @@ namespace CtLab.TestConsole
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
         /// to be considered, especially when using the c't Lab protocol. 
         /// </summary>
-        public void WriteAndReadStorageValues()
+        public void WriteAndReadStorageValues(bool useHardwareSignal)
         {
             Utilities.WriteHeader();
 
             using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
-                var scope = SetupHardware(appliance);
+                var scope = SetupHardware(appliance, useHardwareSignal);
 
                 var separatorStartAddress = 999u;
                 var separatorValues = new []{99u};
@@ -123,13 +123,13 @@ namespace CtLab.TestConsole
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
         /// to be considered, especially when using the c't Lab protocol. 
         /// </summary>
-        public void CaptureAndReadStorageValues()
+        public void CaptureAndReadStorageValues(bool useHardwareSignal)
         {
             Utilities.WriteHeader();
 
             using (var appliance = new ApplianceFactory(_spiDirect).CreateTestAppliance())
             {
-                var scope = SetupHardware(appliance);
+                var scope = SetupHardware(appliance, useHardwareSignal);
 
                 Console.WriteLine ("=====================================================");
                 Console.WriteLine ("Capturing values");
@@ -184,11 +184,40 @@ namespace CtLab.TestConsole
         /// By observing the signals on the analog outputs we can see how accessing the
         /// storage briefly disconnects the DAC.
         /// </summary>
-        private IScope SetupHardware(Appliance appliance)
+        private IScope SetupHardware(Appliance appliance, bool useHardwareSignal)
         {
-            // Get the signal generator and reset the hardware to cancel settings from previous
-            // configurations.
-            var signalGenerator = appliance.SignalGenerator;
+            // Setup the hardware-generated signals.
+            SetupHardwareSignals(appliance.SignalGenerator);
+
+            // Select the hardware signal to use.
+            var hardwareSignalScopeSource = ScopeSource.DdsGenerator2;
+
+            // Set the scope input to a hardware-generated signal or to the write value source.
+            var inputSource = useHardwareSignal
+                ? hardwareSignalScopeSource
+                : ScopeSource.WriteValue;
+
+            // Get the scope and reset the hardware to cancel settings from previous configurations.
+            var scope = appliance.Scope;
+            scope.Reset();
+
+            // Set the scope input to a signal or data source.
+            scope.InputSource = inputSource;
+
+            // Flush all modifications, i.e. send all set commands that have modified values.
+            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
+
+            return scope;
+        }
+
+        /// <summary>
+        /// Configures some signals for the storage inputs and the analog outputs.
+        /// By observing the signals on the analog outputs we can see how accessing the
+        /// storage briefly disconnects the DAC.
+        /// </summary>
+        private void SetupHardwareSignals(ISignalGenerator signalGenerator)
+        {
+            // Reset the hardware to cancel settings from previous configurations.
             signalGenerator.Reset();
 
             // Set the outputs to DDS channels 2 and 3.
@@ -208,18 +237,6 @@ namespace CtLab.TestConsole
             signalGenerator.DdsGenerators[3].Waveform = Waveform.Sawtooth;
             signalGenerator.DdsGenerators[3].Frequency = 1000000;
             signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
-
-            // Get the scope and reset the hardware to cancel settings from previous configurations.
-            var scope = appliance.Scope;
-            scope.Reset();
-
-            // Set the scope input to a signal or data source.
-            scope.InputSource = ScopeSource.DdsGenerator2;
-
-            // Flush all modifications, i.e. send all set commands that have modified values.
-            appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
-
-            return scope;
         }
     }
 }

@@ -42,6 +42,7 @@ namespace CtLab.TestConsole
             }
 
             var spiDirect = args.Contains("spi");
+            var useHardwareSignal = args.Contains("hw");
 
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
@@ -53,7 +54,7 @@ namespace CtLab.TestConsole
 
             RunRealHardwareSignalGeneratorSamples(spiDirect);
 
-            RunRealHardwareScopeSamples(spiDirect);
+            RunRealHardwareScopeSamples(spiDirect, useHardwareSignal);
 
             Console.WriteLine("Test console finished, press any key.");
             Console.ReadLine();
@@ -140,16 +141,16 @@ namespace CtLab.TestConsole
         /// Runs samples that need real c't Lab hardware connected via a (physical or emulated) serial port.
         /// For these tests, a proper configuration supporting a scope must be loaded into the FPGA.
         /// </summary>
-        public static void RunRealHardwareScopeSamples(bool spiDirect)
+        public static void RunRealHardwareScopeSamples(bool spiDirect, bool useHardwareSignal)
         {
             //== Here you can activate or deactivate one or more of the samples below. They don't
             //== dependent on each other.
 
             // Sample: Write sample values to the storage and read them.
-            new RealHardwareScopeSamples(spiDirect).WriteAndReadStorageValues();
+            new RealHardwareScopeSamples(spiDirect).WriteAndReadStorageValues(useHardwareSignal);
 
             // Sample: Capture sample values to the storage and read them.
-            new RealHardwareScopeSamples(spiDirect).CaptureAndReadStorageValues();
+            new RealHardwareScopeSamples(spiDirect).CaptureAndReadStorageValues(useHardwareSignal);
         }
     }
 }
