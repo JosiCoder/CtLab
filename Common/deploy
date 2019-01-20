@@ -1,21 +1,21 @@
 #!/bin/bash
 # Performs some post-build steps.
-# Intended to be source-invoked by that component's deploy script.
-# $1 is expected to be set to the build output folder.
+# $1 is expected to be set to the build output directory to get the
+# files to deploy from.
 
 set -e
 trap "exit" INT TERM EXIT
 
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <buildFolder>"
+    echo "Usage: $0 <buildDir>"
     exit
 fi
 
 projectDir=$(dirname "$0")
-sourceDir="$1"
-deploymentDir="$projectDir/Deployment"
+buildDir="$1"
 artifactsDir="$projectDir/Artifacts"
+deploymentDir="$projectDir/Deployment"
 
 [ ! -d $deploymentDir ] && mkdir $deploymentDir
-cp --preserve=timestamps $sourceDir/* $deploymentDir
+cp --preserve=timestamps $buildDir/* $deploymentDir
 cp --preserve=timestamps $artifactsDir/* $deploymentDir

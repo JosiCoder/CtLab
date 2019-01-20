@@ -1,9 +1,8 @@
 #!/bin/bash
 # Performs some post-build steps.
-# $1 is expected to be set to the build output folder.
+# $1 is expected to be set to the build output directory to get the
+# files to deploy from.
 
-deploymentDir="$(dirname "$0")/Deployment"
-
-. "$(dirname "$0")/../Common/do-deploy"
+source "$(dirname "$0")/../Common/deploy"
 
 chmod u+x $deploymentDir/testconsole
