@@ -47,13 +47,13 @@ namespace CtLab.TestConsole
             // Evaluate regular expressions. This is just for testing and developing purposes.
             //RegularExpressions.Test();
 
-            RunDummyConnectionLowLevelSamples();
-            RunRealHardwareLowLevelSamples();
-
-            RunDummyConnectionSignalGeneratorSamples();
-
-            RunRealHardwareSignalGeneratorSamples(spiDirect);
-
+//            RunDummyConnectionLowLevelSamples();
+//            RunRealHardwareLowLevelSamples();
+//
+//            RunDummyConnectionSignalGeneratorSamples();
+//
+//            RunRealHardwareSignalGeneratorSamples(spiDirect);
+//
             RunRealHardwareScopeSamples(spiDirect, useHardwareSignal);
 
             Console.WriteLine("Test console finished, press any key.");
@@ -147,7 +147,7 @@ namespace CtLab.TestConsole
             //== dependent on each other.
 
             // Sample: Write sample values to the storage and read them.
-            new RealHardwareScopeSamples(spiDirect).WriteAndReadStorageValues(useHardwareSignal);
+//            new RealHardwareScopeSamples(spiDirect).WriteAndReadStorageValues(useHardwareSignal);
 
             // Sample: Capture sample values to the storage and read them.
             new RealHardwareScopeSamples(spiDirect).CaptureAndReadStorageValues(useHardwareSignal);

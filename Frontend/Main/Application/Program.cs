@@ -79,25 +79,39 @@ namespace CtLab.Frontend
             // Initialize the UI toolkit.
             Application.Init();
 
-            // Create the viewmodel hierarchy.
-            var mainViewModel = new MainViewModel(new ApplianceFactory(),
-                new DialogServiceViewModelFactory(), applicationSettingsReaderWriter);
-            mainViewModel.InitializeAppliances(applicationSettings);
+            // Create the viewmodel hierarchy and show the view hierarchy.
+            using(var mainViewModel = new MainViewModel(new ApplianceFactory(),
+                new DialogServiceViewModelFactory(), applicationSettingsReaderWriter))
+            {
+                mainViewModel.InitializeAppliances(applicationSettings);
 
-            // Create and show the main window.
-            var mainWindowView = MainWindowView.Create(mainViewModel);
-            mainWindowView.Show();
+                // Create and show the main window.
+                var mainWindowView = MainWindowView.Create(mainViewModel, HandleCloseRequest);
+                mainWindowView.Show();
 
-            // Debug only: By creating a second view referring to the same viewmodel,
-            // data binding can be easily tested (each view must immediately reflect
-            // changes made in the other one).
-            #if DEBUG
-            //var mainWindowView1 = MainWindowView.Create(mainViewModel);
-            //mainWindowView1.Show();
-            #endif
+                // Debug only: By creating a second view referring to the same viewmodel,
+                // data binding can be easily tested (each view must immediately reflect
+                // changes made in the other one).
+                #if DEBUG
+                //var mainWindowView1 = MainWindowView.Create(mainViewModel, HandleCloseRequest);
+                //mainWindowView1.Show();
+                #endif
 
-            // Run the message loop.
-            Application.Run();
+                // Run the message loop.
+                Application.Run();
+            }
+        }
+
+        /// <summary>
+        /// Quits the application.
+        /// </summary>
+        private static bool HandleCloseRequest()
+        {
+            // If the last window was closed, quit the application.
+            Application.Quit();
+
+            // Accept the close request, i.e. close the window.
+            return true;
         }
 
         /// <summary>

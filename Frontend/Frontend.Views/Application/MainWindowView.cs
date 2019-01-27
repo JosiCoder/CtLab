@@ -34,6 +34,7 @@ namespace CtLab.Frontend.Views
     public class MainWindowView: Gtk.Window, IMainViewModelDialogService
     {
         private readonly MainViewModel _viewModel;
+        private readonly Func<bool> _closeFunction;
         [UI] Gtk.Container applianceContainer;
         [UI] Gtk.Action applicationSettingsAction;
         [UI] Gtk.Action connectAndInitializeAppliancesAction;
@@ -43,10 +44,14 @@ namespace CtLab.Frontend.Views
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        public static MainWindowView Create(MainViewModel viewModel)
+        /// <param name="closeAction">
+        /// A function that is called whenever a request to close the window has been made.
+        /// </param>
+        public static MainWindowView Create(MainViewModel viewModel, Func<bool> closeFunction)
         {
             var builder = new Builder (null, "MainWindowView.glade", null);
-            return new MainWindowView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
+            return new MainWindowView (viewModel, builder,
+                builder.GetObject ("mainWidget").Handle, closeFunction);
         }
 
         /// <summary>
@@ -55,10 +60,15 @@ namespace CtLab.Frontend.Views
         /// <param name="viewModel">The viewmodel represented by this view.</param>
         /// <param name="builder">The Gtk# builder used to build this view.</param>
         /// <param name="handle">The handle of the main widget.</param>
-        private MainWindowView(MainViewModel viewModel, Builder builder, IntPtr handle)
+        /// <param name="closeAction">
+        /// A function that is called whenever a request to close the window has been made.
+        /// </param>
+        private MainWindowView(MainViewModel viewModel, Builder builder, IntPtr handle,
+            Func<bool> closeFunction)
             : base (handle)
         {
             _viewModel = viewModel;
+            _closeFunction = closeFunction;
             viewModel.DialogService = this;
             builder.Autoconnect(this);
 
@@ -163,17 +173,11 @@ namespace CtLab.Frontend.Views
         }
 
         /// <summary>
-        /// Performs actions whenever the window has been closed.
+        /// Performs actions whenever a request to close the window has been made.
         /// </summary>
         protected void Deleted(object sender, DeleteEventArgs a)
         {
-            if (_viewModel != null)
-            {
-                _viewModel.Dispose();
-            }
-
-            Application.Quit();
-            a.RetVal = true;
+            a.RetVal = _closeFunction != null ? !_closeFunction() : true;
         }
     }
 }
