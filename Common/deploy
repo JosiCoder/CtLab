@@ -16,6 +16,6 @@ buildDir="$1"
 artifactsDir="$projectDir/Artifacts"
 deploymentDir="$projectDir/Deployment"
 
-[ ! -d $deploymentDir ] && mkdir $deploymentDir
-cp --preserve=timestamps $buildDir/* $deploymentDir
-cp --preserve=timestamps $artifactsDir/* $deploymentDir
+[ ! -d "$deploymentDir" ] && mkdir "$deploymentDir"
+[ -d "$buildDir" ] && cp --preserve=timestamps "$buildDir"/* "$deploymentDir"
+[ -d "$artifactsDir" ] && cp --preserve=timestamps "$artifactsDir"/* "$deploymentDir"
