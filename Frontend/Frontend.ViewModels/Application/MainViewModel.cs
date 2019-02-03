@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CtLab.Environment;
 using CtLab.FpgaSignalGenerator.Interfaces;
+using CtLab.FpgaScope.Interfaces;
 
 namespace CtLab.Frontend.ViewModels
 {
@@ -221,9 +222,10 @@ namespace CtLab.Frontend.ViewModels
         private ApplianceViewModel CreateApplianceViewModel(Appliance appliance,
             string connectionDescription)
         {
-            // === Build the viewmodel hierarchy. ===
-
             var applianceServices = new ApplianceServices (appliance);
+
+
+            // === Build the viewmodel hierarchy for the signal generator. ===
 
             var signalGenerator = appliance.SignalGenerator;
             var universalCounter = signalGenerator.UniversalCounter;
@@ -307,6 +309,12 @@ namespace CtLab.Frontend.ViewModels
                 appliance,
                 signalGeneratorVM,
                 connectionDescription);
+
+
+            // === Build the viewmodel hierarchy for the scope. ===
+
+            var scope = appliance.Scope;
+
 
             // === Start operation. ===
 

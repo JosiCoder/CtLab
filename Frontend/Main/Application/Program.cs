@@ -87,13 +87,13 @@ namespace CtLab.Frontend
             {
                 mainViewModel.InitializeAppliances(applicationSettings);
                 ShowMainWindow(mainViewModel);
+                ShowScopeWindow(mainViewModel);
 
                 // Debug only: By creating a second view referring to the same viewmodel,
                 // data binding can be easily tested (each view must immediately reflect
                 // changes made in the other one).
                 #if DEBUG
-                // TODO das hier nach den Tests wieder deaktivieren
-                ShowMainWindow(mainViewModel);
+                //ShowMainWindow(mainViewModel);
                 #endif
 
                 // Run the message loop.
@@ -107,6 +107,14 @@ namespace CtLab.Frontend
         private static void ShowMainWindow(MainViewModel mainViewModel)
         {
             ShowWindow(closeRequestHandler => MainWindowView.Create(mainViewModel, closeRequestHandler));
+        }
+
+        /// <summary>
+        /// Shows the main window.
+        /// </summary>
+        private static void ShowScopeWindow(MainViewModel mainViewModel)
+        {
+            ShowWindow(closeRequestHandler => ScopeWindowView.Create(mainViewModel, closeRequestHandler));
         }
 
         /// <summary>
