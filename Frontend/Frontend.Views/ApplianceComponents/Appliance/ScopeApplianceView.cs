@@ -56,7 +56,7 @@ namespace CtLab.Frontend.Views
         /// </summary>
         protected override Gtk.Bin CreateMainPartView (IApplianceViewModel viewModel)
         {
-            return SignalGeneratorView.Create(viewModel.SignalGeneratorVM); // TODO replace with scope view and VM
+            return ScopeView.Create(viewModel.SignalGeneratorVM); // TODO replace VM with scope VM
         }
     }
 }

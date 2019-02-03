@@ -98,6 +98,7 @@
     <Compile Include="ApplianceComponents\Appliance\SignalGeneratorApplianceView.cs" />
     <Compile Include="ApplianceComponents\Appliance\ApplianceViewBase.cs" />
     <Compile Include="ApplianceComponents\Appliance\ScopeApplianceView.cs" />
+    <Compile Include="ApplianceComponents\Scope\ScopeView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GtkSharp.3.1.3\build\net45\GtkSharp.targets" Condition="Exists('..\packages\GtkSharp.3.1.3\build\net45\GtkSharp.targets')" />
@@ -123,6 +124,7 @@
     <Folder Include="Application\Scope\" />
     <Folder Include="Application\SignalGenerator\" />
     <Folder Include="Application\Common\" />
+    <Folder Include="ApplianceComponents\Scope\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Primitives\Readout\ReadoutView.glade">
@@ -160,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApplianceComponents\Appliance\ScopeApplianceView.glade">
       <LogicalName>ScopeApplianceView.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApplianceComponents\Scope\ScopeView.glade">
+      <LogicalName>ScopeView.glade</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
