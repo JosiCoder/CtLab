@@ -106,7 +106,7 @@ namespace CtLab.Frontend
         /// </summary>
         private static void ShowMainWindow(MainViewModel mainViewModel)
         {
-            ShowWindow(closeRequestHandler => MainWindowView.Create(mainViewModel, closeRequestHandler));
+            ShowWindow(closeRequestHandler => SignalGeneratorWindowView.Create(mainViewModel, closeRequestHandler));
         }
 
         /// <summary>

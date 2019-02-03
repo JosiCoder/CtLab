@@ -34,7 +34,7 @@ Copyright (C) 2017 Josi Coder
   </object>
   <object class="GtkWindow" id="mainWidget">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">c't-Lab</property>
+    <property name="title" translatable="yes">c't-Lab Signal Generator</property>
     <property name="default_width">500</property>
     <property name="default_height">300</property>
     <child>

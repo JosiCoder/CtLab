@@ -31,7 +31,7 @@ namespace CtLab.Frontend.Views
     /// <summary>
     /// Provides the Gtk# view of the main window.
     /// </summary>
-    public class MainWindowView: Gtk.Window, IMainViewModelDialogService
+    public class SignalGeneratorWindowView: Gtk.Window, IMainViewModelDialogService
     {
         private readonly MainViewModel _viewModel;
         private readonly Func<bool> _closeRequestHandler;
@@ -47,10 +47,10 @@ namespace CtLab.Frontend.Views
         /// <param name="acceptCloseFunction">
         /// A function handling any request to close the window.
         /// </param>
-        public static MainWindowView Create(MainViewModel viewModel, Func<bool> closeRequestHandler)
+        public static SignalGeneratorWindowView Create(MainViewModel viewModel, Func<bool> closeRequestHandler)
         {
-            var builder = new Builder (null, "MainWindowView.glade", null);
-            return new MainWindowView (viewModel, builder,
+            var builder = new Builder (null, "SignalGeneratorWindowView.glade", null);
+            return new SignalGeneratorWindowView (viewModel, builder,
                 builder.GetObject ("mainWidget").Handle, closeRequestHandler);
         }
 
@@ -63,7 +63,7 @@ namespace CtLab.Frontend.Views
         /// <param name="closeAction">
         /// A function handling any request to close the window.
         /// </param>
-        private MainWindowView(MainViewModel viewModel, Builder builder, IntPtr handle,
+        private SignalGeneratorWindowView(MainViewModel viewModel, Builder builder, IntPtr handle,
             Func<bool> acceptCloseFunction)
             : base (handle)
         {
