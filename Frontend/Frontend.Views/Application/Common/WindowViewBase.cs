@@ -29,7 +29,7 @@ using CtLab.Frontend.ViewModels;
 namespace CtLab.Frontend.Views
 {
     /// <summary>
-    /// Provides a base implementation for Gtk# views for windows.
+    /// Provides a base implementation for Gtk# views of windows.
     /// </summary>
     public abstract class WindowViewBase: Gtk.Window, IMainViewModelDialogService
     {
@@ -121,7 +121,7 @@ namespace CtLab.Frontend.Views
         /// <summary>
         /// Performs actions whenever the appliance viewmodel collection has changed.
         /// </summary>
-        protected void ApplianceVMCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void ApplianceVMCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             IEnumerable<Widget> newWidgets = new Widget[0];
             IEnumerable<Widget> oldWidgets = new Widget[0];
@@ -154,15 +154,12 @@ namespace CtLab.Frontend.Views
         /// <summary>
         /// Creates views for the specified appliance viewmodels.
         /// </summary>
-        protected IEnumerable<ApplianceView> CreateApplianceViews(IEnumerable<IApplianceViewModel> applianceVMs)
-        {
-            return applianceVMs.Select(vm => ApplianceView.Create(vm));
-        }
+        protected abstract IEnumerable<ApplianceViewBase> CreateApplianceViews(IEnumerable<IApplianceViewModel> applianceVMs);
 
         /// <summary>
         /// Performs actions whenever a request to close the window has been made.
         /// </summary>
-        protected void Deleted(object sender, DeleteEventArgs a)
+        private void Deleted(object sender, DeleteEventArgs a)
         {
             var acceptCloseFunction = _closeRequestHandler;
             a.RetVal = acceptCloseFunction != null ? !acceptCloseFunction() : true;

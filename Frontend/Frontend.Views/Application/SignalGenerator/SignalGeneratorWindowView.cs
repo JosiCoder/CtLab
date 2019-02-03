@@ -59,7 +59,14 @@ namespace CtLab.Frontend.Views
         private SignalGeneratorWindowView(MainViewModel viewModel, Builder builder, IntPtr handle,
             Func<bool> acceptCloseFunction)
             : base (viewModel, builder, handle, acceptCloseFunction)
+        {}
+
+        /// <summary>
+        /// Creates views for the specified appliance viewmodels.
+        /// </summary>
+        protected override IEnumerable<ApplianceViewBase> CreateApplianceViews(IEnumerable<IApplianceViewModel> applianceVMs)
         {
+            return applianceVMs.Select(vm => SignalGeneratorApplianceView.Create(vm));
         }
     }
 }

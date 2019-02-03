@@ -16,8 +16,6 @@
 //--------------------------------------------------------------------------------
 
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.ComponentModel;
 using Gtk;
 using Cairo;
@@ -29,23 +27,14 @@ using CtLab.Frontend.ViewModels;
 namespace CtLab.Frontend.Views
 {
     /// <summary>
-    /// Provides the Gtk# view of the scope window.
+    /// Provides a base implementation for Gtk# views of appliances.
     /// </summary>
-    public class ScopeWindowView: WindowViewBase
+    public abstract class ApplianceViewBase: Gtk.Bin
     {
-        /// <summary>
-        /// Creates a new instance of this class.
-        /// </summary>
-        /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        /// <param name="acceptCloseFunction">
-        /// A function handling any request to close the window.
-        /// </param>
-        public static ScopeWindowView Create(MainViewModel viewModel, Func<bool> closeRequestHandler)
-        {
-            var builder = new Builder (null, "ScopeWindowView.glade", null);
-            return new ScopeWindowView (viewModel, builder,
-                builder.GetObject ("mainWidget").Handle, closeRequestHandler);
-        }
+        private readonly IApplianceViewModel _viewModel;
+        [UI] Gtk.Label connectionLabel;
+        [UI] Gtk.Widget connectionActiveIndicator;
+        [UI] Gtk.Container mainPartContainer;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -53,20 +42,26 @@ namespace CtLab.Frontend.Views
         /// <param name="viewModel">The viewmodel represented by this view.</param>
         /// <param name="builder">The Gtk# builder used to build this view.</param>
         /// <param name="handle">The handle of the main widget.</param>
-        /// <param name="closeAction">
-        /// A function handling any request to close the window.
-        /// </param>
-        private ScopeWindowView(MainViewModel viewModel, Builder builder, IntPtr handle,
-            Func<bool> acceptCloseFunction)
-            : base (viewModel, builder, handle, acceptCloseFunction)
-        {}
+        protected ApplianceViewBase(IApplianceViewModel viewModel, Builder builder, IntPtr handle)
+            : base (handle)
+        {
+            _viewModel = viewModel;
+            builder.Autoconnect(this);
+
+            // === Create sub-views. ===
+
+            var signalGenerator =  CreateMainPartView(_viewModel);
+            mainPartContainer.Add(signalGenerator);
+
+            // === Create bindings. ===
+
+            PB.Binding.Create (() => connectionLabel.Text == _viewModel.ConnectionDescription);
+            PB.Binding.Create (() => connectionActiveIndicator.Visible == _viewModel.IsConnectionActive);
+        }
 
         /// <summary>
-        /// Creates views for the specified appliance viewmodels.
+        /// Creates the main part's view.
         /// </summary>
-        protected override IEnumerable<ApplianceViewBase> CreateApplianceViews(IEnumerable<IApplianceViewModel> applianceVMs)
-        {
-            return applianceVMs.Select(vm => ScopeApplianceView.Create(vm));
-        }
+        protected abstract Gtk.Bin CreateMainPartView(IApplianceViewModel viewModel);
     }
 }

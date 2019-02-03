@@ -27,23 +27,18 @@ using CtLab.Frontend.ViewModels;
 namespace CtLab.Frontend.Views
 {
     /// <summary>
-    /// Provides the Gtk# view of an appliance.
+    /// Provides the Gtk# view of a signal generator appliance.
     /// </summary>
-    public class ApplianceView: Gtk.Bin
+    public class SignalGeneratorApplianceView: ApplianceViewBase
     {
-        private readonly IApplianceViewModel _viewModel;
-        [UI] Gtk.Label connectionLabel;
-        [UI] Gtk.Widget connectionActiveIndicator;
-        [UI] Gtk.Container signalGeneratorContainer;
-
         /// <summary>
         /// Creates a new instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by the instance created.</param>
-        public static ApplianceView Create(IApplianceViewModel viewModel)
+        public static SignalGeneratorApplianceView Create(IApplianceViewModel viewModel)
         {
-            var builder = new Builder (null, "ApplianceView.glade", null);
-            return new ApplianceView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
+            var builder = new Builder (null, "SignalGeneratorApplianceView.glade", null);
+            return new SignalGeneratorApplianceView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
         }
 
         /// <summary>
@@ -52,21 +47,18 @@ namespace CtLab.Frontend.Views
         /// <param name="viewModel">The viewmodel represented by this view.</param>
         /// <param name="builder">The Gtk# builder used to build this view.</param>
         /// <param name="handle">The handle of the main widget.</param>
-        private ApplianceView(IApplianceViewModel viewModel, Builder builder, IntPtr handle)
-            : base (handle)
+        protected SignalGeneratorApplianceView(IApplianceViewModel viewModel, Builder builder, IntPtr handle)
+            : base(viewModel, builder, handle)
         {
-            _viewModel = viewModel;
-            builder.Autoconnect(this);
+        }
 
-            // === Create sub-views. ===
-
-            var signalGenerator =  SignalGeneratorView.Create(_viewModel.SignalGeneratorVM);
-            signalGeneratorContainer.Add(signalGenerator);
-
-            // === Create bindings. ===
-
-            PB.Binding.Create (() => connectionLabel.Text == _viewModel.ConnectionDescription);
-            PB.Binding.Create (() => connectionActiveIndicator.Visible == _viewModel.IsConnectionActive);
+        /// <summary>
+        /// Creates the main part's view.
+        /// </summary>
+        protected override Gtk.Bin CreateMainPartView (IApplianceViewModel viewModel)
+        {
+            return SignalGeneratorView.Create(viewModel.SignalGeneratorVM);
         }
     }
 }
+
