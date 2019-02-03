@@ -28,6 +28,7 @@ namespace CtLab.Frontend.ViewModels
     {
         private readonly Appliance _appliance;
         private readonly ISignalGeneratorViewModel _signalGeneratorVM;
+        private readonly IScopeViewModel _scopeVM;
         private readonly Timer _monitorTimer;
 
         /// <summary>
@@ -36,14 +37,17 @@ namespace CtLab.Frontend.ViewModels
         /// <param name="applianceServices">The services provided by the appliance.</param>
         /// <param name="appliance">The appliance to use.</param>
         /// <param name="signalGeneratorVM">The viewmodel of the signal generator.</param>
+        /// <param name="scopeVM">The viewmodel of the scope.</param>
         /// <param name="connectionDescription">A description of the current connection.</param>
         public ApplianceViewModel (IApplianceServices applianceServices, Appliance appliance,
-            ISignalGeneratorViewModel signalGeneratorVM, string connectionDescription)
+            ISignalGeneratorViewModel signalGeneratorVM, IScopeViewModel scopeVM, 
+            string connectionDescription)
             : base(applianceServices)
         {
             _appliance = appliance;
 
             _signalGeneratorVM = signalGeneratorVM;
+            _scopeVM = scopeVM;
 
             ConnectionDescription = connectionDescription;
 
@@ -88,6 +92,18 @@ namespace CtLab.Frontend.ViewModels
             get
             {
                 return _signalGeneratorVM;
+            }
+        }
+
+        /// <summary>
+        /// Gets the scope of the appliance.
+        /// </summary>
+        /// <value>The signal generator V.</value>
+        public IScopeViewModel ScopeVM
+        {
+            get
+            {
+                return _scopeVM;
             }
         }
 

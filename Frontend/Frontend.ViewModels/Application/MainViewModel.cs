@@ -304,10 +304,16 @@ namespace CtLab.Frontend.ViewModels
             var signalGeneratorVM = new SignalGeneratorViewModel(applianceServices,
                 signalGenerator,
                 universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs);
-            
+
+            // TODO: Pass scope parts (e.g. storage, display,...) to the scope.
+            var scopeVM = new ScopeViewModel(applianceServices,
+                signalGenerator,
+                universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs);
+
             var applianceViewModel = new ApplianceViewModel (applianceServices,
                 appliance,
                 signalGeneratorVM,
+                scopeVM,
                 connectionDescription);
 
 

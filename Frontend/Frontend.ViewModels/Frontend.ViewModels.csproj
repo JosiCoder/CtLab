@@ -99,6 +99,8 @@
     <Compile Include="ApplianceComponents\DdsGenerator\DdsGeneratorPhaseScaleInputViewModel.cs" />
     <Compile Include="Application\ApplicationSettings.cs" />
     <Compile Include="Application\ApplicationSettingsReaderWriter.cs" />
+    <Compile Include="ApplianceComponents\Scope\IScopeViewModel.cs" />
+    <Compile Include="ApplianceComponents\Scope\ScopeViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -115,6 +117,7 @@
     <Folder Include="ApplianceComponents\DdsGenerator\" />
     <Folder Include="ApplianceComponents\SignalGenerator\" />
     <Folder Include="ApplianceComponents\UniversalCounter\" />
+    <Folder Include="ApplianceComponents\Scope\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frontend.Utilities\Frontend.Utilities.csproj">

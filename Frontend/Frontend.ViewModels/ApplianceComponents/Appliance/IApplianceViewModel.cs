@@ -44,5 +44,12 @@ namespace CtLab.Frontend.ViewModels
         /// <value>The signal generator V.</value>
         ISignalGeneratorViewModel SignalGeneratorVM
         { get; }
+
+        /// <summary>
+        /// Gets the signal generator of the appliance.
+        /// </summary>
+        /// <value>The signal generator V.</value>
+        IScopeViewModel ScopeVM
+        { get; }
     }
 }
