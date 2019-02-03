@@ -23,7 +23,8 @@ using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaScope.Standard
 {
-    //TODO add more stuff similar to the UniversalCounter class.
+    //TODO add more stuff similar to the signal generator's features,
+    //     e.g. the UniversalCounter class.
 
     /// <summary>
     /// Represents an FPGA Lab scope.

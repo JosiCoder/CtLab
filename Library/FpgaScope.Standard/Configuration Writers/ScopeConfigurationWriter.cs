@@ -20,7 +20,8 @@ using CtLab.FpgaConnection.Interfaces;
 
 namespace CtLab.FpgaScope.Standard
 {
-    //TODO add more stuff similar to the UniversalCounterConfigurationWriter class.
+    //TODO add more stuff similar to the signal generator's configuration writers,
+    //     e.g. the UniversalCounterConfigurationWriter class.
 
     /// <summary>
     /// Writes the scope configuration by setting the according value of an
