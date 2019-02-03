@@ -16,6 +16,7 @@
 //--------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -31,6 +32,7 @@ namespace CtLab.Frontend
     /// </summary>
     class Program
     {
+        private static readonly HashSet<Gtk.Window> _activeViews = new HashSet<Gtk.Window>();
         private static readonly string _executableName;
         private static readonly string _applicationName;
         private static readonly string _applicationDataPath;
@@ -59,7 +61,7 @@ namespace CtLab.Frontend
         /// <param name="args">The command-line arguments.</param>
         public static void Main (string[] args)
         {
-            CreateApplicationDataDirectory ();
+            CreateApplicationDataDirectory();
 
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {
@@ -84,17 +86,14 @@ namespace CtLab.Frontend
                 new DialogServiceViewModelFactory(), applicationSettingsReaderWriter))
             {
                 mainViewModel.InitializeAppliances(applicationSettings);
-
-                // Create and show the main window.
-                var mainWindowView = MainWindowView.Create(mainViewModel, HandleCloseRequest);
-                mainWindowView.Show();
+                ShowMainWindow(mainViewModel);
 
                 // Debug only: By creating a second view referring to the same viewmodel,
                 // data binding can be easily tested (each view must immediately reflect
                 // changes made in the other one).
                 #if DEBUG
-                //var mainWindowView1 = MainWindowView.Create(mainViewModel, HandleCloseRequest);
-                //mainWindowView1.Show();
+                // TODO das hier nach den Tests wieder deaktivieren
+                ShowMainWindow(mainViewModel);
                 #endif
 
                 // Run the message loop.
@@ -103,14 +102,52 @@ namespace CtLab.Frontend
         }
 
         /// <summary>
-        /// Quits the application.
+        /// Shows the main window.
         /// </summary>
-        private static bool HandleCloseRequest()
+        private static void ShowMainWindow(MainViewModel mainViewModel)
         {
-            // If the last window was closed, quit the application.
-            Application.Quit();
+            ShowWindow(closeRequestHandler => MainWindowView.Create(mainViewModel, closeRequestHandler));
+        }
 
-            // Accept the close request, i.e. close the window.
+        /// <summary>
+        /// Shows a window.
+        /// </summary>
+        private static void ShowWindow(Func<Func<bool>, Gtk.Window> windowCreator)
+        {
+            Gtk.Window window = null;
+            Func<Gtk.Window> windowProvider = () => window;
+            Func<bool> closeRequestHandler = () => CloseRequestHandler(windowProvider);
+
+            window = windowCreator(closeRequestHandler);
+
+            window.Show();
+            _activeViews.Add(window);
+        }
+
+        /// <summary>
+        /// Handles a request to close a window.
+        /// </summary>
+        private static bool CloseRequestHandler(Func<Gtk.Window> windowProvider)
+        {
+            var closeAccepted = IsCloseRequestAccepted();
+            if (closeAccepted)
+            {
+                // Remove the window, if the last one was closed, quit the application.
+                _activeViews.Remove(windowProvider());
+                if (_activeViews.Count == 0)
+                {
+                    Application.Quit();
+                }
+            }
+            return closeAccepted;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a request to close a window is accepted.
+        /// </summary>
+        private static bool IsCloseRequestAccepted()
+        {
+            // Accept the close request.
             return true;
         }
 
