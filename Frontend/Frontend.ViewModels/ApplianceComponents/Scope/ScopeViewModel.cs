@@ -33,11 +33,12 @@ namespace CtLab.Frontend.ViewModels
     /// </summary>
     public class ScopeViewModel : ViewModelBase, IScopeViewModel
     {
-        private readonly ISignalGenerator _signalGenerator;
-        private readonly IUniversalCounterViewModel _universalCounterVM;
-        private readonly IPulseGeneratorViewModel _pulseGeneratorVM;
-        private readonly ObservableCollection<IDdsGeneratorViewModel> _ddsGeneratorVMs;
+//        private readonly ISignalGenerator _signalGenerator;
+//        private readonly IUniversalCounterViewModel _universalCounterVM;
+//        private readonly IPulseGeneratorViewModel _pulseGeneratorVM;
+//        private readonly ObservableCollection<IDdsGeneratorViewModel> _ddsGeneratorVMs;
 
+        // TODO: Pass scope parts (e.g. storage, display,...) to the scope.
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -46,111 +47,111 @@ namespace CtLab.Frontend.ViewModels
         /// <param name="universalCounterVM">The viewmodel of the universal counter.</param>
         /// <param name="pulseGeneratorVM">The viewmodel of the pulse generator.</param>
         /// <param name="ddsGeneratorVMs">The viewmodels of the DDS generators.</param>
-        public ScopeViewModel (IApplianceServices applianceServices, ISignalGenerator signalGenerator,
+        public ScopeViewModel (IApplianceServices applianceServices/*, ISignalGenerator signalGenerator,
             IUniversalCounterViewModel universalCounterVM, IPulseGeneratorViewModel pulseGeneratorVM,
-            ObservableCollection<IDdsGeneratorViewModel> ddsGeneratorVMs)
+            ObservableCollection<IDdsGeneratorViewModel> ddsGeneratorVMs*/)
             : base(applianceServices)
         {
-            _signalGenerator = signalGenerator;
-
-            _universalCounterVM = universalCounterVM;
-            _pulseGeneratorVM = pulseGeneratorVM;
-            _ddsGeneratorVMs = ddsGeneratorVMs;
+//            _signalGenerator = signalGenerator;
+//
+//            _universalCounterVM = universalCounterVM;
+//            _pulseGeneratorVM = pulseGeneratorVM;
+//            _ddsGeneratorVMs = ddsGeneratorVMs;
         }
 
-        /// <summary>
-        /// Gets or sets the signal source for the first output (output 0).
-        /// </summary>
-        public OutputSource OutputSource0
-        {
-            get
-            {
-                return _signalGenerator.OutputSourceSelector.OutputSource0;
-            }
-            set
-            {
-                _signalGenerator.OutputSourceSelector.OutputSource0 = value;
-                Flush();
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the signal source for the first output (<see cref="OutputSource0"/>)
-        /// via its int representation. This is intended to be used for data binding as enums
-        /// and non-int integers include a Convert operation that makes binding fail.
-        /// </summary>
-        public int BindingOutputSource0
-        {
-            get
-            {
-                return (int)OutputSource0;
-            }
-            set
-            {
-                OutputSource0 = (OutputSource)Enum
-                    .ToObject(typeof(ModulationAndSynchronizationSource), value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the signal source for the second output (output 1).
-        /// </summary>
-        public OutputSource OutputSource1
-        {
-            get
-            {
-                return _signalGenerator.OutputSourceSelector.OutputSource1;
-            }
-            set
-            {
-                _signalGenerator.OutputSourceSelector.OutputSource1 = value;
-                Flush();
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the signal source for the second output (<see cref="OutputSource1"/>)
-        /// via its int representation. This is intended to be used for data binding as enums
-        /// and non-int integers include a Convert operation that makes binding fail.
-        /// </summary>
-        public int BindingOutputSource1
-        {
-            get
-            {
-                return (int)OutputSource1;
-            }
-            set
-            {
-                OutputSource1 = (OutputSource)Enum
-                    .ToObject(typeof(ModulationAndSynchronizationSource), value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the universal counter viewmodel.
-        /// </summary>
-        public IUniversalCounterViewModel UniversalCounterVM
-        {
-            get { return _universalCounterVM; }
-        }
-
-        /// <summary>
-        /// Gets the pulse generator viewmodel.
-        /// </summary>
-        public IPulseGeneratorViewModel PulseGeneratorVM
-        {
-            get { return _pulseGeneratorVM; }
-        }
-
-        /// <summary>
-        /// Gets the DDS generator viewmodels.
-        /// </summary>
-        public ObservableCollection<IDdsGeneratorViewModel> DdsGeneratorVMs
-        {
-            get { return _ddsGeneratorVMs; }
-        }
+//        /// <summary>
+//        /// Gets or sets the signal source for the first output (output 0).
+//        /// </summary>
+//        public OutputSource OutputSource0
+//        {
+//            get
+//            {
+//                return _signalGenerator.OutputSourceSelector.OutputSource0;
+//            }
+//            set
+//            {
+//                _signalGenerator.OutputSourceSelector.OutputSource0 = value;
+//                Flush();
+//                RaisePropertyChanged();
+//            }
+//        }
+//
+//        /// <summary>
+//        /// Gets or sets the signal source for the first output (<see cref="OutputSource0"/>)
+//        /// via its int representation. This is intended to be used for data binding as enums
+//        /// and non-int integers include a Convert operation that makes binding fail.
+//        /// </summary>
+//        public int BindingOutputSource0
+//        {
+//            get
+//            {
+//                return (int)OutputSource0;
+//            }
+//            set
+//            {
+//                OutputSource0 = (OutputSource)Enum
+//                    .ToObject(typeof(ModulationAndSynchronizationSource), value);
+//            }
+//        }
+//
+//        /// <summary>
+//        /// Gets or sets the signal source for the second output (output 1).
+//        /// </summary>
+//        public OutputSource OutputSource1
+//        {
+//            get
+//            {
+//                return _signalGenerator.OutputSourceSelector.OutputSource1;
+//            }
+//            set
+//            {
+//                _signalGenerator.OutputSourceSelector.OutputSource1 = value;
+//                Flush();
+//                RaisePropertyChanged();
+//            }
+//        }
+//
+//        /// <summary>
+//        /// Gets or sets the signal source for the second output (<see cref="OutputSource1"/>)
+//        /// via its int representation. This is intended to be used for data binding as enums
+//        /// and non-int integers include a Convert operation that makes binding fail.
+//        /// </summary>
+//        public int BindingOutputSource1
+//        {
+//            get
+//            {
+//                return (int)OutputSource1;
+//            }
+//            set
+//            {
+//                OutputSource1 = (OutputSource)Enum
+//                    .ToObject(typeof(ModulationAndSynchronizationSource), value);
+//            }
+//        }
+//
+//        /// <summary>
+//        /// Gets the universal counter viewmodel.
+//        /// </summary>
+//        public IUniversalCounterViewModel UniversalCounterVM
+//        {
+//            get { return _universalCounterVM; }
+//        }
+//
+//        /// <summary>
+//        /// Gets the pulse generator viewmodel.
+//        /// </summary>
+//        public IPulseGeneratorViewModel PulseGeneratorVM
+//        {
+//            get { return _pulseGeneratorVM; }
+//        }
+//
+//        /// <summary>
+//        /// Gets the DDS generator viewmodels.
+//        /// </summary>
+//        public ObservableCollection<IDdsGeneratorViewModel> DdsGeneratorVMs
+//        {
+//            get { return _ddsGeneratorVMs; }
+//        }
     }
 }
 

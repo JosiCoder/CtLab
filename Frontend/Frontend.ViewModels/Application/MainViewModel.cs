@@ -306,9 +306,9 @@ namespace CtLab.Frontend.ViewModels
                 universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs);
 
             // TODO: Pass scope parts (e.g. storage, display,...) to the scope.
-            var scopeVM = new ScopeViewModel(applianceServices,
+            var scopeVM = new ScopeViewModel(applianceServices/*,
                 signalGenerator,
-                universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs);
+                universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs*/);
 
             var applianceViewModel = new ApplianceViewModel (applianceServices,
                 appliance,

@@ -39,7 +39,89 @@ Copyright (C) 2017 Josi Coder
             <property name="margin_top">4</property>
             <property name="margin_bottom">4</property>
             <child>
-              <placeholder/>
+              <object class="GtkPaned" id="graphicsContainerPane">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkGrid" id="masterGraphicsContainer">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="resize">True</property>
+                    <property name="shrink">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkGrid" id="slaveGraphicsContainer">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="resize">True</property>
+                    <property name="shrink">True</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
@@ -99,6 +181,30 @@ Copyright (C) 2017 Josi Coder
             <property name="margin_right">4</property>
             <property name="margin_top">4</property>
             <property name="margin_bottom">4</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
             <child>
               <placeholder/>
             </child>
@@ -199,63 +305,16 @@ Copyright (C) 2017 Josi Coder
             <property name="row_spacing">4</property>
             <property name="column_spacing">4</property>
             <child>
-              <object class="GtkLabel" id="label11">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Analog 1:</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkLabel" id="label12">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">10</property>
-                <property name="label" translatable="yes">Analog 2:</property>
-                <property name="xalign">0</property>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkComboBoxText" id="outputSource1ComboBoxText">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <items>
-                  <item id="DdsGenerator0" translatable="yes">DDS 1</item>
-                  <item id="DdsGenerator1" translatable="yes">DDS 2</item>
-                  <item id="DdsGenerator2" translatable="yes">DDS 3</item>
-                  <item id="DdsGenerator3" translatable="yes">DDS 4</item>
-                  <item id="PulseGenerator" translatable="yes">Pulse</item>
-                </items>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkComboBoxText" id="outputSource0ComboBoxText">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <items>
-                  <item id="DdsGenerator0" translatable="yes">DDS 1</item>
-                  <item id="DdsGenerator1" translatable="yes">DDS 2</item>
-                  <item id="DdsGenerator2" translatable="yes">DDS 3</item>
-                  <item id="DdsGenerator3" translatable="yes">DDS 4</item>
-                  <item id="PulseGenerator" translatable="yes">Pulse</item>
-                </items>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
         </child>

@@ -33,11 +33,14 @@ namespace CtLab.Frontend.Views
     /// </summary>
     public class ScopeView: Gtk.Bin
     {
-        private readonly ISignalGeneratorViewModel _viewModel;
-        [UI] Gtk.ComboBoxText outputSource0ComboBoxText;
-        [UI] Gtk.ComboBoxText outputSource1ComboBoxText;
-        [UI] Gtk.Container universalCounterContainer;
-        [UI] Gtk.Container pulseGeneratorContainer;
+        private readonly IScopeViewModel _viewModel;
+        [UI] Gtk.Paned graphicsContainerPane;
+        [UI] Gtk.Container masterGraphicsContainer;
+        [UI] Gtk.Container slaveGraphicsContainer;
+//        [UI] Gtk.ComboBoxText outputSource0ComboBoxText;
+//        [UI] Gtk.ComboBoxText outputSource1ComboBoxText;
+//        [UI] Gtk.Container universalCounterContainer;
+//        [UI] Gtk.Container pulseGeneratorContainer;
 //        [UI] Gtk.Container ddsGenerator0Container;
 //        [UI] Gtk.Container ddsGenerator1Container;
 //        [UI] Gtk.Container ddsGenerator2Container;
@@ -47,7 +50,7 @@ namespace CtLab.Frontend.Views
         /// Initializes an instance of this class.
         /// </summary>
         /// <param name="viewModel">The viewmodel represented by this view.</param>
-        public static ScopeView Create(ISignalGeneratorViewModel viewModel)
+        public static ScopeView Create(IScopeViewModel viewModel)
         {
             var builder = new Builder (null, "ScopeView.glade", null);
             return new ScopeView (viewModel, builder, builder.GetObject ("mainWidget").Handle);
@@ -59,7 +62,7 @@ namespace CtLab.Frontend.Views
         /// <param name="viewModel">The viewmodel represented by this view.</param>
         /// <param name="builder">The Gtk# builder used to build this view.</param>
         /// <param name="handle">The handle of the main widget.</param>
-        private ScopeView(ISignalGeneratorViewModel viewModel, Builder builder, IntPtr handle)
+        private ScopeView(IScopeViewModel viewModel, Builder builder, IntPtr handle)
             : base (handle)
         {
             _viewModel = viewModel;
@@ -67,15 +70,15 @@ namespace CtLab.Frontend.Views
 
             // === Create sub-views. ===
 
-            var universalCounterView = UniversalCounterView.Create(_viewModel.UniversalCounterVM);
-            universalCounterContainer.Add(universalCounterView);
+//            var universalCounterView = UniversalCounterView.Create(_viewModel.UniversalCounterVM);
+//            universalCounterContainer.Add(universalCounterView);
+//
+//            var pulseGeneratorView =  PulseGeneratorView.Create(_viewModel.PulseGeneratorVM);
+//            pulseGeneratorContainer.Add(pulseGeneratorView);
 
-            var pulseGeneratorView =  PulseGeneratorView.Create(_viewModel.PulseGeneratorVM);
-            pulseGeneratorContainer.Add(pulseGeneratorView);
-
-            var ddsGeneratorViews = _viewModel.DdsGeneratorVMs
-                .Select ((ddsGeneratorVM, index) => DdsGeneratorView.Create (ddsGeneratorVM, index));
-            var ddsGeneratorViewsEnumerator = ddsGeneratorViews.GetEnumerator ();
+//            var ddsGeneratorViews = _viewModel.DdsGeneratorVMs
+//                .Select ((ddsGeneratorVM, index) => DdsGeneratorView.Create (ddsGeneratorVM, index));
+//            var ddsGeneratorViewsEnumerator = ddsGeneratorViews.GetEnumerator ();
 
 //            var ddsGeneratorContainers = new []
 //            {
@@ -96,19 +99,19 @@ namespace CtLab.Frontend.Views
 
             // === Create value converters. ===
 
-            var outputSource0Converter = ValueConverterViewModelBuilder
-                .BuildEnumValueConverterViewModel<OutputSource>();
-
-            var outputSource1Converter = ValueConverterViewModelBuilder
-                .BuildEnumValueConverterViewModel<OutputSource>();
+//            var outputSource0Converter = ValueConverterViewModelBuilder
+//                .BuildEnumValueConverterViewModel<OutputSource>();
+//
+//            var outputSource1Converter = ValueConverterViewModelBuilder
+//                .BuildEnumValueConverterViewModel<OutputSource>();
 
             // === Create bindings. ===
 
-            PB.Binding.Create (() => outputSource0Converter.OriginalValue == _viewModel.BindingOutputSource0);
-            PB.Binding.Create (() => outputSource0ComboBoxText.ActiveId == outputSource0Converter.DerivedValue);
-
-            PB.Binding.Create (() => outputSource1Converter.OriginalValue == _viewModel.BindingOutputSource1);
-            PB.Binding.Create (() => outputSource1ComboBoxText.ActiveId == outputSource1Converter.DerivedValue);
+//            PB.Binding.Create (() => outputSource0Converter.OriginalValue == _viewModel.BindingOutputSource0);
+//            PB.Binding.Create (() => outputSource0ComboBoxText.ActiveId == outputSource0Converter.DerivedValue);
+//
+//            PB.Binding.Create (() => outputSource1Converter.OriginalValue == _viewModel.BindingOutputSource1);
+//            PB.Binding.Create (() => outputSource1ComboBoxText.ActiveId == outputSource1Converter.DerivedValue);
         }
     }
 }
