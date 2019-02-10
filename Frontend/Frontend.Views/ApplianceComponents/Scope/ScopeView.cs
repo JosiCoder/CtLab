@@ -68,25 +68,6 @@ namespace CtLab.Frontend.Views
             var slaveGraphicsView = ScopeScreenView.Create(_viewModel.SlaveScopeScreenVM);
             slaveGraphicsContainer.Add(slaveGraphicsView);
 
-//            var ddsGeneratorViews = _viewModel.DdsGeneratorVMs
-//                .Select ((ddsGeneratorVM, index) => DdsGeneratorView.Create (ddsGeneratorVM, index));
-//            var ddsGeneratorViewsEnumerator = ddsGeneratorViews.GetEnumerator ();
-
-//            var ddsGeneratorContainers = new []
-//            {
-//                ddsGenerator0Container,
-//                ddsGenerator1Container,
-//                ddsGenerator2Container,
-//                ddsGenerator3Container
-//            };
-//            ddsGeneratorContainers.ForEach(container =>
-//            {
-//                if (ddsGeneratorViewsEnumerator.MoveNext())
-//                {
-//                    container.Add(ddsGeneratorViewsEnumerator.Current);
-//                }
-//            });
-
             // === Register event handlers. ===
 
             // === Create value converters. ===

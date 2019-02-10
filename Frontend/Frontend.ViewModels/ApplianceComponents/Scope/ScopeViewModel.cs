@@ -49,24 +49,24 @@ namespace CtLab.Frontend.ViewModels
             new Color(0, 1, 0),
         };
 
-        private readonly IScopeScreenViewModel _masterScopeScreenVM = new ScopeScreenViewModel();
-        private readonly IScopeScreenViewModel _slaveScopeScreenVM = new ScopeScreenViewModel();
+        private readonly IScopeScreenViewModel _masterScopeScreenVM;
+        private readonly IScopeScreenViewModel _slaveScopeScreenVM;
 
-        // TODO: Pass scope parts (e.g. storage, display,...) to the scope.
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         /// <param name="applianceServices">The services provided by the appliance.</param>
-        /// <param name="signalGenerator">The signal generator to use.</param>
-        /// <param name="universalCounterVM">The viewmodel of the universal counter.</param>
-        /// <param name="pulseGeneratorVM">The viewmodel of the pulse generator.</param>
-        /// <param name="ddsGeneratorVMs">The viewmodels of the DDS generators.</param>
-        public ScopeViewModel (IApplianceServices applianceServices/*, ISignalGenerator signalGenerator,
-            IUniversalCounterViewModel universalCounterVM, IPulseGeneratorViewModel pulseGeneratorVM,
-            ObservableCollection<IDdsGeneratorViewModel> ddsGeneratorVMs*/)
+        /// <param name="scope">The scope to use.</param>        // TODO: similar to signalGenerator for SignalGeneratorViewModel?
+        /// <param name="masterScopeScreenVM">The viewmodel of the master scope screen.</param>
+        /// <param name="slaveScopeScreenVM">The viewmodel of the slave scope screen.</param>
+        public ScopeViewModel (IApplianceServices applianceServices, /*ISignalGenerator signalGenerator*/
+            ScopeScreenViewModel masterScopeScreenVM, ScopeScreenViewModel slaveScopeScreenVM)
             : base(applianceServices)
         {
             var sampleSequences = CreateSampleSequences();
+
+            _masterScopeScreenVM = masterScopeScreenVM;
+            _slaveScopeScreenVM = slaveScopeScreenVM;
 
             ConfigureMainScopeScreenVM(_masterScopeScreenVM, sampleSequences);
             ConfigureFFTScopeScreenVM(_slaveScopeScreenVM, sampleSequences);

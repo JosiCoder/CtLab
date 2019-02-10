@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using CtLab.Environment;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaScope.Interfaces;
+using ScopeLib.Display.ViewModels;
 
 namespace CtLab.Frontend.ViewModels
 {
@@ -305,10 +306,12 @@ namespace CtLab.Frontend.ViewModels
                 signalGenerator,
                 universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs);
 
-            // TODO: Pass scope parts (e.g. storage, display,...) to the scope.
-            var scopeVM = new ScopeViewModel(applianceServices/*,
-                signalGenerator,
-                universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs*/);
+            var masterScopeScreenVM = new ScopeScreenViewModel();
+            var slaveScopeScreenVM = new ScopeScreenViewModel();
+
+            var scopeVM = new ScopeViewModel(applianceServices,
+                /* scope, */       // TODO: similar to signalGenerator for SignalGeneratorViewModel?
+                masterScopeScreenVM, slaveScopeScreenVM);
 
             var applianceViewModel = new ApplianceViewModel (applianceServices,
                 appliance,

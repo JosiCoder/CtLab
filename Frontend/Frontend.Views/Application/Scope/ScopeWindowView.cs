@@ -59,7 +59,10 @@ namespace CtLab.Frontend.Views
         private ScopeWindowView(MainViewModel viewModel, Builder builder, IntPtr handle,
             Func<bool> acceptCloseFunction)
             : base (viewModel, builder, handle, acceptCloseFunction)
-        {}
+        {
+            DefaultHeight = 500;
+            DefaultWidth = 600;
+        }
 
         /// <summary>
         /// Creates views for the specified appliance viewmodels.
