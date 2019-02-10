@@ -69,12 +69,6 @@
     <Reference Include="pango-sharp">
       <HintPath>..\packages\GtkSharp.3.1.3\lib\net45\pango-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="CtLab.Connection">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="CtLab">
-      <HintPath>..\Dependencies\CtLabLibrary\CtLab.Environment.dll</HintPath>
-    </Reference>
     <Reference Include="CtLab.Connection.Interfaces">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.Connection.Interfaces.dll</HintPath>
     </Reference>
@@ -113,6 +107,21 @@
     </Reference>
     <Reference Include="CtLab.FpgaScope.Interfaces">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaScope.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Utilities">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Sampling">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Sampling.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Display.Views">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Display.Views.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Display.ViewModels">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Display.ViewModels.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Display.Graphics">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Display.Graphics.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

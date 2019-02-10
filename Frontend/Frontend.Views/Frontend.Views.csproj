@@ -71,6 +71,12 @@
     <Reference Include="CtLab.FpgaSignalGenerator.Interfaces">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaSignalGenerator.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="ScopeLib.Display.ViewModels">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Display.ViewModels.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Display.Views">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Display.Views.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -58,6 +58,15 @@
     <Reference Include="CtLab.FpgaScope.Interfaces">
       <HintPath>..\Dependencies\CtLabLibrary\CtLab.FpgaScope.Interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="ScopeLib.Sampling">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Sampling.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Display.ViewModels">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Display.ViewModels.dll</HintPath>
+    </Reference>
+    <Reference Include="ScopeLib.Utilities">
+      <HintPath>..\Dependencies\ScopeLibrary\ScopeLib.Utilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

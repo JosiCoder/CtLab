@@ -23,7 +23,7 @@ using Cairo;
 using UI = Gtk.Builder.ObjectAttribute;
 using PB = Praeclarum.Bind;
 using System.Collections.Specialized;
-using CtLab.FpgaSignalGenerator.Interfaces;
+using ScopeLib.Display.Views;
 using CtLab.Frontend.ViewModels;
 
 namespace CtLab.Frontend.Views
@@ -37,14 +37,6 @@ namespace CtLab.Frontend.Views
         [UI] Gtk.Paned graphicsContainerPane;
         [UI] Gtk.Container masterGraphicsContainer;
         [UI] Gtk.Container slaveGraphicsContainer;
-//        [UI] Gtk.ComboBoxText outputSource0ComboBoxText;
-//        [UI] Gtk.ComboBoxText outputSource1ComboBoxText;
-//        [UI] Gtk.Container universalCounterContainer;
-//        [UI] Gtk.Container pulseGeneratorContainer;
-//        [UI] Gtk.Container ddsGenerator0Container;
-//        [UI] Gtk.Container ddsGenerator1Container;
-//        [UI] Gtk.Container ddsGenerator2Container;
-//        [UI] Gtk.Container ddsGenerator3Container;
 
         /// <summary>
         /// Initializes an instance of this class.
@@ -70,11 +62,11 @@ namespace CtLab.Frontend.Views
 
             // === Create sub-views. ===
 
-//            var universalCounterView = UniversalCounterView.Create(_viewModel.UniversalCounterVM);
-//            universalCounterContainer.Add(universalCounterView);
-//
-//            var pulseGeneratorView =  PulseGeneratorView.Create(_viewModel.PulseGeneratorVM);
-//            pulseGeneratorContainer.Add(pulseGeneratorView);
+            var masterGraphicsView = ScopeScreenView.Create(_viewModel.MasterScopeScreenVM);
+            masterGraphicsContainer.Add(masterGraphicsView);
+
+            var slaveGraphicsView = ScopeScreenView.Create(_viewModel.SlaveScopeScreenVM);
+            slaveGraphicsContainer.Add(slaveGraphicsView);
 
 //            var ddsGeneratorViews = _viewModel.DdsGeneratorVMs
 //                .Select ((ddsGeneratorVM, index) => DdsGeneratorView.Create (ddsGeneratorVM, index));

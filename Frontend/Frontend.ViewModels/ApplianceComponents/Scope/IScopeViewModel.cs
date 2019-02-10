@@ -18,7 +18,7 @@
 using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using CtLab.FpgaSignalGenerator.Interfaces;
+using ScopeLib.Display.ViewModels;
 
 namespace CtLab.Frontend.ViewModels
 {
@@ -33,51 +33,17 @@ namespace CtLab.Frontend.ViewModels
     /// </summary>
     public interface IScopeViewModel : INotifyPropertyChanged
     {
-//        /// <summary>
-//        /// Gets or sets the signal source for the first output (output 0).
-//        /// </summary>
-//        OutputSource OutputSource0
-//        { get; set; }
-//
-//        /// <summary>
-//        /// Gets or sets the signal source for the first output (<see cref="OutputSource0"/>)
-//        /// via its int representation. This is intended to be used for data binding as enums
-//        /// and non-int integers include a Convert operation that makes binding fail.
-//        /// </summary>
-//        int BindingOutputSource0
-//        { get; set; }
-//
-//        /// <summary>
-//        /// Gets or sets the signal source for the second output (output 1).
-//        /// </summary>
-//        OutputSource OutputSource1
-//        { get; set; }
-//
-//        /// <summary>
-//        /// Gets or sets the signal source for the second output (<see cref="OutputSource1"/>)
-//        /// via its int representation. This is intended to be used for data binding as enums
-//        /// and non-int integers include a Convert operation that makes binding fail.
-//        /// </summary>
-//        int BindingOutputSource1
-//        { get; set; }
-//
-//        /// <summary>
-//        /// Gets the universal counter viewmodel.
-//        /// </summary>
-//        IUniversalCounterViewModel UniversalCounterVM
-//        { get; }
-//
-//        /// <summary>
-//        /// Gets the pulse generator viewmodel.
-//        /// </summary>
-//        IPulseGeneratorViewModel PulseGeneratorVM
-//        { get; }
-//
-//        /// <summary>
-//        /// Gets the DDS generator viewmodels.
-//        /// </summary>
-//        ObservableCollection<IDdsGeneratorViewModel> DdsGeneratorVMs
-//        { get; }
+        /// <summary>
+        /// Gets the master scope screen viewmodel.
+        /// </summary>
+        IScopeScreenViewModel MasterScopeScreenVM
+        { get; }
+
+        /// <summary>
+        /// Gets the slave scope screen viewmodel.
+        /// </summary>
+        IScopeScreenViewModel SlaveScopeScreenVM
+        { get; }
     }
 }
 
