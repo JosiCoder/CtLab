@@ -309,6 +309,12 @@ namespace CtLab.Frontend.ViewModels
             var masterScopeScreenVM = new ScopeScreenViewModel();
             var slaveScopeScreenVM = new ScopeScreenViewModel();
 
+            // TODO: Move demo somewhere else
+            var scopeDemo = new ScopeDemo();
+            var sampleSequences = scopeDemo.CreateSampleSequences();
+            scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
+            scopeDemo.ConfigureFFTScopeScreenVM(slaveScopeScreenVM, sampleSequences);
+
             var scopeVM = new ScopeViewModel(applianceServices,
                 /* scope, */       // TODO: similar to signalGenerator for SignalGeneratorViewModel?
                 masterScopeScreenVM, slaveScopeScreenVM);

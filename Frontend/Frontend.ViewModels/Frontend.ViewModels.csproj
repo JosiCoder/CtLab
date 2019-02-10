@@ -110,6 +110,7 @@
     <Compile Include="Application\ApplicationSettingsReaderWriter.cs" />
     <Compile Include="ApplianceComponents\Scope\IScopeViewModel.cs" />
     <Compile Include="ApplianceComponents\Scope\ScopeViewModel.cs" />
+    <Compile Include="ApplianceComponents\Scope\ScopeDemo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
