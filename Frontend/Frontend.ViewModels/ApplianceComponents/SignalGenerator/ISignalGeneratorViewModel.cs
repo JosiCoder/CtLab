@@ -23,8 +23,7 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Provides access to a viewmodel of a signal generator consisting of
-    /// different signal-generating units and counters.
+    /// Provides access to a viewmodel of a signal generator.
     /// </summary>
     public interface ISignalGeneratorViewModel : INotifyPropertyChanged
     {

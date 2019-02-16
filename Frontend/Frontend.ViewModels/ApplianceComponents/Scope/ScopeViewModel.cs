@@ -23,23 +23,16 @@ using System.Collections.ObjectModel;
 using ScopeLib.Utilities;
 using ScopeLib.Sampling;
 using ScopeLib.Display.ViewModels;
-using CtLab.FpgaSignalGenerator.Interfaces;
+using CtLab.FpgaScope.Interfaces;
 
 namespace CtLab.Frontend.ViewModels
 {
-    // TODO: Remove demo parts?
-
-    // TODO: Implement scope, describe like the signal generator's comment:
     /// <summary>
-    /// Provides the viewmodel of a signal generator consisting of different
-    /// signal-generating units and counters.
-    /// </summary>
-
-    /// <summary>
-    /// Provides the viewmodel of a scope.
+    /// Provides the viewmodel of a scope consisting of several signal-analyzing units.
     /// </summary>
     public class ScopeViewModel : ViewModelBase, IScopeViewModel
     {
+        private readonly IScope _scope;
         private readonly IScopeScreenViewModel _masterScopeScreenVM;
         private readonly IScopeScreenViewModel _slaveScopeScreenVM;
 
@@ -47,13 +40,15 @@ namespace CtLab.Frontend.ViewModels
         /// Initializes a new instance of this class.
         /// </summary>
         /// <param name="applianceServices">The services provided by the appliance.</param>
-        /// <param name="scope">The scope to use.</param>        // TODO: similar to signalGenerator for SignalGeneratorViewModel?
+        /// <param name="scope">The scope to use.</param>
         /// <param name="masterScopeScreenVM">The viewmodel of the master scope screen.</param>
         /// <param name="slaveScopeScreenVM">The viewmodel of the slave scope screen.</param>
-        public ScopeViewModel (IApplianceServices applianceServices, /*ISignalGenerator signalGenerator*/
+        public ScopeViewModel (IApplianceServices applianceServices, IScope scope,
             ScopeScreenViewModel masterScopeScreenVM, ScopeScreenViewModel slaveScopeScreenVM)
             : base(applianceServices)
         {
+            _scope = scope;
+
             _masterScopeScreenVM = masterScopeScreenVM;
             _slaveScopeScreenVM = slaveScopeScreenVM;
         }

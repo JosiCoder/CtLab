@@ -22,12 +22,6 @@ using ScopeLib.Display.ViewModels;
 
 namespace CtLab.Frontend.ViewModels
 {
-    // TODO: Implement scope, describe like the signal generator's comment:
-    /// <summary>
-    /// Provides access to a viewmodel of a signal generator consisting of
-    /// different signal-generating units and counters.
-    /// </summary>
-
     /// <summary>
     /// Provides access to a viewmodel of a scope.
     /// </summary>

@@ -225,13 +225,14 @@ namespace CtLab.Frontend.ViewModels
         {
             var applianceServices = new ApplianceServices (appliance);
 
-
-            // === Build the viewmodel hierarchy for the signal generator. ===
+            // === Get the signal generator and its parts. ===
 
             var signalGenerator = appliance.SignalGenerator;
             var universalCounter = signalGenerator.UniversalCounter;
             var pulseGenerator = signalGenerator.PulseGenerator;
             var ddsGenerators = signalGenerator.DdsGenerators;
+
+            // === Build the viewmodel hierarchy for the signal generator. ===
 
             var universalCounterVM = new UniversalCounterViewModel (applianceServices,
                 universalCounter,
@@ -306,17 +307,23 @@ namespace CtLab.Frontend.ViewModels
                 signalGenerator,
                 universalCounterVM, pulseGeneratorVM, ddsGeneratorsVMs);
 
+            // === Get the scope and its parts. ===
+
+            var scope = appliance.Scope;
+
+            // === Build the viewmodel hierarchy for the scope. ===
+
             var masterScopeScreenVM = new ScopeScreenViewModel();
             var slaveScopeScreenVM = new ScopeScreenViewModel();
 
-            // TODO: Move demo somewhere else
+            // TODO: Move demo somewhere else, replace it with reald hardware access.
             var scopeDemo = new ScopeDemo();
             var sampleSequences = scopeDemo.CreateSampleSequences();
             scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
             scopeDemo.ConfigureFFTScopeScreenVM(slaveScopeScreenVM, sampleSequences);
 
             var scopeVM = new ScopeViewModel(applianceServices,
-                /* scope, */       // TODO: similar to signalGenerator for SignalGeneratorViewModel?
+                scope,
                 masterScopeScreenVM, slaveScopeScreenVM);
 
             var applianceViewModel = new ApplianceViewModel (applianceServices,
@@ -324,12 +331,6 @@ namespace CtLab.Frontend.ViewModels
                 signalGeneratorVM,
                 scopeVM,
                 connectionDescription);
-
-
-            // === Build the viewmodel hierarchy for the scope. ===
-
-            var scope = appliance.Scope;
-
 
             // === Start operation. ===
 
