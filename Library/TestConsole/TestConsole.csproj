@@ -57,6 +57,7 @@
         <Command type="AfterBuild" command="${SolutionDir}/deploy ${TargetDir}" workingdir="" externalConsole="True" />
       </CustomCommands>
     </CustomCommands>
+    <Commandlineparameters>hw</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
