@@ -316,7 +316,12 @@ namespace CtLab.Frontend.ViewModels
             var masterScopeScreenVM = new ScopeScreenViewModel();
             var slaveScopeScreenVM = new ScopeScreenViewModel();
 
-            // TODO: Move demo somewhere else, replace it with reald hardware access.
+            // TODO: Move demo somewhere else, replace it with real hardware access.
+            var hardwareScopeDemo = new RealHardwareScopeDemo();
+            //hardwareScopeDemo.WriteAndReadStorageValues(appliance);
+            hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
+
+            // TODO: Move demo somewhere else, replace it with real hardware access.
             var scopeDemo = new ScopeDemo();
             var sampleSequences = scopeDemo.CreateSampleSequences();
             scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
