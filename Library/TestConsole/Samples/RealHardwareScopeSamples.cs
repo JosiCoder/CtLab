@@ -189,20 +189,16 @@ namespace CtLab.TestConsole
             // Setup the hardware-generated signals.
             SetupHardwareSignals(appliance.SignalGenerator);
 
-            // Select the hardware signal to use.
-            var hardwareSignalScopeSource = ScopeSource.DdsGenerator2;
-
-            // Set the scope input to a hardware-generated signal or to the write value source.
-            var inputSource = useHardwareSignal
-                ? hardwareSignalScopeSource
-                : ScopeSource.WriteValue;
-
             // Get the scope and reset the hardware to cancel settings from previous configurations.
             var scope = appliance.Scope;
             scope.Reset();
 
-            // Set the scope input to a signal or data source.
-            scope.InputSource = inputSource;
+            // Set the scope input to a signal.
+            scope.InputSource =  ScopeSource.DdsGenerator2;
+            if (!useHardwareSignal)
+            {
+                scope.InputSource = ScopeSource.WriteValue;
+            }
 
             // Flush all modifications, i.e. send all set commands that have modified values.
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
