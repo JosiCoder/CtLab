@@ -40,6 +40,17 @@ namespace CtLab.Frontend.ViewModels
         };
 
         /// <summary>
+        /// Creates sample sequences from the specified captured values, interpreted as a signed 8 bit value
+        /// and scaled down by 100.
+        /// </summary>
+        public IEnumerable<SampleSequence> CreateSampleSequences(int sampleFrequency,
+            IEnumerable<IEnumerable<uint>> valueSets)
+        {
+            return valueSets.Select(valueSet =>
+                new SampleSequence(1f / sampleFrequency, valueSet.Select(v => ((sbyte) v) / 100d)));
+        }
+
+        /// <summary>
         /// Creates some sample sequences used to demonstrate scope features.
         /// </summary>
         public IEnumerable<SampleSequence> CreateSampleSequences()

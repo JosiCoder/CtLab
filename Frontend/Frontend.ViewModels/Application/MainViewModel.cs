@@ -319,11 +319,15 @@ namespace CtLab.Frontend.ViewModels
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var hardwareScopeDemo = new RealHardwareScopeDemo();
             //hardwareScopeDemo.WriteAndReadStorageValues(appliance);
-            hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
+            var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
 
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var scopeDemo = new ScopeDemo();
-            var sampleSequences = scopeDemo.CreateSampleSequences();
+            //var sampleSequences = scopeDemo.CreateSampleSequences();
+            // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
+            // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
+            var sampleSequences = scopeDemo.CreateSampleSequences(5, capturedValueSets);
+
             scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
             scopeDemo.ConfigureFFTScopeScreenVM(slaveScopeScreenVM, sampleSequences);
 

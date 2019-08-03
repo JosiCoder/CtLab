@@ -104,7 +104,7 @@ namespace CtLab.Frontend.ViewModels
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
         /// to be considered, especially when using the c't Lab protocol. 
         /// </summary>
-        public void CaptureAndReadStorageValues(Appliance appliance)
+        public IEnumerable<IEnumerable<uint>> CaptureAndReadStorageValues(Appliance appliance)
         {
             var scope = SetupHardware(appliance, true);
 
@@ -127,13 +127,15 @@ namespace CtLab.Frontend.ViewModels
             // Read all values eagerly, then await any async 'String received' comments.
             // This is just for more beautiful output.
             var readValueSets = new List<IEnumerable<uint>>();
+            readValueSets.Add(scope.Read(10, 21).ToList());
+/*
             readValueSets.Add(scope.Read(10-5, 10).ToList());
             readValueSets.Add(scope.Read(1000-5, 10).ToList());
             readValueSets.Add(scope.Read(5000-5, 10).ToList());
             readValueSets.Add(scope.Read(10000-5, 10).ToList());
             readValueSets.Add(scope.Read(20000-5, 10).ToList());
             readValueSets.Add(scope.Read(30000-5, 10).ToList());
-            Thread.Sleep (100);
+*/            Thread.Sleep (100);
 
             Console.WriteLine ("Duration: {0}", DateTime.Now - start);
 
@@ -150,6 +152,8 @@ namespace CtLab.Frontend.ViewModels
                 }
                 Console.WriteLine();
             }
+
+            return readValueSets;
         }
 
         /// <summary>
@@ -200,12 +204,12 @@ namespace CtLab.Frontend.ViewModels
 
             // Configure DDS channel 2.
             signalGenerator.DdsGenerators[2].Waveform = Waveform.Sine;
-            signalGenerator.DdsGenerators[2].Frequency = 2000000;
+            signalGenerator.DdsGenerators[2].Frequency = 1000000;
             signalGenerator.DdsGenerators[2].Amplitude = signalGenerator.DdsGenerators[2].MaximumAmplitude;
 
             // Configure DDS channel 3.
-            signalGenerator.DdsGenerators[3].Waveform = Waveform.Sawtooth;
-            signalGenerator.DdsGenerators[3].Frequency = 1000000;
+            signalGenerator.DdsGenerators[3].Waveform = Waveform.Sine;
+            signalGenerator.DdsGenerators[3].Frequency = 500000;
             signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
         }
     }
