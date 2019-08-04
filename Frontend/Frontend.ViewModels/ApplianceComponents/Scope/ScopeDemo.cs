@@ -86,7 +86,9 @@ namespace CtLab.Frontend.ViewModels
             // === Sample Sequences ===
 
             var sampleSequenceProviders =
-                sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
+                sampleSequences == null
+                ? new Func<SampleSequence>[0]
+                : sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
 
             var sampler = new Sampler(sampleSequenceProviders, trigger, triggerChannelIndex);
             scopeScreenVM.SampleSequenceProviders = sampler.SampleSequenceProviders;
@@ -134,7 +136,9 @@ namespace CtLab.Frontend.ViewModels
             // === Sample Sequences ===
 
             var sampleSequenceProviders =
-                sampleSequences.Select(ss =>
+                sampleSequences == null
+                ? new Func<SampleSequence>[0]
+                : sampleSequences.Select(ss =>
                 {
                     var fftSamples = DoFourierTransform(ss);
                     return new Func<SampleSequence>(() => fftSamples);
