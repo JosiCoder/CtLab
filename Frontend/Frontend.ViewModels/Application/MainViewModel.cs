@@ -19,6 +19,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using ScopeLib.Sampling;
 using CtLab.Environment;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaScope.Interfaces;
@@ -328,6 +329,25 @@ namespace CtLab.Frontend.ViewModels
 
             // === Start operation. ===
 
+            // Start capturing data by the scope.
+            startCapturingScopeData(appliance,
+                (sampleSequences) => { updateScopeVM(sampleSequences, scopeVM); });
+
+            // Start sending the query commands periodically.
+            const int queryCommandSendPeriodMilliseconds = 500;
+            appliance.ApplianceConnection.StartSendingQueryCommands (queryCommandSendPeriodMilliseconds);
+            return applianceViewModel;
+        }
+
+        //TODO
+        private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
+        {
+            captureScopeData(appliance, scopeUpdater);
+        }
+
+        //TODO
+        private void captureScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
+        {
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var hardwareScopeDemo = new RealHardwareScopeDemo();
             //hardwareScopeDemo.WriteAndReadStorageValues(appliance);
@@ -337,32 +357,17 @@ namespace CtLab.Frontend.ViewModels
             // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
             var sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
 
+            scopeUpdater(sampleSequences);
+        }
+
+        //TODO
+        private void updateScopeVM(IEnumerable<SampleSequence> sampleSequences,
+            ScopeViewModel scopeVM)
+        {
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var scopeDemo = new ScopeDemo();
-            scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
-            scopeDemo.ConfigureFFTScopeScreenVM(slaveScopeScreenVM, sampleSequences);
-
-            // Start sending the query commands periodically.
-            const int queryCommandSendPeriodMilliseconds = 500;
-            appliance.ApplianceConnection.StartSendingQueryCommands (queryCommandSendPeriodMilliseconds);
-
-            return applianceViewModel;
-        }
-
-        //TODO
-        private void startCapturingScopeData()
-        {
-            captureScopeData();
-        }
-
-        //TODO
-        private void captureScopeData()
-        {
-        }
-
-        //TODO
-        private void updateScopeVM()
-        {
+            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequences);
+            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequences);
         }
 
         /// <summary>
