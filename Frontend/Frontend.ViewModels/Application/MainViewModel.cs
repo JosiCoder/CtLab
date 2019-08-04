@@ -316,21 +316,6 @@ namespace CtLab.Frontend.ViewModels
             var masterScopeScreenVM = new ScopeScreenViewModel();
             var slaveScopeScreenVM = new ScopeScreenViewModel();
 
-            // TODO: Move demo somewhere else, replace it with real hardware access.
-            var hardwareScopeDemo = new RealHardwareScopeDemo();
-            //hardwareScopeDemo.WriteAndReadStorageValues(appliance);
-            var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
-
-            // TODO: Move demo somewhere else, replace it with real hardware access.
-            var scopeDemo = new ScopeDemo();
-            //var sampleSequences = scopeDemo.CreateSampleSequences();
-            // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
-            // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
-            var sampleSequences = scopeDemo.CreateSampleSequences(5, capturedValueSets);
-
-            scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
-            scopeDemo.ConfigureFFTScopeScreenVM(slaveScopeScreenVM, sampleSequences);
-
             var scopeVM = new ScopeViewModel(applianceServices,
                 scope,
                 masterScopeScreenVM, slaveScopeScreenVM);
@@ -343,11 +328,41 @@ namespace CtLab.Frontend.ViewModels
 
             // === Start operation. ===
 
+            // TODO: Move demo somewhere else, replace it with real hardware access.
+            var hardwareScopeDemo = new RealHardwareScopeDemo();
+            //hardwareScopeDemo.WriteAndReadStorageValues(appliance);
+            var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
+            //var sampleSequences = hardwareScopeDemo.CreateSampleSequences();
+            // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
+            // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
+            var sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+
+            // TODO: Move demo somewhere else, replace it with real hardware access.
+            var scopeDemo = new ScopeDemo();
+            scopeDemo.ConfigureMainScopeScreenVM(masterScopeScreenVM, sampleSequences);
+            scopeDemo.ConfigureFFTScopeScreenVM(slaveScopeScreenVM, sampleSequences);
+
             // Start sending the query commands periodically.
             const int queryCommandSendPeriodMilliseconds = 500;
             appliance.ApplianceConnection.StartSendingQueryCommands (queryCommandSendPeriodMilliseconds);
 
             return applianceViewModel;
+        }
+
+        //TODO
+        private void startCapturingScopeData()
+        {
+            captureScopeData();
+        }
+
+        //TODO
+        private void captureScopeData()
+        {
+        }
+
+        //TODO
+        private void updateScopeVM()
+        {
         }
 
         /// <summary>
