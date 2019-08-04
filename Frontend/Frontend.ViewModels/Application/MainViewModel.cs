@@ -148,8 +148,21 @@ namespace CtLab.Frontend.ViewModels
                     : "(unknown, channel {1})";
 
                 var appliance = CreateAppliance(connectionType, portName, channel);
-                _applianceVMs.Add(CreateApplianceViewModel(appliance,
-                    string.Format(portDescriptionFormat, portName, channel)));
+
+                var applianceVM = CreateApplianceViewModel(appliance,
+                    string.Format(portDescriptionFormat, portName, channel));
+
+                // === Start operation. ===
+
+                // Start capturing data by the scope.
+                startCapturingScopeData(appliance,
+                    (sampleSequences) => { updateScopeVM(sampleSequences, applianceVM.ScopeVM); });
+
+                // Start sending the query commands periodically.
+                const int queryCommandSendPeriodMilliseconds = 500;
+                appliance.ApplianceConnection.StartSendingQueryCommands (queryCommandSendPeriodMilliseconds);
+
+                _applianceVMs.Add(applianceVM);
             }
             catch (Exception ex)
             {
@@ -327,25 +340,19 @@ namespace CtLab.Frontend.ViewModels
                 scopeVM,
                 connectionDescription);
 
-            // === Start operation. ===
-
-            // Start capturing data by the scope.
-            startCapturingScopeData(appliance,
-                (sampleSequences) => { updateScopeVM(sampleSequences, scopeVM); });
-
-            // Start sending the query commands periodically.
-            const int queryCommandSendPeriodMilliseconds = 500;
-            appliance.ApplianceConnection.StartSendingQueryCommands (queryCommandSendPeriodMilliseconds);
             return applianceViewModel;
         }
 
         //TODO
         private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
         {
+            // TODO am Anfang initialisieren
+            scopeUpdater(null);
+
             captureScopeData(appliance, scopeUpdater);
         }
 
-        //TODO
+        //TODO, vorbereitet für Aufruf im Hintergrund
         private void captureScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
         {
             // TODO: Move demo somewhere else, replace it with real hardware access.
@@ -357,12 +364,13 @@ namespace CtLab.Frontend.ViewModels
             // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
             var sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
 
-            scopeUpdater(sampleSequences);
+            // TODO: In Warteschlange einreiehn: laufend aktualiseren.
+            DispatchOnUIThread(() => {scopeUpdater(sampleSequences);});
         }
 
-        //TODO
+        //TODO, wird auf UI-Thread aufgerufen
         private void updateScopeVM(IEnumerable<SampleSequence> sampleSequences,
-            ScopeViewModel scopeVM)
+            IScopeViewModel scopeVM)
         {
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var scopeDemo = new ScopeDemo();
