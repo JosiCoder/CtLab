@@ -156,9 +156,9 @@ namespace CtLab.Frontend.ViewModels
 
                 // Start capturing data by the scope.
                 startCapturingScopeData(appliance,
-                    (sampleSequencesGenerator) =>
+                    (sampleSequencesGenerators) =>
                 {
-                    updateScopeVM(sampleSequencesGenerator, applianceVM.ScopeVM);
+                    updateScopeVM(sampleSequencesGenerators, applianceVM.ScopeVM);
                 });
 
                 // Start sending the query commands periodically.
