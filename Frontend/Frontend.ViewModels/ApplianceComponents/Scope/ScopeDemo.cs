@@ -43,7 +43,7 @@ namespace CtLab.Frontend.ViewModels
         /// Configures the main scope screen viewmodel.
         /// </summary>
         public void ConfigureMainScopeScreenVM (IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<SampleSequence> sampleSequences)
+            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
         {
             // === Channels configuration ===
 
@@ -86,9 +86,11 @@ namespace CtLab.Frontend.ViewModels
             // === Sample Sequences ===
 
             var sampleSequenceProviders =
-                sampleSequences == null
-                ? new Func<SampleSequence>[0]
-                : sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
+                sampleSequenceGenerators.Select(ssg => {
+                    return new Func<SampleSequence>(() => {
+                        return ssg();
+                    });
+                }); // das wird regelm. aufgerufen
 
             var sampler = new Sampler(sampleSequenceProviders, trigger, triggerChannelIndex);
             scopeScreenVM.SampleSequenceProviders = sampler.SampleSequenceProviders;
@@ -98,7 +100,7 @@ namespace CtLab.Frontend.ViewModels
         /// Configures the FFT scope screen viewmodel.
         /// </summary>
         public void ConfigureFFTScopeScreenVM (IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<SampleSequence> sampleSequences)
+            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
         {
             // === Channels configuration ===
 
@@ -136,11 +138,9 @@ namespace CtLab.Frontend.ViewModels
             // === Sample Sequences ===
 
             var sampleSequenceProviders =
-                sampleSequences == null
-                ? new Func<SampleSequence>[0]
-                : sampleSequences.Select(ss =>
+                sampleSequenceGenerators.Select(ssg =>
                 {
-                    var fftSamples = DoFourierTransform(ss);
+                    var fftSamples = DoFourierTransform(ssg());
                     return new Func<SampleSequence>(() => fftSamples);
                 });
 

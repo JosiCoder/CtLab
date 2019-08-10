@@ -156,7 +156,10 @@ namespace CtLab.Frontend.ViewModels
 
                 // Start capturing data by the scope.
                 startCapturingScopeData(appliance,
-                    (sampleSequences) => { updateScopeVM(sampleSequences, applianceVM.ScopeVM); });
+                    (sampleSequencesGenerator) =>
+                {
+                    updateScopeVM(sampleSequencesGenerator, applianceVM.ScopeVM);
+                });
 
                 // Start sending the query commands periodically.
                 const int queryCommandSendPeriodMilliseconds = 500;
@@ -344,16 +347,19 @@ namespace CtLab.Frontend.ViewModels
         }
 
         //TODO
-        private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
+        private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
         {
             // TODO am Anfang initialisieren
-            scopeUpdater(null);
+            // null macht keinen Sinn, die SequenceProvider müssen sofort feststehen
+            var sampleSequences = new SampleSequence[] {new SampleSequence(5, new double[0])};
+            var sampleSequenceGenerators = sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
+            scopeUpdater(sampleSequenceGenerators);
 
             captureScopeData(appliance, scopeUpdater);
         }
 
         //TODO, vorbereitet für Aufruf im Hintergrund
-        private void captureScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
+        private void captureScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
         {
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var hardwareScopeDemo = new RealHardwareScopeDemo();
@@ -363,19 +369,22 @@ namespace CtLab.Frontend.ViewModels
             // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
             // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
             var sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+            var sampleSequenceGenerators = sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
+            scopeUpdater(sampleSequenceGenerators);
 
             // TODO: In Warteschlange einreiehn: laufend aktualiseren.
-            DispatchOnUIThread(() => {scopeUpdater(sampleSequences);});
+            scopeUpdater(sampleSequenceGenerators);
+            //DispatchOnUIThread(() => {scopeUpdater(sampleSequenceGenerators);});
         }
 
         //TODO, wird auf UI-Thread aufgerufen
-        private void updateScopeVM(IEnumerable<SampleSequence> sampleSequences,
+        private void updateScopeVM(IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
             IScopeViewModel scopeVM)
         {
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var scopeDemo = new ScopeDemo();
-            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequences);
-            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequences);
+            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequenceGenerators);
+            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequenceGenerators);
         }
 
         /// <summary>
