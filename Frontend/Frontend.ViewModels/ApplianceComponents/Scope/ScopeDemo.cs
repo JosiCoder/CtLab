@@ -87,13 +87,13 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            BuildMainSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
+            SetMainScopeScreenSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
         }
 
         /// <summary>
-        /// Builds a sequence provider for the main scope screen.
+        /// Sets the sequence provider for the main scope screen.
         /// </summary>
-        private void BuildMainSampleSequenceProviders(
+        public void SetMainScopeScreenSampleSequenceProviders(
             IScopeScreenViewModel scopeScreenVM,
             IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
         {
@@ -149,13 +149,13 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            BuildFFTSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
+            SetFFTScopeScreenSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
         }
 
         /// <summary>
         /// Builds a sequence provider for the FFT scope screen.
         /// </summary>
-        private void BuildFFTSampleSequenceProviders(
+        public void SetFFTScopeScreenSampleSequenceProviders(
             IScopeScreenViewModel scopeScreenVM,
             IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
         {
