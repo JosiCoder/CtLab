@@ -30,6 +30,8 @@ namespace CtLab.Frontend.ViewModels
     // TODO: Remove demo parts? Comment?
     public class ScopeDemo
     {
+        private const int demoTriggerChannelIndex = 0;
+
         private const char _channelCaptionBaseSymbol = '\u278A';// one of '\u2460', '\u2776', '\u278A';
 
         private readonly Color _baseColor = new Color(0.5, 0.8, 1.0);
@@ -73,7 +75,7 @@ namespace CtLab.Frontend.ViewModels
             var graphbaseVM = new GraphbaseViewModel ("s", 1, _baseColor);
 
             var trigger = new LevelTrigger(LevelTriggerMode.RisingEdge, 0.5);
-            var triggerChannelIndex = 0;
+            var triggerChannelIndex = demoTriggerChannelIndex;
 
             graphbaseVM.TriggerVM =
                 new LevelTriggerViewModel(trigger, channelVMs[triggerChannelIndex]);
@@ -85,23 +87,25 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            var sampleSequenceProviders = BuildMainSampleSequenceProviders(sampleSequenceGenerators, trigger, triggerChannelIndex);
-            scopeScreenVM.SampleSequenceProviders = sampleSequenceProviders;
+            BuildMainSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
         }
 
         /// <summary>
         /// Builds a sequence provider for the main scope screen.
         /// </summary>
-        private IEnumerable<Func<SampleSequence>> BuildMainSampleSequenceProviders(
-            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
-            ITrigger trigger, int triggerChannelIndex)
+        private void BuildMainSampleSequenceProviders(
+            IScopeScreenViewModel scopeScreenVM,
+            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
         {
+            var triggerChannelIndex = demoTriggerChannelIndex;
+
             var sampleSequenceProviders = sampleSequenceGenerators.Select(ssg =>
             {
                 return new Func<SampleSequence>(() => ssg());
             });
+            var trigger = scopeScreenVM.GraphbaseVM.TriggerVM.Trigger;
             var sampler = new Sampler(sampleSequenceProviders, trigger, triggerChannelIndex);
-            return sampler.SampleSequenceProviders;
+            scopeScreenVM.SampleSequenceProviders = sampler.SampleSequenceProviders;
         }
 
         /// <summary>
@@ -145,17 +149,17 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            var sampleSequenceProviders = BuildFFTSampleSequenceProviders(sampleSequenceGenerators);
-            scopeScreenVM.SampleSequenceProviders = sampleSequenceProviders;
+            BuildFFTSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
         }
 
         /// <summary>
         /// Builds a sequence provider for the FFT scope screen.
         /// </summary>
-        private IEnumerable<Func<SampleSequence>> BuildFFTSampleSequenceProviders(
+        private void BuildFFTSampleSequenceProviders(
+            IScopeScreenViewModel scopeScreenVM,
             IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
         {
-            return sampleSequenceGenerators.Select(ssg =>
+            var sampleSequenceProviders = sampleSequenceGenerators.Select(ssg =>
             {
                 SampleSequence fftSamples;
                 try
@@ -168,6 +172,7 @@ namespace CtLab.Frontend.ViewModels
                 }
                 return new Func<SampleSequence>(() => fftSamples);
             });
+            scopeScreenVM.SampleSequenceProviders = sampleSequenceProviders;
         }
 
         /// <summary>
