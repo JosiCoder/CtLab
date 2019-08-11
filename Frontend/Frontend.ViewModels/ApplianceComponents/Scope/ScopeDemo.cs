@@ -85,8 +85,7 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            var sampler = new Sampler(trigger, triggerChannelIndex);
-            var sampleSequenceProviders = BuildMainSampleSequenceProviders(sampleSequenceGenerators, sampler);
+            var sampleSequenceProviders = BuildMainSampleSequenceProviders(sampleSequenceGenerators, trigger, triggerChannelIndex);
             scopeScreenVM.SampleSequenceProviders = sampleSequenceProviders;
         }
 
@@ -95,13 +94,13 @@ namespace CtLab.Frontend.ViewModels
         /// </summary>
         private IEnumerable<Func<SampleSequence>> BuildMainSampleSequenceProviders(
             IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
-            Sampler sampler)
+            ITrigger trigger, int triggerChannelIndex)
         {
             var sampleSequenceProviders = sampleSequenceGenerators.Select(ssg =>
             {
                 return new Func<SampleSequence>(() => ssg());
             });
-            sampler.SetExternalSampleSequenceProviders(sampleSequenceProviders);
+            var sampler = new Sampler(sampleSequenceProviders, trigger, triggerChannelIndex);
             return sampler.SampleSequenceProviders;
         }
 
