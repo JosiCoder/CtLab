@@ -17,6 +17,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ScopeLib.Sampling;
@@ -349,12 +350,13 @@ namespace CtLab.Frontend.ViewModels
         //TODO
         private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
         {
-            // TODO am Anfang initialisieren
+            // TODO am Anfang initialisieren, aus dieser Methode nach oben rausziehen
             // null macht keinen Sinn, die SequenceProvider müssen sofort feststehen
-            var sampleSequences = new SampleSequence[] {new SampleSequence(5, new double[0])};
+            var sampleSequences = new SampleSequence[] {new SampleSequence(5, new double[0]), new SampleSequence(5, new double[0])};
             var sampleSequenceGenerators = sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
             scopeUpdater(sampleSequenceGenerators);
 
+            //Task.Run(() => captureScopeData(appliance, scopeUpdater));
             captureScopeData(appliance, scopeUpdater);
         }
 
@@ -363,16 +365,13 @@ namespace CtLab.Frontend.ViewModels
         {
             // TODO: Move demo somewhere else, replace it with real hardware access.
             var hardwareScopeDemo = new RealHardwareScopeDemo();
-            //hardwareScopeDemo.WriteAndReadStorageValues(appliance);
             var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
-            //var sampleSequences = hardwareScopeDemo.CreateSampleSequences();
             // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
             // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
             var sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
             var sampleSequenceGenerators = sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
-            scopeUpdater(sampleSequenceGenerators);
 
-            // TODO: In Warteschlange einreiehn: laufend aktualiseren.
+            // TODO: In Warteschlange einreihen: laufend aktualiseren.
             scopeUpdater(sampleSequenceGenerators);
             //DispatchOnUIThread(() => {scopeUpdater(sampleSequenceGenerators);});
         }
