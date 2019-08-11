@@ -140,7 +140,15 @@ namespace CtLab.Frontend.ViewModels
             var sampleSequenceProviders =
                 sampleSequenceGenerators.Select(ssg =>
                 {
-                    var fftSamples = DoFourierTransform(ssg());
+                    SampleSequence fftSamples;
+                    try
+                    {
+                        fftSamples = DoFourierTransform(ssg());
+                    }
+                    catch
+                    {
+                        fftSamples = new SampleSequence(1, new double[0]);
+                    }
                     return new Func<SampleSequence>(() => fftSamples);
                 });
 
