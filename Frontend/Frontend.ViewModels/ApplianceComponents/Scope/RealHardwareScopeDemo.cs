@@ -28,6 +28,7 @@ using CtLab.Environment;
 
 namespace CtLab.Frontend.ViewModels
 {
+    // TODO: Move demo somewhere else, replace it with real hardware access.
     /// <summary>
     /// Provides some samples using real c´t Lab hardware connected via a (physical or emulated) serial
     /// port or a direct SPI connection.

@@ -50,6 +50,7 @@ namespace CtLab.Frontend.ViewModels
         private readonly IApplicationSettingsWriter _applicationSettingsWriter;
 
         private ApplicationSettings _applicationSettings = new ApplicationSettings();
+        private IEnumerable<SampleSequence> _sampleSequences = null;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -155,11 +156,13 @@ namespace CtLab.Frontend.ViewModels
 
                 // === Start operation. ===
 
+                initScopeVM(applianceVM.ScopeVM);
+
                 // Start capturing data by the scope.
                 startCapturingScopeData(appliance,
                     (sampleSequencesGenerators) =>
                 {
-                    updateScopeVM(sampleSequencesGenerators, applianceVM.ScopeVM);
+                    updateScopeVMSampleSequenceGenerators(sampleSequencesGenerators, applianceVM.ScopeVM);
                 });
 
                 // Start sending the query commands periodically.
@@ -347,43 +350,93 @@ namespace CtLab.Frontend.ViewModels
             return applianceViewModel;
         }
 
-        //TODO
+        /// <summary>
+        /// Starts capturing the scope data.
+        /// </summary>
         private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
         {
-            // TODO am Anfang initialisieren, aus dieser Methode nach oben rausziehen
-            // null macht keinen Sinn, die SequenceProvider müssen sofort feststehen
-            var sampleSequences = new SampleSequence[] {new SampleSequence(5, new double[0]), new SampleSequence(5, new double[0])};
-            var sampleSequenceGenerators = sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
+            var sampleSequenceGeneratorNumbers = Enumerable.Range(0, 4); // TODO number of sample sequences?
+            var sampleSequenceGenerators = sampleSequenceGeneratorNumbers.Select(index =>
+            {
+                return new Func<SampleSequence>(() =>
+                {
+                    try {
+                        return _sampleSequences.Skip(index).First();
+
+                    } catch (Exception) {
+                        return new SampleSequence(1, new Double[0]);
+                    }
+                });
+            });
+
             scopeUpdater(sampleSequenceGenerators);
 
-            //Task.Run(() => captureScopeData(appliance, scopeUpdater));
-            captureScopeData(appliance, scopeUpdater);
+            // Initialize the signal source attached to the scope.
+            new RealHardwareScopeDemo().SetupHardwareSignals(appliance.SignalGenerator);
+
+            // Start capturing.
+            captureScopeData(appliance, true);
         }
 
-        //TODO, vorbereitet für Aufruf im Hintergrund
-        private void captureScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
+        /// <summary>
+        /// Captures scope data in a background task.
+        /// </summary>
+        private void captureScopeData(Appliance appliance, bool continuously)
         {
-            // TODO: Move demo somewhere else, replace it with real hardware access.
-            var hardwareScopeDemo = new RealHardwareScopeDemo();
-            var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
-            // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
-            // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
-            var sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
-            var sampleSequenceGenerators = sampleSequences.Select(ss => new Func<SampleSequence>(() => ss));
+            try
+            {
+                var task = Task.Run(() => captureSingleScopeData(appliance));
+                if (continuously)
+                {
+                    task.ContinueWith(prevTask => captureScopeData(appliance, true));
+                }
+            }
+            catch (Exception ex)
+            {
 
-            // TODO: In Warteschlange einreihen: laufend aktualiseren.
-            scopeUpdater(sampleSequenceGenerators);
-            //DispatchOnUIThread(() => {scopeUpdater(sampleSequenceGenerators);});
+            }
         }
 
-        //TODO, wird auf UI-Thread aufgerufen
-        private void updateScopeVM(IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
-            IScopeViewModel scopeVM)
+        /// <summary>
+        /// Captures a single bunch of scope data.
+        /// </summary>
+        private void captureSingleScopeData(Appliance appliance)
         {
-            // TODO: Move demo somewhere else, replace it with real hardware access.
+            try
+            {
+                var hardwareScopeDemo = new RealHardwareScopeDemo();
+                var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
+
+                // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
+                // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
+                _sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// Initializes the scope VMs.
+        /// </summary>
+        private void initScopeVM(IScopeViewModel scopeVM)
+        {
+            var sampleSequenceGenerators = new Func<SampleSequence>[0];
             var scopeDemo = new ScopeDemo();
             scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequenceGenerators);
             scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequenceGenerators);
+        }
+
+        /// <summary>
+        /// Updates the scope VM's sample sequence generators.
+        /// </summary>
+        private void updateScopeVMSampleSequenceGenerators(IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
+            IScopeViewModel scopeVM)
+        {
+            var scopeDemo = new ScopeDemo();
+            scopeDemo.SetMainScopeScreenSampleSequenceProviders(scopeVM.MasterScopeScreenVM, sampleSequenceGenerators);
+            scopeDemo.SetFFTScopeScreenSampleSequenceProviders(scopeVM.SlaveScopeScreenVM, sampleSequenceGenerators);
         }
 
         /// <summary>
