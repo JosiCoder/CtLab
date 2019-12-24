@@ -156,10 +156,10 @@ namespace CtLab.Frontend.ViewModels
 
                 // === Start operation. ===
 
-                initScopeVM(applianceVM.ScopeVM);
+                InitScopeVM(applianceVM.ScopeVM);
 
                 // Start capturing data by the scope.
-                startCapturingScopeData(appliance,
+                StartCapturingScopeData(appliance,
                     (sampleSequencesGenerators) =>
                 {
                     updateScopeVMSampleSequenceGenerators(sampleSequencesGenerators, applianceVM.ScopeVM);
@@ -353,7 +353,7 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Starts capturing the scope data.
         /// </summary>
-        private void startCapturingScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
+        private void StartCapturingScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
         {
             var sampleSequenceGeneratorNumbers = Enumerable.Range(0, 4); // TODO number of sample sequences?
             var sampleSequenceGenerators = sampleSequenceGeneratorNumbers.Select(index =>
@@ -375,20 +375,20 @@ namespace CtLab.Frontend.ViewModels
             new RealHardwareScopeDemo().SetupHardwareSignals(appliance.SignalGenerator);
 
             // Start capturing.
-            captureScopeData(appliance, true);
+            CaptureScopeData(appliance, true);
         }
 
         /// <summary>
         /// Captures scope data in a background task.
         /// </summary>
-        private void captureScopeData(Appliance appliance, bool continuously)
+        private void CaptureScopeData(Appliance appliance, bool continuously)
         {
             try
             {
-                var task = Task.Run(() => captureSingleScopeData(appliance));
+                var task = Task.Run(() => CaptureSingleScopeData(appliance));
                 if (continuously)
                 {
-                    task.ContinueWith(prevTask => captureScopeData(appliance, true));
+                    task.ContinueWith(prevTask => CaptureScopeData(appliance, true));
                 }
             }
             catch (Exception ex)
@@ -400,7 +400,7 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Captures a single bunch of scope data.
         /// </summary>
-        private void captureSingleScopeData(Appliance appliance)
+        private void CaptureSingleScopeData(Appliance appliance)
         {
             try
             {
@@ -420,7 +420,7 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Initializes the scope VMs.
         /// </summary>
-        private void initScopeVM(IScopeViewModel scopeVM)
+        private void InitScopeVM(IScopeViewModel scopeVM)
         {
             var sampleSequenceGenerators = new Func<SampleSequence>[0];
             var scopeDemo = new ScopeDemo();
