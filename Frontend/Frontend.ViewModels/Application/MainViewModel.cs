@@ -162,7 +162,7 @@ namespace CtLab.Frontend.ViewModels
                 StartCapturingScopeData(appliance,
                     (sampleSequencesGenerators) =>
                 {
-                    updateScopeVMSampleSequenceGenerators(sampleSequencesGenerators, applianceVM.ScopeVM);
+                    UpdateScopeVMSampleSequenceGenerators(sampleSequencesGenerators, applianceVM.ScopeVM);
                 });
 
                 // Start sending the query commands periodically.
@@ -391,9 +391,9 @@ namespace CtLab.Frontend.ViewModels
                     task.ContinueWith(prevTask => CaptureScopeData(appliance, true));
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
+                ; // intentionally left empty
             }
         }
 
@@ -407,13 +407,14 @@ namespace CtLab.Frontend.ViewModels
                 var hardwareScopeDemo = new RealHardwareScopeDemo();
                 var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
 
+                // TODO: Currently just a demo, implement in a really useful way.
                 // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
                 // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
                 _sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
             }
-            catch (Exception ex)
+            catch
             {
-
+                ; // intentionally left empty
             }
         }
 
@@ -431,7 +432,7 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Updates the scope VM's sample sequence generators.
         /// </summary>
-        private void updateScopeVMSampleSequenceGenerators(IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
+        private void UpdateScopeVMSampleSequenceGenerators(IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
             IScopeViewModel scopeVM)
         {
             var scopeDemo = new ScopeDemo();
