@@ -36,70 +36,7 @@ namespace CtLab.Frontend.ViewModels
     /// </summary>
     public class RealHardwareScopeDemo
     {
-        /// <summary>
-        /// Writes sample values to the storage and reads them using the low-level SRAM controller protocol.
-        /// Note: No handshake is usually necessary for writing as the storage controller (VHDL) is much faster
-        /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
-        /// to be considered, especially when using the c't Lab protocol. 
-        /// </summary>
-        public void WriteAndReadStorageValues(Appliance appliance)
-        {
-            var scope = SetupHardware(appliance, false);
-
-            var separatorStartAddress = 999u;
-            var separatorValues = new []{99u};
-
-            var startAddress = 10u;
-            var random = new Random ();
-            var values = Enumerable.Range(0, 5).Select(item => (uint)random.Next (255)).ToArray();
-
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Writing values");
-            Console.WriteLine ("=====================================================");
-
-            var start = DateTime.Now;
-
-            scope.Write(startAddress, values);
-
-            Console.WriteLine ("Duration: {0}", DateTime.Now-start);
-
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Writing separator values (to overwrite SPI registers)");
-            Console.WriteLine ("=====================================================");
-
-            scope.Write(separatorStartAddress, separatorValues);
-
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Reading values");
-            Console.WriteLine ("=====================================================");
-
-            start = DateTime.Now;
-
-            // Read all values eagerly, then await any async 'String received' comments.
-            // This is just for more beautiful output.
-            var readValues = scope.Read(startAddress, values.Length).ToList();
-            Thread.Sleep (100);
-
-            Console.WriteLine ("Duration: {0}", DateTime.Now-start);
-
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Summary");
-            Console.WriteLine ("=====================================================");
-
-            Console.Write ("Written:");
-            foreach (var value in values)
-            {
-                Console.Write(" {0} (x{0:X2})", value);
-            }
-            Console.WriteLine();
-
-            Console.Write ("Read:   ");
-            foreach (var value in readValues)
-            {
-                Console.Write(" {0} (x{0:X2})", value);
-            }
-            Console.WriteLine();
-        }
+        private const bool logAccess = true;
 
         /// <summary>
         /// Captures sample values to the storage and reads them using the low-level SRAM controller protocol.
@@ -111,19 +48,19 @@ namespace CtLab.Frontend.ViewModels
         {
             var scope = SetupHardware(appliance, true);
 
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Capturing values");
-            Console.WriteLine ("=====================================================");
+            WriteLine ("=====================================================");
+            WriteLine ("Capturing values");
+            WriteLine ("=====================================================");
 
             var start = DateTime.Now;
 
             scope.Capture(0, 32767); // 32 K memory
 
-            Console.WriteLine ("Duration: {0}", DateTime.Now - start);
+            WriteLine (() => string.Format("Duration: {0}", DateTime.Now - start));
 
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Reading values");
-            Console.WriteLine ("=====================================================");
+            WriteLine ("=====================================================");
+            WriteLine ("Reading values");
+            WriteLine ("=====================================================");
 
             start = DateTime.Now;
 
@@ -140,21 +77,13 @@ namespace CtLab.Frontend.ViewModels
             readValueSets.Add(scope.Read(30000-5, 10).ToList());
 */            Thread.Sleep (100);
 
-            Console.WriteLine ("Duration: {0}", DateTime.Now - start);
+            WriteLine (() => string.Format("Duration: {0}", DateTime.Now - start));
 
-            Console.WriteLine ("=====================================================");
-            Console.WriteLine ("Summary");
-            Console.WriteLine ("=====================================================");
+            WriteLine ("=====================================================");
+            WriteLine ("Summary");
+            WriteLine ("=====================================================");
 
-            foreach(var readValueSet in readValueSets)
-            {
-                Console.Write ("Read: ");
-                foreach (var value in readValueSet)
-                {
-                    Console.Write(" {0} (x{0:X2})", value);
-                }
-                Console.WriteLine();
-            }
+            WriteValueSets("Read", readValueSets);
 
             return readValueSets;
         }
@@ -285,6 +214,47 @@ namespace CtLab.Frontend.ViewModels
             appliance.ApplianceConnection.SendSetCommandsForModifiedValues();
 
             return scope;
+        }
+
+        /// <summary>
+        /// Writes a line to the console if logging is activated.
+        /// </summary>
+        private void WriteLine(object value)
+        {
+            if (logAccess)
+            {
+                Console.WriteLine(value);
+            }
+        }
+
+        /// <summary>
+        /// Writes a line to the console if logging is activated.
+        /// </summary>
+        private void WriteLine(Func<object> valueProvider)
+        {
+            if (logAccess)
+            {
+                Console.WriteLine(valueProvider());
+            }
+        }
+
+        /// <summary>
+        /// Writes value sets to the console if logging is activated.
+        /// </summary>
+        private void WriteValueSets(object header, IEnumerable<IEnumerable<uint>> valueSets)
+        {
+            if (logAccess)
+            {
+                foreach(var valueSet in valueSets)
+                {
+                    Console.Write ("{0}: ", header);
+                    foreach (var value in valueSet)
+                    {
+                        Console.Write(" {0} (x{0:X2})", value);
+                    }
+                    Console.WriteLine();
+                }
+            }
         }
     }
 }
