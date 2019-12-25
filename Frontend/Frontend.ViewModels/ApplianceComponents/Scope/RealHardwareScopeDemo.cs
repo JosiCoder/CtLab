@@ -117,7 +117,7 @@ namespace CtLab.Frontend.ViewModels
 
             var start = DateTime.Now;
 
-            scope.Capture(10, 20000);
+            scope.Capture(0, 32767); // 32 K memory
 
             Console.WriteLine ("Duration: {0}", DateTime.Now - start);
 
@@ -130,7 +130,7 @@ namespace CtLab.Frontend.ViewModels
             // Read all values eagerly, then await any async 'String received' comments.
             // This is just for more beautiful output.
             var readValueSets = new List<IEnumerable<uint>>();
-            readValueSets.Add(scope.Read(10, 21).ToList());
+            readValueSets.Add(scope.Read(0, 21).ToList());
 /*
             readValueSets.Add(scope.Read(10-5, 10).ToList());
             readValueSets.Add(scope.Read(1000-5, 10).ToList());
