@@ -159,9 +159,9 @@ namespace CtLab.Frontend.ViewModels
                 InitScopeVM(applianceVM.ScopeVM);
 
                 // Start capturing data by the scope.
-                StartCapturingScopeData(appliance, (sampleSequencesGenerators) =>
+                StartCapturingScopeData(appliance, (sampleSequences) =>
                 {
-                    UpdateScopeVMSampleSequenceGenerators(sampleSequencesGenerators, applianceVM.ScopeVM);
+                    UpdateScopeVMSampleSequences(sampleSequences, applianceVM.ScopeVM);
                 });
 
                 // Start sending the query commands periodically.
@@ -352,23 +352,20 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Starts capturing the scope data.
         /// </summary>
-        private void StartCapturingScopeData(Appliance appliance, Action<IEnumerable<Func<SampleSequence>>> scopeUpdater)
+        private void StartCapturingScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
         {
             var sampleSequenceGeneratorNumbers = Enumerable.Range(0, 4); // TODO number of sample sequences?
-            var sampleSequenceGenerators = sampleSequenceGeneratorNumbers.Select(index =>
+            var sampleSequences = sampleSequenceGeneratorNumbers.Select(index =>
             {
-                return new Func<SampleSequence>(() =>
+                try
                 {
-                    try {
-                        return _sampleSequences.Skip(index).First();
-
-                    } catch (Exception) {
-                        return new SampleSequence(1, new Double[0]);
-                    }
-                });
+                    return _sampleSequences.Skip(index).First();
+                } catch (Exception) {
+                    return new SampleSequence(1, new Double[0]);
+                }
             });
 
-            scopeUpdater(sampleSequenceGenerators);
+            scopeUpdater(sampleSequences);
 
             // Initialize the signal source attached to the scope.
             new RealHardwareScopeDemo().SetupHardwareSignals(appliance.SignalGenerator);
@@ -431,21 +428,21 @@ namespace CtLab.Frontend.ViewModels
         /// </summary>
         private void InitScopeVM(IScopeViewModel scopeVM)
         {
-            var sampleSequenceGenerators = new Func<SampleSequence>[0];
+            var sampleSequences = new SampleSequence[0];
             var scopeDemo = new ScopeDemo();
-            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequenceGenerators);
-            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequenceGenerators);
+            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequences);
+            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequences);
         }
 
         /// <summary>
-        /// Updates the scope VM's sample sequence generators.
+        /// Updates the scope VM's sample sequences.
         /// </summary>
-        private void UpdateScopeVMSampleSequenceGenerators(IEnumerable<Func<SampleSequence>> sampleSequenceGenerators,
+        private void UpdateScopeVMSampleSequences(IEnumerable<SampleSequence> sampleSequences,
             IScopeViewModel scopeVM)
         {
             var scopeDemo = new ScopeDemo();
-            scopeDemo.SetMainScopeScreenSampleSequenceProviders(scopeVM.MasterScopeScreenVM, sampleSequenceGenerators);
-            scopeDemo.SetFFTScopeScreenSampleSequenceProviders(scopeVM.SlaveScopeScreenVM, sampleSequenceGenerators);
+            scopeDemo.SetMainScopeScreenSampleSequences(scopeVM.MasterScopeScreenVM, sampleSequences);
+            scopeDemo.SetFFTScopeScreenSampleSequences(scopeVM.SlaveScopeScreenVM, sampleSequences);
         }
 
         /// <summary>

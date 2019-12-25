@@ -45,7 +45,7 @@ namespace CtLab.Frontend.ViewModels
         /// Configures the main scope screen viewmodel.
         /// </summary>
         public void ConfigureMainScopeScreenVM (IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
+            IEnumerable<SampleSequence> sampleSequences)
         {
             // === Channels configuration ===
 
@@ -87,21 +87,21 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            SetMainScopeScreenSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
+            SetMainScopeScreenSampleSequences(scopeScreenVM, sampleSequences);
         }
 
         /// <summary>
         /// Sets the sequence provider for the main scope screen.
         /// </summary>
-        public void SetMainScopeScreenSampleSequenceProviders(
+        public void SetMainScopeScreenSampleSequences(
             IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
+            IEnumerable<SampleSequence> sampleSequences)
         {
             var triggerChannelIndex = demoTriggerChannelIndex;
 
-            var sampleSequenceProviders = sampleSequenceGenerators.Select(ssg =>
+            var sampleSequenceProviders = sampleSequences.Select(ss =>
             {
-                return new Func<SampleSequence>(() => ssg());
+                return new Func<SampleSequence>(() => ss);
             });
             var trigger = scopeScreenVM.GraphbaseVM.TriggerVM.Trigger;
             var sampler = new Sampler(sampleSequenceProviders, trigger, triggerChannelIndex);
@@ -112,7 +112,7 @@ namespace CtLab.Frontend.ViewModels
         /// Configures the FFT scope screen viewmodel.
         /// </summary>
         public void ConfigureFFTScopeScreenVM (IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
+            IEnumerable<SampleSequence> sampleSequences)
         {
             // === Channels configuration ===
 
@@ -149,22 +149,22 @@ namespace CtLab.Frontend.ViewModels
 
             // === Sample Sequences ===
 
-            SetFFTScopeScreenSampleSequenceProviders(scopeScreenVM, sampleSequenceGenerators);
+            SetFFTScopeScreenSampleSequences(scopeScreenVM, sampleSequences);
         }
 
         /// <summary>
         /// Builds a sequence provider for the FFT scope screen.
         /// </summary>
-        public void SetFFTScopeScreenSampleSequenceProviders(
+        public void SetFFTScopeScreenSampleSequences(
             IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<Func<SampleSequence>> sampleSequenceGenerators)
+            IEnumerable<SampleSequence> sampleSequences)
         {
-            var sampleSequenceProviders = sampleSequenceGenerators.Select(ssg =>
+            var sampleSequenceProviders = sampleSequences.Select(ss =>
             {
                 SampleSequence fftSamples;
                 try
                 {
-                    fftSamples = DoFourierTransform(ssg());
+                    fftSamples = DoFourierTransform(ss);
                 }
                 catch
                 {

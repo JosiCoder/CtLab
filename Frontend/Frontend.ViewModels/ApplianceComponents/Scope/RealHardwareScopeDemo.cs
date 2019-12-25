@@ -100,22 +100,6 @@ namespace CtLab.Frontend.ViewModels
         }
 
         /// <summary>
-        /// Creates some sample sequences used to demonstrate scope features.
-        /// </summary>
-        public IEnumerable<SampleSequence> CreateSampleSequences()
-        {
-            var duration = 4.000000001; // ensure that the last point is included.
-
-            yield return CreateDemoSampleSequence(duration, 64);
-
-            //var interpolator = new LinearInterpolator();
-            var interpolator = new SincInterpolator();
-            yield return CreateDemoSampleSequence(duration, 8, interpolator, 64);
-            //yield return CreateDemoSampleSequenceB();
-        }
-
-
-        /// <summary>
         /// Configures some signals for the storage inputs and the analog outputs.
         /// By observing the signals on the analog outputs we can see how accessing the
         /// storage briefly disconnects the DAC.
