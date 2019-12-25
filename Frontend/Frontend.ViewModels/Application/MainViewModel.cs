@@ -159,8 +159,7 @@ namespace CtLab.Frontend.ViewModels
                 InitScopeVM(applianceVM.ScopeVM);
 
                 // Start capturing data by the scope.
-                StartCapturingScopeData(appliance,
-                    (sampleSequencesGenerators) =>
+                StartCapturingScopeData(appliance, (sampleSequencesGenerators) =>
                 {
                     UpdateScopeVMSampleSequenceGenerators(sampleSequencesGenerators, applianceVM.ScopeVM);
                 });
@@ -398,7 +397,7 @@ namespace CtLab.Frontend.ViewModels
         }
 
         /// <summary>
-        /// Captures a single bunch of scope data.
+        /// Captures a single bunch of scope data. Note that this is called on a background thread.
         /// </summary>
         private void CaptureSingleScopeData(Appliance appliance)
         {
@@ -411,6 +410,15 @@ namespace CtLab.Frontend.ViewModels
                 // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
                 // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
                 _sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+                DispatchOnUIThread(() =>
+                {
+                    _applianceVMs.ForEach(app =>
+                    {
+                        var scopeVM = app.ScopeVM;
+                        scopeVM.MasterScopeScreenVM.RefreshSampleSequences();
+                        scopeVM.SlaveScopeScreenVM.RefreshSampleSequences();
+                    });
+                });
             }
             catch
             {
