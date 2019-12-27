@@ -28,9 +28,9 @@ using CtLab.FpgaSignalGenerator.Interfaces;
 namespace CtLab.Frontend.ViewModels
 {
     /// <summary>
-    /// Generates sample sequences used to demonstrate scope features.
+    /// Provides sample sequences used to demonstrate scope features.
     /// </summary>
-    public class DemoSampleSequencesGenerator
+    public class DemoSampleSequencesSource
     {
         /// <summary>
         /// Creates some sample sequences used to demonstrate scope features.

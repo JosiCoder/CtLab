@@ -111,8 +111,8 @@
     <Compile Include="ApplianceComponents\Scope\IScopeViewModel.cs" />
     <Compile Include="ApplianceComponents\Scope\ScopeViewModel.cs" />
     <Compile Include="ApplianceComponents\Scope\ScopeDemo.cs" />
-    <Compile Include="ApplianceComponents\Scope\RealHardwareScopeDemo.cs" />
-    <Compile Include="ApplianceComponents\Scope\DemoSampleSequencesGenerator.cs" />
+    <Compile Include="ApplianceComponents\Scope\RealHardwareSampleSequencesSource.cs" />
+    <Compile Include="ApplianceComponents\Scope\DemoSampleSequencesSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

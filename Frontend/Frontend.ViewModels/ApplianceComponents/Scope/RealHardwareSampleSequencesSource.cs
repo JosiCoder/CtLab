@@ -28,21 +28,20 @@ using CtLab.Environment;
 
 namespace CtLab.Frontend.ViewModels
 {
-    // TODO: Move demo somewhere else, replace it with real hardware access.
     /// <summary>
-    /// Provides some samples using real c´t Lab hardware connected via a (physical or emulated) serial
-    /// port or a direct SPI connection.
-    /// For these tests, a proper configuration supporting a scope must be loaded into the FPGA.
+    /// Provides sample sequences captured by real c´t Lab hardware connected via a (physical or emulated)
+    /// serial port or a direct SPI connection.
+    /// A proper configuration supporting a scope must be loaded into the FPGA.
     /// </summary>
-    public class RealHardwareScopeDemo
+    public class RealHardwareSampleSequencesSource
     {
         private const bool logAccess = true;
 
         /// <summary>
         /// Captures sample values to the storage and reads them using the low-level SRAM controller protocol.
-        /// Note: No handshake is usually necessary for writing as the storage controller (VHDL) is much faster
+        /// Note: For writing, no handshake is usually necessary as the storage controller (VHDL) is much faster
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
-        /// to be considered, especially when using the c't Lab protocol. 
+        /// to be considered, especially when using the slow c't Lab protocol. 
         /// </summary>
         public IEnumerable<IEnumerable<uint>> CaptureAndReadStorageValues(Appliance appliance)
         {

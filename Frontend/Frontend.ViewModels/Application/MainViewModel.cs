@@ -369,7 +369,7 @@ namespace CtLab.Frontend.ViewModels
             scopeUpdater(sampleSequences);
 
             // Initialize the signal source attached to the scope.
-            new RealHardwareScopeDemo().SetupHardwareSignals(appliance.SignalGenerator);
+            new RealHardwareSampleSequencesSource().SetupHardwareSignals(appliance.SignalGenerator);
 
             // Start capturing.
             CaptureScopeData(appliance, useDemoSampleSequences, true);
@@ -403,12 +403,12 @@ namespace CtLab.Frontend.ViewModels
             {
                 if (useDemoSampleSequences)
                 {
-                    _sampleSequences = new DemoSampleSequencesGenerator().CreateSampleSequences();
+                    _sampleSequences = new DemoSampleSequencesSource().CreateSampleSequences();
                     System.Threading.Thread.Sleep(500); // simulate capturing delay (especially for continuous capturing)
                 }
                 else
                 {
-                    var hardwareScopeDemo = new RealHardwareScopeDemo();
+                    var hardwareScopeDemo = new RealHardwareSampleSequencesSource();
                     var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
 
                     // TODO: Currently just a demo, implement in a really useful way.
