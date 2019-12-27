@@ -162,7 +162,7 @@ namespace CtLab.Frontend.ViewModels
                 StartCapturingScopeData(appliance, (sampleSequences) =>
                 {
                     UpdateScopeVMSampleSequences(sampleSequences, applianceVM.ScopeVM);
-                });
+                }, connectionType == ApplianceConnectionType.Dummy);
 
                 // Start sending the query commands periodically.
                 const int queryCommandSendPeriodMilliseconds = 500;
@@ -352,7 +352,8 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Starts capturing the scope data.
         /// </summary>
-        private void StartCapturingScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater)
+        private void StartCapturingScopeData(Appliance appliance, Action<IEnumerable<SampleSequence>> scopeUpdater,
+            bool useDemoSampleSequences)
         {
             var sampleSequenceGeneratorNumbers = Enumerable.Range(0, 4); // TODO number of sample sequences?
             var sampleSequences = sampleSequenceGeneratorNumbers.Select(index =>
@@ -371,20 +372,20 @@ namespace CtLab.Frontend.ViewModels
             new RealHardwareScopeDemo().SetupHardwareSignals(appliance.SignalGenerator);
 
             // Start capturing.
-            CaptureScopeData(appliance, true);
+            CaptureScopeData(appliance, useDemoSampleSequences);
         }
 
         /// <summary>
         /// Captures scope data in a background task.
         /// </summary>
-        private void CaptureScopeData(Appliance appliance, bool continuously)
+        private void CaptureScopeData(Appliance appliance, bool useDemoSampleSequences)
         {
             try
             {
-                var task = Task.Run(() => CaptureSingleScopeData(appliance));
-                if (continuously)
+                var task = Task.Run(() => CaptureSingleScopeData(appliance, useDemoSampleSequences));
+                if (!useDemoSampleSequences)
                 {
-                    task.ContinueWith(prevTask => CaptureScopeData(appliance, true));
+                    task.ContinueWith(prevTask => CaptureScopeData(appliance, useDemoSampleSequences));
                 }
             }
             catch
@@ -396,17 +397,26 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Captures a single bunch of scope data. Note that this is called on a background thread.
         /// </summary>
-        private void CaptureSingleScopeData(Appliance appliance)
+        private void CaptureSingleScopeData(Appliance appliance, bool useDemoSampleSequences)
         {
             try
             {
-                var hardwareScopeDemo = new RealHardwareScopeDemo();
-                var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
+                if (useDemoSampleSequences)
+                {
+                    _sampleSequences = new DemoSampleSequencesGenerator().CreateSampleSequences();
+                    System.Threading.Thread.Sleep(250);
+                }
+                else
+                {
+                    var hardwareScopeDemo = new RealHardwareScopeDemo();
+                    var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
 
-                // TODO: Currently just a demo, implement in a really useful way.
-                // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
-                // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
-                _sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+                    // TODO: Currently just a demo, implement in a really useful way.
+                    // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
+                    // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
+                    _sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+                }
+
                 DispatchOnUIThread(() =>
                 {
                     _applianceVMs.ForEach(app =>
