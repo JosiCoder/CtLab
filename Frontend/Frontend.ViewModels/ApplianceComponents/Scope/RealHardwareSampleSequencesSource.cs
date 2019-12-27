@@ -38,12 +38,32 @@ namespace CtLab.Frontend.ViewModels
         private const bool logAccess = true;
 
         /// <summary>
+        /// Returns sample sequences from the specified applicance, interpreted as a signed 8 bit value
+        /// and scaled down by 100.
+        /// </summary>
+        public IEnumerable<SampleSequence> GetSampleSequences(Appliance appliance, int sampleFrequency)
+        {
+            return CreateSampleSequences(sampleFrequency, CaptureAndReadStorageValues(appliance));
+        }
+
+        /// <summary>
+        /// Creates sample sequences from the specified captured values, interpreted as a signed 8 bit value
+        /// and scaled down by 100.
+        /// </summary>
+        private IEnumerable<SampleSequence> CreateSampleSequences(int sampleFrequency,
+            IEnumerable<IEnumerable<uint>> valueSets)
+        {
+            return valueSets.Select(valueSet =>
+                new SampleSequence(1f / sampleFrequency, valueSet.Select(v => ((sbyte) v) / 100d)));
+        }
+
+        /// <summary>
         /// Captures sample values to the storage and reads them using the low-level SRAM controller protocol.
         /// Note: For writing, no handshake is usually necessary as the storage controller (VHDL) is much faster
         /// than this software. For reading, the entire roundtrip time necessary to provide the read value has
         /// to be considered, especially when using the slow c't Lab protocol. 
         /// </summary>
-        public IEnumerable<IEnumerable<uint>> CaptureAndReadStorageValues(Appliance appliance)
+        private IEnumerable<IEnumerable<uint>> CaptureAndReadStorageValues(Appliance appliance)
         {
             var scope = SetupHardware(appliance, true);
 
@@ -76,17 +96,6 @@ namespace CtLab.Frontend.ViewModels
             WriteValueSets("Read", readValueSets);
 
             return readValueSets;
-        }
-
-        /// <summary>
-        /// Creates sample sequences from the specified captured values, interpreted as a signed 8 bit value
-        /// and scaled down by 100.
-        /// </summary>
-        public IEnumerable<SampleSequence> CreateSampleSequences(int sampleFrequency,
-            IEnumerable<IEnumerable<uint>> valueSets)
-        {
-            return valueSets.Select(valueSet =>
-                new SampleSequence(1f / sampleFrequency, valueSet.Select(v => ((sbyte) v) / 100d)));
         }
 
         /// <summary>

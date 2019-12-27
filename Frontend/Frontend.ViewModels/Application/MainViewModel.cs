@@ -403,18 +403,15 @@ namespace CtLab.Frontend.ViewModels
             {
                 if (useDemoSampleSequences)
                 {
-                    _sampleSequences = new DemoSampleSequencesSource().CreateSampleSequences();
+                    _sampleSequences = new DemoSampleSequencesSource().GetSampleSequences();
                     System.Threading.Thread.Sleep(500); // simulate capturing delay (especially for continuous capturing)
                 }
                 else
                 {
-                    var hardwareScopeDemo = new RealHardwareSampleSequencesSource();
-                    var capturedValueSets = hardwareScopeDemo.CaptureAndReadStorageValues(appliance);
-
                     // TODO: Currently just a demo, implement in a really useful way.
                     // Our signal has 21 samples. Specifying a sample rate of 5 samples per second treats
                     // is as being 4s long. In fact, it was sampled with 11.1 MS/s (90ns sample period).
-                    _sampleSequences = hardwareScopeDemo.CreateSampleSequences(5, capturedValueSets);
+                    _sampleSequences = new RealHardwareSampleSequencesSource().GetSampleSequences(appliance, 5);
                 }
 
                 DispatchOnUIThread(() =>

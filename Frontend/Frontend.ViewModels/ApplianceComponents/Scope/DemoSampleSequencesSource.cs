@@ -33,9 +33,9 @@ namespace CtLab.Frontend.ViewModels
     public class DemoSampleSequencesSource
     {
         /// <summary>
-        /// Creates some sample sequences used to demonstrate scope features.
+        /// Returns some sample sequences used to demonstrate scope features.
         /// </summary>
-        public IEnumerable<SampleSequence> CreateSampleSequences()
+        public IEnumerable<SampleSequence> GetSampleSequences()
         {
             var duration = 4.000000001; // ensure that the last point is included.
 
