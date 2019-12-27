@@ -428,10 +428,9 @@ namespace CtLab.Frontend.ViewModels
         /// </summary>
         private void InitScopeVM(IScopeViewModel scopeVM)
         {
-            var sampleSequences = new SampleSequence[0];
             var scopeDemo = new ScopeDemo();
-            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM, sampleSequences);
-            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM, sampleSequences);
+            scopeDemo.ConfigureMainScopeScreenVM(scopeVM.MasterScopeScreenVM);
+            scopeDemo.ConfigureFFTScopeScreenVM(scopeVM.SlaveScopeScreenVM);
         }
 
         /// <summary>

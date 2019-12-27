@@ -44,8 +44,7 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Configures the main scope screen viewmodel.
         /// </summary>
-        public void ConfigureMainScopeScreenVM (IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<SampleSequence> sampleSequences)
+        public void ConfigureMainScopeScreenVM (IScopeScreenViewModel scopeScreenVM)
         {
             // === Channels configuration ===
 
@@ -84,10 +83,6 @@ namespace CtLab.Frontend.ViewModels
             graphbaseVM.MeasurementCursor1VM.Value = 2.0;
             graphbaseVM.MeasurementCursor2VM.Value = 3.0;
             scopeScreenVM.GraphbaseVM = graphbaseVM;
-
-            // === Sample Sequences ===
-
-            SetMainScopeScreenSampleSequences(scopeScreenVM, sampleSequences);
         }
 
         /// <summary>
@@ -111,8 +106,7 @@ namespace CtLab.Frontend.ViewModels
         /// <summary>
         /// Configures the FFT scope screen viewmodel.
         /// </summary>
-        public void ConfigureFFTScopeScreenVM (IScopeScreenViewModel scopeScreenVM,
-            IEnumerable<SampleSequence> sampleSequences)
+        public void ConfigureFFTScopeScreenVM (IScopeScreenViewModel scopeScreenVM)
         {
             // === Channels configuration ===
 
@@ -146,14 +140,10 @@ namespace CtLab.Frontend.ViewModels
             graphbaseVM.MeasurementCursor1VM.Value = 2.0;
             graphbaseVM.MeasurementCursor2VM.Value = 3.0;
             scopeScreenVM.GraphbaseVM = graphbaseVM;
-
-            // === Sample Sequences ===
-
-            SetFFTScopeScreenSampleSequences(scopeScreenVM, sampleSequences);
         }
 
         /// <summary>
-        /// Builds a sequence provider for the FFT scope screen.
+        /// Sets the sequence provider for the FFT scope screen.
         /// </summary>
         public void SetFFTScopeScreenSampleSequences(
             IScopeScreenViewModel scopeScreenVM,
