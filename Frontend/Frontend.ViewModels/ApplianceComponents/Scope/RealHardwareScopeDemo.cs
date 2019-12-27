@@ -64,18 +64,9 @@ namespace CtLab.Frontend.ViewModels
 
             start = DateTime.Now;
 
-            // Read all values eagerly, then await any async 'String received' comments.
-            // This is just for more beautiful output.
+            // Read all values eagerly.
             var readValueSets = new List<IEnumerable<uint>>();
             readValueSets.Add(scope.Read(0, 21).ToList());
-/*
-            readValueSets.Add(scope.Read(10-5, 10).ToList());
-            readValueSets.Add(scope.Read(1000-5, 10).ToList());
-            readValueSets.Add(scope.Read(5000-5, 10).ToList());
-            readValueSets.Add(scope.Read(10000-5, 10).ToList());
-            readValueSets.Add(scope.Read(20000-5, 10).ToList());
-            readValueSets.Add(scope.Read(30000-5, 10).ToList());
-*/            Thread.Sleep (100);
 
             WriteLine (() => string.Format("Duration: {0}", DateTime.Now - start));
 
@@ -126,53 +117,6 @@ namespace CtLab.Frontend.ViewModels
             signalGenerator.DdsGenerators[3].Waveform = Waveform.Sine;
             signalGenerator.DdsGenerators[3].Frequency = 500000;
             signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
-        }
-
-        /// <summary>
-        /// Creates a sample sequence used to demonstrate scope features.
-        /// </summary>
-        private SampleSequence CreateDemoSampleSequence(double duration, int sampleRate)
-        {
-            return CreateDemoSampleSequence(duration, sampleRate, null, 0);
-        }
-
-        /// <summary>
-        /// Creates a sample sequence used to demonstrate scope features.
-        /// </summary>
-        private SampleSequence CreateDemoSampleSequence(double duration, int sampleRate,
-            IInterpolator interpolator, int interpolatedSampleRate)
-        {
-            var values1 = FunctionValueGenerator.GenerateSineValuesForFrequency (1, sampleRate,
-                duration, (x, y) => y);
-            var values3 = FunctionValueGenerator.GenerateSineValuesForFrequency (3, sampleRate,
-                duration, (x, y) => y/2);
-
-            var values = CollectionUtilities.Zip(
-                objects => ((double)objects[0]) + ((double)objects[1]),
-                values1,
-                values3);
-
-            if (interpolator != null)
-            {
-                values = interpolator.Interpolate(values, 0, duration,
-                    sampleRate, interpolatedSampleRate);
-
-                sampleRate = interpolatedSampleRate;
-            }
-
-            // LogDeferredAccess shows us some details about how the values are accessed (see there).
-            return new SampleSequence(1f/sampleRate, values);
-            //return new SampleSequence(1/sampleFrequency, LogDeferredAccess(values));
-        }
-
-        /// <summary>
-        /// Creates a sample sequence used to demonstrate scope features.
-        /// </summary>
-        private SampleSequence CreateDemoSampleSequenceB()
-        {
-            var sampleFrequency = 1;
-            var values =  new []{ -1d, 0d, 2d, 3d };
-            return new SampleSequence(1f/sampleFrequency, values);
         }
 
         /// <summary>

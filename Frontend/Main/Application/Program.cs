@@ -86,7 +86,7 @@ namespace CtLab.Frontend
                 new DialogServiceViewModelFactory(), applicationSettingsReaderWriter))
             {
                 mainViewModel.InitializeAppliances(applicationSettings);
-                ShowMainWindow(mainViewModel);
+                ShowSignalGeneratorWindow(mainViewModel);
                 ShowScopeWindow(mainViewModel);
 
                 // Debug only: By creating a second view referring to the same viewmodel,
@@ -104,7 +104,7 @@ namespace CtLab.Frontend
         /// <summary>
         /// Shows the main window.
         /// </summary>
-        private static void ShowMainWindow(MainViewModel mainViewModel)
+        private static void ShowSignalGeneratorWindow(MainViewModel mainViewModel)
         {
             ShowWindow(closeRequestHandler => SignalGeneratorWindowView.Create(mainViewModel, closeRequestHandler));
         }
