@@ -412,8 +412,8 @@ namespace CtLab.Frontend.ViewModels
                     _applianceVMs.ForEach(app =>
                     {
                         var scopeVM = app.ScopeVM;
-                        scopeVM.MasterScopeScreenVM.SampleSequences = _sampleSequences;
-                        scopeVM.SlaveScopeScreenVM.SampleSequences = _sampleSequences;
+                        scopeVM.MasterScopeScreenVM.RefreshSampleSequences();
+                        scopeVM.SlaveScopeScreenVM.RefreshSampleSequences();
                     });
                 });
             }
