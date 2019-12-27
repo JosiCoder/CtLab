@@ -372,20 +372,20 @@ namespace CtLab.Frontend.ViewModels
             new RealHardwareScopeDemo().SetupHardwareSignals(appliance.SignalGenerator);
 
             // Start capturing.
-            CaptureScopeData(appliance, useDemoSampleSequences);
+            CaptureScopeData(appliance, useDemoSampleSequences, true);
         }
 
         /// <summary>
         /// Captures scope data in a background task.
         /// </summary>
-        private void CaptureScopeData(Appliance appliance, bool useDemoSampleSequences)
+        private void CaptureScopeData(Appliance appliance, bool useDemoSampleSequences, bool captureContinuously)
         {
             try
             {
                 var task = Task.Run(() => CaptureSingleScopeData(appliance, useDemoSampleSequences));
-                if (!useDemoSampleSequences)
+                if (captureContinuously)
                 {
-                    task.ContinueWith(prevTask => CaptureScopeData(appliance, useDemoSampleSequences));
+                    task.ContinueWith(prevTask => CaptureScopeData(appliance, useDemoSampleSequences, captureContinuously));
                 }
             }
             catch
@@ -404,7 +404,7 @@ namespace CtLab.Frontend.ViewModels
                 if (useDemoSampleSequences)
                 {
                     _sampleSequences = new DemoSampleSequencesGenerator().CreateSampleSequences();
-                    System.Threading.Thread.Sleep(250);
+                    System.Threading.Thread.Sleep(500); // simulate capturing delay (especially for continuous capturing)
                 }
                 else
                 {
