@@ -23,9 +23,8 @@ using System.Collections.ObjectModel;
 using ScopeLib.Utilities;
 using ScopeLib.Sampling;
 using ScopeLib.Display.ViewModels;
-using CtLab.FpgaSignalGenerator.Interfaces;
 
-namespace CtLab.Frontend.ViewModels
+namespace CtLab.Frontend.ViewModels.SampleSequencesSources
 {
     /// <summary>
     /// Provides sample sequences used to demonstrate scope features.

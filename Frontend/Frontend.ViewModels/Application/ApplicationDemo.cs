@@ -51,7 +51,6 @@ namespace CtLab.Frontend.ViewModels
             signalGenerator.DdsGenerators[3].Frequency = 500000;
             signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
         }
-
     }
 }
 

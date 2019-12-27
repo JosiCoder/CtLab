@@ -21,10 +21,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ScopeLib.Sampling;
+using ScopeLib.Display.ViewModels;
 using CtLab.Environment;
 using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.FpgaScope.Interfaces;
-using ScopeLib.Display.ViewModels;
+using CtLab.Frontend.ViewModels.SampleSequencesSources;
 
 namespace CtLab.Frontend.ViewModels
 {

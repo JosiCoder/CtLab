@@ -25,7 +25,7 @@ using ScopeLib.Sampling;
 using CtLab.FpgaScope.Interfaces;
 using CtLab.Environment;
 
-namespace CtLab.Frontend.ViewModels
+namespace CtLab.Frontend.ViewModels.SampleSequencesSources
 {
     /// <summary>
     /// Provides sample sequences captured by real c´t Lab hardware connected via a (physical or emulated)

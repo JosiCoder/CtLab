@@ -111,9 +111,9 @@
     <Compile Include="ApplianceComponents\Scope\IScopeViewModel.cs" />
     <Compile Include="ApplianceComponents\Scope\ScopeViewModel.cs" />
     <Compile Include="ApplianceComponents\Scope\ScopeDemo.cs" />
-    <Compile Include="ApplianceComponents\Scope\RealHardwareSampleSequencesSource.cs" />
-    <Compile Include="ApplianceComponents\Scope\DemoSampleSequencesSource.cs" />
     <Compile Include="Application\ApplicationDemo.cs" />
+    <Compile Include="ApplianceComponents\Scope\SampleSequencesSources\DemoSampleSequencesSource.cs" />
+    <Compile Include="ApplianceComponents\Scope\SampleSequencesSources\RealHardwareSampleSequencesSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -131,6 +131,7 @@
     <Folder Include="ApplianceComponents\SignalGenerator\" />
     <Folder Include="ApplianceComponents\UniversalCounter\" />
     <Folder Include="ApplianceComponents\Scope\" />
+    <Folder Include="ApplianceComponents\Scope\SampleSequencesSources\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Frontend.Utilities\Frontend.Utilities.csproj">
