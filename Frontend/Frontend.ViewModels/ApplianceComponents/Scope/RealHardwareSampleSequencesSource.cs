@@ -23,7 +23,6 @@ using System.Text;
 using ScopeLib.Utilities;
 using ScopeLib.Sampling;
 using CtLab.FpgaScope.Interfaces;
-using CtLab.FpgaSignalGenerator.Interfaces;
 using CtLab.Environment;
 
 namespace CtLab.Frontend.ViewModels
@@ -99,35 +98,6 @@ namespace CtLab.Frontend.ViewModels
         }
 
         /// <summary>
-        /// Configures some signals for the storage inputs and the analog outputs.
-        /// By observing the signals on the analog outputs we can see how accessing the
-        /// storage briefly disconnects the DAC.
-        /// </summary>
-        public void SetupHardwareSignals(ISignalGenerator signalGenerator)
-        {
-            // Reset the hardware to cancel settings from previous configurations.
-            signalGenerator.Reset();
-
-            // Set the outputs to DDS channels 2 and 3.
-            signalGenerator.OutputSourceSelector.OutputSource0 = OutputSource.DdsGenerator2;
-            signalGenerator.OutputSourceSelector.OutputSource1 = OutputSource.DdsGenerator3;
-
-            // Configure the pulse generator.
-            signalGenerator.PulseGenerator.PulseDuration = 50;
-            signalGenerator.PulseGenerator.PauseDuration = 50;
-
-            // Configure DDS channel 2.
-            signalGenerator.DdsGenerators[2].Waveform = Waveform.Sine;
-            signalGenerator.DdsGenerators[2].Frequency = 1000000;
-            signalGenerator.DdsGenerators[2].Amplitude = signalGenerator.DdsGenerators[2].MaximumAmplitude;
-
-            // Configure DDS channel 3.
-            signalGenerator.DdsGenerators[3].Waveform = Waveform.Sine;
-            signalGenerator.DdsGenerators[3].Frequency = 500000;
-            signalGenerator.DdsGenerators[3].Amplitude = signalGenerator.DdsGenerators[3].MaximumAmplitude;
-        }
-
-        /// <summary>
         /// Configures the appliance and returns the scope.
         /// Configures some signals on the storage inputs and the analog outputs.
         /// By observing the signals on the analog outputs we can see how accessing the
@@ -140,7 +110,7 @@ namespace CtLab.Frontend.ViewModels
             scope.Reset();
 
             // Set the scope input to a signal.
-            scope.InputSource =  ScopeSource.DdsGenerator2;
+            scope.InputSource =  ScopeSource.DdsGenerator2; // TODO fix hard-coded source
             if (!useHardwareSignal)
             {
                 scope.InputSource = ScopeSource.WriteValue;

@@ -369,7 +369,7 @@ namespace CtLab.Frontend.ViewModels
             scopeUpdater(sampleSequences);
 
             // Initialize the signal source attached to the scope.
-            new RealHardwareSampleSequencesSource().SetupHardwareSignals(appliance.SignalGenerator);
+            new ApplicationDemo().SetupHardwareSignals(appliance.SignalGenerator);
 
             // Start capturing.
             CaptureScopeData(appliance, useDemoSampleSequences, true);
