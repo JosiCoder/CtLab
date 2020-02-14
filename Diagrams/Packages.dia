@@ -1479,7 +1479,7 @@ c't Lab protocol.#</dia:string>
         <dia:point val="54.71,76.2499"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="54.71,75.6363;62.1511,76.4372"/>
+        <dia:rectangle val="54.71,75.6549;62.1325,76.3999"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -2526,7 +2526,7 @@ an FPGA device and get values from it.#</dia:string>
         <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#FpgaConnection.CtLabProtocol#</dia:string>
+        <dia:string>#FpgaConnection.Standard#</dia:string>
       </dia:attribute>
     </dia:object>
     <dia:object type="Standard - Text" version="1" id="O41">
@@ -2534,15 +2534,22 @@ an FPGA device and get values from it.#</dia:string>
         <dia:point val="23.0306,77.2945"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="23.0306,76.6995;31.8306,79.8445"/>
+        <dia:rectangle val="23.0306,76.6809;32.0542,85.4818"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
             <dia:string>#Provides a standard FPGA
 connection implementation
-based on the text-oriented
-c't Lab protocol.#</dia:string>
+based on c't Lab commands
+and messages. This
+implementation does
+not depend on a
+particular low-level
+communication
+protocol (like text-based
+c't lab protocol or SPI
+direct access).#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -3153,7 +3160,7 @@ c't Lab protocol.#</dia:string>
         <dia:point val="33.7841,103.989"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="33.7841,103.375;45.3402,104.176"/>
+        <dia:rectangle val="33.7841,103.394;45.3216,104.139"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -3678,16 +3685,16 @@ c't Lab protocol.#</dia:string>
         <dia:boolean val="false"/>
       </dia:attribute>
       <dia:attribute name="obj_pos">
-        <dia:point val="36.9397,81.4601"/>
+        <dia:point val="36.9396,81.4601"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="36.8897,77.0999;55.3072,82.3101"/>
+        <dia:rectangle val="36.8896,77.0999;55.3072,82.3101"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="36.9397,81.4601"/>
+        <dia:point val="36.9396,81.4601"/>
         <dia:point val="52.1753,81.4601"/>
         <dia:point val="52.1753,77.8499"/>
         <dia:point val="55.2572,77.8499"/>
@@ -3875,7 +3882,7 @@ c't Lab protocol.#</dia:string>
         <dia:point val="2.13915,-132.094"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="2.13915,-132.744;16.1539,-131.894"/>
+        <dia:rectangle val="2.13915,-132.724;16.1341,-131.934"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -3943,22 +3950,22 @@ c't Lab protocol.#</dia:string>
     </dia:object>
     <dia:object type="UML - LargePackage" version="0" id="O64">
       <dia:attribute name="obj_pos">
-        <dia:point val="7.13435,-107.776"/>
+        <dia:point val="6.06626,-107.776"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="7.08435,-108.826;22.0698,-103.077"/>
+        <dia:rectangle val="6.01626,-108.826;23.1824,-102.173"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
-        <dia:point val="7.13435,-107.776"/>
+        <dia:point val="6.06626,-107.776"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="14.885422408836611"/>
+        <dia:real val="17.066090814728934"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="4.6493483477164528"/>
+        <dia:real val="5.5532400154660166"/>
       </dia:attribute>
       <dia:attribute name="line_width">
         <dia:real val="0.10000000149011612"/>
@@ -4018,10 +4025,10 @@ used to send commands periodically.#</dia:string>
     </dia:object>
     <dia:object type="Standard - Text" version="1" id="O66">
       <dia:attribute name="obj_pos">
-        <dia:point val="8.0557,-106.776"/>
+        <dia:point val="6.89591,-106.776"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="8.0557,-107.371;21.5382,-103.426"/>
+        <dia:rectangle val="6.89591,-107.39;22.4095,-102.589"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -4029,8 +4036,9 @@ used to send commands periodically.#</dia:string>
             <dia:string>#Provides a standard basic implementation
 for sending commands and receiving
 messages. This implementation does not
-depend on a particular communication
-protocol.#</dia:string>
+depend on a particular low-level communication
+protocol (like text-based c't Lab protocol or SPI
+direct access).#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -4039,7 +4047,7 @@ protocol.#</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="8.0557,-106.776"/>
+            <dia:point val="6.89591,-106.776"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -4059,7 +4067,7 @@ protocol.#</dia:string>
         <dia:point val="14.5978,-112.028"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="13.7478,-112.078;15.4478,-108.777"/>
+        <dia:rectangle val="13.7478,-112.078;15.4478,-108.776"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -4067,8 +4075,8 @@ protocol.#</dia:string>
       <dia:attribute name="orth_points">
         <dia:point val="14.5978,-112.028"/>
         <dia:point val="14.5978,-110.027"/>
-        <dia:point val="14.5771,-110.027"/>
-        <dia:point val="14.5771,-108.827"/>
+        <dia:point val="14.5993,-110.027"/>
+        <dia:point val="14.5993,-108.826"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
@@ -6474,7 +6482,7 @@ devices.#</dia:string>
         <dia:point val="16.7219,9.81982"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="10.2342,9.76982;17.5719,13.3809"/>
+        <dia:rectangle val="10.2342,9.76982;17.572,12.9919"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -6516,7 +6524,7 @@ devices.#</dia:string>
         <dia:point val="16.7219,9.81982"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="15.8719,9.76982;22.4886,13.3557"/>
+        <dia:rectangle val="15.872,9.76982;22.4886,12.9416"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -6558,7 +6566,7 @@ devices.#</dia:string>
         <dia:point val="35.5898,12.6234"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35.5398,11.5734;50.6398,15.6453"/>
+        <dia:rectangle val="35.5398,11.5734;50.6398,15.6454"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -6673,7 +6681,7 @@ devices.#</dia:string>
         <dia:point val="2.02781,2.96418"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="2.02781,2.31443;8.43756,3.16368"/>
+        <dia:rectangle val="2.02781,2.33418;8.41781,3.12418"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6706,7 +6714,7 @@ devices.#</dia:string>
         <dia:point val="2.21585,-41.9907"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="2.21585,-42.6404;9.8556,-41.7912"/>
+        <dia:rectangle val="2.21585,-42.6207;9.83585,-41.8307"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6815,7 +6823,7 @@ devices.#</dia:string>
         <dia:point val="25.1202,-38.0602"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25.1202,-38.6738;38.9188,-37.8729"/>
+        <dia:rectangle val="25.1202,-38.6552;38.9002,-37.9102"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -6848,7 +6856,7 @@ devices.#</dia:string>
         <dia:point val="31.6641,-35.6821"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="30.8141,-35.7321;32.5141,-33.1897"/>
+        <dia:rectangle val="30.8141,-35.7321;32.5141,-33.1898"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -6856,8 +6864,8 @@ devices.#</dia:string>
       <dia:attribute name="orth_points">
         <dia:point val="31.6641,-35.6821"/>
         <dia:point val="31.6641,-34.0609"/>
-        <dia:point val="31.664,-34.0609"/>
-        <dia:point val="31.664,-33.2397"/>
+        <dia:point val="31.6641,-34.0609"/>
+        <dia:point val="31.6641,-33.2398"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
@@ -6889,7 +6897,7 @@ devices.#</dia:string>
         <dia:point val="25.1202,-31.1523"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25.1202,-31.7659;38.9188,-30.965"/>
+        <dia:rectangle val="25.1202,-31.7473;38.9002,-31.0023"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -7111,7 +7119,7 @@ directly.#</dia:string>
         <dia:point val="25.3551,-22.8773"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25.3051,-23.9273;36.7339,-14.0203"/>
+        <dia:rectangle val="25.3051,-23.9273;36.7339,-14.0202"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -7149,7 +7157,7 @@ directly.#</dia:string>
         <dia:point val="26.5845,-10.0772"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="26.5345,-11.1272;35.5045,-7.12717"/>
+        <dia:rectangle val="26.5345,-11.1272;35.5045,-7.1272"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -7520,8 +7528,8 @@ connection.#</dia:string>
       </dia:attribute>
       <dia:attribute name="orth_points">
         <dia:point val="31.0195,-14.02"/>
-        <dia:point val="31.0195,-13.17"/>
-        <dia:point val="31.0195,-11.1775"/>
+        <dia:point val="31.0195,-12.1737"/>
+        <dia:point val="31.0195,-12.1737"/>
         <dia:point val="31.0195,-11.1275"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
@@ -7680,7 +7688,7 @@ connection.#</dia:string>
         <dia:point val="54.619,83.9671"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="54.619,83.3535;64.9726,84.9543"/>
+        <dia:rectangle val="54.619,83.3721;64.954,84.9171"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -7714,7 +7722,7 @@ packages.#</dia:string>
         <dia:point val="50.6005,114.796"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.5505,113.746;64.9848,122.023"/>
+        <dia:rectangle val="50.5505,113.746;64.9848,122.024"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -8122,7 +8130,7 @@ packages.#</dia:string>
         <dia:point val="12.62,-162.987"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="11.77,-163.037;18.4993,-158.664"/>
+        <dia:rectangle val="11.77,-163.037;18.4993,-158.665"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -8131,7 +8139,7 @@ packages.#</dia:string>
         <dia:point val="12.62,-162.987"/>
         <dia:point val="12.62,-159.888"/>
         <dia:point val="18.4493,-159.888"/>
-        <dia:point val="18.4493,-158.714"/>
+        <dia:point val="18.4493,-158.715"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="1"/>
@@ -8746,7 +8754,7 @@ emulated) serial port.#</dia:string>
         <dia:point val="2.14887,-177.028"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="2.14887,-177.678;13.4561,-176.829"/>
+        <dia:rectangle val="2.14887,-177.658;13.4364,-176.868"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
